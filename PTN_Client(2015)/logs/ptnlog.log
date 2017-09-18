@@ -1,0 +1,181 @@
+[2017-09-18 21:10:26] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:10:26] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:10:29] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15dfj8y3to9ab|6327c59f, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15dfj8y3to9ab|6327c59f, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:11:01] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:12:01] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:12:15] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:12:15] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:12:19] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15dhv5bwh2dvf|2b8eb96, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15dhv5bwh2dvf|2b8eb96, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:12:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:13:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:14:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:15:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:16:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:17:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:18:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:19:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:20:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:21:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:23:34] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:23:34] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:23:37] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15dwf2x1pil3pc|10d9f1e3, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15dwf2x1pil3pc|10d9f1e3, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:23:38] ERROR com.nms.ui.topology.util.CreateElementUtil - java.lang.NullPointerException
+	at com.nms.ui.manager.util.TopologyUtil.setNodeImage(TopologyUtil.java:252)
+	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:207)
+	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:92)
+	at com.nms.ui.topology.util.CreateAllTopo.createNode(CreateAllTopo.java:209)
+	at com.nms.ui.topology.util.CreateAllTopo.createGroupContent(CreateAllTopo.java:182)
+	at com.nms.ui.topology.util.CreateAllTopo.createTopo(CreateAllTopo.java:96)
+	at com.nms.ui.topology.NetworkElementPanel.showTopo(NetworkElementPanel.java:486)
+	at com.nms.ui.topology.NetworkElementPanel.<init>(NetworkElementPanel.java:189)
+	at com.nms.ui.topology.NetworkElementPanel.getNetworkElementPanel(NetworkElementPanel.java:372)
+	at com.nms.ui.Ptnf.<init>(Ptnf.java:211)
+	at com.nms.ui.Ptnf.getPtnf(Ptnf.java:443)
+	at com.nms.ui.Login.jButton1ActionPerformed(Login.java:417)
+	at com.nms.ui.Login.access$0(Login.java:253)
+	at com.nms.ui.Login$1.keyTyped(Login.java:85)
+	at java.awt.Component.processKeyEvent(Unknown Source)
+	at javax.swing.JComponent.processKeyEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.KeyboardFocusManager.redispatchEvent(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.awt.EventQueue.access$300(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+
+[2017-09-18 21:23:38] ERROR com.nms.ui.topology.util.CreateElementUtil - java.lang.NullPointerException
+	at com.nms.ui.manager.util.TopologyUtil.setNodeImage(TopologyUtil.java:252)
+	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:207)
+	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:92)
+	at com.nms.ui.topology.util.CreateAllTopo.createNode(CreateAllTopo.java:209)
+	at com.nms.ui.topology.util.CreateAllTopo.createGroupContent(CreateAllTopo.java:182)
+	at com.nms.ui.topology.util.CreateAllTopo.createTopo(CreateAllTopo.java:96)
+	at com.nms.ui.topology.NetworkElementPanel.showTopo(NetworkElementPanel.java:486)
+	at com.nms.ui.Ptnf$3.stateChanged(Ptnf.java:333)
+	at javax.swing.JTabbedPane.fireStateChanged(Unknown Source)
+	at javax.swing.JTabbedPane$ModelListener.stateChanged(Unknown Source)
+	at javax.swing.DefaultSingleSelectionModel.fireStateChanged(Unknown Source)
+	at javax.swing.DefaultSingleSelectionModel.setSelectedIndex(Unknown Source)
+	at javax.swing.JTabbedPane.setSelectedIndexImpl(Unknown Source)
+	at javax.swing.JTabbedPane.setSelectedIndex(Unknown Source)
+	at javax.swing.JTabbedPane.insertTab(Unknown Source)
+	at javax.swing.JTabbedPane.addTab(Unknown Source)
+	at com.nms.ui.Ptnf.mainTabPanel(Ptnf.java:3062)
+	at com.nms.ui.Ptnf.<init>(Ptnf.java:211)
+	at com.nms.ui.Ptnf.getPtnf(Ptnf.java:443)
+	at com.nms.ui.Login.jButton1ActionPerformed(Login.java:417)
+	at com.nms.ui.Login.access$0(Login.java:253)
+	at com.nms.ui.Login$1.keyTyped(Login.java:85)
+	at java.awt.Component.processKeyEvent(Unknown Source)
+	at javax.swing.JComponent.processKeyEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.KeyboardFocusManager.redispatchEvent(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(Unknown Source)
+	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.awt.EventQueue.access$300(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+
+[2017-09-18 21:29:17] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:29:17] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:29:18] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15e3rjvhx0wdy|314dd379, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15e3rjvhx0wdy|314dd379, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:29:51] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:30:51] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:31:06] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:31:06] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:31:08] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15e643h114jpju|6984340e, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15e643h114jpju|6984340e, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:31:39] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:32:39] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:32:46] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:32:46] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:32:47] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15e88wn14qn3rd|b2bfd8a, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15e88wn14qn3rd|b2bfd8a, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:45:32] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:45:32] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:45:33] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15eoo5t1vsibn8|875de82, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15eoo5t1vsibn8|875de82, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:46:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:47:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:48:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:49:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:50:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:51:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:52:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:53:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:55:07] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 21:55:07] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 21:55:09] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15f101f1gsopfm|875de82, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15f101f1gsopfm|875de82, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 21:55:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:56:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:57:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:58:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 21:59:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:00:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:01:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:02:01] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 22:02:01] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 22:02:03] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15f9vdsf95p7n|eaf254c, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15f9vdsf95p7n|eaf254c, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 22:03:01] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:03:48] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 22:03:48] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 22:03:50] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15fc5tw126w677|60cd6e02, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15fc5tw126w677|60cd6e02, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 22:04:27] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:05:27] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:06:13] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 22:06:13] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 22:06:14] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15ff9d616tenh1|60cd6e02, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15ff9d616tenh1|60cd6e02, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 22:08:15] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-09-18 22:08:15] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-09-18 22:08:17] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15fhvsvplh94n|2c6c58db, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15fhvsvplh94n|2c6c58db, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-09-18 22:09:08] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:10:08] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-09-18 22:11:08] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2

@@ -39,5 +39,4 @@
 	<card name="ZXCTN 605-FE224" type="ZXCTN 605-FE224" xmlPath="config/topo/card/zx/card_ZXCTN 605-FE224.xml"></card>
 	<card name="ZXCTN 605-GF222" type="ZXCTN 605-GF222" xmlPath="config/topo/card/zx/card_ZXCTN 605-GF222.xml"></card>
 	<card name="ZXCTN 605-FE124" type="ZXCTN 605-FE124" xmlPath="config/topo/card/zx/card_ZXCTN 605-FE124.xml"></card>
-	
 </xml-boby>

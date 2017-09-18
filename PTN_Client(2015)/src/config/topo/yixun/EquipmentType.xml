@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 设备名称对应的xml路径 -->
 <xml-body>
+<!--  
 	<equipment typeName="710" manufacturer="WUHAN" xmlPath="config/topo/equipment/yixun/equipment_710.xml" imagePath="/com/nms/ui/images/topo/soz/" ></equipment>
 	<equipment typeName="703-1" manufacturer="WUHAN" xmlPath="config/topo/equipment/yixun/equipment_703-1.xml" imagePath="/com/nms/ui/images/topo/szt4a/" ></equipment>
 	<equipment typeName="703-2" manufacturer="WUHAN" xmlPath="config/topo/equipment/yixun/equipment_703-2.xml" imagePath="/com/nms/ui/images/topo/szt4a/" ></equipment>
@@ -9,4 +10,12 @@
 	<equipment typeName="703-5" manufacturer="WUHAN" xmlPath="config/topo/equipment/yixun/equipment_703-5.xml" imagePath="/com/nms/ui/images/topo/szt4a/" ></equipment>
 	<equipment typeName="703-6" manufacturer="WUHAN" xmlPath="config/topo/equipment/yixun/equipment_703-6.xml" imagePath="/com/nms/ui/images/topo/szt4a/" ></equipment>
 	<equipment typeName="703-7" manufacturer="WUHAN" xmlPath="config/topo/equipment/yixun/equipment_703-7.xml" imagePath="/com/nms/ui/images/topo/szt4a/" ></equipment>
+-->
+    <equipment typeName="710" manufacturer="WUHAN" xmlPath="config/topo/equipment/jc/equipment_710.xml" imagePath="/com/nms/ui/images/topo/soz/" ></equipment>
+    <equipment typeName="710B" manufacturer="WUHAN" xmlPath="config/topo/equipment/jc/equipment_710b.xml" imagePath="/com/nms/ui/images/topo/soz/" ></equipment>
+    <equipment typeName="703-2A" manufacturer="WUHAN" xmlPath="config/topo/equipment/jc/equipment_703-2A.xml" imagePath="/com/nms/ui/images/topo/jcszt2a/" ></equipment>
+    <equipment typeName="703-2B" manufacturer="WUHAN" xmlPath="config/topo/equipment/jc/equipment_703-2B.xml" imagePath="/com/nms/ui/images/topo/jcszt2b/" ></equipment>
+    <equipment typeName="703-2C" manufacturer="WUHAN" xmlPath="config/topo/equipment/jc/equipment_703-2C.xml" imagePath="/com/nms/ui/images/topo/jcszt2c/" ></equipment>
+
+
 </xml-body>

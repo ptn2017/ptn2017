@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 703_CARD板卡下所有端口配置 (703的板卡) -->
+<xml-boby>
+
+<card cardName="703-2C_CARD-2" cardType="" imagePath="/com/nms/ui/images/topo/jcszt2c/card1.png" x="72" y="56" >
+   
+	<port portName="ge"  seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port_g.png" x="426" y="63" number="1" ></port>
+	<port portName="ge"  seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port_g.png" x="464" y="63" number="2" ></port>
+	<port portName="fe"  seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port_down.png" x="567" y="60" number="3" ></port>
+	<port portName="fe"  seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port.png" x="567" y="30" number="4" ></port>
+    <port portName="fe"  seq="3" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port.png" x="605" y="30" number="5" ></port>
+	<port portName="fe"  seq="4" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port_down.png" x="605" y="60" number="6" ></port>		
+    <port portName="CLK"  seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port.png" x="639" y="30" number="" ></port>
+    <port portName="NMS"  seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port_down.png" x="639" y="60" number="" ></port>
+	
+	
+</card>
+</xml-boby>
