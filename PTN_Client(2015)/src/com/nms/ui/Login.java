@@ -610,6 +610,7 @@ public class Login extends javax.swing.JFrame {
 			}
 
 		} catch (java.rmi.ConnectException e) {
+			ExceptionManage.dispose(e,this.getClass());
 			DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONNECTION_ERROR));
 		} finally {
 			dispatchUtil = null;

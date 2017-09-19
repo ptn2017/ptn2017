@@ -36,10 +36,11 @@ public class Mybatis_DBManager {
 			//加载mybatis 的配置文件（它也加载关联的映射文件）
 			Reader reader = Resources.getResourceAsReader(resource);
 			//构建sqlSession 的工厂
+			ExceptionManage.infor(resource, Mybatis_DBManager.class);
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader,props);
 			dataSource=(ComboPooledDataSource) sqlSessionFactory.getConfiguration().getEnvironment().getDataSource();			
 		} catch (IOException e) {
-			e.printStackTrace();
+			ExceptionManage.dispose(e,this.getClass());
 		}
 	}
 	

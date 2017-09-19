@@ -270,7 +270,6 @@
         <mapper resource="com/nms/db/dao/ptn/path/protect/ProtectRorateInfoMapper.xml"/>
         <mapper resource="com/nms/db/dao/ptn/ARPMapper.xml"/>
         <mapper resource="com/nms/db/dao/system/OperationDataLogMapper.xml"/> 
-        <mapper resource="com/nms/db/dao/system/UnLoadMapper.xml"/> 
         <mapper resource="com/nms/db/dao/ptn/ecn/OSPFinfo_whMapper.xml"/> 
       </mappers>
 </configuration>
