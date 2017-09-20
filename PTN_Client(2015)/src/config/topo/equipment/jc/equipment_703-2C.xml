@@ -3,7 +3,7 @@
 <xml-body>
 
 <equipment imagePath="/com/nms/ui/images/topo/jcszt2c/rack.png" x="50" y="50">
-	<slot imagePath="/com/nms/ui/images/topo/jcszt2c/slot.png" x="72" y="56" type="703-2C"  bestCardName="703-2C_CARD" number="1" masterCardAddress="257"></slot>
+	<slot imagePath="/com/nms/ui/images/topo/jcszt2c/slot.png" x="72" y="56" type="703-2C"  bestCardName="ETN-200-204" number="1" masterCardAddress="257"></slot>
 </equipment>
 
 </xml-body>

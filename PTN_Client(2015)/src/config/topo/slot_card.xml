@@ -26,7 +26,7 @@
 	</slotType>
 
 	<slotType name="710_left">
-		<card name="PWR" xmlPath="config/topo/card/soz/card_710_e.xml"></card>
+		<card name="EPWR" xmlPath="config/topo/card/soz/card_710_e.xml"></card>
 	</slotType>
 <!-- 
 	<slotType name="710_reserve">
@@ -101,14 +101,13 @@
 	</slotType>
 -->
 	<slotType name="703-2A">
-		<card name="703-2A_CARD" xmlPath="config/topo/card/jcszt2a/card_703-2A.xml"></card>
+		<card name="ETN-200-204E" xmlPath="config/topo/card/jcszt2a/card_703-2A.xml"></card>
 	</slotType>
 	<slotType name="703-2B">
 		<card name="703-2B_CARD" xmlPath="config/topo/card/jcszt2b/card_703-2B.xml"></card>
 	</slotType>
 	<slotType name="703-2C">
-		<card name="703-2C_CARD-1" xmlPath="config/topo/card/jcszt2c/card_703-2C.xml"></card>
-	    <card name="703-2C_CARD-2" xmlPath="config/topo/card/jcszt2c/card_703-2C-2.xml"></card>
+		<card name="ETN-200-204" xmlPath="config/topo/card/jcszt2c/card_703-2C.xml"></card>
 	</slotType>
 
 	<slotType name="703-4A">
@@ -152,7 +151,7 @@
 	
 	<!-- 易迅 -->
 	<slotType name="710_fengshan">
-		<card name="FAN" xmlPath="config/topo/card/yixun/card_710_fengshan_yixun.xml"></card>
+		<card name="EFAN" xmlPath="config/topo/card/yixun/card_710_fengshan_yixun.xml"></card>
 	</slotType>
 	<slotType name="703-1">
 		<card name="703-1_CARD" xmlPath="config/topo/card/yixun/card_703_1_yixun.xml"></card>
@@ -177,14 +176,14 @@
 	</slotType>
 	
 	<slotType name="710_main">
-		<card name="XCTS1" xmlPath="config/topo/card/yixun/card_710_yixun_xcts1.xml"></card>
+		<card name="ESMC" xmlPath="config/topo/card/yixun/card_710_yixun_xcts1.xml"></card>
 	</slotType>
 	
 	<slotType name="710_reserve">
 	<!-- 	<card name="IPG8" xmlPath="config/topo/card/yixun/card_710_yixun_ipg8.xml"></card>  -->
-		<card name="SP16" xmlPath="config/topo/card/yixun/card_710__yixun_SP16.xml"></card>
-		<card name="IGP8" xmlPath="config/topo/card/yixun/card_710_yixun_lc_ipg8.xml"></card>
-		<card name="GEP8" xmlPath="config/topo/card/soz/card_710_2c.xml"></card>
+		<card name="EE16" xmlPath="config/topo/card/yixun/card_710__yixun_SP16.xml"></card>
+		<card name="EGE8-T" xmlPath="config/topo/card/yixun/card_710_yixun_lc_ipg8.xml"></card>
+		<card name="EGE8" xmlPath="config/topo/card/soz/card_710_2c.xml"></card>
 	</slotType>
 	<!-- 科大智能 -->
   <slotType name="CSG T2000">

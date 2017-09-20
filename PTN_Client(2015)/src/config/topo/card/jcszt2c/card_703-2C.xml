@@ -2,7 +2,7 @@
 <!-- 703_CARD板卡下所有端口配置 (703的板卡) -->
 <xml-boby>
 
-<card cardName="703-2C_CARD-1" cardType="" imagePath="/com/nms/ui/images/topo/jcszt2c/card.png" x="72" y="56" >
+<card cardName="ETN-200-204" cardType="" imagePath="/com/nms/ui/images/topo/jcszt2c/card.png" x="72" y="56" >
    
 	<port portName="ge"  seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port_g.png" x="286" y="63" number="1" ></port>
 	<port portName="ge"  seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2c/port_g.png" x="325" y="63" number="2" ></port>
