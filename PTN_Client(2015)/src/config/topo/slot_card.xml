@@ -182,8 +182,8 @@
 	<slotType name="710_reserve">
 	<!-- 	<card name="IPG8" xmlPath="config/topo/card/yixun/card_710_yixun_ipg8.xml"></card>  -->
 		<card name="EE16" xmlPath="config/topo/card/yixun/card_710__yixun_SP16.xml"></card>
-		<card name="EGE8-T" xmlPath="config/topo/card/yixun/card_710_yixun_lc_ipg8.xml"></card>
-		<card name="EGE8" xmlPath="config/topo/card/soz/card_710_2c.xml"></card>
+		<card name="EG8" xmlPath="config/topo/card/yixun/card_710_yixun_lc_ipg8.xml"></card>
+		<card name="EG8-T" xmlPath="config/topo/card/soz/card_710_2c.xml"></card>
 	</slotType>
 	<!-- 科大智能 -->
   <slotType name="CSG T2000">
