@@ -2,7 +2,7 @@
 <!-- 710_ELECTRICITY板卡下所有端口配置 (710的电口板) -->
 <xml-boby>
 
-<card cardName="GET1" cardType="" imagePath="/com/nms/ui/images/topo/soz/card_ec.png" x="226" y="55" >
+<card cardName="EG8" cardType="" imagePath="/com/nms/ui/images/topo/soz/card_ec.png" x="226" y="55" >
     <port portName="ge" seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/soz/port_e.png" x="94" y="18" number="1"  module="(e)"></port>
     <port portName="ge" seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/soz/port_e.png" x="122" y="18" number="2"  module="(e)"></port>
     <port portName="ge" seq="3" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/soz/port_e.png" x="150" y="18" number="3"  module="(e)"></port>

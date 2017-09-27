@@ -36,6 +36,7 @@ public class ResetController extends AbstractController{
 			for(CardInst inst : list){
 				if(inst.getCardName().contains("MCU") ||inst.getCardName().contains("703") || inst.getCardName().contains("XCTS1")||inst.getCardName().contains("XCTO1")
 						 ||"CSG T2000_CARD".equals(inst.getCardName())|| "SP16".equals(inst.getCardName())	
+						 || inst.getCardName().contains("ETN-200")|| "ESMC".equals(inst.getCardName())|| "EE16".equals(inst.getCardName())
 				){
 					cardInsts.add(inst);
 				}
