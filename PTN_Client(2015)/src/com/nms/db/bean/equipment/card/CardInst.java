@@ -171,7 +171,7 @@ public class CardInst extends ViewDataObj {
 			getClientProperties().put("name", getCardName());
 			getClientProperties().put("number", slotInst.getNumber());
 			getClientProperties().put("cardName", getCardName());
-			getClientProperties().put("slotType", slotInst.getSlotType());
+			getClientProperties().put("slotType", getCardName());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}finally{

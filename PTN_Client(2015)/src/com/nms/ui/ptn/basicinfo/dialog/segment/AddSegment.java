@@ -1073,11 +1073,13 @@ public class AddSegment extends PtnDialog {
 			//验证端口的速率
 			if (segment.getId() == 0) {
 				if (this.portInst_a != null && this.portInst_z != null) {
-					if (!segmentservice.comparePortSpeed(this.portInst_a, this.portInst_z)) {
-						DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CREATE_SEGMENT_SPEED));
-						this.insertOpeLog(EOperationLogType.ADDSEGMENT6.getValue(), ResultString.CONFIG_FAILED, null, null);
-						return false;
-					}
+					
+					//2017-9-27 去掉端口速率验证
+//					if (!segmentservice.comparePortSpeed(this.portInst_a, this.portInst_z)) {
+//						DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CREATE_SEGMENT_SPEED));
+//						this.insertOpeLog(EOperationLogType.ADDSEGMENT6.getValue(), ResultString.CONFIG_FAILED, null, null);
+//						return false;
+//					}
 					//如果是武汉网元，赋值工作模式   晨晓网元赋值实际速率 
 					if (siteService.getManufacturer(this.portInst_a.getSiteId()) == EManufacturer.WUHAN.getValue()) {
 						this.segment.setSpeedSegment(this.portInst_a.getPortAttr().getWorkModel()+"");
