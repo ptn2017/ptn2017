@@ -812,24 +812,24 @@ public class QosConfigAction {
 				Object cosvalue = qosCommonConfig.getQosTable().getValueAt(i, 1);
 				if (cosvalue.toString().equals(QosCosLevelEnum.EF.toString()) || cosvalue.toString().equals(QosCosLevelEnum.CS6.toString()) || cosvalue.toString().equals(QosCosLevelEnum.CS7.toString())) {
 					JTextField jtebsColumn = new JTextField(ebsColumn.getCellEditor().getCellEditorValue() + "");
-					jtebsColumn.setEditable(false);
-					jtebsColumn.setEnabled(false);
+					jtebsColumn.setEditable(true);
+					jtebsColumn.setEnabled(true);
 					ebsColumn.setCellEditor(new DefaultCellEditor(jtebsColumn));
 
 					JTextField jteirColumn = new JTextField(eirColumn.getCellEditor().getCellEditorValue() + "");
-					jteirColumn.setEditable(false);
-					jteirColumn.setEnabled(false);
+					jteirColumn.setEditable(true);
+					jteirColumn.setEnabled(true);
 					eirColumn.setCellEditor(new DefaultCellEditor(jteirColumn));
 
 					JTextField pirJTextField = (JTextField) pirColumn.getCellEditor().getTableCellEditorComponent(qosCommonConfig.getQosTable(), 0, false, i, 7);
-					pirJTextField.setEnabled(false);
-					pirJTextField.setEditable(false);
+					pirJTextField.setEnabled(true);
+					pirJTextField.setEditable(true);
 				} else {
-					JSpinner eirSpinner = (JSpinner) eirColumn.getCellEditor().getTableCellEditorComponent(qosCommonConfig.getQosTable(), 0, false, i, 5);
+					JSpinner eirSpinner = (JSpinner) eirColumn.getCellEditor().getTableCellEditorComponent(qosCommonConfig.getQosTable(), 0, true, i, 5);
 					eirSpinner.setEnabled(true);
-					JSpinner ebsSpinner = (JSpinner) ebsColumn.getCellEditor().getTableCellEditorComponent(qosCommonConfig.getQosTable(), -1, false, i, 6);
+					JSpinner ebsSpinner = (JSpinner) ebsColumn.getCellEditor().getTableCellEditorComponent(qosCommonConfig.getQosTable(), -1, true, i, 6);
 					ebsSpinner.setEnabled(true);
-					JTextField pirJTextField = (JTextField) pirColumn.getCellEditor().getTableCellEditorComponent(qosCommonConfig.getQosTable(), 0, false, i, 7);
+					JTextField pirJTextField = (JTextField) pirColumn.getCellEditor().getTableCellEditorComponent(qosCommonConfig.getQosTable(), 0, true, i, 7);
 					pirJTextField.setEnabled(true);
 					pirJTextField.setEditable(true);
 				}
@@ -1103,7 +1103,7 @@ public class QosConfigAction {
 		int selectR = qosCommonConfig.getQosTable().getSelectedRow();
 		Object cirvalue = qosCommonConfig.getQosTable().getValueAt(selectR, 3);
 		Object eirvalue = qosCommonConfig.getQosTable().getValueAt(selectR, 5);
-		Integer value = (Integer) cirvalue + (Integer) eirvalue;
+		Integer value = Integer.parseInt(cirvalue.toString()) + Integer.parseInt(eirvalue.toString()) ;
 		qosCommonConfig.getQosTableModel().setValueAt(value, selectR, 7);
 	}
 

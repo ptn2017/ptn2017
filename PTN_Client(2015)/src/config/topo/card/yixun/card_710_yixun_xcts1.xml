@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xml-boby>
 
-<card cardName="EMSC" cardType="" imagePath="/com/nms/ui/images/topo/soz/yixun_card_mc2.png" x="226" y="128" >
+<card cardName="ESMC" cardType="" imagePath="/com/nms/ui/images/topo/soz/yixun_card_mc2.png" x="226" y="128" >
     <port portName="F1" seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/soz/port_e.png" x="168" y="14" number=""  module="(o)"></port>
    	<port portName="F2" seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/soz/port_e.png" x="196" y="14" number=""  module="(o)"></port>
     <port portName="TNT/CON" seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/soz/port_e.png" x="224" y="14" number=""  module="(o)"></port>

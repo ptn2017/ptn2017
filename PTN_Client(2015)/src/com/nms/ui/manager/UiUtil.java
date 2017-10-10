@@ -377,7 +377,7 @@ public class UiUtil {
 				imagePath = "/com/nms/ui/images/jiuJiang.png";
 				break;
 			case 4:
-				imagePath = "zh_CN".equals(ResourceUtil.language) ? "/com/nms/ui/images/ptn_login_top_yixun.png" : "/com/nms/ui/images/ptn_login_top_yixun_en.png";
+				imagePath = "zh_CN".equals(ResourceUtil.language) ? "/com/nms/ui/images/ptn_login_top_yixun.png" : "/com/nms/ui/images/ptn_login_top_yixun.png";
 				break;
 			case 5:
 				imagePath = "zh_CN".equals(ResourceUtil.language) ? "/com/nms/ui/images/ptn_login_top_yixun.png" : "/com/nms/ui/images/ptn_login_top_yixun_en.png";
