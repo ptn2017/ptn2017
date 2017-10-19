@@ -1,4 +1,4 @@
-﻿package com.nms.db.bean.ptn;
+package com.nms.db.bean.ptn;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.UiUtil;
 
-public class SsMacStudy extends ViewDataObj implements Serializable{
+public class VlanMacStudyInfo extends ViewDataObj implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1318487589378511002L;
+	private static final long serialVersionUID = 4813991986967203971L;
 	private int id;
 	private int num;
 	private int vlan;
@@ -49,11 +49,9 @@ public class SsMacStudy extends ViewDataObj implements Serializable{
 	public void putObjectProperty() {
 		try {
 			
-			this.putClientProperty("id", getId());
-			this.putClientProperty("num", getNum());
-			this.putClientProperty("vlan", getVlan());		
-			this.putClientProperty("countNumber", getMacCount());
-			this.putClientProperty("portName",getPortName());			
+			this.putClientProperty("lanid", getLanid());		
+			this.putClientProperty("elanid", getElanid());
+			this.putClientProperty("name",getName());			
 			
 			this.putClientProperty("macAddress",getMacAddress());
 		

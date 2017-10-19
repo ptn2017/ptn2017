@@ -112,4 +112,7 @@
   	select * from serviceinfo where serviceType = 2 and isSingle=#{1} and (aSiteId =#{0} or zSiteId = #{0})
   </select>
   
+  <select id="selectVpls" resultMap="BaseResultMap">
+  SELECT s.*,COUNT(*) FROM `serviceinfo` s where (s.serviceType=2 or s.serviceType=3 )  AND (s.aSiteId=#{siteId} or s.zSiteId=#{siteId} )GROUP BY s.serviceType;
+  </select>
 </mapper>

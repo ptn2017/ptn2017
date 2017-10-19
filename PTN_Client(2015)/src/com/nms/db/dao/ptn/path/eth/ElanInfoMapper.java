@@ -38,4 +38,6 @@ public interface ElanInfoMapper {
 	public List<ElanInfo> queryAll();
 
 	public List<ElanInfo> selectBySiteAndisSingle(int siteId, int i);
+
+	public List<ElanInfo> selectVpls(@Param("siteId")int siteId);
 }

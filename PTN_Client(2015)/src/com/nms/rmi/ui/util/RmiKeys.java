@@ -86,4 +86,5 @@ public class RmiKeys {
 	public static final String RMI_CCC = "RMI_CCC";
 	public static final String RMI_BFD = "RMI_BFD";
 	public static final String RMI_ARP = "RMI_ARP";
+	public static final String RMI_MACVLAN = "RMI_MACVLAN";
 }

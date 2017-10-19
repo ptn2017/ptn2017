@@ -1744,4 +1744,10 @@
 		<attribute id="targetIp" name="目的IP" visible="true"></attribute>
 		<attribute id="enabled" name="使能" visible="true"></attribute>
 	</table>
+	<table name="vplsmacAddress">
+		<attribute id="name" name="vpls-name" visible="true"></attribute>		
+		<attribute id="lanid" name="lan id" visible="true"></attribute>				
+		<attribute id="elanid" name="elan id" visible="true"></attribute>
+		<attribute id="macAddress" name="macAddress" visible="true"></attribute>
+	</table>
 </xml-body>

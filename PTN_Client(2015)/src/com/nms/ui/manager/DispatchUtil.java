@@ -905,5 +905,18 @@ public class DispatchUtil {
 	}
 	
 	
-	
+	public String vlanMac(SiteInst siteInst,List<String> value)throws RemoteException{
+		String result = ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_FAIL);
+		try {
+			if (this.object_interface instanceof SiteDispatchI) {
+				SiteDispatchI siteDispatchI = (SiteDispatchI) this.object_interface;
+				result = siteDispatchI.vlanMac(siteInst, value);
+			} else {
+				throw new Exception("object_interface is error");
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, getClass());
+		}
+		return result;
+	}
 }

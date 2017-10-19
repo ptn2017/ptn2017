@@ -635,5 +635,12 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 		return this.convertListToMap(this.mapper.selectBySiteAndisSingle(siteId, 0));
 	}
 	
-	
+	/**
+	 * 查询网元下的所有vpls
+	 * @param siteId
+	 * @return
+	 */
+	public List<ElanInfo> selectVpls(int siteId){
+		return mapper.selectVpls(siteId);
+	}
 }
