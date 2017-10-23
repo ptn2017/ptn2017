@@ -513,11 +513,10 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 			try {
 				DispatchUtil smsDispatch = new DispatchUtil(RmiKeys.RMI_SITE);	
 				String result = smsDispatch.vlanMac(siteInst, values);	
+				controller.refresh(result);
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
-			// 跟新界面
-			controller.refresh();	
 			// 隐藏界面
 			dialog.dispose();
 		} catch (Exception e1) {

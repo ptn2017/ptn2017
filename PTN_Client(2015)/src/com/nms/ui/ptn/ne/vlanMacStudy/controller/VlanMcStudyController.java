@@ -3,13 +3,14 @@ package com.nms.ui.ptn.ne.vlanMacStudy.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.nms.db.bean.ptn.SsMacStudy;
+import com.nms.db.bean.ptn.VlanMacStudyInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.model.ptn.SecondMacStudyService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
-import com.nms.service.impl.util.ResultString;
-import com.nms.service.impl.util.SiteUtil;
-import com.nms.service.impl.util.WhImplUtil;
 import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.ConstantUtil;
@@ -20,15 +21,14 @@ import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
-import com.nms.db.bean.ptn.SsMacStudy;
-import com.nms.db.bean.ptn.VlanMacStudyInfo;
-import com.nms.ui.ptn.ne.ssMacStudy.view.AddSsMacStudyDialog;
-import com.nms.ui.ptn.ne.ssMacStudy.view.StaticSecondMacPanel;
 import com.nms.ui.ptn.ne.vlanMacStudy.view.AddVlanMacStudyDialog;
 import com.nms.ui.ptn.ne.vlanMacStudy.view.VlanMacMacPanel;
 
 public class VlanMcStudyController extends AbstractController {
 	private VlanMacMacPanel view;
+	private int total;
+	private int now = 1;
+	private List<VlanMacStudyInfo> vlanMacStudyInfos;
 	
 	public VlanMcStudyController(VlanMacMacPanel staticSecondMacPanel) {
 		this.view = staticSecondMacPanel;
@@ -114,22 +114,44 @@ public class VlanMcStudyController extends AbstractController {
 	
 	private void searchAndRefreshData(String value) {
 		
-		List<VlanMacStudyInfo> allList = new ArrayList<VlanMacStudyInfo>();
-		SecondMacStudyService_MB secondMacStudyService = null;
+		List<VlanMacStudyInfo> needs = new ArrayList<VlanMacStudyInfo>();
 		SsMacStudy ssMacStudyInfo =null;
 		try {
 			ssMacStudyInfo = new SsMacStudy();
 			ssMacStudyInfo.setSiteId(ConstantUtil.siteId);
-			secondMacStudyService = (SecondMacStudyService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SECONDMACSTUDY);			
-//			allList = secondMacStudyService.selectBySecondMacStudyInfo(ConstantUtil.siteId);
+			
+			if(vlanMacStudyInfos.size() ==0){
+				now = 0;
+				view.getNextPageBtn().setEnabled(false);
+				view.getGoToJButton().setEnabled(false);
+			}else{
+				now =1;
+				if (vlanMacStudyInfos.size() % ConstantUtil.flipNumber == 0) {
+					total = vlanMacStudyInfos.size() / ConstantUtil.flipNumber;
+				} else {
+					total = vlanMacStudyInfos.size() / ConstantUtil.flipNumber + 1;
+				}
+				if (total == 1) {
+					view.getNextPageBtn().setEnabled(false);
+					view.getGoToJButton().setEnabled(false);
+				}else{
+					view.getNextPageBtn().setEnabled(true);
+					view.getGoToJButton().setEnabled(true);
+				}
+				if (vlanMacStudyInfos.size() - (now - 1) * ConstantUtil.flipNumber > ConstantUtil.flipNumber) {
+					needs = vlanMacStudyInfos.subList((now - 1) * ConstantUtil.flipNumber, ConstantUtil.flipNumber);
+				} else {
+					needs = vlanMacStudyInfos.subList((now - 1) * ConstantUtil.flipNumber, vlanMacStudyInfos.size() - (now - 1) * ConstantUtil.flipNumber);
+				}
+			}
+			
 			this.view.clear();	
 			this.view.getssMacStudyInfo().clear();
-			this.view.initData(allList);
+			this.view.initData(needs);
 			this.view.updateUI();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		} finally {
-			UiUtil.closeService_MB(secondMacStudyService);
 		}
 	}
 	
@@ -144,6 +166,35 @@ public class VlanMcStudyController extends AbstractController {
 			this.refresh();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+	
+	@Override
+    public void prevPage()throws Exception{
+    	now = now-1;
+    	if(now == 1){
+    		view.getPrevPageBtn().setEnabled(false);
+    	}
+    	view.getNextPageBtn().setEnabled(true);
+    	
+    	flipRefresh();
+    }
+
+	private void flipRefresh() {
+		view.getCurrPageLabel().setText(now+"");
+    	try {
+    		List<VlanMacStudyInfo> needTunnels = null;
+    		if(now*ConstantUtil.flipNumber>vlanMacStudyInfos.size()){
+    			needTunnels = vlanMacStudyInfos.subList((now-1)*ConstantUtil.flipNumber, vlanMacStudyInfos.size());
+    		}else{
+    			needTunnels = vlanMacStudyInfos.subList((now-1)*ConstantUtil.flipNumber, now*ConstantUtil.flipNumber);
+    		}
+    		this.view.clear();
+			this.view.initData(needTunnels);
+			this.view.updateUI();
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}finally{
 		}
 	}
 }

@@ -94,6 +94,11 @@ public class VlanMacMacPanel extends ContentView<VlanMacStudyInfo> {
 		c.fill = GridBagConstraints.BOTH;
 		panelLayout.setConstraints(splitPane, c);
 		this.add(splitPane);
+		getButtonPanel().add(this.getPrevPageBtn());
+		getButtonPanel().add(this.getCurrPageLabel());
+		getButtonPanel().add(this.getDivideLabel());
+		getButtonPanel().add(this.getTotalPageLabel());
+		getButtonPanel().add(this.getNextPageBtn());
 	}
 	
 	private void setTabbedPaneLayout() {
