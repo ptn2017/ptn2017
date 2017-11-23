@@ -72,6 +72,9 @@ public class EthernetOamNodeDialog extends PtnDialog {
 	private JComboBox ccmsendLabelComboBox;
 	private JLabel vlanLable;// VLAN
 	private PtnTextField vlanLableTextField;
+	private JLabel dmLable;// VLAN
+	private PtnTextField dmTextField;
+	
 	private JLabel mepIDLable;// MEP ID
 	private PtnTextField mepIDLableTextField;
 	private JLabel mepTypeLabel;// MEP类型
@@ -348,7 +351,9 @@ public class EthernetOamNodeDialog extends PtnDialog {
 			// MIP生成规则
 			super.getComboBoxDataUtil().comboBoxSelectByValue(this.mipCreateLableComboBox, String.valueOf(oamEthernetInfo.getMipCreate()));
 			isValue();
-
+			
+			dmTextField.setText(oamEthernetInfo.getDmLength()+"");
+			
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		} finally {
@@ -391,6 +396,11 @@ public class EthernetOamNodeDialog extends PtnDialog {
 			vlanLableTextField = new PtnTextField(false,PtnTextField.TYPE_INT,PtnTextField.INT_MAXLENGTH,this.lblMessage, this.confirm, this);
 			setValidate(vlanLableTextField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABOAMETNVLAN_MINVALUE);
 			vlanLableTextField.setText("1");
+			dmLable = new JLabel("DM");// VLAN
+			dmTextField = new PtnTextField(false,PtnTextField.TYPE_INT,PtnTextField.INT_MAXLENGTH,this.lblMessage, this.confirm, this);
+			setValidate(dmTextField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABOAMETNVLAN_MINVALUE);
+			dmTextField.setText("64");
+			
 			mepIDLable = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_MEPIP));// MEP ID
 			mepIDLableTextField = new PtnTextField(false,PtnTextField.TYPE_INT,PtnTextField.INT_MAXLENGTH,this.lblMessage, this.confirm, this);
 			setValidate(mepIDLableTextField,ConstantUtil.LABOAMETNMEPID_MAXVALUE,ConstantUtil.LABOAMETNVLAN_MINVALUE);
@@ -633,6 +643,8 @@ public class EthernetOamNodeDialog extends PtnDialog {
 			maJpanel.add(maNameTextfield);
 			maJpanel.add(vlanLable);
 			maJpanel.add(vlanLableTextField);
+			maJpanel.add(dmLable);
+			maJpanel.add(dmTextField);
 			
 			mepJpanel.add(mepIDLable);
 			mepJpanel.add(mepIDLableTextField);
@@ -994,6 +1006,7 @@ public class EthernetOamNodeDialog extends PtnDialog {
 			oamEthernetInfo.setCcmsend(Integer.parseInt(((Code) ccmsendLabelkey_broad.getObject()).getCodeValue()));
 			// VLAN
 			oamEthernetInfo.setVlan(vlanLableTextField.getText().trim());
+			oamEthernetInfo.setDmLength(Integer.parseInt(dmTextField.getText().trim()));
 			// MEP ID
 			oamEthernetInfo.setMepId(mepIDLableTextField.getText().trim());
 			// MEP类型
@@ -1673,7 +1686,7 @@ public class EthernetOamNodeDialog extends PtnDialog {
 			gridBagLayout=new GridBagLayout();
 			gridBagConstraints = new GridBagConstraints();
 			gridBagLayout.columnWidths = new int[] { 10, 120, 10, 120, 10, 120 };
-			gridBagLayout.columnWeights = new double[] { 0, 0, 0 };
+			gridBagLayout.columnWeights = new double[] { 0, 0, 0,0 };
 			gridBagLayout.rowHeights = new int[] { 10};
 			gridBagLayout.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 			gridBagConstraints.insets = new Insets(5, 5, 5, 5);
@@ -1692,6 +1705,12 @@ public class EthernetOamNodeDialog extends PtnDialog {
 			gridBagConstraints.gridx = 3;
 			gridBagConstraints.gridy = 0;
 			gridBagLayout.setConstraints(vlanLableTextField, gridBagConstraints);
+			gridBagConstraints.gridx = 4;
+			gridBagConstraints.gridy = 0;
+			gridBagLayout.setConstraints(dmLable, gridBagConstraints);
+			gridBagConstraints.gridx = 5;
+			gridBagConstraints.gridy = 0;
+			gridBagLayout.setConstraints(dmTextField, gridBagConstraints);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}

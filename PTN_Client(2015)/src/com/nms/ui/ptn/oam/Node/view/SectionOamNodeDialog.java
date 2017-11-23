@@ -105,7 +105,8 @@ public class SectionOamNodeDialog extends PtnDialog {
 	private JButton cancel;
 
 	private JLabel vertifyLabel;//提示信息
-
+	private JLabel dmlength; 
+	private JTextField dmlengthField;
 	private OamInfo oamInfo;
 	private JLabel tcLabel;
 	private OamMepInfo oammepInfoBefore;//记录修改前的数据，便于日志记录
@@ -240,6 +241,7 @@ public class SectionOamNodeDialog extends PtnDialog {
 		comboBoxSelect(dmCycleComboBox, "0");
 		dmCycleComboBox.setEnabled(false);
 		lbTTLField.setText("64");
+		dmlengthField.setText("64");
 	}
 
 	private void initComponent() {
@@ -300,7 +302,8 @@ public class SectionOamNodeDialog extends PtnDialog {
 		
 		tcLabel = new JLabel("TC");
 		tcComboBox = new JComboBox();
-		
+		dmlength = new JLabel("DM");
+		dmlengthField = new JTextField();
 		buttonPanel = new JPanel();
 		confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),true);
 		cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
@@ -724,6 +727,21 @@ public class SectionOamNodeDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		componentLayout.setConstraints(lbTTLField, c);
 		componentPanel.add(lbTTLField);
+		
+		c.gridx = 2;
+		c.gridy = 10;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(dmlength, c);
+		componentPanel.add(dmlength);
+		c.gridx = 3;
+		c.gridy = 10;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(dmlengthField, c);
+		componentPanel.add(dmlengthField);
 
 	}
 
@@ -1001,6 +1019,7 @@ public class SectionOamNodeDialog extends PtnDialog {
 		}
 		
 		lbTTLField.setText(mepInfo.getLbTTL()+"");
+		dmlengthField.setText(mepInfo.getDmlength()+"");
 	}
 
 	private void initValueToId() {
@@ -1139,7 +1158,7 @@ public class SectionOamNodeDialog extends PtnDialog {
 //			oamMep.setMegIcc(megIccField.getText().trim());
 //		if (megUmcField.getText().trim() != null)
 //			oamMep.setMegUmc(megUmcField.getText().trim());
-
+		oamMep.setDmlength(Integer.parseInt(dmlengthField.getText().trim()));
 		oamMep.setLbTTL(Integer.parseInt(lbTTLField.getText().trim()));
 		oamMep.setLocalMepId(Integer.parseInt(localField.getText().trim()));
 		oamMep.setRemoteMepId(Integer.parseInt(remoteField.getText().trim()));
@@ -1202,6 +1221,7 @@ public class SectionOamNodeDialog extends PtnDialog {
 			//赋默认值
 			oamMep.setDmCycle(0);
 		}
+		oamInfo.getOamMep().setDmlength(Integer.parseInt(dmlengthField.getText()));
 		oamInfo.getOamMep().setSiteId(ConstantUtil.siteId);
 
 	}

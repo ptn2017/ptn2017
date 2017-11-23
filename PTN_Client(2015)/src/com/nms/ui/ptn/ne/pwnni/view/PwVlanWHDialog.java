@@ -120,6 +120,11 @@ public class PwVlanWHDialog extends PtnPanel {
 		txtVlan_Pri.setCheckingMinValue(true);
 		txtVlan_Pri.setMaxValue(7);
 		txtVlan_Pri.setMinValue(0);
+		
+		tpid = new JLabel("TPID");
+		tpidJc = new JComboBox();
+		super.getComboBoxDataUtil().comboBoxData(this.tpidJc, "LAGVLANTPID");
+		
 	}
 	/**
 	 * 设置主界面布局
@@ -195,6 +200,15 @@ public class PwVlanWHDialog extends PtnPanel {
 		
 		componentLayout.setConstraints(this.cmbExitRule, gridCon);
 		this.add(this.cmbExitRule);
+		
+		gridCon.gridx = 3;
+		gridCon.gridy = 3;
+		componentLayout.setConstraints(this.tpid, gridCon);
+		this.add(this.tpid);
+		gridCon.gridx = 4;
+		
+		componentLayout.setConstraints(this.tpidJc, gridCon);
+		this.add(this.tpidJc);
 
 	}
 	/**
@@ -214,6 +228,7 @@ public class PwVlanWHDialog extends PtnPanel {
 				super.getComboBoxDataUtil().comboBoxSelect(cmbTag,pwNniBuffer.getTagAction()+"");
 				super.getComboBoxDataUtil().comboBoxSelect(cmbMac,pwNniBuffer.getMacAddressLearn()+"");
 				super.getComboBoxDataUtil().comboBoxSelect(cmbExitRule,pwNniBuffer.getExitRule()+"");
+				super.getComboBoxDataUtil().comboBoxSelect(tpidJc,pwNniBuffer.getTpid()+"");
 				
 				if("".equals(pwNniBuffer.getSvlan())||null==pwNniBuffer.getSvlan()){
 					txtVlan_Id.setText("0");
@@ -225,6 +240,7 @@ public class PwVlanWHDialog extends PtnPanel {
 				}else{
 					txtVlan_Pri.setText(pwNniBuffer.getVlanpri());
 				}
+				
 			}		
 			
 		} catch (Exception e) {
@@ -258,6 +274,8 @@ public class PwVlanWHDialog extends PtnPanel {
 			pwNniBuffer.setExitRule(Integer.parseInt(keyValue.getId()));
 			pwNniBuffer.setSvlan(txtVlan_Id.getText());
 			pwNniBuffer.setVlanpri(txtVlan_Pri.getText());
+			ControlKeyValue tpid = (ControlKeyValue)this.tpidJc.getSelectedItem();
+			pwNniBuffer.setTpid(Integer.parseInt(tpid.getId()));
 			keyValue = null;
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -282,5 +300,9 @@ public class PwVlanWHDialog extends PtnPanel {
 	private JComboBox cmbExitRule;//出口规则下拉框
 	private PtnTextField txtVlan_Id;//VlanId文本框
 	private PtnTextField txtVlan_Pri;//VlanPri文本框
+	
+	private JLabel tpid;// 
+
+	private JComboBox tpidJc;//
 
 }

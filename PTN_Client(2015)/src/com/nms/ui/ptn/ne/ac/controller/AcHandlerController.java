@@ -543,6 +543,7 @@ public class AcHandlerController {
 		dialog.getAcInfo().setModel(info.getModel());
 		dialog.getAcInfo().setAcModelLog(info.getModel());
 		dialog.getAcInfo().setMacCount(info.getMacCount());
+		dialog.getAcInfo().setDownTpid(info.getDownTpid());
 		// 收集简单qos信息
 		collectSimpleQosData(info);
 		dialog.getAcInfo().setSimpleQos(info.getSimpleQos());
@@ -1401,6 +1402,7 @@ public class AcHandlerController {
 		ControlKeyValue VCEnable = (ControlKeyValue) dialog.getStep1().getVCEnableJCB().getSelectedItem();
 		ControlKeyValue bufType = (ControlKeyValue) dialog.getStep3().getBufferTypeJCB().getSelectedItem();
 		ControlKeyValue model = (ControlKeyValue) dialog.getStep2().getCmbModel().getSelectedItem();
+		ControlKeyValue tpid = (ControlKeyValue) dialog.getStep2().getTpidJbox().getSelectedItem();
 		info.setModel(((Code)model.getObject()).getId());
 		info.setAcModelLog(info.getModel());
 		info.setPortModel(((Code) portModel.getObject()).getId());
@@ -1414,6 +1416,7 @@ public class AcHandlerController {
 		info.setVlanpri(dialog.getStep2().getAddVlanPriJTF().getText().trim());
 		info.setAcStatus(EActiveStatus.ACTIVITY.getValue());
 		info.setMacCount(Integer.parseInt(dialog.getStep2().getMacCountField().getText()));
+		info.setDownTpid(((Code)tpid.getObject()).getId());
 		return info;
 	}
 
@@ -1765,6 +1768,8 @@ public class AcHandlerController {
 				comboBoxDataUtil.comboBoxData(dialog.getStep2().getTagActionJCB(), "PORTTAGBEHAVIOR");
 				//初始化模式
 				comboBoxDataUtil.comboBoxData(dialog.getStep2().getCmbModel(), "MODEL");
+				comboBoxDataUtil.comboBoxData(dialog.getStep2().getTpidJbox(), "LAGVLANTPID");
+				
 			} else {
 				comboBoxDataUtil.comboBoxData(dialog.getStep1_cx().getCmbMode(), "portModel");
 				comboBoxDataUtil.comboBoxData(dialog.getStep1_cx().getCmbManagerEnable(), "ENABLEDSTATUE");
@@ -2064,6 +2069,7 @@ public class AcHandlerController {
 		comboBoxDataUtil.comboBoxSelect(dialog.getStep1().getSplitCutJCB(), dialog.getAcInfo().getHorizontalDivision() + "");
 		comboBoxDataUtil.comboBoxSelect(dialog.getStep1().getVCEnableJCB(), dialog.getAcInfo().getManagerEnable() + "");
 		comboBoxDataUtil.comboBoxSelect(dialog.getStep2().getCmbModel(), dialog.getAcInfo().getModel() + "");
+		comboBoxDataUtil.comboBoxSelect(dialog.getStep2().getTpidJbox(), dialog.getAcInfo().getDownTpid() + "");
 		// if(dialog.getAcInfo().getEEportType() == EEportType.ETH) {
 		if (dialog.getAcInfo().getPortId() > 0) {
 			comboBoxDataUtil.comboBoxSelect(dialog.getStep1().getPortJCB(), String.valueOf(dialog.getAcInfo().getPortId()));

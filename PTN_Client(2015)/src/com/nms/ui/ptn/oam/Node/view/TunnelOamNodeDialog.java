@@ -115,6 +115,8 @@ public class TunnelOamNodeDialog extends PtnDialog {
 	private JComboBox ltExpComboBox;
 	private JLabel ltTTl;//ltTTL 
 	private JTextField lttField;
+	private JLabel dmlength; 
+	private JTextField dmlengthField;
 	private OamMepInfo oammepInfoBefore;//记录修改前的数据，便于日志记录
 	
 	public TunnelOamNodeDialog(OamInfo oamInfo) {
@@ -207,6 +209,7 @@ public class TunnelOamNodeDialog extends PtnDialog {
 		super.getComboBoxDataUtil().comboBoxSelectByValue(ltComboBox,"0");
 		super.getComboBoxDataUtil().comboBoxSelectByValue(ltExpComboBox, "0");
 		lttField.setText("64");
+		dmlengthField.setText("64");
 		localField.setText("1");
 		remoteField.setText("1");
 //		if (mepInfo.isRingEnable()) {
@@ -302,7 +305,8 @@ public class TunnelOamNodeDialog extends PtnDialog {
 		lttField = new JTextField();
 		lbTTlLabel = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LBTTL));
 		lbTTLField = new JTextField();
-		
+		dmlength = new JLabel("DM");
+		dmlengthField = new JTextField(); 
 		buttonPanel = new JPanel();
 		confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),true);
 		cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
@@ -706,6 +710,22 @@ public class TunnelOamNodeDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		componentLayout.setConstraints(lbTTLField, c);
 		componentPanel.add(lbTTLField);
+		
+		
+		c.gridx = 0;
+		c.gridy = 12;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(dmlength, c);
+		componentPanel.add(dmlength);
+		c.gridx = 1;
+		c.gridy = 12;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(dmlengthField, c);
+		componentPanel.add(dmlengthField);
 	}
 
 	private void setButtonLayout() {
@@ -987,6 +1007,7 @@ public class TunnelOamNodeDialog extends PtnDialog {
 			dmCycleComboBox.setEnabled(false);
 		}
 		lbTTLField.setText(mepInfo.getLbTTL()+"");
+		dmlengthField.setText(mepInfo.getDmlength()+"");
 	}
 
 	private void initValueToId() {
@@ -1217,6 +1238,7 @@ public class TunnelOamNodeDialog extends PtnDialog {
 		oamMep.setLtEXP(Integer.parseInt(((Code)key_status.getObject()).getCodeValue()));
 		oamMep.setLtTTL(Integer.parseInt(lttField.getText().trim()));
 		oamMep.setLbTTL(Integer.parseInt(lbTTLField.getText().trim()));
+		oamMep.setDmlength(Integer.parseInt(dmlengthField.getText().trim()));
 		oamInfo.getOamMep().setSiteId(ConstantUtil.siteId);
 
 	}
@@ -1342,4 +1364,6 @@ public class TunnelOamNodeDialog extends PtnDialog {
 	public void setLbTTLField(JTextField lbTTLField) {
 		this.lbTTLField = lbTTLField;
 	}
+	
+	
 }

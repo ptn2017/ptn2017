@@ -57,6 +57,8 @@
     <result column="slot" property="slot" jdbcType="INTEGER" />
     <result column="mipSlot" property="mipSlot" jdbcType="INTEGER" />
     <result column="itemNumber" property="itemNumber" jdbcType="INTEGER" />
+    <result column="dmLength" property="dmLength" jdbcType="INTEGER" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
     id, siteId, thernetOAMEnabl, mdMLevel, mpLable, mdName, mdLevel, maName, ccmsend, 
@@ -66,7 +68,7 @@
     tstPurposeMepMac, tstPriority, sendWay, tstDiscard, tstTlvType, tstTlvLength, tstSendCycle, 
     lmENable, lmPriority, lmSendCycle, dmENable, dmPriority, dmSendCycle, remoteMepId1, 
     macAddress1, remoteMepId2, macAddress2, remoteMepId3, macAddress3, remoteMepId4, 
-    macAddress4, mipCreate, mipPort, slot, mipSlot, itemNumber, PortName, mipPortName
+    macAddress4, mipCreate, mipPort, slot, mipSlot, itemNumber, PortName, mipPortName,dmLength
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -96,7 +98,7 @@
       remoteMepId1, macAddress1, remoteMepId2, 
       macAddress2, remoteMepId3, macAddress3, 
       remoteMepId4, macAddress4, mipCreate, 
-      mipPort, slot, mipSlot, itemNumber
+      mipPort, slot, mipSlot, itemNumber,dmLength
       )
     values (#{siteId,jdbcType=INTEGER}, #{thernetOAMEnabl,jdbcType=INTEGER}, 
       #{mdMLevel,jdbcType=VARCHAR}, #{mpLable,jdbcType=INTEGER}, #{mdName,jdbcType=VARCHAR}, 
@@ -116,7 +118,8 @@
       #{macAddress2,jdbcType=VARCHAR}, #{remoteMepId3,jdbcType=VARCHAR}, #{macAddress3,jdbcType=VARCHAR}, 
       #{remoteMepId4,jdbcType=VARCHAR}, #{macAddress4,jdbcType=VARCHAR}, #{mipCreate,jdbcType=INTEGER}, 
       #{mipPort,jdbcType=VARCHAR}, #{slot,jdbcType=INTEGER}, #{mipSlot,jdbcType=INTEGER}, 
-      #{itemNumber,jdbcType=INTEGER}
+      #{itemNumber,jdbcType=INTEGER},#{dmLength,jdbcType=INTEGER}
+      
       )
   </insert>
   <insert id="insertSelective" parameterType="OamEthernetInfo" >

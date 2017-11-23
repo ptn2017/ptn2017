@@ -26,11 +26,13 @@
     <result column="acStatus" property="acstatus" jdbcType="INTEGER" />
     <result column="macCount" property="maccount" jdbcType="INTEGER" />
     <result column="lanId" property="lanid" jdbcType="INTEGER" />
+    <result column="downTpid" property="downTpid" jdbcType="INTEGER" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
     id, siteId, portId, lagId, portModel, operatorVlanId, clientVlanId, managerEnable, 
     exitRule, vlanId, vlancri, vlanpri, horizontalDivision, macAddressLearn, tagAction, 
-    jobStatus, acBusinessId, bufType, name, isUser, model, acStatus, macCount, lanId
+    jobStatus, acBusinessId, bufType, name, isUser, model, acStatus, macCount, lanId,downTpid
   </sql>
   <select id="queryByCondition" resultType="AcPortInfo" parameterType="AcPortInfo" >
     select 

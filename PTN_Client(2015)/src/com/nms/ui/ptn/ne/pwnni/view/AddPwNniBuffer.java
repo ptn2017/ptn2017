@@ -86,6 +86,7 @@ public class AddPwNniBuffer extends PtnDialog {
 			super.getComboBoxDataUtil().comboBoxData(jComboBox5, "MACLEARN");
 			super.getComboBoxDataUtil().comboBoxData(jComboBox6, "VCTRAFFICPOLICING");
 			super.getComboBoxDataUtil().comboBoxData(jComboBoxcontrolEnabl, "ENABLEDSTATUE");
+			super.getComboBoxDataUtil().comboBoxData(tpidJbox, "LAGVLANTPID");
 			intialPortComBox(jComboBox2, ConstantUtil.siteId);
 
 			if (this.pwNniBuffer != null) {
@@ -100,6 +101,7 @@ public class AddPwNniBuffer extends PtnDialog {
 				super.getComboBoxDataUtil().comboBoxSelect(jComboBox5, this.pwNniBuffer.getMacAddressLearn() + "");
 				super.getComboBoxDataUtil().comboBoxSelect(jComboBox6, this.pwNniBuffer.getHorizontalDivision() + "");
 				super.getComboBoxDataUtil().comboBoxSelect(jComboBoxcontrolEnabl, this.pwNniBuffer.getControlEnable() + "");
+//				super.getComboBoxDataUtil().comboBoxSelect(tpidJbox, this.pwNniBuffer.getDownTpid() + "");
 
 			} else {
 				jTextField1.setText("");
@@ -110,6 +112,7 @@ public class AddPwNniBuffer extends PtnDialog {
 				this.comboBoxSelect(jComboBox5, "MACLEARN", 0);
 				this.comboBoxSelect(jComboBox6, "VCTRAFFICPOLICING", 0);
 				this.comboBoxSelect(jComboBoxcontrolEnabl, "ENABLEDSTATUE", 1);
+				this.comboBoxSelect(tpidJbox, "LAGVLANTPID", 0);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -261,6 +264,9 @@ public class AddPwNniBuffer extends PtnDialog {
 		Cancel = new javax.swing.JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
 		jComboBoxcontrolEnabl = new JComboBox();
 		jLabelcontrolEnabl = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CONTROLENABLE));
+		tpidJbox = new JComboBox();
+		tpidJlabel = new JLabel("TPID"); 
+		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
 	}
@@ -321,6 +327,10 @@ public class AddPwNniBuffer extends PtnDialog {
 		addComponent(mainPanel, jLabel5, 0, 3, 1.0, 0.001, 1, 1, gridBagConstraints.BOTH, new Insets(10, 80, 5, 5), gridBagConstraints.NORTHWEST, gridBagConstraints);
 		addComponent(mainPanel, jComboBox4, 1, 3, 1.0, 0.001, 1, 1, gridBagConstraints.BOTH, new Insets(10, 5, 5, 20), gridBagConstraints.NORTHWEST, gridBagConstraints);
 		
+		addComponent(mainPanel, tpidJlabel, 2, 3, 1.0, 0.001, 1, 1, gridBagConstraints.BOTH, new Insets(10, 80, 5, 5), gridBagConstraints.NORTHWEST, gridBagConstraints);
+		addComponent(mainPanel, tpidJbox, 3, 3, 1.0, 0.001, 1, 1, gridBagConstraints.BOTH, new Insets(10, 5, 5, 20), gridBagConstraints.NORTHWEST, gridBagConstraints);
+		
+		
 		addComponent(mainPanel, buttonPanel, 0, 5, 1.0, 0.1, 4, 1, gridBagConstraints.BOTH, new Insets(10, 5, 5, 75), gridBagConstraints.NORTHWEST, gridBagConstraints);
 
 		FlowLayout flowLayout = new FlowLayout();
@@ -348,6 +358,7 @@ public class AddPwNniBuffer extends PtnDialog {
 			ControlKeyValue maclearn = (ControlKeyValue) jComboBox5.getSelectedItem();
 			ControlKeyValue splitHori = (ControlKeyValue) jComboBox6.getSelectedItem();
 			ControlKeyValue controlEnabl = (ControlKeyValue) jComboBoxcontrolEnabl.getSelectedItem();
+			ControlKeyValue tpid = (ControlKeyValue) tpidJbox.getSelectedItem();
 			pwNniService = (PwNniInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwNniBuffer);
 
 			if (pwNniBuffer == null) {
@@ -373,7 +384,7 @@ public class AddPwNniBuffer extends PtnDialog {
 			pwNniBuffer.setMacAddressLearn(Integer.parseInt(maclearn.getId()));
 			pwNniBuffer.setTagAction(Integer.parseInt(recognition.getId()));
 			pwNniBuffer.setControlEnable(Integer.parseInt(controlEnabl.getId()));
-			
+			pwNniBuffer.setTpid(Integer.parseInt(tpid.getId()));
 			// pwNniBuffer.setSiteId(pwInfo.getASiteId());
 			// pwNniBuffer.setType(2);
 			// pwNniBuffer.setTagRecognition(Integer.valueOf(((Code) recognition.getObject()).getCodeValue()));
@@ -392,6 +403,7 @@ public class AddPwNniBuffer extends PtnDialog {
 			zpwNniBuffer.setMacAddressLearn(Integer.parseInt(maclearn.getId()));
 			zpwNniBuffer.setTagAction(Integer.parseInt(recognition.getId()));
 			zpwNniBuffer.setControlEnable(Integer.parseInt(controlEnabl.getId()));
+			zpwNniBuffer.setTpid(Integer.parseInt(controlEnabl.getId()));
 			List<PwNniInfo> infos = new ArrayList<PwNniInfo>();
 			infos.add(pwNniBuffer);
 			infos.add(zpwNniBuffer);
@@ -438,6 +450,8 @@ public class AddPwNniBuffer extends PtnDialog {
 	private JPanel buttonPanel;
 	private javax.swing.JComboBox jComboBoxcontrolEnabl;
 	private javax.swing.JLabel jLabelcontrolEnabl;
+	private JLabel tpidJlabel;
+	private JComboBox tpidJbox; 
 	// End of variables declaration//GEN-END:variables
 
 }

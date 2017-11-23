@@ -45,6 +45,8 @@ public class AddAcDialogStep2 extends PtnDialog {
 	private JLabel addVlanIdJLabel;
 	private JLabel addVlanPriJLabel;
 	private JLabel lblModel;//模式
+	private JLabel tpidJlabel;
+	private JComboBox tpidJbox;
 	
 	private JTextField addVlanIdJTF;
 //	private PtnTextField  addVlanIdJTF;
@@ -110,15 +112,17 @@ public class AddAcDialogStep2 extends PtnDialog {
 		addComponent(rightPanel, tagActionJLabel, 0, 1, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
 		addComponent(rightPanel, addVlanIdJLabel, 0, 2, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
 		addComponent(rightPanel, addVlanPriJLabel, 0, 3, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
-		addComponent(rightPanel, lblModel, 0, 4, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
-		addComponent(rightPanel, macCountJLabel, 0, 5, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
+		addComponent(rightPanel, tpidJlabel, 0, 4, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
+		addComponent(rightPanel, lblModel, 0, 5, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
+		addComponent(rightPanel, macCountJLabel, 0, 6, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
 		
 		addComponent(rightPanel, tagReconfigJCB, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
 		addComponent(rightPanel, tagActionJCB, 1, 1, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
 		addComponent(rightPanel, addVlanIdJTF, 1, 2, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
 		addComponent(rightPanel, addVlanPriJTF, 1, 3, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
-		addComponent(rightPanel, cmbModel, 1, 4, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
-		addComponent(rightPanel, macCountField, 1, 5, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
+		addComponent(rightPanel, tpidJbox, 1, 4, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
+		addComponent(rightPanel, cmbModel, 1, 5, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
+		addComponent(rightPanel, macCountField, 1, 6, 1, 1, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), GridBagConstraints.NORTHWEST, gbc);
 		
 		topPanel.setLayout(new BorderLayout());
 		/*
@@ -180,6 +184,9 @@ public class AddAcDialogStep2 extends PtnDialog {
 		tagReconfigJCB = new JComboBox();
 		tagActionJCB = new JComboBox();
 		this.cmbModel=new JComboBox();
+		
+		tpidJbox = new JComboBox();
+		tpidJlabel = new JLabel("TPID");
 
 		nextBtn = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_NEXT));
 		previousBtn = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_BACK));
@@ -274,6 +281,22 @@ public class AddAcDialogStep2 extends PtnDialog {
 
 	public void setMacCountField(JTextField macCountField) {
 		this.macCountField = macCountField;
+	}
+
+	public JLabel getTpidJlabel() {
+		return tpidJlabel;
+	}
+
+	public void setTpidJlabel(JLabel tpidJlabel) {
+		this.tpidJlabel = tpidJlabel;
+	}
+
+	public JComboBox getTpidJbox() {
+		return tpidJbox;
+	}
+
+	public void setTpidJbox(JComboBox tpidJbox) {
+		this.tpidJbox = tpidJbox;
 	}
 
 }

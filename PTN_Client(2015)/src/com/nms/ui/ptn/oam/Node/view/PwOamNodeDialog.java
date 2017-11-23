@@ -118,7 +118,9 @@ public class PwOamNodeDialog extends PtnDialog {
 	private JButton cancel;
 
 	private JLabel vertifyLabel;
-
+	private JLabel dmlength; 
+	private JTextField dmlengthField;
+	
 	private OamInfo oamInfo;
 	private List<String[]> pwAndLspId = new ArrayList<String[]>();
 	private OamMepInfo oammepInfoBefore;//记录修改前的数据，便于日志记录
@@ -343,7 +345,9 @@ public class PwOamNodeDialog extends PtnDialog {
 		dmCycleComboBox = new JComboBox();
 		lbTTlLabel = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LBTTL));
 		lbTTLField = new JTextField();
-		
+		dmlength = new JLabel("DM");
+		dmlengthField = new JTextField();
+		dmlengthField.setText("64");
 		buttonPanel = new JPanel();
 		confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),true);
 		cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
@@ -734,6 +738,21 @@ public class PwOamNodeDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		componentLayout.setConstraints(lbTTLField, c);
 		componentPanel.add(lbTTLField);
+		
+		c.gridx = 2;
+		c.gridy = 11;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(dmlength, c);
+		componentPanel.add(dmlength);
+		c.gridx = 3;
+		c.gridy = 11;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(dmlengthField, c);
+		componentPanel.add(dmlengthField);
 	}
 
 	private void setButtonLayout() {
@@ -1063,6 +1082,7 @@ public class PwOamNodeDialog extends PtnDialog {
 		}
 		
 		lbTTLField.setText(mepInfo.getLbTTL()+"");
+		dmlengthField.setText(mepInfo.getDmlength()+"");
 	}
 
 	private void initValueToId() {
