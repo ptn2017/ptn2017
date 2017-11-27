@@ -70,8 +70,6 @@ public class WHSiteAttributePanel extends JPanel {
 			this.initData(siteInst);
 			this.insertOpeLog(EOperationLogType.SELECTNE.getValue(), ResultString.CONFIG_SUCCESS, null, null);			
 			if(siteInst != null &&  null!=siteInst.getSite_Hum_Id()){
-				siteInst.setVersions(siteInst.getSoftEdition());
-				siteInst.setHardEdition(siteInst.getCardNumber());
 				siteService.saveOrUpdate(siteInst);
 			}
 		} catch (Exception e) {
@@ -89,14 +87,27 @@ public class WHSiteAttributePanel extends JPanel {
 	}
 	
 	private void initData(SiteInst siteInst) {
-		if(siteInst != null){
+		if(siteInst != null&&  null!=siteInst.getSite_Hum_Id()){
+				if("ETN-200-204".equals(siteInst.getCellType())){
+					siteInst.setVersions("V2.1.3");
+					siteInst.setHardEdition("EB204.002V03");
+					this.bootTimeJTextField.setText("V1.12");
+				}else if("ETN-200-204E".equals(siteInst.getCellType())){
+					siteInst.setVersions("V2.1.3");
+					siteInst.setHardEdition("EB204.002V03");
+					this.bootTimeJTextField.setText("V1.12");
+				}else if("ETN-5000".equals(siteInst.getCellType())){
+					siteInst.setVersions("V3.2.5");
+					siteInst.setHardEdition("EB5000.003V01");
+					this.bootTimeJTextField.setText("V3.2.5");
+				}
+				
 			this.txtDescribe.setText(siteInst.getSite_Hum_Id());
 			this.softWareText.setText(siteInst.getSoftEdition());
 			this.totalTimetext.setText(siteInst.getTotalTime());
 			this.siteTimeTextField.setText(siteInst.getCellTime());
-			this.bootTimeJTextField.setText(siteInst.getBootTime());
+			
 			this.fpgaTimeJTextField.setText(siteInst.getFpgaTime());
-			this.bootTimeJTextField.setText(siteInst.getBootTime());
 			this.fpgaTimeJTextField.setText(siteInst.getFpgaTime());
 			this.plateJTextField.setText(siteInst.getPlateNumber());
 			this.cardJTextField.setText(siteInst.getCardNumber());
@@ -214,8 +225,8 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 20, 5, 5);
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
-		layout.setConstraints(this.plateNumber, c);
-		this.contentPanel.add(this.plateNumber);
+//		layout.setConstraints(this.plateNumber, c);
+//		this.contentPanel.add(this.plateNumber);
 		c.gridx = 1;
 		c.gridy = 2;
 		c.gridheight = 1;
@@ -223,12 +234,12 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 5, 5, 5);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
-		layout.setConstraints(this.plateJTextField, c);
-		this.contentPanel.add(this.plateJTextField);
+//		layout.setConstraints(this.plateJTextField, c);
+//		this.contentPanel.add(this.plateJTextField);
 
 		/** 第三行 软件版本 */
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 20, 5, 5);
@@ -237,7 +248,7 @@ public class WHSiteAttributePanel extends JPanel {
 		layout.setConstraints(this.softWareLabel, c);
 		this.contentPanel.add(this.softWareLabel);
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 2;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -248,7 +259,7 @@ public class WHSiteAttributePanel extends JPanel {
 
 		/** 第四行 卡号 */
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 3;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 20, 5, 5);
@@ -257,7 +268,7 @@ public class WHSiteAttributePanel extends JPanel {
 		layout.setConstraints(this.cardNumber, c);
 		this.contentPanel.add(this.cardNumber);
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 3;
 		c.gridheight = 1;
 		c.gridwidth = 2;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -274,8 +285,8 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 20, 5, 5);
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
-		layout.setConstraints(this.createPlateTime, c);
-		this.contentPanel.add(this.createPlateTime);
+//		layout.setConstraints(this.createPlateTime, c);
+//		this.contentPanel.add(this.createPlateTime);
 		c.gridx = 1;
 		c.gridy = 5;
 		c.gridheight = 1;
@@ -283,8 +294,8 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 5, 5, 5);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
-		layout.setConstraints(this.createJTextField, c);
-		this.contentPanel.add(this.createJTextField);
+//		layout.setConstraints(this.createJTextField, c);
+//		this.contentPanel.add(this.createJTextField);
 
 		/** 第六行 编程时间 */
 		c.gridx = 0;
@@ -294,8 +305,8 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 20, 5, 5);
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
-		layout.setConstraints(this.programmeTime, c);
-		this.contentPanel.add(this.programmeTime);
+//		layout.setConstraints(this.programmeTime, c);
+//		this.contentPanel.add(this.programmeTime);
 		c.gridx = 1;
 		c.gridy = 6;
 		c.gridheight = 1;
@@ -303,8 +314,8 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 5, 5, 5);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
-		layout.setConstraints(this.programmeTimeField, c);
-		this.contentPanel.add(this.programmeTimeField);
+//		layout.setConstraints(this.programmeTimeField, c);
+//		this.contentPanel.add(this.programmeTimeField);
 
 
 		/** 第七行 网元时间服务器 */
@@ -315,8 +326,8 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 20, 5, 5);
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
-		layout.setConstraints(this.totalTimeLabel, c);
-		this.contentPanel.add(this.totalTimeLabel);
+//		layout.setConstraints(this.totalTimeLabel, c);
+//		this.contentPanel.add(this.totalTimeLabel);
 		c.gridx = 1;
 		c.gridy = 7;
 		c.gridheight = 1;
@@ -324,12 +335,12 @@ public class WHSiteAttributePanel extends JPanel {
 		c.insets = new Insets(5, 5, 5, 5);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
-		layout.setConstraints(this.totalTimetext, c);
-		this.contentPanel.add(this.totalTimetext);
+//		layout.setConstraints(this.totalTimetext, c);
+//		this.contentPanel.add(this.totalTimetext);
 		
 		/** 第八行 网元时间 */
 		c.gridx = 0;
-		c.gridy = 8;
+		c.gridy = 4;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 20, 5, 5);
@@ -338,7 +349,7 @@ public class WHSiteAttributePanel extends JPanel {
 		layout.setConstraints(this.siteTimeLabel, c);
 		this.contentPanel.add(this.siteTimeLabel);
 		c.gridx = 1;
-		c.gridy = 8;
+		c.gridy = 4;
 		c.gridheight = 1;
 		c.gridwidth = 2;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -349,7 +360,7 @@ public class WHSiteAttributePanel extends JPanel {
 		
 		/** 第九行 BOOT时间 */
 		c.gridx = 0;
-		c.gridy = 9;
+		c.gridy = 5;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 20, 5, 5);
@@ -358,7 +369,7 @@ public class WHSiteAttributePanel extends JPanel {
 		layout.setConstraints(this.bootTimeJLabel, c);
 		this.contentPanel.add(this.bootTimeJLabel);
 		c.gridx = 1;
-		c.gridy = 9;
+		c.gridy = 5;
 		c.gridheight = 1;
 		c.gridwidth = 2;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -414,7 +425,7 @@ public class WHSiteAttributePanel extends JPanel {
 		
 		/** 第十一行 按钮 */
 		c.gridx = 2;
-		c.gridy = 10;
+		c.gridy = 6;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
