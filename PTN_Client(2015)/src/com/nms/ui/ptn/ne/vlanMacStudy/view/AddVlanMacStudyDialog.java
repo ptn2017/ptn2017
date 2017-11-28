@@ -233,10 +233,10 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 			this.evlanLabel = new javax.swing.JLabel("elan id");
 			this.confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM), true);					
 			vlanField = new PtnTextField(false,PtnTextField.TYPE_INT,PtnTextField.INT_MAXLENGTH,this.upLabel, this.confirm, this);
-			setValidate(vlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABOAMETNVLAN_MINVALUE);
+			setValidate(vlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABELWaitTime_MINVALUE);
 			vlanField.setText("1"); 
 			evlanField = new PtnTextField(false,PtnTextField.TYPE_INT,PtnTextField.INT_MAXLENGTH,this.upLabel, this.confirm, this);
-			setValidate(evlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABOAMETNVLAN_MINVALUE);
+			setValidate(evlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABELWaitTime_MINVALUE);
 			evlanField.setText("1"); 
 			
 			macStartLabel = new javax.swing.JLabel("mac start");
