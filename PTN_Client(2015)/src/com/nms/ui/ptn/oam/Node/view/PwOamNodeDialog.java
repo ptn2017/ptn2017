@@ -1285,6 +1285,7 @@ public class PwOamNodeDialog extends PtnDialog {
 		
 		oamMep.setLck(lckCheckBox.isSelected() ? true : false);
 		oamMep.setLm(lmCheckBox.isSelected() ? true : false);
+		oamMep.setDmlength(Integer.parseInt(dmlengthField.getText()));
 		if (lmCheckBox.isSelected() || oamInfo.getId()>0) {
 			oamMep.setLmCycle(Integer
 					.parseInt(((ControlKeyValue) (lmCycleComboBox

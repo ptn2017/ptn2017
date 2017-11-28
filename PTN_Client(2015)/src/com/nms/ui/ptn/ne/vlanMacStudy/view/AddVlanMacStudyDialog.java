@@ -497,7 +497,9 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			siteInst = siteService.select(ConstantUtil.siteId);
-			String vsid = ((ControlKeyValue) this.portCom.getSelectedItem()).getId();		
+			ControlKeyValue c = (ControlKeyValue) this.portCom.getSelectedItem();
+			ElanInfo elaninfo = (ElanInfo) c.getObject();
+			String vsid = (elaninfo.getaSiteId() == ConstantUtil.siteId?elaninfo.getAxcId():elaninfo.getZxcId())+"";		
 			String vlan = this.vlanField.getText().toString();
 			String evlan = this.evlanField.getText().toString();
 			String macstart = this.macStartField.getText().toString();
@@ -513,7 +515,7 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 			try {
 				DispatchUtil smsDispatch = new DispatchUtil(RmiKeys.RMI_SITE);	
 				String result = smsDispatch.vlanMac(siteInst, values);	
-				controller.refresh(result);
+				controller.refresh(result,vlan+","+evlan+","+elaninfo.getName());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
