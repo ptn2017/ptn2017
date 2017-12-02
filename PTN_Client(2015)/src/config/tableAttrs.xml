@@ -8,6 +8,7 @@
 		<attribute id="perforName" name="性能名称" visible="true" />
 		<attribute id="perforDesc" name="性能描述" visible="true" />
 		<attribute id="perforValue" name="性能值" visible="true" />
+		<attribute id="monitorCycle" name="监控周期" visible="true" />
 		<attribute id="perforCycleStart" name="开始时间" visible="true" />
 		<attribute id="perforCycleEnd" name="结束时间" visible="true" />
 	</table>
