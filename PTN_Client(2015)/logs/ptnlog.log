@@ -1,182 +1,346 @@
-[2017-09-18 21:10:26] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:10:26] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:10:29] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15dfj8y3to9ab|6327c59f, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15dfj8y3to9ab|6327c59f, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:11:01] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:12:01] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:12:15] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:12:15] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:12:19] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15dhv5bwh2dvf|2b8eb96, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15dhv5bwh2dvf|2b8eb96, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:12:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:13:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:14:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:15:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:16:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:17:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:18:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:19:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:20:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:21:54] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:23:34] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:23:34] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:23:37] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15dwf2x1pil3pc|10d9f1e3, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15dwf2x1pil3pc|10d9f1e3, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:23:38] ERROR com.nms.ui.topology.util.CreateElementUtil - java.lang.NullPointerException
-	at com.nms.ui.manager.util.TopologyUtil.setNodeImage(TopologyUtil.java:252)
-	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:207)
-	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:92)
-	at com.nms.ui.topology.util.CreateAllTopo.createNode(CreateAllTopo.java:209)
-	at com.nms.ui.topology.util.CreateAllTopo.createGroupContent(CreateAllTopo.java:182)
-	at com.nms.ui.topology.util.CreateAllTopo.createTopo(CreateAllTopo.java:96)
-	at com.nms.ui.topology.NetworkElementPanel.showTopo(NetworkElementPanel.java:486)
-	at com.nms.ui.topology.NetworkElementPanel.<init>(NetworkElementPanel.java:189)
-	at com.nms.ui.topology.NetworkElementPanel.getNetworkElementPanel(NetworkElementPanel.java:372)
-	at com.nms.ui.Ptnf.<init>(Ptnf.java:211)
+[2017-12-02 09:17:22] INFO com.nms.util.Mybatis_DBManager - conf.xml
+[2017-12-02 09:17:22] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
+[2017-12-02 09:17:23] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
+[2017-12-02 09:17:24] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge15z9s5rrb959zyxiv|1347124, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge15z9s5rrb959zyxiv|1347124, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3308/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+[2017-12-02 09:17:27] ERROR com.nms.ui.Ptnf - java.lang.NullPointerException
+	at org.apache.log4j.Logger.getLogger(Logger.java:94)
+	at com.nms.ui.manager.ExceptionManage.dispose(ExceptionManage.java:21)
+	at com.nms.ui.ptn.systemManage.ReadUnloadXML.selectUnloadXML(ReadUnloadXML.java:47)
+	at com.nms.ui.Ptnf.setBackAlarmAndPerformance(Ptnf.java:364)
+	at com.nms.ui.Ptnf.<init>(Ptnf.java:256)
 	at com.nms.ui.Ptnf.getPtnf(Ptnf.java:443)
 	at com.nms.ui.Login.jButton1ActionPerformed(Login.java:417)
 	at com.nms.ui.Login.access$0(Login.java:253)
 	at com.nms.ui.Login$1.keyTyped(Login.java:85)
-	at java.awt.Component.processKeyEvent(Unknown Source)
-	at javax.swing.JComponent.processKeyEvent(Unknown Source)
-	at java.awt.Component.processEvent(Unknown Source)
-	at java.awt.Container.processEvent(Unknown Source)
-	at java.awt.Component.dispatchEventImpl(Unknown Source)
-	at java.awt.Container.dispatchEventImpl(Unknown Source)
-	at java.awt.Component.dispatchEvent(Unknown Source)
-	at java.awt.KeyboardFocusManager.redispatchEvent(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(Unknown Source)
-	at java.awt.Component.dispatchEventImpl(Unknown Source)
-	at java.awt.Container.dispatchEventImpl(Unknown Source)
-	at java.awt.Window.dispatchEventImpl(Unknown Source)
-	at java.awt.Component.dispatchEvent(Unknown Source)
-	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
-	at java.awt.EventQueue.access$300(Unknown Source)
-	at java.awt.EventQueue$3.run(Unknown Source)
-	at java.awt.EventQueue$3.run(Unknown Source)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
-	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
-	at java.awt.EventQueue$4.run(Unknown Source)
-	at java.awt.EventQueue$4.run(Unknown Source)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
-	at java.awt.EventQueue.dispatchEvent(Unknown Source)
-	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
-	at java.awt.EventDispatchThread.run(Unknown Source)
+	at java.awt.Component.processKeyEvent(Component.java:6089)
+	at javax.swing.JComponent.processKeyEvent(JComponent.java:2799)
+	at java.awt.Component.processEvent(Component.java:5911)
+	at java.awt.Container.processEvent(Container.java:2023)
+	at java.awt.Component.dispatchEventImpl(Component.java:4501)
+	at java.awt.Container.dispatchEventImpl(Container.java:2081)
+	at java.awt.Component.dispatchEvent(Component.java:4331)
+	at java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1848)
+	at java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:704)
+	at java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:969)
+	at java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:841)
+	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:668)
+	at java.awt.Component.dispatchEventImpl(Component.java:4373)
+	at java.awt.Container.dispatchEventImpl(Container.java:2081)
+	at java.awt.Window.dispatchEventImpl(Window.java:2458)
+	at java.awt.Component.dispatchEvent(Component.java:4331)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:599)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
 
-[2017-09-18 21:23:38] ERROR com.nms.ui.topology.util.CreateElementUtil - java.lang.NullPointerException
-	at com.nms.ui.manager.util.TopologyUtil.setNodeImage(TopologyUtil.java:252)
-	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:207)
-	at com.nms.ui.topology.util.CreateElementUtil.createNode(CreateElementUtil.java:92)
-	at com.nms.ui.topology.util.CreateAllTopo.createNode(CreateAllTopo.java:209)
-	at com.nms.ui.topology.util.CreateAllTopo.createGroupContent(CreateAllTopo.java:182)
-	at com.nms.ui.topology.util.CreateAllTopo.createTopo(CreateAllTopo.java:96)
-	at com.nms.ui.topology.NetworkElementPanel.showTopo(NetworkElementPanel.java:486)
-	at com.nms.ui.Ptnf$3.stateChanged(Ptnf.java:333)
-	at javax.swing.JTabbedPane.fireStateChanged(Unknown Source)
-	at javax.swing.JTabbedPane$ModelListener.stateChanged(Unknown Source)
-	at javax.swing.DefaultSingleSelectionModel.fireStateChanged(Unknown Source)
-	at javax.swing.DefaultSingleSelectionModel.setSelectedIndex(Unknown Source)
-	at javax.swing.JTabbedPane.setSelectedIndexImpl(Unknown Source)
-	at javax.swing.JTabbedPane.setSelectedIndex(Unknown Source)
-	at javax.swing.JTabbedPane.insertTab(Unknown Source)
-	at javax.swing.JTabbedPane.addTab(Unknown Source)
-	at com.nms.ui.Ptnf.mainTabPanel(Ptnf.java:3062)
-	at com.nms.ui.Ptnf.<init>(Ptnf.java:211)
-	at com.nms.ui.Ptnf.getPtnf(Ptnf.java:443)
-	at com.nms.ui.Login.jButton1ActionPerformed(Login.java:417)
-	at com.nms.ui.Login.access$0(Login.java:253)
-	at com.nms.ui.Login$1.keyTyped(Login.java:85)
-	at java.awt.Component.processKeyEvent(Unknown Source)
-	at javax.swing.JComponent.processKeyEvent(Unknown Source)
-	at java.awt.Component.processEvent(Unknown Source)
-	at java.awt.Container.processEvent(Unknown Source)
-	at java.awt.Component.dispatchEventImpl(Unknown Source)
-	at java.awt.Container.dispatchEventImpl(Unknown Source)
-	at java.awt.Component.dispatchEvent(Unknown Source)
-	at java.awt.KeyboardFocusManager.redispatchEvent(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(Unknown Source)
-	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(Unknown Source)
-	at java.awt.Component.dispatchEventImpl(Unknown Source)
-	at java.awt.Container.dispatchEventImpl(Unknown Source)
-	at java.awt.Window.dispatchEventImpl(Unknown Source)
-	at java.awt.Component.dispatchEvent(Unknown Source)
-	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
-	at java.awt.EventQueue.access$300(Unknown Source)
-	at java.awt.EventQueue$3.run(Unknown Source)
-	at java.awt.EventQueue$3.run(Unknown Source)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
-	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
-	at java.awt.EventQueue$4.run(Unknown Source)
-	at java.awt.EventQueue$4.run(Unknown Source)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
-	at java.awt.EventQueue.dispatchEvent(Unknown Source)
-	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
-	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
-	at java.awt.EventDispatchThread.run(Unknown Source)
-
-[2017-09-18 21:29:17] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:29:17] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:29:18] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15e3rjvhx0wdy|314dd379, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15e3rjvhx0wdy|314dd379, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:29:51] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:30:51] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:31:06] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:31:06] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:31:08] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15e643h114jpju|6984340e, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15e643h114jpju|6984340e, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:31:39] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:32:39] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:32:46] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:32:46] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:32:47] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15e88wn14qn3rd|b2bfd8a, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15e88wn14qn3rd|b2bfd8a, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:45:32] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:45:32] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:45:33] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15eoo5t1vsibn8|875de82, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15eoo5t1vsibn8|875de82, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:46:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:47:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:48:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:49:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:50:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:51:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:52:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:53:06] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:55:07] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 21:55:07] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 21:55:09] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15f101f1gsopfm|875de82, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15f101f1gsopfm|875de82, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 21:55:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:56:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:57:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:58:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 21:59:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:00:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:01:40] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:02:01] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 22:02:01] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 22:02:03] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15f9vdsf95p7n|eaf254c, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15f9vdsf95p7n|eaf254c, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 22:03:01] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:03:48] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 22:03:48] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 22:03:50] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15fc5tw126w677|60cd6e02, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15fc5tw126w677|60cd6e02, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 22:04:27] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:05:27] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:06:13] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 22:06:13] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 22:06:14] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15ff9d616tenh1|60cd6e02, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15ff9d616tenh1|60cd6e02, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 22:08:15] INFO com.mchange.v2.log.MLog - MLog clients using log4j logging.
-[2017-09-18 22:08:15] INFO com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5-pre8 [built 04-April-2014 04:20:15 -0700; debug? true; trace: 10]
-[2017-09-18 22:08:17] INFO com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0yt9q15fhvsvplh94n|2c6c58db, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0yt9q15fhvsvplh94n|2c6c58db, idleConnectionTestPeriod -> 0, initialPoolSize -> 20, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/ptn?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 20, maxStatementsPerConnection -> 0, minPoolSize -> 1, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
-[2017-09-18 22:09:08] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:10:08] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:11:08] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
-[2017-09-18 22:12:08] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数2
+[2017-12-02 09:17:27] INFO com.nms.ui.thread.RefreshTopoAlarmThread - RefreshTopoAlarmThread
+[2017-12-02 09:17:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:18:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:19:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:20:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:21:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:22:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:23:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:24:56] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:25:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:26:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:27:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:28:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:29:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:30:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:31:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:32:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:33:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:34:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:35:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:36:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:37:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:38:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:39:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:40:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:41:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:42:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:43:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:44:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:45:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:46:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:47:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:48:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:49:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:50:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:51:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:52:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:53:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:54:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:55:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:56:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:57:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:58:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 09:59:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:00:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:01:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:02:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:03:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:04:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:05:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:06:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:07:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:08:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:09:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:10:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:11:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:12:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:13:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:14:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:15:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:16:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:17:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:18:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:19:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:20:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:21:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:22:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:23:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:24:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:25:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:26:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:27:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:28:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:29:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:30:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:31:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:32:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:33:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:34:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:35:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:36:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:37:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:38:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:39:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:40:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:41:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:42:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:43:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:44:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:45:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:46:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:47:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:48:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:49:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:50:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:51:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:52:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:53:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:54:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:55:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:56:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数6
+[2017-12-02 10:57:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:58:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 10:59:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:00:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:01:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:02:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:03:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:04:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:05:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:06:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:07:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:08:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:09:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:10:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:11:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:12:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:13:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:14:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:15:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:16:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:17:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:18:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:19:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:20:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:21:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:22:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:23:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:24:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:25:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:26:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:27:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:28:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:29:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:30:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:31:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:32:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:33:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:34:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:35:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:36:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:37:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:38:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:39:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:40:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:41:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:42:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:43:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:44:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:45:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:46:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:47:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:48:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:49:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:50:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:51:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:52:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:53:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:54:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:55:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:56:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:57:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:58:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 11:59:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:00:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:01:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:02:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:03:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:04:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:05:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:06:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:07:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:08:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:09:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:10:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:11:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:12:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:13:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:14:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:15:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:16:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:17:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:18:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:19:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:20:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:21:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:22:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:23:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:24:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:25:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:26:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:27:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:28:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:29:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:30:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:31:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:32:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:33:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:34:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:35:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:36:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:37:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:38:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:39:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:40:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:41:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:42:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:43:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:44:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:45:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:46:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:47:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:48:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:49:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:50:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:51:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:52:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:53:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:54:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:55:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:56:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:57:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:58:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 12:59:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:00:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:01:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:02:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:03:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:04:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:05:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:06:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:07:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:08:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:09:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:10:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:11:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:12:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:13:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:14:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:15:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:16:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:17:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:18:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:19:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:20:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:21:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:22:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:23:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:24:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:25:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:26:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:27:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:28:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:29:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:30:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:31:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:32:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:33:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:34:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:35:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:36:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:37:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:38:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:39:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:40:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:41:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:42:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:43:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:44:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:45:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:46:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:47:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:48:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:49:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:50:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:51:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:52:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:53:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:54:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:55:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:56:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:57:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:58:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 13:59:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:00:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:01:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:02:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:03:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:04:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:05:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:06:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:07:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:08:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:09:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:10:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:11:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:12:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:13:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:14:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:15:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:16:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:17:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:18:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:19:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:20:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:21:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:22:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
+[2017-12-02 14:23:57] INFO com.nms.ui.lockscreen.controller.HandLockTimerTask - 已经用了的最大连接数3
