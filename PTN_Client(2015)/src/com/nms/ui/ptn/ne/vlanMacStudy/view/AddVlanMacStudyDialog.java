@@ -233,10 +233,10 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 			this.evlanLabel = new javax.swing.JLabel("elan id");
 			this.confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM), true);					
 			vlanField = new PtnTextField(false,PtnTextField.TYPE_INT,PtnTextField.INT_MAXLENGTH,this.upLabel, this.confirm, this);
-			setValidate(vlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABOAMETNVLAN_MINVALUE);
+			setValidate(vlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABELWaitTime_MINVALUE);
 			vlanField.setText("1"); 
 			evlanField = new PtnTextField(false,PtnTextField.TYPE_INT,PtnTextField.INT_MAXLENGTH,this.upLabel, this.confirm, this);
-			setValidate(evlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABOAMETNVLAN_MINVALUE);
+			setValidate(evlanField,ConstantUtil.LABOAMETNVLAN_MAXVALUE,ConstantUtil.LABELWaitTime_MINVALUE);
 			evlanField.setText("1"); 
 			
 			macStartLabel = new javax.swing.JLabel("mac start");
@@ -497,7 +497,9 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			siteInst = siteService.select(ConstantUtil.siteId);
-			String vsid = ((ControlKeyValue) this.portCom.getSelectedItem()).getId();		
+			ControlKeyValue c = (ControlKeyValue) this.portCom.getSelectedItem();
+			ElanInfo elaninfo = (ElanInfo) c.getObject();
+			String vsid = (elaninfo.getaSiteId() == ConstantUtil.siteId?elaninfo.getAxcId():elaninfo.getZxcId())+"";		
 			String vlan = this.vlanField.getText().toString();
 			String evlan = this.evlanField.getText().toString();
 			String macstart = this.macStartField.getText().toString();
@@ -513,7 +515,7 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 			try {
 				DispatchUtil smsDispatch = new DispatchUtil(RmiKeys.RMI_SITE);	
 				String result = smsDispatch.vlanMac(siteInst, values);	
-				controller.refresh(result);
+				controller.refresh(result,vlan+","+evlan+","+elaninfo.getName());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

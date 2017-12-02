@@ -2,6 +2,7 @@ package com.nms.ui.ptn.ne.vlanMacStudy.controller;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.nms.db.bean.ptn.SsMacStudy;
@@ -108,15 +109,36 @@ public class VlanMcStudyController extends AbstractController {
 		
 	}
 
-	public void refresh(String value) {
-		this.searchAndRefreshData(value);
+	public void refresh(String value,String param) {
+		this.searchAndRefreshData(value,param);
 	}
 	
-	private void searchAndRefreshData(String value) {
+	private void searchAndRefreshData(String value,String param) {
 		
 		List<VlanMacStudyInfo> needs = new ArrayList<VlanMacStudyInfo>();
 		SsMacStudy ssMacStudyInfo =null;
+		String[] params = param.split(",");
 		try {
+//			value = "01 43 00 00 00 0A 0B 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
+			String[] values = value.split(" ");
+			vlanMacStudyInfos = new ArrayList<VlanMacStudyInfo>();
+			for (int i = 0; i < (values.length-10)/6; i++) {
+				VlanMacStudyInfo vlanMacStudyInfo = new VlanMacStudyInfo();
+				String mac = "";
+				for (int j = 0; j < 6; j++) {
+					if(j!=5){
+						mac +=values[10+i*6+j]+"-";
+					}else{
+						mac +=values[10+i*6+j];
+					}
+					
+				}
+				vlanMacStudyInfo.setLanid(Integer.parseInt(params[0]));
+				vlanMacStudyInfo.setElanid(Integer.parseInt(params[1]));
+				vlanMacStudyInfo.setName(params[2]);
+				vlanMacStudyInfo.setMacAddress(mac);
+				vlanMacStudyInfos.add(vlanMacStudyInfo);
+			}
 			ssMacStudyInfo = new SsMacStudy();
 			ssMacStudyInfo.setSiteId(ConstantUtil.siteId);
 			
