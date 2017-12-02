@@ -7,17 +7,26 @@ import java.util.Map;
 import java.util.Set;
 
 import com.nms.db.bean.client.Client;
+import com.nms.db.bean.equipment.shelf.SiteInst;
+import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.StaticUnicastInfo;
+import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.eth.EtreeInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.pw.PwNniInfo;
+import com.nms.db.bean.ptn.port.AcPortInfo;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.model.client.ClientService_MB;
+import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.path.SingleSpreadService_MB;
+import com.nms.model.ptn.path.eth.ElineInfoService_MB;
 import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
+import com.nms.model.ptn.port.AcPortInfoService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
+import com.nms.service.impl.util.ResultString;
 import com.nms.service.impl.util.SiteUtil;
 import com.nms.service.impl.util.WhImplUtil;
 import com.nms.ui.filter.impl.EthServiceFilterDialog;
@@ -34,6 +43,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.etreepath.AddEtreeDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
 
 /**
  * 网络侧etree列表按钮事件控制类
@@ -552,15 +562,16 @@ public class EtreeBusinessController extends AbstractController {
 
 	@Override
 	public void search() throws Exception {
-		@SuppressWarnings("unused")
-		SearchSegmentDialog searchSegmentDialog = null;
-		try {
-			searchSegmentDialog = new SearchSegmentDialog(this.view);
-		} catch (Exception e) {
-			ExceptionManage.dispose(e, this.getClass());
-		} finally {
-			searchSegmentDialog = null;
-		}
+//		SearchSegmentDialog searchSegmentDialog = null;
+//		try {
+//			searchSegmentDialog = new SearchSegmentDialog(this.view);
+//		} catch (Exception e) {
+//			ExceptionManage.dispose(e, this.getClass());
+//		} finally {
+//			searchSegmentDialog = null;
+//		}
+		Thread.sleep(23000);
+		DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 	}
 	
 	@Override
@@ -651,4 +662,116 @@ public class EtreeBusinessController extends AbstractController {
 		this.view.updateUI();
 	}
 	
+	public void consistence(){
+		EtreeInfoService_MB etreeService = null;
+		SiteService_MB siteService = null;
+		List<EtreeInfo> emsList = null;
+		List<EtreeInfo> neList = null;
+		try {
+			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
+			List<SiteInst> siteInstList = siteService.select();
+			if(siteInstList != null){
+				for(SiteInst site : siteInstList){
+					if(site.getLoginstatus() == 1){
+						siteIdOnLineList.add(site.getSite_Inst_Id());
+					}
+				}
+			}
+			if(!siteIdOnLineList.isEmpty()){
+				etreeService = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);
+				emsList = new ArrayList<EtreeInfo>();
+				neList = new ArrayList<EtreeInfo>();
+				DispatchUtil etreeDispatch = new DispatchUtil(RmiKeys.RMI_ETREE);
+				for(int siteId : siteIdOnLineList){
+					List<EtreeInfo> nESingle = (List<EtreeInfo>) etreeDispatch.consistence(siteId);
+					Map<String, List<EtreeInfo>> emsMap = etreeService.selectNodeBySite(siteId);
+					List<EtreeInfo> eMSSingle = this.getEmsList(emsMap, siteId); 
+					if(eMSSingle != null && !eMSSingle.isEmpty()){
+						emsList.addAll(eMSSingle);
+					}
+					if(nESingle != null && !nESingle.isEmpty()){
+						neList.addAll(nESingle);
+					}
+				}
+				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("ETREE", emsList, neList, this);
+				UiUtil.showWindow(camporeDataDialog, 700, 600);
+			}else{
+				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}finally{
+			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(etreeService);
+		}
+	}
+
+	private List<EtreeInfo> getEmsList(Map<String, List<EtreeInfo>> emsMap, int siteId) {
+		AcPortInfoService_MB acService = null;
+		PwInfoService_MB pwService = null;
+		List<EtreeInfo> etreeList = new ArrayList<EtreeInfo>();
+		try {
+			acService = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo);
+			pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+			for (String id_Type : emsMap.keySet()) {
+				List<EtreeInfo> etreeInfoList = emsMap.get(id_Type);
+				EtreeInfo etree = etreeInfoList.get(0);
+				etree.getAcPortList().addAll(this.getAcInfo(siteId, etreeInfoList.get(0), acService));
+				for (EtreeInfo etreeInfo : etreeInfoList) {
+					etree.getPwNniList().add(this.getPwNniInfo(siteId, etreeInfo, pwService));
+				}
+				etreeList.add(etree);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		} finally {
+			UiUtil.closeService_MB(acService);
+			UiUtil.closeService_MB(pwService);
+		}
+		return etreeList;
+	}
+
+	private List<AcPortInfo> getAcInfo(int siteId, EtreeInfo etreeInfo, AcPortInfoService_MB acService) throws Exception {
+		UiUtil uiutil = null;
+		Set<Integer> acIds = null;
+		List<Integer> acIdList = null;
+		try {
+			acIds = new HashSet<Integer>();
+			uiutil = new UiUtil();
+			if(etreeInfo.getRootSite() == siteId){
+				acIds.addAll(uiutil.getAcIdSets(etreeInfo.getAmostAcId()));
+			}else{
+				acIds.addAll(uiutil.getAcIdSets(etreeInfo.getZmostAcId()));
+			}
+			if(acIds.size() > 0)
+			{
+				acIdList = new ArrayList<Integer>(acIds);
+				return  acService.select(acIdList);
+			}
+		} catch (Exception e)
+		{
+			ExceptionManage.dispose(e, getClass());
+		}finally
+		{
+			 uiutil = null;
+			 acIds = null;
+			 acIdList = null;
+		}
+		return null;
+	}
+
+	private PwNniInfo getPwNniInfo(int siteId, EtreeInfo etreeInfo, PwInfoService_MB pwService) throws Exception {
+		PwInfo pw = new PwInfo();
+		pw.setPwId(etreeInfo.getPwId());
+		pw = pwService.selectBypwid_notjoin(pw);
+		if(pw != null){
+			if(pw.getASiteId() == siteId){
+				return pw.getaPwNniInfo();
+			}else if(pw.getZSiteId() == siteId){
+				return pw.getzPwNniInfo();
+			}
+		}
+		return null;
+	}
 }

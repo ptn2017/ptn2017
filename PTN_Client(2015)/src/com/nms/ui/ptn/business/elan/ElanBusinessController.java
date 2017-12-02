@@ -7,18 +7,23 @@ import java.util.Map;
 import java.util.Set;
 
 import com.nms.db.bean.client.Client;
+import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.path.StaticUnicastInfo;
 import com.nms.db.bean.ptn.path.eth.ElanInfo;
-import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.pw.PwNniInfo;
+import com.nms.db.bean.ptn.port.AcPortInfo;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.model.client.ClientService_MB;
+import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.path.SingleSpreadService_MB;
 import com.nms.model.ptn.path.eth.ElanInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
+import com.nms.model.ptn.port.AcPortInfoService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
+import com.nms.service.impl.util.ResultString;
 import com.nms.service.impl.util.SiteUtil;
 import com.nms.service.impl.util.WhImplUtil;
 import com.nms.ui.filter.impl.EthServiceFilterDialog;
@@ -35,6 +40,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.elanpath.AddElanDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
 
 /**
  * @author lepan
@@ -545,9 +551,9 @@ public class ElanBusinessController extends AbstractController {
 	@Override
 	public void search() throws Exception {
 		try {
-
-			new SearchSegmentDialog(this.view);
-
+//			new SearchSegmentDialog(this.view);
+			Thread.sleep(21000);
+			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		} finally {
@@ -661,4 +667,119 @@ public class ElanBusinessController extends AbstractController {
 		this.view.updateUI();
 	}
 	
+	public void consistence(){
+		ElanInfoService_MB elanService = null;
+		SiteService_MB siteService = null;
+		List<ElanInfo> emsList = null;
+		List<ElanInfo> neList = null;
+		try {
+			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
+			List<SiteInst> siteInstList = siteService.select();
+			if(siteInstList != null){
+				for(SiteInst site : siteInstList){
+					if(site.getLoginstatus() == 1){
+						siteIdOnLineList.add(site.getSite_Inst_Id());
+					}
+				}
+			}
+			if(!siteIdOnLineList.isEmpty()){
+				elanService = (ElanInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.ElanInfo);
+				emsList = new ArrayList<ElanInfo>();
+				neList = new ArrayList<ElanInfo>();
+				DispatchUtil elanDispatch = new DispatchUtil(RmiKeys.RMI_ELAN);
+				for(int siteId : siteIdOnLineList){
+					List<ElanInfo> nESingle = (List<ElanInfo>)elanDispatch.consistence(siteId);
+					Map<Integer, List<ElanInfo>> emsMap = elanService.selectBySiteId(siteId);
+					List<ElanInfo> eMSSingle = this.getEmsList(emsMap, siteId); 
+					if(eMSSingle != null && !eMSSingle.isEmpty()){
+						emsList.addAll(eMSSingle);
+					}
+					if(nESingle != null && !nESingle.isEmpty()){
+						neList.addAll(nESingle);
+					}
+				}
+				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("ELAN", emsList, neList, this);
+				UiUtil.showWindow(camporeDataDialog, 700, 600);
+			}else{
+				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}finally{
+			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(elanService);
+		}
+	}
+
+	private List<ElanInfo> getEmsList(Map<Integer, List<ElanInfo>> emsMap, int siteId) {
+		AcPortInfoService_MB acService = null;
+		PwInfoService_MB pwService = null;
+		List<ElanInfo> elanList = new ArrayList<ElanInfo>();
+		try {
+			acService = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo);
+			pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+			for (int serviceId : emsMap.keySet()) {
+				List<ElanInfo> elanInfoList = emsMap.get(serviceId);
+				ElanInfo elan = elanInfoList.get(0);
+				elan.getAcPortList().addAll(this.getAcInfo(siteId, elanInfoList.get(0), acService));
+				for (ElanInfo elanInfo : elanInfoList) {
+					elan.getPwNniList().add(this.getPwNniInfo(siteId, elanInfo, pwService));
+				}
+				elanList.add(elan);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		} finally {
+			UiUtil.closeService_MB(acService);
+			UiUtil.closeService_MB(pwService);
+		}
+		return elanList;
+	}
+
+	private List<AcPortInfo> getAcInfo(int siteId, ElanInfo elanInfo, AcPortInfoService_MB acService) throws Exception {
+		int id = 0;
+		UiUtil uiutil = null;
+		Set<Integer> acIds = null;
+		List<Integer> acIdList = null;
+		try {
+			acIds = new HashSet<Integer>();
+			uiutil = new UiUtil();
+			if(elanInfo.getaSiteId() == siteId){
+//				id = elanInfo.getaAcId();
+				acIds.addAll(uiutil.getAcIdSets(elanInfo.getAmostAcId()));
+			}else{
+//				id = elanInfo.getzAcId();
+				acIds.addAll(uiutil.getAcIdSets(elanInfo.getZmostAcId()));
+			}
+			if(acIds.size() > 0)
+			{
+				acIdList = new ArrayList<Integer>(acIds);
+				return  acService.select(acIdList);
+			}
+		} catch (Exception e)
+		{
+			ExceptionManage.dispose(e, getClass());
+		}finally
+		{
+			 uiutil = null;
+			 acIds = null;
+			 acIdList = null;
+		}
+		return null;
+	}
+
+	private PwNniInfo getPwNniInfo(int siteId, ElanInfo elanInfo, PwInfoService_MB pwService) throws Exception {
+		PwInfo pw = new PwInfo();
+		pw.setPwId(elanInfo.getPwId());
+		pw = pwService.selectBypwid_notjoin(pw);
+		if(pw != null){
+			if(pw.getASiteId() == siteId){
+				return pw.getaPwNniInfo();
+			}else if(pw.getZSiteId() == siteId){
+				return pw.getzPwNniInfo();
+			}
+		}
+		return null;
+	}
 }

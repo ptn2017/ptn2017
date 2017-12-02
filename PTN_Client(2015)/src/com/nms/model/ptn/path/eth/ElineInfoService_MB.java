@@ -134,19 +134,84 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 		List<ElineInfo> elineinfoList = null;
 		PortService_MB portServiceMB = null;
 		PortInst portInst = null;
-		PortLagService_MB lagServiceMB = null;
-		AcPortInfoService_MB acPortInfoServiceMB = null;
+		List<ElineInfo> returnElines = new ArrayList<ElineInfo>();
+		try {
+			elineinfoList = mapper.querySingleByCondition(elineInfo); 
+			if(elineInfo.getCardId() > 0){
+				portServiceMB = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT,this.sqlSession);
+				List<PortInst> portConList = new ArrayList<PortInst>();
+				// 查询具体某块板卡的所有端口
+				if(elineInfo.getAportId() == 0){
+					PortInst condition = new PortInst();
+					condition.setCardId(elineInfo.getCardId());
+					List<PortInst> portList = portServiceMB.select(condition);// 查询该板卡下的所有port
+					if(portList != null && !portList.isEmpty()){
+						for(PortInst port : portList){
+							if("UNI".equals(port.getPortType())){
+								portConList.add(port);
+							}
+						}
+					}
+				}else{
+					// 查询具体某块板卡的具体某个端口
+					portInst = portServiceMB.selectPortybyid(elineInfo.getAportId());
+					portConList.add(portInst);
+				}
+				
+				if(!portConList.isEmpty()){
+					return filterByPort(portConList, elineinfoList, elineInfo);
+				}else{
+					return new ArrayList<ElineInfo>();
+//				if(elineInfo.getAportId()>0){
+//					acPortInfoServiceMB = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo, this.sqlSession);
+//					
+//					portInst = portServiceMB.selectPortybyid(elineInfo.getAportId());
+//					if(portInst.getLagId()>0){
+//						lagServiceMB = (PortLagService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORTLAG,this.sqlSession);
+//						PortLagInfo portLagInfo = new PortLagInfo();
+//						portLagInfo.setSiteId(portInst.getSiteId());
+//						portLagInfo.setId(portInst.getLagId());
+//						portLagInfo = lagServiceMB.selectLAGByCondition(portLagInfo).get(0);
+//						
+//						AcPortInfo acPortInfo = new AcPortInfo();
+//						acPortInfo.setSiteId(portInst.getSiteId());
+//						acPortInfo.setLagId(portLagInfo.getId());
+//						acPortInfos = acPortInfoServiceMB.selectByCondition(acPortInfo);
+//					}else{
+//						AcPortInfo acPortInfo = new AcPortInfo();
+//						acPortInfo.setSiteId(elineInfo.getaSiteId());
+//						acPortInfo.setPortId(elineInfo.getAportId());
+//						acPortInfos = acPortInfoServiceMB.selectByCondition(acPortInfo);
+//					}
+//					
+//					for (int i = 0; i < acPortInfos.size(); i++) {
+//						acIds.add(acPortInfos.get(i).getId());
+//					}
+//					for (int i = 0; i < elineinfoList.size(); i++) {
+//						if(acIds.contains(elineinfoList.get(i).getaAcId()) || acIds.contains(elineinfoList.get(i).getzAcId())){
+//							returnElines.add(elineinfoList.get(i));
+//						}
+//					}
+				}
+			}else{
+				return elineinfoList;
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+		}
+		return returnElines;
+	}
+
+	private List<ElineInfo> filterByPort(List<PortInst> portConList, List<ElineInfo> elineinfoList, ElineInfo elineInfo) throws Exception {
+		AcPortInfoService_MB acPortInfoServiceMB = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo, this.sqlSession);
+		PortLagService_MB lagServiceMB = (PortLagService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORTLAG,this.sqlSession);
 		List<Integer> acIds = new ArrayList<Integer>();
 		List<AcPortInfo> acPortInfos = null;
 		List<ElineInfo> returnElines = new ArrayList<ElineInfo>();
-		try {
-			elineinfoList = mapper.querySingleByCondition(elineInfo);
-			if(elineInfo.getAportId()>0){
-				portServiceMB = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT,this.sqlSession);
-				acPortInfoServiceMB = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo, this.sqlSession);
-				portInst = portServiceMB.selectPortybyid(elineInfo.getAportId());
-				if(portInst.getLagId()>0){
-					lagServiceMB = (PortLagService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORTLAG,this.sqlSession);
+		for(PortInst portInst : portConList){
+			try {
+				if(portInst.getLagId() > 0){
 					PortLagInfo portLagInfo = new PortLagInfo();
 					portLagInfo.setSiteId(portInst.getSiteId());
 					portLagInfo.setId(portInst.getLagId());
@@ -162,21 +227,19 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 					acPortInfo.setPortId(elineInfo.getAportId());
 					acPortInfos = acPortInfoServiceMB.selectByCondition(acPortInfo);
 				}
-				
-				for (int i = 0; i < acPortInfos.size(); i++) {
-					acIds.add(acPortInfos.get(i).getId());
-				}
-				for (int i = 0; i < elineinfoList.size(); i++) {
-					if(acIds.contains(elineinfoList.get(i).getaAcId()) || acIds.contains(elineinfoList.get(i).getzAcId())){
-						returnElines.add(elineinfoList.get(i));
+				if(acPortInfos != null){
+					for (int i = 0; i < acPortInfos.size(); i++) {
+						acIds.add(acPortInfos.get(i).getId());
 					}
 				}
-			}else{
-				return elineinfoList;
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
 			}
-		} catch (Exception e) {
-			ExceptionManage.dispose(e, this.getClass());
-		} finally {
+		}
+		for (int i = 0; i < elineinfoList.size(); i++) {
+			if(acIds.contains(elineinfoList.get(i).getaAcId()) || acIds.contains(elineinfoList.get(i).getzAcId())){
+				returnElines.add(elineinfoList.get(i));
+			}
 		}
 		return returnElines;
 	}

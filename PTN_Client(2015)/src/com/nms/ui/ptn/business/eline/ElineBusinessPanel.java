@@ -238,6 +238,7 @@ public class ElineBusinessPanel extends ContentView<ElineInfo> {
 
 		});
 		btnList.add(btnAddAll);
+		btnList.add(this.getConsistenceButton());
 		return btnList;
 	}
 

@@ -34,6 +34,7 @@ public class ServerConstant {
 	public static final String BACKUPS_ALL = "all";
 	public static final String BACKUPS_SITE = "site";
 	public static final String BACKUPS_USER = "user";
+	public static final String BACKUPS_BUSINESS = "business";
 
 	public static final String BACKUPS_FILE = System.getProperty("user.dir") + "/config/backups.xml"; // 备份数据库时读取配置文件的文件全路径
 

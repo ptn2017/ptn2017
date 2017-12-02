@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nms.db.bean.client.Client;
+import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
+import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EServiceType;
 import com.nms.model.client.ClientService_MB;
+import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.oam.OamInfoService_MB;
 import com.nms.model.ptn.path.eth.ElineInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
@@ -34,6 +37,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.eline.AddElineDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
 import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
 
 /**
@@ -207,7 +211,9 @@ public class ElineBusinessController extends AbstractController {
 	@Override
 	public void search() throws Exception {
 		try {
-			new SearchSegmentDialog(this.view);
+//			new SearchSegmentDialog(this.view);
+			Thread.sleep(22000);
+			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		} finally {
@@ -612,5 +618,64 @@ public class ElineBusinessController extends AbstractController {
 		}
 		this.view.initData(needs);
 		this.view.updateUI();
+	}
+	
+	public void consistence(){
+		ElineInfoService_MB elineService = null;
+		SiteService_MB siteService = null;
+		List<ElineInfo> emsList = null;
+		List<ServiceInfo> neList = null;
+		try {
+			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
+			List<SiteInst> siteInstList = siteService.select();
+			if(siteInstList != null){
+				for(SiteInst site : siteInstList){
+					if(site.getLoginstatus() == 1){
+						siteIdOnLineList.add(site.getSite_Inst_Id());
+					}
+				}
+			}
+			if(!siteIdOnLineList.isEmpty()){
+				elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
+				emsList = new ArrayList<ElineInfo>();
+				neList = new ArrayList<ServiceInfo>();
+				DispatchUtil elineDispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
+				for(int siteId : siteIdOnLineList){
+					List<ElineInfo> eMSSingle = elineService.selectElineBySite(siteId);
+					List<ElineInfo> nESingle = (List<ElineInfo>) elineDispatch.consistence(siteId);
+					if(eMSSingle != null && !eMSSingle.isEmpty()){
+						emsList.addAll(eMSSingle);
+					}
+					if(nESingle != null && !nESingle.isEmpty()){
+						neList.addAll(nESingle);
+					}
+				}
+				this.filterElineList(neList);
+				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("ELINE", emsList, neList, this);
+				UiUtil.showWindow(camporeDataDialog, 700, 600);
+			}else{
+				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}finally{
+			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(elineService);
+		}
+	}
+	
+	/**
+	 * 过滤出eline业务
+	 */
+	private void filterElineList(List<ServiceInfo> neList) {
+		List<ElineInfo> elineList = new ArrayList<ElineInfo>();
+		for (ServiceInfo elineInfo : neList) {
+			if(elineInfo.getServiceType() == 1){
+				elineList.add((ElineInfo)elineInfo);
+			}
+		}
+		neList.clear();
+		neList.addAll(elineList);
 	}
 }

@@ -82,6 +82,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 	private PtnMenuItem activateMenu;//激活
 	private PtnMenuItem unActivateMenu;//去激活
 	private LspNetworkTablePanel lspNetworkTablePanel;//lsp信息
+	private BusinessNetworkTablePanel businessNetworkTablePanel;
 	public PwBusinessPanel() {
 		super("pwBusinessTable",RootFactory.CORE_MANAGE);
 		init();
@@ -116,6 +117,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 					topoPanel.clear();
 					lspNetworkTablePanel.clear();
 					schematize_panel.clear();
+					businessNetworkTablePanel.clear();
 					return;
 				} else {
 					getController().initDetailInfo();
@@ -357,6 +359,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 		splitPane.setTopComponent(this.getContentPanel());
 		splitPane.setBottomComponent(tabbedPane);
 		lspNetworkTablePanel=new LspNetworkTablePanel();
+		businessNetworkTablePanel = new BusinessNetworkTablePanel(); 
 		qosPanel = new PwQosQueuePanel();
 		oamTable = new ViewDataTable<OamInfo>("pwBusinessOAMTable");
 		oamTable.getTableHeader().setResizingAllowed(true);
@@ -384,6 +387,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_OAM_INFO), oamScrollPane);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_PW_XC), pwXcTablePanel);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_SCHEMATIZE), this.schematize_panel);
+		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_BUSINESS_INFORMATION), this.businessNetworkTablePanel);
 	}
 
 	public void setLayout() {
@@ -470,6 +474,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 		});
 		needRemoveButtons.add(jButton);
 		needRemoveButtons.add(getSearchButton());
+		needRemoveButtons.add(this.getConsistenceButton());
 		return needRemoveButtons;
 	}
 	
@@ -508,5 +513,9 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 
 	public LspNetworkTablePanel getLspNetworkTablePanel() {
 		return lspNetworkTablePanel;
+	}
+	
+	public BusinessNetworkTablePanel getBusinessNetworkTablePanel() {
+		return businessNetworkTablePanel;
 	}
 }

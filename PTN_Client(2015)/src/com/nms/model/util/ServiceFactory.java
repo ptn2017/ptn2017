@@ -919,12 +919,12 @@ public class ServiceFactory {
 			ospfWhServiceMB.setSqlSession(sqlSession);
 			ospfWhServiceMB.setFinfoWhMapper(sqlSession.getMapper(OSPFinfo_whMapper.class));
 			return ospfWhServiceMB;
-//		case Services.UNLOADING:
-//			UnloadService_MB unloadServiceMB = new UnloadService_MB();
-//			unloadServiceMB.setPtnuser(ptnuser);
-//			unloadServiceMB.setSqlSession(sqlSession);
-//			unloadServiceMB.setMapper(sqlSession.getMapper(UnloadMapper.class));
-//			return unloadServiceMB;			
+		case Services.UNLOADING:
+			UnloadService_MB unloadServiceMB = new UnloadService_MB();
+			unloadServiceMB.setPtnuser(ptnuser);
+			unloadServiceMB.setSqlSession(sqlSession);
+			unloadServiceMB.setMapper(sqlSession.getMapper(UnloadMapper.class));
+			return unloadServiceMB;			
 		};
 		return null;
 	}

@@ -21,7 +21,9 @@ import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.port.PortStm;
 import com.nms.db.bean.equipment.port.PortStmTimeslot;
 import com.nms.db.bean.ptn.path.ces.CesInfo;
+import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.port.AcPortInfo;
 import com.nms.db.bean.system.code.Code;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.ECesType;
@@ -52,6 +54,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.VerifyNameUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.control.PtnDialog;
+import com.nms.ui.manager.control.PtnSpinner;
 import com.nms.ui.manager.control.PtnTextField;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysLbl;
@@ -78,9 +81,9 @@ public class CesEditDialog extends PtnDialog {
 			this.addListener();
 			
 			if(ResourceUtil.language.equals("zh_CN")){
-				UiUtil.showWindow(this, 400, 390);
+				UiUtil.showWindow(this, 400, 470);
 			}else{
-				UiUtil.showWindow(this, 450, 390);
+				UiUtil.showWindow(this, 450, 470);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -101,6 +104,7 @@ public class CesEditDialog extends PtnDialog {
 				this.cesInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
 				this.cesInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 			} else {
+				this.ptnSpinnerNumber.setEnabled(false);
 				this.setTitle(ResourceUtil.srcStr(StringKeysTitle.TIT_UPDATE_CES));
 				this.txtname.setText(this.cesInfo.getName());
 				this.cmbtype.setEnabled(false);
@@ -358,10 +362,27 @@ public class CesEditDialog extends PtnDialog {
 					this.cesInfo.setzAcId(Integer.parseInt(controlKeyValue_timeslot.getId()));
 				}
 			}
-			
 			cesDispatch=new DispatchUtil(RmiKeys.RMI_CES);
 			cesInfoList=new ArrayList<CesInfo>();
 			cesInfoList.add(this.cesInfo);
+			// 批量创建
+			int num = Integer.parseInt(this.ptnSpinnerNumber.getTxt().getText());
+			if(num > 1){
+				int acNum = this.cmbport.getItemCount();
+				int pwNum = this.cmbpw.getItemCount();
+				if(acNum > pwNum){
+					if(pwNum < num){
+						DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PORTCOUNT_NOT_EQUAL));
+						return;
+					}
+				}else{
+					if(acNum < num){
+						DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PORTCOUNT_NOT_EQUAL));
+						return;
+					}
+				}
+				this.createCESOnCopy(cesInfoList, num-1, portServiceMB);
+			}
 			
 			if(this.cesInfo.getId()==0){
 				resultStr=cesDispatch.excuteInsert(cesInfoList);
@@ -395,6 +416,48 @@ public class CesEditDialog extends PtnDialog {
 		}
 	}
 	
+	private void createCESOnCopy(List<CesInfo> cesInfoList, int num, PortService_MB portServiceMB) throws Exception {
+		CesInfo cesInfo = null;
+		for(int i = 0; i < num; i++){
+			cesInfo = new CesInfo();
+			cesInfo.setName(this.cesInfo.getName()+"_copy"+(i+1));
+			cesInfo.setServiceType(EServiceType.CES.getValue());
+			cesInfo.setCestype(this.cesInfo.getCestype());
+			cesInfo.setIsSingle(1);
+			cesInfo.setActiveStatus(this.cesInfo.getActiveStatus());
+			PwInfo pw = (PwInfo) ((ControlKeyValue) this.cmbpw.getItemAt(i+1)).getObject();
+			cesInfo.setPwId(pw.getPwId());
+			cesInfo.setPwName(pw.getPwName());
+			cesInfo.setCreateTime(this.cesInfo.getCreateTime());
+			cesInfo.setCreateUser(ConstantUtil.user.getUser_Name());
+			ControlKeyValue controlKeyValue_port = (ControlKeyValue) this.cmbport.getItemAt(i+1);
+			if(pw.getASiteId()==ConstantUtil.siteId){
+				cesInfo.setaSiteId(ConstantUtil.siteId);
+				if(this.cesInfo.getCestype() == ECesType.PDH.getValue()){
+					if(cesInfo.getaAcId()!=Integer.parseInt(controlKeyValue_port.getId())){
+						cesInfo.setBeforeAPort(portServiceMB.selectPortybyid(cesInfo.getaAcId()));
+						cesInfo.setAction(1);
+					}
+					cesInfo.setaAcId(Integer.parseInt(controlKeyValue_port.getId()));
+				}else{
+//					if(cesInfo.getaAcId()!=Integer.parseInt(controlKeyValue_port.getId())){
+//						cesInfo.setBeforeAPortStmTime(portStmTimeslotServiceMB.selectById(cesInfo.getaAcId()));
+//						cesInfo.setAction(1);
+//					}
+//					cesInfo.setaAcId(Integer.parseInt(controlKeyValue_timeslot.getId()));
+				}
+			}else{
+				cesInfo.setzSiteId(ConstantUtil.siteId);
+				if(this.cesInfo.getCestype() == ECesType.PDH.getValue()){
+					cesInfo.setzAcId(Integer.parseInt(controlKeyValue_port.getId()));
+				}else{
+//					cesInfo.setzAcId(Integer.parseInt(controlKeyValue_timeslot.getId()));
+				}
+			}
+			cesInfoList.add(cesInfo);
+		}
+	}
+
 	private CesInfo getCesBefore(CesInfo cesInfo){
 		CesInfoService_MB cesService = null;
 		PwInfoService_MB pwService = null;
@@ -781,6 +844,8 @@ public class CesEditDialog extends PtnDialog {
 		cmbStruct.addItem(ResourceUtil.srcStr(StringKeysObj.CMB_NOSTRUCT_OPTION));
 		cmbStruct.addItem(ResourceUtil.srcStr(StringKeysObj.CMB_STRUCT_OPTION));
 		cmbStruct.setSelectedIndex(0);
+		this.lblNumber = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CREATE_NUM));
+		this.ptnSpinnerNumber = new PtnSpinner(1, 1, 100, 1);
 	}
 
 	private void setLayout() {
@@ -868,9 +933,22 @@ public class CesEditDialog extends PtnDialog {
 		c.gridwidth = 2;
 		componentLayout.setConstraints(this.cmbport, c);
 		this.add(this.cmbport);
-
+		
+		// 批量创建
 		c.gridx = 0;
 		c.gridy = 7;
+		c.gridwidth = 1;
+		componentLayout.setConstraints(this.lblNumber, c);
+		this.add(this.lblNumber);
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.WEST;
+		c.gridx = 1;
+		c.gridwidth = 2;
+		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
+		this.add(this.ptnSpinnerNumber);
+
+		c.gridx = 0;
+		c.gridy = 8;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblactivate, c);
 		this.add(this.lblactivate);
@@ -882,7 +960,7 @@ public class CesEditDialog extends PtnDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		c.gridx = 1;
-		c.gridy = 9;
+		c.gridy = 10;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.btnSave, c);
 		this.add(this.btnSave);
@@ -909,4 +987,6 @@ public class CesEditDialog extends PtnDialog {
 	private JButton autoNamingBtn;
 	private JLabel lblStruct;
 	private JComboBox cmbStruct;
+	private JLabel lblNumber;
+	private PtnSpinner ptnSpinnerNumber;
 }

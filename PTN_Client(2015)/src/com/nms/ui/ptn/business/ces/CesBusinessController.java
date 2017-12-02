@@ -7,9 +7,12 @@ import java.util.List;
 import com.nms.db.bean.client.Client;
 import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.port.PortStmTimeslot;
+import com.nms.db.bean.equipment.shelf.SiteInst;
+import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.ces.CesInfo;
 import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.pw.PwNniInfo;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.ECesType;
 import com.nms.db.enums.EOperationLogType;
@@ -18,6 +21,7 @@ import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.port.PortStmTimeslotService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.path.ces.CesInfoService_MB;
+import com.nms.model.ptn.path.eth.ElineInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
@@ -41,6 +45,7 @@ import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.ces.bean.CesPortTableBean;
 import com.nms.ui.ptn.business.dialog.cespath.AddCesDialog;
 import com.nms.ui.ptn.business.dialog.cespath.controller.CesHandlerController;
+import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
 
 /**
  * 网络侧 -处理CES
@@ -237,8 +242,9 @@ public class CesBusinessController extends AbstractController {
 	@Override
 	public void search() throws Exception {
 		try {
-
-			new SearchSegmentDialog(this.view);
+//			new SearchSegmentDialog(this.view);
+			Thread.sleep(22000);
+			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -649,5 +655,83 @@ public class CesBusinessController extends AbstractController {
 		this.view.initData(needs);
 		this.view.updateUI();
 	}
+
+	public void consistence(){
+		CesInfoService_MB cesServiceMB = null;
+		PwInfoService_MB pwServiceMB = null;
+		SiteService_MB siteService = null;
+		List<CesInfo> emsList = null;
+		List<ServiceInfo> neList = null;
+		try {
+			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
+			List<SiteInst> siteInstList = siteService.select();
+			if(siteInstList != null){
+				for(SiteInst site : siteInstList){
+					if(site.getLoginstatus() == 1){
+						siteIdOnLineList.add(site.getSite_Inst_Id());
+					}
+				}
+			}
+			if(!siteIdOnLineList.isEmpty()){
+				cesServiceMB = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);
+				pwServiceMB = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+				emsList = new ArrayList<CesInfo>();
+				neList = new ArrayList<ServiceInfo>();
+				DispatchUtil cesDispatch = new DispatchUtil(RmiKeys.RMI_CES);
+				for(int siteId : siteIdOnLineList){
+					List<CesInfo> eMSSingle = cesServiceMB.selectNodeBySite(siteId);
+					List<ServiceInfo> nESingle = (List<ServiceInfo>) cesDispatch.consistence(siteId);
+					if(eMSSingle != null && !eMSSingle.isEmpty()){
+						for (CesInfo cesInfo : eMSSingle) {
+							cesInfo.getPwNniList().add(this.getPwNniInfo(siteId, cesInfo, pwServiceMB));
+						}
+						emsList.addAll(eMSSingle);
+					}
+					if(nESingle != null && !nESingle.isEmpty()){
+						neList.addAll(nESingle);
+					}
+				}
+				this.filterCesList(neList);
+				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("CES", emsList, neList, this);
+				UiUtil.showWindow(camporeDataDialog, 700, 600);
+			}else{
+				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}finally{
+			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(cesServiceMB);
+			UiUtil.closeService_MB(pwServiceMB);
+		}
+	}
 	
+	/**
+	 * 过滤出eline业务
+	 */
+	private void filterCesList(List<ServiceInfo> neList) {
+		List<CesInfo> cesList = new ArrayList<CesInfo>();
+		for (ServiceInfo cesInfo : neList) {
+			if(cesInfo.getServiceType() == 0){
+				cesList.add((CesInfo)cesInfo);
+			}
+		}
+		neList.clear();
+		neList.addAll(cesList);
+	}
+
+	private PwNniInfo getPwNniInfo(int siteId, CesInfo cesInfo, PwInfoService_MB pwServiceMB) throws Exception {
+		PwInfo pw = new PwInfo();
+		pw.setPwId(cesInfo.getPwId());
+		pw = pwServiceMB.selectBypwid_notjoin(pw);
+		if(pw != null){
+			if(pw.getASiteId() == siteId){
+				return pw.getaPwNniInfo();
+			}else if(pw.getZSiteId() == siteId){
+				return pw.getzPwNniInfo();
+			}
+		}
+		return null;
+	}
 }

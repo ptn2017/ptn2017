@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.equipment.slot.SlotInst;
@@ -13,6 +14,7 @@ import com.nms.db.bean.report.SSLabel;
 import com.nms.db.bean.report.SSPath;
 import com.nms.db.bean.report.SSPort;
 import com.nms.db.bean.report.SSProfess;
+import com.nms.db.bean.report.SSSiteInst;
 import com.nms.db.bean.system.OperationLog;
 import com.nms.db.bean.system.loginlog.LoginLog;
 import com.nms.db.enums.EActiveStatus;
@@ -225,9 +227,29 @@ public class ListString {
 					}
 						
 					
-				}
-				
-				else if(object instanceof Segment){    //导出物理连接信息统计
+				}else if(object instanceof SSSiteInst){// 导出详细的网元配置信息
+					if(tableName.equals("SiteInfoPanel")){
+						for(int i=list.size()-1;i>=0;i--){
+							beanData = new String[13];
+							SSSiteInst site = (SSSiteInst) list.get(i);
+							int j = 0;
+							beanData[j++] = site.getSiteName();
+							beanData[j++] = site.getNeType();
+							beanData[j++] = site.getSiteStatus();
+							beanData[j++] = site.getSlotNum();
+							beanData[j++] = site.getCardType();
+							beanData[j++] = site.getHardWareVersion();
+							beanData[j++] = site.getSoftWareVersion();
+							beanData[j++] = site.getCellTime();
+							beanData[j++] = site.getPortType();
+							beanData[j++] = site.getPortCount();
+							beanData[j++] = site.getPortUsed();
+							beanData[j++] = site.getPortUnUsed();
+							beanData[j++] = site.getUsedRate();
+							beanList.add(beanData);
+						}	
+					}
+				}else if(object instanceof Segment){    //导出物理连接信息统计
 					for(int i=list.size()-1;i>=0;i--){
 						beanData=new String[6];
 						Segment segment=(Segment) list.get(i);

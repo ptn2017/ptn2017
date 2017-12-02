@@ -570,6 +570,11 @@ public class TunnelAction {
 
 		dialog.getChkAps().setSelected(tunnel.getApsenable() == 0 ? false : true);
 		dialog.getProtectBack().setSelected(tunnel.getProtectBack() == 1 ? false : true);
+		dialog.getCmbRotateWay().setSelectedItem(tunnel.getRotateWay());
+		dialog.getCmbRotateLocation().setSelectedItem(tunnel.getRotateLocation());
+		dialog.getCmbRotateMode().setSelectedItem(tunnel.getRotateMode());
+		dialog.getSpinnerTnpLayer().getTxt().setText(tunnel.getTnpLayer()+"");
+		dialog.getSpinnerRotateThreshold().getTxt().setText(tunnel.getRotateThreshold()+"");
 		if (tunnel.getSourceMac() == null || "".equals(tunnel.getSourceMac())) {
 			dialog.getSourceMacText().setText("00-00-00-00-00-01");
 		} else {
@@ -1000,6 +1005,11 @@ public class TunnelAction {
 
 			tunnel.setApsenable(dialog.getChkAps().isSelected() == true ? 1 : 0);
 			tunnel.setProtectBack(dialog.getProtectBack().isSelected() == true ? 0 : 1);
+			tunnel.setRotateWay(dialog.getCmbRotateWay().getSelectedItem().toString());
+			tunnel.setRotateLocation(dialog.getCmbRotateLocation().getSelectedItem().toString());
+			tunnel.setRotateMode(dialog.getCmbRotateMode().getSelectedItem().toString());
+			tunnel.setTnpLayer(Integer.parseInt(dialog.getSpinnerTnpLayer().getTxtData()));
+			tunnel.setRotateThreshold(Integer.parseInt(dialog.getSpinnerRotateThreshold().getTxtData()));
 			// 设置保护路由
 			if ("2".equals(code_type.getCodeValue()) || "3".equals(code_type.getCodeValue())) {
 				this.getProtectTunnel(tunnel, proSegments, dialog);
@@ -1380,6 +1390,11 @@ public class TunnelAction {
 			tunnel.getLspParticularList().get(0).setPosition(0);
 			jobTunnel.setProtectTunnel(tunnel);
 			tunnel.setCreateUser(ConstantUtil.user.getUser_Name());
+			tunnel.setRotateWay(dialog.getCmbRotateWay().getSelectedItem().toString());
+			tunnel.setRotateLocation(dialog.getCmbRotateLocation().getSelectedItem().toString());
+			tunnel.setRotateMode(dialog.getCmbRotateMode().getSelectedItem().toString());
+			tunnel.setTnpLayer(Integer.parseInt(dialog.getSpinnerTnpLayer().getTxtData()));
+			tunnel.setRotateThreshold(Integer.parseInt(dialog.getSpinnerRotateThreshold().getTxtData()));
 		}
 		// 修改tunnel
 		else if (jobTunnel.getTunnelId() > 0) {
@@ -1398,6 +1413,11 @@ public class TunnelAction {
 				tunnel.setOamList(dialog.getOamList_protect());
 				tunnel.getLspParticularList().get(0).setPosition(0);
 			}
+			tunnel.setRotateWay(dialog.getCmbRotateWay().getSelectedItem().toString());
+			tunnel.setRotateLocation(dialog.getCmbRotateLocation().getSelectedItem().toString());
+			tunnel.setRotateMode(dialog.getCmbRotateMode().getSelectedItem().toString());
+			tunnel.setTnpLayer(Integer.parseInt(dialog.getSpinnerTnpLayer().getTxtData()));
+			tunnel.setRotateThreshold(Integer.parseInt(dialog.getSpinnerRotateThreshold().getTxtData()));
 			tunnel.setTunnelStatus(jobTunnel.getTunnelStatus());
 			tunnel.setTunnelName(jobTunnel.getTunnelName()+"_protect");
 			tunnel.setOamList(dialog.getOamList_protect());

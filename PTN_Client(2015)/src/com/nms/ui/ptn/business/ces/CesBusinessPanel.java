@@ -212,6 +212,7 @@ public class CesBusinessPanel extends ContentView<CesInfo> {
 
 		});
 		addBtnList.add(btnAddAll);
+		addBtnList.add(this.getConsistenceButton());
 		return addBtnList;
 	}
 

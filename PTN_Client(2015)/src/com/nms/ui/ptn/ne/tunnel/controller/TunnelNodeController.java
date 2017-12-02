@@ -4,14 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nms.db.bean.ptn.oam.OamMepInfo;
+import com.nms.db.bean.ptn.path.ces.CesInfo;
+import com.nms.db.bean.ptn.path.eth.DualInfo;
+import com.nms.db.bean.ptn.path.eth.ElanInfo;
+import com.nms.db.bean.ptn.path.eth.ElineInfo;
+import com.nms.db.bean.ptn.path.eth.EtreeInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.tunnel.Lsp;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.ptn.qos.QosInfo;
+import com.nms.db.bean.report.SSProfess;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EServiceType;
 import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.ptn.BfdInfoService_MB;
 import com.nms.model.ptn.oam.OamInfoService_MB;
+import com.nms.model.ptn.path.ces.CesInfoService_MB;
+import com.nms.model.ptn.path.eth.DualInfoService_MB;
+import com.nms.model.ptn.path.eth.ElanInfoService_MB;
+import com.nms.model.ptn.path.eth.ElineInfoService_MB;
+import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
+import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.path.tunnel.TunnelService_MB;
 import com.nms.model.ptn.qos.QosInfoService_MB;
 import com.nms.model.util.Services;
@@ -358,10 +371,152 @@ public class TunnelNodeController extends AbstractController {
 		try {
 			this.initQosInfos();
 			this.initLspData();
+			this.initPwNetworkTablePanel();
+			this.initBusinessPanel();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
 	}
+	
+	private void initBusinessPanel() {
+		PwInfoService_MB pwInfoServiceMB = null;
+		ElineInfoService_MB elineInfoServiceMB = null;
+		EtreeInfoService_MB etreeInfoServiceMB = null;
+		ElanInfoService_MB elanInfoServiceMB = null;
+		CesInfoService_MB cesInfoServiceMB = null;
+		DualInfoService_MB dualInfoServiceMB = null;
+		List<Integer> pwList = new ArrayList<Integer>();
+		SSProfess ss=null;
+		List<SSProfess> ssList = null;
+		try {
+			Tunnel tunnel = this.view.getSelect();
+			List<Integer> tunnelIdList = new ArrayList<Integer>();
+			tunnelIdList.add(tunnel.getTunnelId());
+			pwInfoServiceMB = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);			
+			List<PwInfo> pwInfoList = new ArrayList<PwInfo>();
+			pwInfoList = (List<PwInfo>) pwInfoServiceMB.selectPwInfoByTunnelId(tunnelIdList);
+			if(pwInfoList == null){
+				pwInfoList = new ArrayList<PwInfo>();
+			}
+			for(PwInfo pw : pwInfoList){
+				pwList.add(pw.getPwId());
+			}
+			if(!pwList.isEmpty()){
+				elineInfoServiceMB = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);	
+				etreeInfoServiceMB = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);			
+				elanInfoServiceMB = (ElanInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.ElanInfo);	
+				cesInfoServiceMB = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);			
+				dualInfoServiceMB = (DualInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.DUALINFO);			
+				List<ElineInfo> elineList = elineInfoServiceMB.selectElineByPwId(pwList);
+				if(elineList!=null && elineList.size()!=0){
+					ss=new SSProfess();
+					ss.setName(elineList.get(0).getName());
+					ss.setServiceType(elineList.get(0).getServiceType());
+					ss.setCreateTime(elineList.get(0).getCreateTime());
+					ss.setActiveStatus(elineList.get(0).getActiveStatus());
+					ss.setClientName(elineList.get(0).getClientName());
+					ssList = new ArrayList<SSProfess>();				
+					ssList.add(ss);
+					this.view.getBusinessNetworkTablePanel().clear();
+					this.view.getBusinessNetworkTablePanel().initData(ssList);
+				}else{
+					List<EtreeInfo> etreeList = etreeInfoServiceMB.selectEtreeByPwId(pwList);
+					if(etreeList!=null && etreeList.size()!=0){
+						ss=new SSProfess();
+						ss.setName(etreeList.get(0).getName());
+						ss.setServiceType(etreeList.get(0).getServiceType());
+						ss.setCreateTime(etreeList.get(0).getCreateTime());
+						ss.setActiveStatus(etreeList.get(0).getActiveStatus());
+						ss.setClientName(etreeList.get(0).getClientName());
+						ssList = new ArrayList<SSProfess>();
+						ssList.add(ss);
+						this.view.getBusinessNetworkTablePanel().clear();
+						this.view.getBusinessNetworkTablePanel().initData(ssList);
+					}else{
+						List<ElanInfo> elanList = elanInfoServiceMB.selectElanbypwid(pwList);
+						if(elanList!=null && elanList.size()!=0){
+							ss=new SSProfess();
+							ss.setName(elanList.get(0).getName());
+							ss.setServiceType(elanList.get(0).getServiceType());
+							ss.setCreateTime(elanList.get(0).getCreateTime());
+							ss.setActiveStatus(elanList.get(0).getActiveStatus());
+							ss.setClientName(elanList.get(0).getClientName());
+							ssList = new ArrayList<SSProfess>();
+							ssList.add(ss);
+							this.view.getBusinessNetworkTablePanel().clear();
+							this.view.getBusinessNetworkTablePanel().initData(ssList);					
+						}else{
+							List<CesInfo> cesList = cesInfoServiceMB.selectCesByPwId(pwList);
+							if(cesList!=null && cesList.size()!=0){
+								ss=new SSProfess();
+								ss.setName(cesList.get(0).getName());
+								ss.setServiceType(cesList.get(0).getServiceType());
+								ss.setCreateTime(cesList.get(0).getCreateTime());
+								ss.setActiveStatus(cesList.get(0).getActiveStatus());
+								ss.setClientName(cesList.get(0).getClientName());
+								ssList = new ArrayList<SSProfess>();
+								ssList.add(ss);
+								this.view.getBusinessNetworkTablePanel().clear();
+								this.view.getBusinessNetworkTablePanel().initData(ssList);	
+							}else{
+//								List<DualInfo> dualList = dualInfoServiceMB.queryByPwId(pwInfo.getPwId());
+//								if(dualList!=null && dualList.size()!=0){
+//									ss=new SSProfess();
+//									ss.setName(dualList.get(0).getName());
+//									ss.setServiceType(dualList.get(0).getServiceType());
+//									ss.setCreateTime(dualList.get(0).getCreateTime());
+//									ss.setActiveStatus(dualList.get(0).getActiveStatus());
+//									ss.setClientName(dualList.get(0).getClientName());
+//									ssList = new ArrayList<SSProfess>();
+//									ssList.add(ss);
+//									this.view.getBusinessNetworkTablePanel().clear();
+//									this.view.getBusinessNetworkTablePanel().initData(ssList);
+//								}else{
+//									ssList = new ArrayList<SSProfess>();
+//									this.view.getBusinessNetworkTablePanel().clear();
+//									this.view.getBusinessNetworkTablePanel().initData(ssList);								
+//								}
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(pwInfoServiceMB);
+			UiUtil.closeService_MB(elineInfoServiceMB);
+			UiUtil.closeService_MB(etreeInfoServiceMB);
+			UiUtil.closeService_MB(elanInfoServiceMB);
+			UiUtil.closeService_MB(cesInfoServiceMB);
+			UiUtil.closeService_MB(dualInfoServiceMB);
+		}
+	}
+	
+	private void initPwNetworkTablePanel() {
+		PwInfoService_MB pwServiceMB = null;
+		Tunnel tunnel = null;
+//		PwInfo pwInfo =null;
+		try {
+			tunnel = this.view.getSelect();
+//			pwInfo=new PwInfo();
+//			pwInfo.setTunnelId(tunnel.getTunnelId());
+			List<Integer> tunnelIdList = new ArrayList<Integer>();
+			tunnelIdList.add(tunnel.getTunnelId());
+			pwServiceMB = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);			
+			List<PwInfo> pwList = new ArrayList<PwInfo>();
+			pwList=(List<PwInfo>) pwServiceMB.selectPwInfoByTunnelId(tunnelIdList);
+			if(pwList ==null){
+				pwList = new ArrayList<PwInfo>();
+			}
+			this.view.getPwNetworkTablePanel().clear();
+			this.view.getPwNetworkTablePanel().initData(pwList);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(pwServiceMB);
+		}
+	}	
 
 	@SuppressWarnings("unchecked")
 	private void initQosInfos() throws Exception {

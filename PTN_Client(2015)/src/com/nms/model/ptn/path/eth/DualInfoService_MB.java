@@ -352,4 +352,17 @@ public class DualInfoService_MB extends ObjectService_Mybatis{
 	public DualInfo queryById(int id){
 		return this.dualInfoMapper.queryById(id);
 	}
+	
+	public List<DualInfo> queryByPwId(int pwId){
+		List<DualInfo> dualList =null;
+		try {
+			dualList = dualInfoMapper.queryNameByPwId(pwId);
+			if(dualList == null ){
+				dualList= new ArrayList<DualInfo>();
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+		return dualList;
+	}	
 }

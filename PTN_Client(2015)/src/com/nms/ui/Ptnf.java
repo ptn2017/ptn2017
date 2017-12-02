@@ -127,6 +127,7 @@ import com.nms.ui.ptn.statistics.sement.SegmentStatisticsPanel;
 import com.nms.ui.ptn.statistics.sement.SegmentStatisticsWidthPanel;
 import com.nms.ui.ptn.statistics.site.SiteCountStatisticsPanel;
 import com.nms.ui.ptn.statistics.site.SiteStatisticsPanel;
+import com.nms.ui.ptn.statistics.site.SpecificSiteStatisticsPanel;
 import com.nms.ui.ptn.statistics.slot.SlotStatisticsPanel;
 import com.nms.ui.ptn.systemManage.ReadUnloadXML;
 import com.nms.ui.ptn.systemManage.monitor.SystemMontorConfigPanel;
@@ -2670,7 +2671,8 @@ public class Ptnf extends javax.swing.JFrame {
 	
 	private void jMenuItem10ActionPerformed() {
 		try {
-			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SITEINFO), new SiteStatisticsPanel(0));
+//			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SITEINFO), new SiteStatisticsPanel(0));
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SITEINFO), new SpecificSiteStatisticsPanel(0));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -2785,7 +2787,7 @@ public class Ptnf extends javax.swing.JFrame {
 
 	}
 
-	// jMenuItemPortActionPerformed
+	// 端口信息统计
 	private void jMenuItemPortActionPerformed() {
 		try {
 			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_PORTINFO), new PortInfoPanel());

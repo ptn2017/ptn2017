@@ -73,6 +73,19 @@ public class ServiceInfo extends ViewDataObj{
 	private int branchMainSite =0;
 	private int branchProtectSite=0;
 	
+	/**
+	 * 0表示查询所有板卡，其他表示具体某块板卡
+	 */
+	private int cardId = 0;// 用于设置过滤
+	
+	public int getCardId() {
+		return cardId;
+	}
+
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
+	}
+
 	public String getNode() {
 		return Node;
 	}

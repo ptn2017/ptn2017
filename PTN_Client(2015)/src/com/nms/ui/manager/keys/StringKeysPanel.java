@@ -305,4 +305,6 @@ public class StringKeysPanel {
 	public static final String PANEL_ARPSTATUS = "PANEL_ARPSTATUS";
 	// E1仿真状态查询
 	public static final String PANEL_E1_STATUS="PANEL_E1_STATUS";
+	public static final String PANEL_PW_INFORMATION="PANEL_PW_INFORMATION";
+	public static final String PANEL_BUSINESS_INFORMATION="PANEL_BUSINESS_INFORMATION";
 }

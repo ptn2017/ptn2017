@@ -165,6 +165,7 @@
 		<attribute id="portNo" name="Working Status" visible="true" />
 		<attribute id="isWithSegment" name="Is Connected To Segment" visible="true" />
 		<attribute id="belongCard" name="Belonged Card" visible="true" />
+		<attribute id="mac" name="MAC Addr" visible="true" />
 	</table>
 	
 	<table name="lspPathTable">
@@ -1705,4 +1706,43 @@
 		<attribute id="targetIp" name="目的IP" visible="true"></attribute>
 		<attribute id="enabled" name="使能" visible="true"></attribute>
 	</table>
+	<table name="businessPanel" >
+		<attribute id="id" name="ID" visible="false" />
+		<attribute id="name" name="Service Name" visible="true" />
+		<attribute id="serviceType" name="Service Type" visible="true" />
+		<attribute id="activeStatus" name="ActiveStatus" visible="true" />
+		<attribute id="activeTime" name="ActiveTime" visible="true" />
+		<attribute id="createTime" name="CreateTime" visible="true" />
+		<attribute id="clientName" name="ClientName" visible="true" />
+
+	</table>	
+	
+    <table name="unAlarmEvent">
+			<attribute id="id" name="ID" visible="false"></attribute>
+			<attribute id="loginIp" name="Login IP" visible="true"></attribute>
+			<attribute id="loginTime" name="Login Time" visible="true"></attribute>
+			<attribute id="loginResult" name="Login Result" visible="true"></attribute>
+			<attribute id="exitTime" name="Exit Time" visible="true"></attribute>
+	</table>
+		<table name="sitePortTable">
+		<attribute id="id" name="ID" visible="false" />
+		<attribute id="portName" name="Port Name" visible="true" />
+		<attribute id="portType" name="Role" visible="true" />
+	</table>	
+	<table name="SiteInfoPanel" layout="statistics">
+		<attribute id="id" name="idNum" visible="false" />
+		<attribute id="SiteName" name="SiteName" visible="true" />
+		<attribute id="SiteType" name="SiteType" visible="true" />
+		<attribute id="siteStatus" name="siteStatus" visible="true" />
+		<attribute id="slotNum" name="slotNum" visible="true" />
+		<attribute id="cardType" name="cardType" visible="true" />
+		<attribute id="hardWareVersion" name="hardWareVersion" visible="true" />
+		<attribute id="softWareVersion" name="softWareVersion" visible="true" />
+		<attribute id="cellTime" name="cellTime" visible="true" />
+		<attribute id="PortType" name="PortType" visible="true" />
+		<attribute id="PortCount" name="PortCount" visible="true" />
+		<attribute id="PortUsed" name="PortUsed" visible="true" />
+		<attribute id="PortUnUsed" name="PortUnUsed" visible="true" />
+		<attribute id="UsedRate" name="UsedRate" visible="true" />
+	</table>	
 </xml-body>

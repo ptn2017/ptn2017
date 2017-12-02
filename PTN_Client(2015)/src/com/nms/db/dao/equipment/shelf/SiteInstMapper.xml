@@ -38,7 +38,8 @@
     <result column="delayTime" property="delayTime" jdbcType="VARCHAR" />
     <result column="rack" property="rack" jdbcType="INTEGER" />
     <result column="shelf" property="shelf" jdbcType="INTEGER" />
-    <result column="hardversion" property="cardNumber" jdbcType="VARCHAR" />
+    <result column="hardversion" property="hardEdition" jdbcType="VARCHAR" />
+    <result column="versions" property="softEdition" jdbcType="VARCHAR" />
     <result column="rebootTime" property="rbootTime" jdbcType="BIGINT" />
   </resultMap>
 

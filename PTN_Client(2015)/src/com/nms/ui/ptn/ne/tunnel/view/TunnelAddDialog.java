@@ -29,7 +29,9 @@ import com.nms.db.bean.system.code.Code;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EManufacturer;
 import com.nms.db.enums.EOperationLogType;
+import com.nms.db.enums.EQosDirection;
 import com.nms.db.enums.EServiceType;
+import com.nms.db.enums.QosCosLevelEnum;
 import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.LabelInfoService_MB;
@@ -214,6 +216,7 @@ public class TunnelAddDialog extends PtnDialog {
 	private void setValue() throws NumberFormatException, Exception {
 		QosInfoService_MB qosInfoServiceMB = null;
 		try {
+			this.ptnSpinnerNumber.setEnabled(false);
 			this.tunnelNameField.setText(tunnelInfo.getTunnelName());
 			activeCheckBox.setSelected(tunnelInfo.getTunnelStatus() == 1 ? true : false);
 			String roleValue = "";
@@ -340,6 +343,8 @@ public class TunnelAddDialog extends PtnDialog {
 		// remoteSiteComboBox = new JComboBox();
 		portComboBox = new JComboBox();
 		activeCheckBox = new JCheckBox();
+		this.lblNumber = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CREATE_NUM));
+		this.ptnSpinnerNumber = new PtnSpinner(1, 1, 1000, 1);
 		qosButton = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIG));
 		this.confirm.setVisible(false);
 		cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
@@ -645,6 +650,15 @@ public class TunnelAddDialog extends PtnDialog {
 		c.gridx = 1;
 		componentLayout.setConstraints(this.activeCheckBox, c);
 		this.panelTunnel.add(this.activeCheckBox);
+		
+		// 创建数量
+		c.gridx = 2;
+		c.gridy = 10;
+		componentLayout.setConstraints(lblNumber, c);
+		this.panelTunnel.add(lblNumber);
+		c.gridx = 3;
+		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
+		this.panelTunnel.add(this.ptnSpinnerNumber);
 	}
 
 	private void setButtonLayout() {
@@ -1340,7 +1354,7 @@ public class TunnelAddDialog extends PtnDialog {
 			this.tunnelInfo.setQosList(this.getQosList());
 
 			if ("xc".equals(tunnelrole)) {
-				this.convertXCTunnel();
+				this.convertXCTunnel(this.tunnelInfo);
 			} else if ("egress".equals(tunnelrole)) {
 				this.convertZTunnel(this.tunnelInfo, true);
 			} else {
@@ -1348,7 +1362,7 @@ public class TunnelAddDialog extends PtnDialog {
 			}
 
 			if ("2".equals(((Code) ((ControlKeyValue) cmbType.getSelectedItem()).getObject()).getCodeValue())) {
-				this.getProtectTunnel(tunnelrole);
+				this.getProtectTunnel(this.tunnelInfo, tunnelrole);
 //				this.tunnelInfo.getProtectTunnel().setVlanEnable(this.tunnelInfo.getVlanEnable());
 //				this.tunnelInfo.getProtectTunnel().setOutVlanValue(this.tunnelInfo.getOutVlanValue());
 //				this.tunnelInfo.getProtectTunnel().setTp_id(this.tunnelInfo.getTp_id());
@@ -1379,7 +1393,11 @@ public class TunnelAddDialog extends PtnDialog {
 					return;
 				}
 				List<Tunnel> tunnelList = new ArrayList<Tunnel>();
+				int num = Integer.parseInt(this.ptnSpinnerNumber.getTxt().getText());
 				tunnelList.add(this.tunnelInfo);
+				if(num > 1){
+					this.createTunnelOnCopy(tunnelList, num-1, tunnelrole);
+				}
 				message = tunnelOperationService.excuteInsert(tunnelList);
 				this.tunnelInfo.setRole(tunnelrole);
 				if(this.tunnelInfo.getProtectTunnel() != null){
@@ -1414,6 +1432,76 @@ public class TunnelAddDialog extends PtnDialog {
 		}
 	}
 	
+	/**
+	 * 批量创建tunnel
+	 * @param tunnelrole 
+	 */
+	private void createTunnelOnCopy(List<Tunnel> tunnelList, int num, String tunnelrole) {
+		List<QosInfo> qosList = new ArrayList<QosInfo>();
+		qosList.add(this.createQos(EQosDirection.FORWARD.getValue() + ""));
+		qosList.add(this.createQos(EQosDirection.BACKWARD.getValue() + ""));
+		Tunnel tunnel = null;
+		for(int i = 0; i < num; i++){
+			tunnel = new Tunnel();
+			tunnel.setTunnelName(this.tunnelInfo.getTunnelName()+"_copy"+(i+1));
+			tunnel.setTunnelStatus(this.tunnelInfo.getTunnelStatus());
+			tunnel.setIsReverse(1);
+			tunnel.setPosition(1);
+			tunnel.setWaittime(this.tunnelInfo.getWaittime());
+			tunnel.setDelaytime(this.tunnelInfo.getDelaytime());
+			tunnel.setApsenable(this.tunnelInfo.getApsenable());
+			tunnel.setTunnelType(this.tunnelInfo.getTunnelType());
+			tunnel.setProtectBack(this.tunnelInfo.getProtectBack());
+			tunnel.setInBandwidthControl(this.tunnelInfo.getInBandwidthControl());
+			tunnel.setOutBandwidthControl(this.tunnelInfo.getOutBandwidthControl());
+			tunnel.setSourceMac(this.tunnelInfo.getSourceMac());
+			tunnel.setEndMac(this.tunnelInfo.getEndMac());
+			tunnel.setaOutVlanValue(this.tunnelInfo.getaOutVlanValue());
+			tunnel.setzOutVlanValue(this.tunnelInfo.getzOutVlanValue());
+			tunnel.setIsSingle(1);
+			tunnel.setCreateUser(this.tunnelInfo.getCreateUser());
+			tunnel.setCreateTime(this.tunnelInfo.getCreateTime());
+			tunnel.setQosList(qosList);
+			if ("xc".equals(tunnelrole)) {
+				this.convertXCTunnel(tunnel);
+			} else if ("egress".equals(tunnelrole)) {
+				this.convertZTunnel(tunnel, true);
+			} else {
+				this.convertATunnel(tunnel, true);
+			}
+
+			if ("2".equals(((Code) ((ControlKeyValue) cmbType.getSelectedItem()).getObject()).getCodeValue())) {
+				this.getProtectTunnel(tunnel, tunnelrole);
+				for(Lsp lsp : tunnel.getProtectTunnel().getLspParticularList()){
+					lsp.setBackLabelValue(0);
+					lsp.setFrontLabelValue(0);
+				}
+			}
+			for(Lsp lsp : tunnel.getLspParticularList()){
+				lsp.setBackLabelValue(0);
+				lsp.setFrontLabelValue(0);
+			}
+			tunnelList.add(tunnel);
+		}
+	}
+	
+	private void printAttrValue(Object obj){
+		
+	}
+
+	private QosInfo createQos(String direction) {
+		QosInfo info = new QosInfo();
+		info.setQosType(this.getQosList().get(0).getQosType());
+		info.setCos(this.getQosList().get(0).getCos());
+		info.setDirection(direction);
+		info.setCir(0);
+		info.setCbs(1);
+		info.setEir(0);
+		info.setEbs(1);
+		info.setPir(0);
+		return info;
+	}
+
 	private Tunnel getTunnelBefore(int tunnelId) {
 		TunnelService_MB service = null;
 		try {
@@ -1501,7 +1589,7 @@ public class TunnelAddDialog extends PtnDialog {
 	 * 
 	 * @Exception 异常对象
 	 */
-	private void getProtectTunnel(String tunnelrole) {
+	private void getProtectTunnel(Tunnel tunnelInfo, String tunnelrole) {
 		Tunnel protectTunnel = null;
 		if (tunnelInfo.getProtectTunnelId() == 0) {
 			if(tunnelInfo.getProtectTunnel() == null){
@@ -1510,9 +1598,9 @@ public class TunnelAddDialog extends PtnDialog {
 			protectTunnel = tunnelInfo.getProtectTunnel();
 			protectTunnel.setTunnelStatus(tunnelInfo.getTunnelStatus());
 			protectTunnel.setTunnelName(tunnelInfo.getTunnelName()+"_protect");
-			protectTunnel.setZSiteId(this.tunnelInfo.getZSiteId());
-			protectTunnel.setASiteId(this.tunnelInfo.getASiteId());
-			protectTunnel.setQosList(this.tunnelInfo.getQosList());
+			protectTunnel.setZSiteId(tunnelInfo.getZSiteId());
+			protectTunnel.setASiteId(tunnelInfo.getASiteId());
+			protectTunnel.setQosList(tunnelInfo.getQosList());
 			protectTunnel.setTunnelType("0");
 			protectTunnel.setIsSingle(1);
 			protectTunnel.setPosition(0);
@@ -1525,14 +1613,14 @@ public class TunnelAddDialog extends PtnDialog {
 				protectTunnel.setzOutVlanValue(2);
 			}
 		} else {
-			protectTunnel = this.tunnelInfo.getProtectTunnel();
+			protectTunnel = tunnelInfo.getProtectTunnel();
 		}
 		if ("egress".equals(tunnelrole)) {
 			this.convertZTunnel(protectTunnel, false);
 		} else {
 			this.convertATunnel(protectTunnel, false);
 		}
-		this.tunnelInfo.setProtectTunnel(protectTunnel);
+		tunnelInfo.setProtectTunnel(protectTunnel);
 
 		if (tunnelInfo.getProtectTunnelId() > 0) {
 
@@ -1544,41 +1632,6 @@ public class TunnelAddDialog extends PtnDialog {
 		}
 	}
 
-	/**
-	 * 
-	 * 验证保护端口是否和工作端口相�?
-	 * 
-	 * @author kk
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * @throws Exception
-	 * 
-	 * @Exception 异常对象
-	 */
-	private boolean isProtectPort() throws Exception {
-		boolean flag = true;
-		ControlKeyValue port_before = null;
-		ControlKeyValue port_after = null;
-		try {
-			if ("2".equals(((Code) ((ControlKeyValue) cmbType.getSelectedItem()).getObject()).getCodeValue())) {
-				port_before = (ControlKeyValue) this.portComboBox.getSelectedItem();
-				port_after = (ControlKeyValue) this.portComboBox_after.getSelectedItem();
-
-				if (port_before.getId().equals(port_after.getId())) {
-					flag = false;
-				}
-			}
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			port_before = null;
-			port_after = null;
-		}
-		return flag;
-	}
 
 	// /**
 	// * 转换tunnel保护对象
@@ -2014,7 +2067,7 @@ public class TunnelAddDialog extends PtnDialog {
 	/**
 	 * 转换xc
 	 */
-	private void convertXCTunnel() {
+	private void convertXCTunnel(Tunnel tunnelInfo) {
 		ControlKeyValue port_before = (ControlKeyValue) this.portComboBox.getSelectedItem();
 		ControlKeyValue port_after = (ControlKeyValue) this.portComboBox_after.getSelectedItem();
 		Lsp lsp_before = new Lsp();
@@ -2067,9 +2120,9 @@ public class TunnelAddDialog extends PtnDialog {
 		lsp_after.setTargetMac(targetMacField_after.getText());
 		lspList.add(lsp_after);
 
-		this.tunnelInfo.setSourceMac(sourceMacField.getText().trim());
-		this.tunnelInfo.setEndMac(targetMacField.getText().trim());
-		this.tunnelInfo.setLspParticularList(lspList);
+		tunnelInfo.setSourceMac(sourceMacField.getText().trim());
+		tunnelInfo.setEndMac(targetMacField.getText().trim());
+		tunnelInfo.setLspParticularList(lspList);
 	}
 
 	public void comboBoxSelect(JComboBox jComboBox, String selectId) {
@@ -2213,4 +2266,6 @@ public class TunnelAddDialog extends PtnDialog {
 	//新增备用外层vlan
 	private JLabel vlanLabel_after;
 	private JButton vlanButton_after;
+	private JLabel lblNumber;
+	private PtnSpinner ptnSpinnerNumber;
 }
