@@ -135,6 +135,7 @@ public class EtreeBusinessPanel extends ContentView<EtreeInfo> {
 	public List<JButton> setAddButtons() {
 		List<JButton> needRemoveButtons = new ArrayList<JButton>();
 		needRemoveButtons.add(this.getSearchButton());
+		needRemoveButtons.add(this.getConsistenceButton());
 		return needRemoveButtons;
 	}
 

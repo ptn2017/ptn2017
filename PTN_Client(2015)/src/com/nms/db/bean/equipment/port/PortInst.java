@@ -425,6 +425,15 @@ public class PortInst extends ViewDataObj {
 		}else{
 			this.getClientProperties().put("surplusCirCount",this.getCirCount()-this.getUseCirBandwidth());
 		}
+		this.getClientProperties().put("mac", "00-00-00-00-00-"+this.getMac(this.getNumber()));
+	}
+	
+	private String getMac(int num){
+		String val = Integer.toHexString(this.getNumber()).toUpperCase();
+		if(val.length() < 2){
+			val = "0"+val;
+		}
+		return val;
 	}
 
 	private String getCardInst(int cardId) {

@@ -1518,7 +1518,7 @@ public class StringKeysLbl {
 	/**
 	 * 倒换方式
 	 */
-	public static final String LBL_ROTATEWAY="LBL_ROTATEWAY";	
+//	public static final String LBL_ROTATEWAY="LBL_ROTATEWAY";	
 	/**
 	 * 穿通
 	 */
@@ -2829,4 +2829,9 @@ public class StringKeysLbl {
 	//转储数据类型
 	public static final String LBL_UNLOADTYPE="LBL_UNLOADTYPE";
 	public static final String LBL_IS_AUTO="LBL_IS_AUTO";
+	public static final String LBL_ROTATEWAY = "LBL_ROTATEWAY";
+	public static final String LBL_ROTATELOCATION = "LBL_ROTATELOCATION";
+	public static final String LBL_ROTATEMODE = "LBL_ROTATEMODE";
+	public static final String LBL_TNPLAYER = "LBL_TNPLAYER";
+	public static final String LBL_ROTATETHRESHOLD = "LBL_ROTATETHRESHOLD";
 }

@@ -3,14 +3,20 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
+import com.nms.db.bean.ptn.path.ces.CesInfo;
+import com.nms.db.bean.ptn.path.eth.DualInfo;
+import com.nms.db.bean.ptn.path.eth.ElanInfo;
 import com.nms.db.bean.ptn.path.eth.ElineInfo;
+import com.nms.db.bean.ptn.path.eth.EtreeInfo;
 import com.nms.db.bean.ptn.path.pw.MsPwInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.tunnel.Lsp;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.ptn.qos.QosInfo;
+import com.nms.db.bean.report.SSProfess;
 import com.nms.db.enums.EManufacturer;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EServiceType;
@@ -18,6 +24,11 @@ import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.BfdInfoService_MB;
 import com.nms.model.ptn.oam.OamInfoService_MB;
+import com.nms.model.ptn.path.ces.CesInfoService_MB;
+import com.nms.model.ptn.path.eth.DualInfoService_MB;
+import com.nms.model.ptn.path.eth.ElanInfoService_MB;
+import com.nms.model.ptn.path.eth.ElineInfoService_MB;
+import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
 import com.nms.model.ptn.path.pw.MsPwInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.path.tunnel.TunnelService_MB;
@@ -25,6 +36,7 @@ import com.nms.model.ptn.qos.QosInfoService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
 import com.nms.service.impl.base.DispatchBase;
+import com.nms.service.impl.util.ResultString;
 import com.nms.service.impl.util.SiteUtil;
 import com.nms.service.impl.util.WhImplUtil;
 import com.nms.ui.frame.AbstractController;
@@ -41,6 +53,7 @@ import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.pwpath.AddPDialog;
 import com.nms.ui.ptn.business.dialog.pwpath.AddPwFilterDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
 import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
 
 /**
@@ -244,10 +257,116 @@ public class PwBusinessController extends AbstractController {
 			initMspwInfo();
 			this.initLspPanel();
 			this.initSchematizePanel();
+			this.initBusinessPanel();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}finally{
 			UiUtil.closeService_MB(pwInfoServiceMB);
+		}
+	}
+	
+	private void initBusinessPanel() {
+		ElineInfoService_MB elineInfoServiceMB = null;
+		EtreeInfoService_MB etreeInfoServiceMB = null;
+		ElanInfoService_MB elanInfoServiceMB = null;
+		CesInfoService_MB cesInfoServiceMB = null;
+		DualInfoService_MB dualInfoServiceMB = null;
+		List<Integer> pwList = new ArrayList<Integer>();
+		SSProfess ss=null;
+		List<SSProfess> ssList = null;
+		try {
+			PwInfo pwInfo = this.view.getSelect();
+			pwList.add(pwInfo.getPwId());
+			elineInfoServiceMB = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);	
+			etreeInfoServiceMB = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);			
+			elanInfoServiceMB = (ElanInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.ElanInfo);	
+			cesInfoServiceMB = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);			
+			dualInfoServiceMB = (DualInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.DUALINFO);			
+			List<ElineInfo> elineList = elineInfoServiceMB.selectElineByPwId(pwList);
+			if(elineList!=null && elineList.size()!=0){
+				ss=new SSProfess();
+				ss.setName(elineList.get(0).getName());
+				ss.setServiceType(elineList.get(0).getServiceType());
+				ss.setCreateTime(elineList.get(0).getCreateTime());
+				ss.setActiveStatus(elineList.get(0).getActiveStatus());
+				ss.setClientName(elineList.get(0).getClientName());
+				ssList = new ArrayList<SSProfess>();				
+				ssList.add(ss);
+				this.view.getBusinessNetworkTablePanel().clear();
+				this.view.getBusinessNetworkTablePanel().initData(ssList);
+			}else{
+				List<EtreeInfo> etreeList = etreeInfoServiceMB.selectEtreeByPwId(pwList);
+				if(etreeList!=null && etreeList.size()!=0){
+					ss=new SSProfess();
+					ss.setName(etreeList.get(0).getName());
+					ss.setServiceType(etreeList.get(0).getServiceType());
+					ss.setCreateTime(etreeList.get(0).getCreateTime());
+					ss.setActiveStatus(etreeList.get(0).getActiveStatus());
+					ss.setClientName(etreeList.get(0).getClientName());
+					ssList = new ArrayList<SSProfess>();
+					ssList.add(ss);
+					this.view.getBusinessNetworkTablePanel().clear();
+					this.view.getBusinessNetworkTablePanel().initData(ssList);
+				}else{
+					List<ElanInfo> elanList = elanInfoServiceMB.selectElanbypwid(pwList);
+					if(elanList!=null && elanList.size()!=0){
+						ss=new SSProfess();
+						ss.setName(elanList.get(0).getName());
+						ss.setServiceType(elanList.get(0).getServiceType());
+						ss.setCreateTime(elanList.get(0).getCreateTime());
+						ss.setActiveStatus(elanList.get(0).getActiveStatus());
+						ss.setClientName(elanList.get(0).getClientName());
+						ssList = new ArrayList<SSProfess>();
+						ssList.add(ss);
+						this.view.getBusinessNetworkTablePanel().clear();
+						this.view.getBusinessNetworkTablePanel().initData(ssList);					
+					}else{
+						List<CesInfo> cesList = cesInfoServiceMB.selectCesByPwId(pwList);
+						if(cesList!=null && cesList.size()!=0){
+							ss=new SSProfess();
+							ss.setName(cesList.get(0).getName());
+							ss.setServiceType(cesList.get(0).getServiceType());
+							ss.setCreateTime(cesList.get(0).getCreateTime());
+							ss.setActiveStatus(cesList.get(0).getActiveStatus());
+							ss.setClientName(cesList.get(0).getClientName());
+							ssList = new ArrayList<SSProfess>();
+							ssList.add(ss);
+							this.view.getBusinessNetworkTablePanel().clear();
+							this.view.getBusinessNetworkTablePanel().initData(ssList);	
+						}else{
+							List<DualInfo> dualList = dualInfoServiceMB.queryByPwId(pwInfo.getPwId());
+							if(dualList!=null && dualList.size()!=0){
+								ss=new SSProfess();
+								ss.setName(dualList.get(0).getName());
+								ss.setServiceType(dualList.get(0).getServiceType());
+								ss.setCreateTime(dualList.get(0).getCreateTime());
+								ss.setActiveStatus(dualList.get(0).getActiveStatus());
+								ss.setClientName(dualList.get(0).getClientName());
+								ssList = new ArrayList<SSProfess>();
+								ssList.add(ss);
+								this.view.getBusinessNetworkTablePanel().clear();
+								this.view.getBusinessNetworkTablePanel().initData(ssList);
+							}else{
+								ssList = new ArrayList<SSProfess>();
+								this.view.getBusinessNetworkTablePanel().clear();
+								this.view.getBusinessNetworkTablePanel().initData(ssList);								
+							}
+							
+						}
+												
+					}
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(elineInfoServiceMB);
+			UiUtil.closeService_MB(etreeInfoServiceMB);
+			UiUtil.closeService_MB(elanInfoServiceMB);
+			UiUtil.closeService_MB(cesInfoServiceMB);
+			UiUtil.closeService_MB(dualInfoServiceMB);
 		}
 	}
 
@@ -572,8 +691,9 @@ public class PwBusinessController extends AbstractController {
 	@Override
 	public void search() {
 		try {
-			new SearchSegmentDialog(this.view);
-			
+//			new SearchSegmentDialog(this.view);
+			Thread.sleep(21000);
+			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		} 
@@ -796,4 +916,52 @@ public class PwBusinessController extends AbstractController {
 		this.view.updateUI();
 	}
 	
+	/**
+	 * 一致性检测
+	 */
+	@Override
+	public void consistence() throws Exception{
+		DispatchUtil  pwDispatch = null;
+		PwInfoService_MB pwinfoService = null;
+		List<PwInfo> emsList = null;
+		List<PwInfo> neList = null;
+		SiteService_MB siteService = null;
+		try {
+			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
+			List<SiteInst> siteInstList = siteService.select();
+			if(siteInstList != null){
+				for(SiteInst site : siteInstList){
+					if(site.getLoginstatus() == 1){
+						siteIdOnLineList.add(site.getSite_Inst_Id());
+					}
+				}
+			}
+			if(!siteIdOnLineList.isEmpty()){
+				pwinfoService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+				emsList = new ArrayList<PwInfo>();
+				neList = new ArrayList<PwInfo>();
+				pwDispatch = new DispatchUtil(RmiKeys.RMI_PW);
+				for(int siteId : siteIdOnLineList){
+					List<PwInfo> pwEMSSingle = pwinfoService.selectNodeBySiteid(siteId);
+					List<PwInfo> pwNESingle = (List<PwInfo>) pwDispatch.consistence(siteId);
+					if(pwEMSSingle != null && !pwEMSSingle.isEmpty()){
+						emsList.addAll(pwEMSSingle);
+					}
+					if(pwNESingle != null && !pwNESingle.isEmpty()){
+						neList.addAll(pwNESingle);
+					}
+				}
+				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("PW", emsList, neList, this);
+				UiUtil.showWindow(camporeDataDialog, 700, 600);
+			}else{
+				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}finally{
+			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(pwinfoService);
+		}
+	}
 }

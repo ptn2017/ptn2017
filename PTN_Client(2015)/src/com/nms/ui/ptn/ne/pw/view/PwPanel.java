@@ -38,6 +38,7 @@ import com.nms.ui.manager.keys.StringKeysMenu;
 import com.nms.ui.manager.keys.StringKeysPanel;
 import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
+import com.nms.ui.ptn.business.pw.BusinessNetworkTablePanel;
 import com.nms.ui.ptn.business.pw.PwQosQueuePanel;
 import com.nms.ui.ptn.ne.pw.controller.PwNodeController;
 import com.nms.ui.ptn.ne.pwnni.PwVlanMainDialog;
@@ -62,7 +63,7 @@ public class PwPanel extends ContentView<PwInfo> {
 	private PwQosQueuePanel qosPanel;
 //	private static PwPanel pwPanel;
 	private PwVlanTablePanel pwVlanTablePanel;
-	
+	private BusinessNetworkTablePanel businessNetworkTablePanel;
 	/** Creates new form LspPanl */
 	public PwPanel() {
 		super("pwNodeTable",RootFactory.CORE_MANAGE);
@@ -91,6 +92,7 @@ public class PwPanel extends ContentView<PwInfo> {
 					// 清除详细面板数据
 					qosPanel.clear();
 					pwVlanTablePanel.clear();
+					businessNetworkTablePanel.clear();
 					return;
 				} else {
 					getController().initDetailInfo();
@@ -132,11 +134,13 @@ public class PwPanel extends ContentView<PwInfo> {
 		qosPanel = new PwQosQueuePanel();
 		pwVlanTablePanel=new PwVlanTablePanel();
 		miUpdateQos = new JMenuItem(ResourceUtil.srcStr(StringKeysMenu.MENU_QOS_UPDATE));
+		businessNetworkTablePanel = new BusinessNetworkTablePanel(); 
 	}
 	
 	public void setTabbedPaneLayout() {
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_PW_PORT_CONFIGE), pwVlanTablePanel);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_QOS_INFO), qosPanel);
+		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_BUSINESS_INFORMATION), this.businessNetworkTablePanel);
 	}
 
 	public void setLayout() {
@@ -244,9 +248,13 @@ public class PwPanel extends ContentView<PwInfo> {
 		return qosPanel;
 	}
 	
-	
 	public PwVlanTablePanel getPwVlanTablePanel() {
 		return pwVlanTablePanel;
 	}
+	
+	public BusinessNetworkTablePanel getBusinessNetworkTablePanel() {
+		return businessNetworkTablePanel;
+	}
+	
 	private JMenuItem miUpdateQos;
 }

@@ -271,5 +271,6 @@
         <mapper resource="com/nms/db/dao/ptn/ARPMapper.xml"/>
         <mapper resource="com/nms/db/dao/system/OperationDataLogMapper.xml"/> 
         <mapper resource="com/nms/db/dao/ptn/ecn/OSPFinfo_whMapper.xml"/> 
+        <mapper resource="com/nms/db/dao/system/UnloadMapper.xml"/> 
       </mappers>
 </configuration>

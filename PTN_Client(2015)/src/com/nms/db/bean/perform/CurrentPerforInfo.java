@@ -108,6 +108,7 @@ public class CurrentPerforInfo extends PerformanceInfo {
 				this.getClientProperties().put("perforValue", getPerformanceValue()+UnitName);
 				}
 			}
+			this.putClientProperty("monitorCycle", getMonitorCycle() == 1?"15分钟":"24小时");
 			//开始时间
 			this.getClientProperties().put("perforCycleStart", (updateTime(this.getStartTime())));
 			//结束时间

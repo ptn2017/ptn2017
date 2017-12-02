@@ -293,19 +293,19 @@ public class SegmentStatisticsWidthController extends AbstractController {
 							if(Integer.parseInt(qosInfo.getDirection()) == EQosDirection.FORWARD.getValue()){
 								tunnel_forWard_cir_EF += qosInfo.getCir();// 最低带宽
 							}else{
-								tunnel_forWard_cir_EF += qosInfo.getCir();// 最低带宽
+								tunnel_back_cir_EF += qosInfo.getCir();// 最低带宽
 							}
 						}else if(qosInfo.getCos() == QosCosLevelEnum.CS6.getValue()){
 							if(Integer.parseInt(qosInfo.getDirection()) == EQosDirection.FORWARD.getValue()){
 								tunnel_forWard_cir_CS6 += qosInfo.getCir();// 最低带宽
 							}else{
-								tunnel_forWard_cir_CS6 += qosInfo.getCir();// 最低带宽
+								tunnel_back_cir_CS6 += qosInfo.getCir();// 最低带宽
 							}
 						}else if(qosInfo.getCos() == QosCosLevelEnum.CS7.getValue()){
 							if(Integer.parseInt(qosInfo.getDirection()) == EQosDirection.FORWARD.getValue()){
 								tunnel_forWard_cir_CS7 += qosInfo.getCir();// 最低带宽
 							}else{
-								tunnel_forWard_cir_CS7 += qosInfo.getCir();// 最低带宽
+								tunnel_back_cir_CS7 += qosInfo.getCir();// 最低带宽
 							}
 						}
 						

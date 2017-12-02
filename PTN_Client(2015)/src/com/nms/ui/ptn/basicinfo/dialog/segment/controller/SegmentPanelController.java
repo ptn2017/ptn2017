@@ -291,9 +291,11 @@ public class SegmentPanelController extends AbstractController {
 	}
 
 	private void insertOpeLog(int operationType, String result, Object oldMac, Object newMac){
-		Segment se=(Segment)newMac;
-		String segmentName=se.getNAME();
-		AddOperateLog.insertOperLog(null, operationType, result, oldMac, newMac, 0,segmentName,"");		
+		if(newMac != null){
+			Segment se=(Segment)newMac;
+			String segmentName=se.getNAME();
+			AddOperateLog.insertOperLog(null, operationType, result, oldMac, newMac, 0,segmentName,"");		
+		}
 	}
 	
 	/**

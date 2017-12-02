@@ -24,6 +24,7 @@ import com.nms.db.bean.ptn.oam.OamMepInfo;
 import com.nms.db.bean.ptn.path.protect.DualProtect;
 import com.nms.db.bean.ptn.path.pw.MsPwInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Lsp;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.ptn.qos.QosInfo;
 import com.nms.db.bean.system.code.Code;
@@ -32,6 +33,7 @@ import com.nms.db.enums.EManufacturer;
 import com.nms.db.enums.EObjectType;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EPwType;
+import com.nms.db.enums.EQosDirection;
 import com.nms.db.enums.EServiceType;
 import com.nms.model.alarm.CurAlarmService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
@@ -60,6 +62,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.VerifyNameUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.control.PtnDialog;
+import com.nms.ui.manager.control.PtnSpinner;
 import com.nms.ui.manager.control.PtnTextField;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysLbl;
@@ -143,6 +146,7 @@ public class PwAddDialog extends PtnDialog {
 			this.pwInfo = new PwInfo();
 			this.setTitle(ResourceUtil.srcStr(StringKeysTitle.TIT_CREATE_PW));
 		} else {
+			this.ptnSpinnerNumber.setEnabled(false);
 			QosInfoService_MB qosInfoService = null;
 			try {
 				qosInfoService=(QosInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.QosInfo);
@@ -521,6 +525,8 @@ public class PwAddDialog extends PtnDialog {
 		modelJLabel = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_MODAL));
 		modelJComboBox = new JComboBox();
 		super.getComboBoxDataUtil().comboBoxData(this.modelJComboBox, "MODEL");
+		this.lblNumber = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CREATE_NUM));
+		this.ptnSpinnerNumber = new PtnSpinner(1, 1, 1000, 1);
 	}
 	private void setButtonLayout() {
 		GridBagLayout componentLayout = new GridBagLayout();
@@ -803,6 +809,21 @@ public class PwAddDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		componentLayout.setConstraints(this.managerButoon, c);
 		this.add(this.managerButoon);
+		
+		// 批量创建
+		c.gridx = 0;
+		c.gridy = i;
+		c.gridwidth = 1;
+		componentLayout.setConstraints(this.lblNumber, c);
+		this.add(this.lblNumber);
+		c.gridx = 1;
+		c.gridy = i++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.WEST;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
+		this.add(this.ptnSpinnerNumber);
 		
 		// 第12行 按钮
 		c.fill = GridBagConstraints.NONE;
@@ -1137,6 +1158,12 @@ public class PwAddDialog extends PtnDialog {
 				}
 				List <PwInfo> pwList = new ArrayList<PwInfo>();
 				pwList.add(this.pwInfo);
+				// 批量创建
+				int num = Integer.parseInt(this.ptnSpinnerNumber.getTxt().getText());
+				if(num > 1){
+					this.createPWOnCopy(pwList, num-1);
+				}
+				
 				result = pwDispatch.excuteInsert(pwList);
 				this.btnSave.setOperateKey(EOperationLogType.PWINSERT.getValue());
 				this.getTunnelName(pwInfo);
@@ -1166,6 +1193,54 @@ public class PwAddDialog extends PtnDialog {
 			UiUtil.closeService_MB(pwInfoService);
 			UiUtil.closeService_MB(oamInfoService);
 		}
+	}
+	
+	private void createPWOnCopy(List<PwInfo> pwList, int num) {
+		List<QosInfo> qosList = new ArrayList<QosInfo>();
+		qosList.add(this.createQos(EQosDirection.FORWARD.getValue() + ""));
+		qosList.add(this.createQos(EQosDirection.BACKWARD.getValue() + ""));
+		PwInfo pwInfo = null;
+		for(int i = 0; i < num; i++){
+			pwInfo = new PwInfo();
+			pwInfo.setBusinessType(this.pwInfo.getBusinessType());
+			pwInfo.setQosModel(this.pwInfo.getQosModel());
+			pwInfo.setPwName(this.pwInfo.getPwName()+"_copy"+(i+1));
+			pwInfo.setPwStatus(this.pwInfo.getPwStatus());
+			pwInfo.setASiteId(this.pwInfo.getASiteId());
+			pwInfo.setZSiteId(this.pwInfo.getZSiteId());
+			pwInfo.setAoppositeId(this.pwInfo.getAoppositeId());
+			pwInfo.setZoppositeId(this.pwInfo.getZoppositeId());
+			pwInfo.setInlabelValue(0);
+			pwInfo.setOutlabelValue(0);
+			pwInfo.setAtp_id(this.pwInfo.getAtp_id());
+			pwInfo.setaOutVlanValue(this.pwInfo.getaOutVlanValue());
+			pwInfo.setaVlanEnable(this.pwInfo.getaVlanEnable());
+			pwInfo.setaSourceMac(this.pwInfo.getaSourceMac());
+			pwInfo.setZtargetMac(this.pwInfo.getZtargetMac());
+			pwInfo.setType(this.pwInfo.getType());
+			pwInfo.setIsSingle(1);
+			pwInfo.setTunnelName(this.pwInfo.getTunnelName());
+			pwInfo.setTunnelId(this.pwInfo.getTunnelId());
+			pwInfo.setCreateTime(this.pwInfo.getCreateTime());
+			pwInfo.setCreateUser(ConstantUtil.user.getUser_Name());
+			pwInfo.setPayload(this.pwInfo.getPayload());
+			pwInfo.setMsPwInfos(null);
+			pwInfo.setQosList(qosList);
+			pwList.add(pwInfo);
+		}
+	}
+	
+	private QosInfo createQos(String direction) {
+		QosInfo info = new QosInfo();
+		info.setQosType(this.getQosList().get(0).getQosType());
+		info.setCos(this.getQosList().get(0).getCos());
+		info.setDirection(direction);
+		info.setCir(0);
+		info.setCbs(1);
+		info.setEir(0);
+		info.setEbs(1);
+		info.setPir(0);
+		return info;
 	}
 	
 	private void insertOpeLog(int operationType, String result, PwInfo oldPw, PwInfo newPw){
@@ -1561,4 +1636,6 @@ public class PwAddDialog extends PtnDialog {
 	private JComboBox tp_idJComboBox;
 	private JLabel modelJLabel;//模式
 	private JComboBox modelJComboBox;
+	private JLabel lblNumber;
+	private PtnSpinner ptnSpinnerNumber;
 }

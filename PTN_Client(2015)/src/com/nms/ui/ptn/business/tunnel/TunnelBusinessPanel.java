@@ -57,6 +57,7 @@ import com.nms.ui.manager.keys.StringKeysPanel;
 import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
+import com.nms.ui.ptn.business.pw.PwNetworkTablePanel;
 import com.nms.ui.ptn.business.pw.PwQosQueuePanel;
 import com.nms.ui.ptn.business.testoam.TestOamBusinessController;
 import com.nms.ui.ptn.business.topo.TopoPanel;
@@ -99,6 +100,7 @@ public class TunnelBusinessPanel extends ContentView<Tunnel> {
 	private JMenuItem deleteNodeMenu;//缩容
 	private TunnelBusinessPanel tunnelBusinessPanel;
 	private OamMainInfoPanel oamMainInfoPanel;//OAM关键信息
+	private PwNetworkTablePanel pwNetworkTablePanel;
 	public TunnelBusinessPanel() {
 		super("tunnelBusinessTable",RootFactory.CORE_MANAGE);
 		tunnelBusinessPanel = this;
@@ -135,6 +137,7 @@ public class TunnelBusinessPanel extends ContentView<Tunnel> {
 					topoPanel.clear();
 					lspNetworkTablePanel.clear();
 					schematize_panel.clear();
+					pwNetworkTablePanel.clear();
 					return;
 				} else {
 					getController().initDetailInfo();
@@ -702,6 +705,7 @@ public class TunnelBusinessPanel extends ContentView<Tunnel> {
 		this.addNodeMenu = new JMenuItem(ResourceUtil.srcStr(StringKeysTitle.TIT_ADD_LSP_NODE));
 		this.deleteNodeMenu = new JMenuItem(ResourceUtil.srcStr(StringKeysTitle.TIT_DELETE_LSP_NODE));
 		oamMainInfoPanel = new OamMainInfoPanel();
+		pwNetworkTablePanel = new PwNetworkTablePanel();
 	}
 
 	public void setTabbedPaneLayout() {
@@ -711,6 +715,7 @@ public class TunnelBusinessPanel extends ContentView<Tunnel> {
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_OAM_INFO), oamScrollPane);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_OAM_MAIN_INFO), oamMainInfoPanel);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_SCHEMATIZE), this.schematize_panel);
+		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_PW_INFORMATION), this.pwNetworkTablePanel);
 	}
 
 	public void setLayout() {
@@ -819,10 +824,10 @@ public class TunnelBusinessPanel extends ContentView<Tunnel> {
 
 	@Override
 	public List<JButton> setAddButtons() {
-
 		List<JButton> needRemoveButtons = new ArrayList<JButton>();
 		needRemoveButtons.add(this.getRotateButton());
 		needRemoveButtons.add(this.getSearchButton());
+		needRemoveButtons.add(this.getConsistenceButton());
 		return needRemoveButtons;
 
 	}
@@ -911,6 +916,9 @@ public class TunnelBusinessPanel extends ContentView<Tunnel> {
 		return oamMainInfoPanel;
 	}
 
+	public PwNetworkTablePanel getPwNetworkTablePanel() {
+		return pwNetworkTablePanel;
+	}
 
 
 	private JMenuItem miUpdateQos;

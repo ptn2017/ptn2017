@@ -43,6 +43,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.VerifyNameUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.control.PtnDialog;
+import com.nms.ui.manager.control.PtnSpinner;
 import com.nms.ui.manager.control.PtnTextField;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysLbl;
@@ -67,7 +68,7 @@ public class ElineEditDialog extends PtnDialog {
 			this.setLayout();
 			this.addListener();
 			this.initData();
-			UiUtil.showWindow(this, 400, 310);
+			UiUtil.showWindow(this, 400, 380);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}
@@ -88,6 +89,7 @@ public class ElineEditDialog extends PtnDialog {
 				this.elineInfo = new ElineInfo();
 				this.setTitle(ResourceUtil.srcStr(StringKeysTitle.TIT_CREATE_ELINE));
 			} else {
+				this.ptnSpinnerNumber.setEnabled(false);
 				this.setTitle(ResourceUtil.srcStr(StringKeysTitle.TIT_UPDATE_ELINE));
 				this.chbActivate.setSelected(this.elineInfo.getActiveStatus()==1?true:false);
 				this.txtName.setText(this.elineInfo.getName());
@@ -310,9 +312,31 @@ public class ElineEditDialog extends PtnDialog {
 
 			elineDispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
 			if (this.elineInfo.getId() == 0) {
-				resultStr = elineDispatch.excuteInsert(this.elineInfo);
-				AddOperateLog.insertOperLog(btnSave, EOperationLogType.ELINEINSERT.getValue(), resultStr, 
-						null, elineInfo, elineInfo.getaSiteId()==0?elineInfo.getzSiteId():elineInfo.getaSiteId(), elineInfo.getName(), "eline");
+				// 批量创建
+				List<ElineInfo> elineList = new ArrayList<ElineInfo>();
+				elineList.add(this.elineInfo);
+				int num = Integer.parseInt(this.ptnSpinnerNumber.getTxt().getText());
+				if(num > 1){
+					int acNum = this.cmbAc.getItemCount();
+					int pwNum = this.cmbPw.getItemCount();
+					if(acNum > pwNum){
+						if(pwNum < num){
+							DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PORTCOUNT_NOT_EQUAL));
+							return;
+						}
+					}else{
+						if(acNum < num){
+							DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PORTCOUNT_NOT_EQUAL));
+							return;
+						}
+					}
+					this.createElineOnCopy(elineList, num-1);
+				}
+				for(ElineInfo eline : elineList){
+					resultStr = elineDispatch.excuteInsert(eline);
+					AddOperateLog.insertOperLog(btnSave, EOperationLogType.ELINEINSERT.getValue(), resultStr, 
+							null, eline, eline.getaSiteId()==0?eline.getzSiteId():eline.getaSiteId(), eline.getName(), "eline");
+				}
 			} else {
 				ElineInfo elineBefore = new ElineInfo();
 				elineBefore.setId(elineInfo.getId());
@@ -342,6 +366,37 @@ public class ElineEditDialog extends PtnDialog {
 		} finally {
 			UiUtil.closeService_MB(elineService);
 			UiUtil.closeService_MB(acPortInfoServiceMB);
+		}
+	}
+
+	private void createElineOnCopy(List<ElineInfo> elineList, int num) {
+		ElineInfo eline = null;
+		for(int i = 0; i < num; i++){
+			PwInfo pw = (PwInfo) ((ControlKeyValue) this.cmbPw.getItemAt(i+1)).getObject();
+			eline = new ElineInfo();
+			eline.setName(this.elineInfo.getName()+"_copy"+(i+1));
+			eline.setActiveStatus(this.elineInfo.getActiveStatus());
+			eline.setPwId(pw.getPwId());
+			eline.setPwName(pw.getPwName());
+			eline.setIsSingle(1);
+			eline.setServiceType(EServiceType.ELINE.getValue());
+			eline.setCreateTime(this.elineInfo.getCreateTime());
+			eline.setCreateUser(ConstantUtil.user.getUser_Name());
+
+			// 判断是a还是z端
+			AcPortInfo ac = (AcPortInfo) ((ControlKeyValue) this.cmbAc.getItemAt(i+1)).getObject();
+			if (pw.getASiteId() == ConstantUtil.siteId) {
+				eline.setaSiteId(ConstantUtil.siteId);
+				eline.setaAcId(ac.getId());
+				eline.setAportId(this.elineInfo.getAportId());
+				eline.setaAcName(ac.getName());
+			}else{
+				eline.setzSiteId(ConstantUtil.siteId);
+				eline.setzAcId(ac.getId());
+				eline.setZportId(this.elineInfo.getZportId());
+				eline.setzAcName(ac.getName());
+			}
+			elineList.add(eline);
 		}
 	}
 
@@ -396,6 +451,8 @@ public class ElineEditDialog extends PtnDialog {
 		if(null!=this.elineInfo){
 			this.cmbPw.setEnabled(false);
 		}
+		this.lblNumber = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CREATE_NUM));
+		this.ptnSpinnerNumber = new PtnSpinner(1, 1, 100, 1);
 	}
 
 	/**
@@ -483,10 +540,24 @@ public class ElineEditDialog extends PtnDialog {
 		c.gridwidth = 2;
 		componentLayout.setConstraints(this.chbActivate, c);
 		this.add(this.chbActivate);
+		
+		// 批量创建
+		c.gridx = 0;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		componentLayout.setConstraints(this.lblNumber, c);
+		this.add(this.lblNumber);
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.WEST;
+		c.gridx = 1;
+		c.gridwidth = 2;
+		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
+		this.add(this.ptnSpinnerNumber);
 
 		c.anchor = GridBagConstraints.EAST;
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
-		c.gridy = 7;
+		c.gridy = 8;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.btnSave, c);
 		this.add(this.btnSave);
@@ -533,4 +604,6 @@ public class ElineEditDialog extends PtnDialog {
 	private JButton btnCanel;
 	private JButton jButton;
 	private JLabel lblMessage;
+	private JLabel lblNumber;
+	private PtnSpinner ptnSpinnerNumber;
 }

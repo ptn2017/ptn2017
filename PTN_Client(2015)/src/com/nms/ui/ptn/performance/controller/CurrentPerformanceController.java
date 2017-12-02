@@ -153,6 +153,7 @@ public class CurrentPerformanceController extends AbstractController {
 		try {
 			String[] filrertypes = filter.getTypeStr().trim().split(",");
 			if (currentPerformanceInfo.getCapability() != null) {
+				currentPerformanceInfo.setMonitorCycle(filter.getMonitorCycle().getValue());
 				for (int i = 0; i < filrertypes.length; i++) {
 					try {
 						if (filrertypes[i].equals(currentPerformanceInfo.getCapability().getCapabilitytype())) {

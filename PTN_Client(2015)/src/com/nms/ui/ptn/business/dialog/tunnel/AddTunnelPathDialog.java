@@ -449,6 +449,11 @@ public class AddTunnelPathDialog extends PtnDialog {
 							cmbZport.setEnabled(true);
 							cmbProAport.setEnabled(false);
 							cmbProZport.setEnabled(false);
+							cmbRotateWay.setEnabled(false);
+							cmbRotateLocation.setEnabled(false);
+							cmbRotateMode.setEnabled(false);
+							spinnerTnpLayer.setEnabled(false);
+							spinnerRotateThreshold.setEnabled(false);
 						}else if ("2".equals(code.getCodeValue())){
 							txtWaitTime.getTxt().setEditable(true);
 							txtWaitTime.setEnabled(true);
@@ -468,6 +473,11 @@ public class AddTunnelPathDialog extends PtnDialog {
 							vlanButton_backup.setEnabled(true);
 							cmbProAport.setEnabled(true);
 							cmbProZport.setEnabled(true);
+							cmbRotateWay.setEnabled(true);
+							cmbRotateLocation.setEnabled(true);
+							cmbRotateMode.setEnabled(true);
+							spinnerTnpLayer.setEnabled(true);
+							spinnerRotateThreshold.setEnabled(true);
 						}else
 						{
 							txtWaitTime.getTxt().setEditable(true);
@@ -488,6 +498,11 @@ public class AddTunnelPathDialog extends PtnDialog {
 							vlanButton_backup.setEnabled(true);
 							cmbProAport.setEnabled(true);
 							cmbProZport.setEnabled(true);
+							cmbRotateWay.setEnabled(true);
+							cmbRotateLocation.setEnabled(true);
+							cmbRotateMode.setEnabled(true);
+							spinnerTnpLayer.setEnabled(true);
+							spinnerRotateThreshold.setEnabled(true);
 						}
 						
 					} catch (Exception e) {
@@ -2132,9 +2147,9 @@ public class AddTunnelPathDialog extends PtnDialog {
 	private void initComponents() throws Exception {
 		Dimension dimension = null;
  		if(ResourceUtil.language.equals("zh_CN")){
- 			 dimension = new Dimension(1300, 720);
+ 			 dimension = new Dimension(1300, 800);
 		}else{
-			 dimension = new Dimension(1300, 720);
+			 dimension = new Dimension(1300, 800);
 		}
 		this.setSize(dimension);
 		this.setMinimumSize(dimension);
@@ -2243,6 +2258,36 @@ public class AddTunnelPathDialog extends PtnDialog {
 		this.chkAps.setEnabled(false);
 		this.AutoProBtn.setEnabled(false);
 		this.protectBack.setEnabled(false);
+		this.lblRotateWay = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATEWAY));
+		this.cmbRotateWay = new JComboBox();
+		List<String> itemList = new ArrayList<String>();
+		itemList.add("SD");
+		itemList.add("SF");
+		this.setCmbItem(this.cmbRotateWay, itemList);
+		this.lblRotateLocation = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATELOCATION));
+		this.cmbRotateLocation = new JComboBox();
+		itemList.clear();
+		itemList.add("A_NE");
+		itemList.add("Z_NE");
+		this.setCmbItem(this.cmbRotateLocation, itemList);
+		this.lblRotateMode = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATEMODE));
+		this.cmbRotateMode = new JComboBox();
+		itemList.clear();
+		itemList.add("MANUAL");
+		itemList.add("AUTO");
+		this.setCmbItem(this.cmbRotateMode, itemList);
+		this.lblTnpLayer = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_TNPLAYER));
+		this.spinnerTnpLayer = new PtnSpinner(100, 1, 1, ResourceUtil.srcStr(StringKeysLbl.LBL_TNPLAYER));
+		this.spinnerTnpLayer.getTxt().setText("1");
+		this.lblRotateThreshold = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATETHRESHOLD));
+		this.spinnerRotateThreshold = new PtnSpinner(100, 1, 1, ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATETHRESHOLD));
+		this.spinnerRotateThreshold.getTxt().setText("1");
+		this.cmbRotateWay.setEnabled(false);
+		this.cmbRotateLocation.setEnabled(false);
+		this.cmbRotateMode.setEnabled(false);
+		this.spinnerTnpLayer.setEnabled(false);
+		this.spinnerRotateThreshold.setEnabled(false);
+		
 		//新增外层vlan
 		this.vlan = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_OUT_VLAN));
 		this.vlanButton = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIG));
@@ -2688,6 +2733,19 @@ public class AddTunnelPathDialog extends PtnDialog {
 		}
 	}
 	
+	private void setCmbItem(JComboBox cmb, List<String> itemList) {
+		DefaultComboBoxModel defaultComboBoxModel = null;
+		try {
+			defaultComboBoxModel = new DefaultComboBoxModel();
+			for(String value: itemList){
+				defaultComboBoxModel.addElement(value);
+			}
+			cmb.setModel(defaultComboBoxModel);
+		}catch(Exception e){
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+
 	/**
 	 * 通过已选中的端口获取工作和保护的必经路径
 	 * @param type
@@ -3371,10 +3429,70 @@ public class AddTunnelPathDialog extends PtnDialog {
 		layout.setConstraints(this.chkAps, c);
 		this.jPanel3.add(this.chkAps);
 		c.gridx = 1;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.WEST;
 		layout.setConstraints(this.protectBack, c);
 		this.jPanel3.add(this.protectBack);
+		
+		// 倒换准则
+		c.gridx = 2;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		layout.setConstraints(this.lblRotateWay, c);
+		this.jPanel3.add(this.lblRotateWay);
+		c.gridx = 3;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.WEST;
+		layout.setConstraints(this.cmbRotateWay, c);
+		this.jPanel3.add(this.cmbRotateWay);
+		
+		// 倒换位置，倒换模式
+		c.gridx = 0;
+		c.gridy = row++;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		layout.setConstraints(this.lblRotateLocation, c);
+		this.jPanel3.add(this.lblRotateLocation);
+		c.gridx = 1;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.WEST;
+		layout.setConstraints(this.cmbRotateLocation, c);
+		this.jPanel3.add(this.cmbRotateLocation);
+		
+		c.gridx = 2;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		layout.setConstraints(this.lblRotateMode, c);
+		this.jPanel3.add(this.lblRotateMode);
+		c.gridx = 3;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.WEST;
+		layout.setConstraints(this.cmbRotateMode, c);
+		this.jPanel3.add(this.cmbRotateMode);
+		
+		// TNP层速率，自动倒换阈值
+		c.gridx = 0;
+		c.gridy = row++;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		layout.setConstraints(this.lblTnpLayer, c);
+		this.jPanel3.add(this.lblTnpLayer);
+		c.gridx = 1;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.WEST;
+		layout.setConstraints(this.spinnerTnpLayer, c);
+		this.jPanel3.add(this.spinnerTnpLayer);
+		
+		c.gridx = 2;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		layout.setConstraints(this.lblRotateThreshold, c);
+		this.jPanel3.add(this.lblRotateThreshold);
+		c.gridx = 3;
+		c.gridwidth = 3;
+		c.anchor = GridBagConstraints.WEST;
+		layout.setConstraints(this.spinnerRotateThreshold, c);
+		this.jPanel3.add(this.spinnerRotateThreshold);
 
 		// SNCP
 		c.gridx = 0;
@@ -3701,6 +3819,26 @@ public class AddTunnelPathDialog extends PtnDialog {
 	public void setProtectBack(JCheckBox protectBack) {
 		this.protectBack = protectBack;
 	}
+	
+	public JComboBox getCmbRotateWay() {
+		return cmbRotateWay;
+	}
+
+	public JComboBox getCmbRotateLocation() {
+		return cmbRotateLocation;
+	}
+
+	public JComboBox getCmbRotateMode() {
+		return cmbRotateMode;
+	}
+
+	public PtnSpinner getSpinnerTnpLayer() {
+		return spinnerTnpLayer;
+	}
+
+	public PtnSpinner getSpinnerRotateThreshold() {
+		return spinnerRotateThreshold;
+	}
 
 	public PtnSpinner getPtnSpinnerNumber() {
 		return ptnSpinnerNumber;
@@ -4011,4 +4149,15 @@ public class AddTunnelPathDialog extends PtnDialog {
 	private JTextField sourceMacText_backup;
 	private JLabel endMacLabel_backup;
 	private JTextField endMacText_backup;
+	
+	private JLabel lblRotateWay;
+	private JComboBox cmbRotateWay;// 倒换准则 SD/SF
+	private JLabel lblRotateLocation;
+	private JComboBox cmbRotateLocation;// 倒换位置 A端网元/Z端网元
+	private JLabel lblRotateMode;
+	private JComboBox cmbRotateMode;// 倒换模式 人工倒换/自动倒换
+	private JLabel lblTnpLayer;
+	private PtnSpinner spinnerTnpLayer;// TNP层速率 1-100
+	private JLabel lblRotateThreshold;
+	private PtnSpinner spinnerRotateThreshold;// 自动倒换阈值(%) 1-100
 }

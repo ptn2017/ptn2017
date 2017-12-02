@@ -3,12 +3,14 @@ package com.nms.ui.ptn.ne.ces.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.ces.CesInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.pw.PwNniInfo;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
+import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.ptn.path.ces.CesInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.util.Services;
@@ -48,6 +50,7 @@ public class CesController extends AbstractController {
 		List<CesInfo> cesInfos2 = null;
 		List<CesInfo> cesInfos = null;
 		ListingFilter filter = null;
+		PortService_MB portService = null;
 		try {
 			cesInfos=new ArrayList<CesInfo>();
 			cesInfoServiceMB = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);
@@ -57,7 +60,50 @@ public class CesController extends AbstractController {
 			if(null==this.cesInfo){
 				this.cesInfo=new CesInfo();
 			}
-			cesInfos2 = (List<CesInfo>) filter.filterList(cesInfoServiceMB.filterSingle(this.cesInfo,ConstantUtil.siteId));
+			// 根据板卡过滤
+			PortInst portCon = new PortInst();
+			portCon.setSiteId(ConstantUtil.siteId);
+			portCon.setPortType("e1");
+			List<PortInst> portInstList = null;
+			portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
+			// 查询所有板卡
+			CesInfo cesCon = new CesInfo();
+			cesCon.setName(this.cesInfo.getName());
+			cesCon.setPwId(this.cesInfo.getPwId());
+			cesCon.setActiveStatus(this.cesInfo.getActiveStatus());
+			cesCon.setaSiteId(this.cesInfo.getaSiteId());
+			cesCon.setCestype(this.cesInfo.getCestype());
+			if(this.cesInfo.getCardId() == 0){
+				List<CesInfo> cesList = null;
+				portInstList = portService.select(portCon);
+				cesInfos2 = new ArrayList<CesInfo>();
+				for(PortInst port : portInstList){
+					cesCon.setAportId(port.getPortId());
+					cesList = (List<CesInfo>) filter.filterList(cesInfoServiceMB.filterSingle(cesCon, ConstantUtil.siteId));
+					if(cesList != null && !cesList.isEmpty()){
+						cesInfos2.addAll(cesList);
+					}
+				}
+			}else{
+				// 查询具体某块板卡的所有端口
+				if(this.cesInfo.getAportId() == 0){
+					List<CesInfo> cesList = null;
+					portCon.setCardId(this.cesInfo.getCardId());
+					portInstList = portService.select(portCon);
+					cesInfos2 = new ArrayList<CesInfo>();
+					for(PortInst port : portInstList){
+						cesCon.setAportId(port.getPortId());
+						cesList = (List<CesInfo>) filter.filterList(cesInfoServiceMB.filterSingle(cesCon, ConstantUtil.siteId));
+						if(cesList != null && !cesList.isEmpty()){
+							cesInfos2.addAll(cesList);
+						}
+					}
+				}else{
+					// 查询具体某块板卡的具体端口
+					cesInfos2 = (List<CesInfo>) filter.filterList(cesInfoServiceMB.filterSingle(this.cesInfo,ConstantUtil.siteId));
+				}
+				
+			}
 			for(CesInfo ces1:cesInfos1)
 			{
 				for(CesInfo ces2:cesInfos2)
@@ -76,6 +122,7 @@ public class CesController extends AbstractController {
 			ExceptionManage.dispose(e,this.getClass());
 		} finally {
 			UiUtil.closeService_MB(cesInfoServiceMB);
+			UiUtil.closeService_MB(portService);
 			cesInfos = null;
 		}
 	}

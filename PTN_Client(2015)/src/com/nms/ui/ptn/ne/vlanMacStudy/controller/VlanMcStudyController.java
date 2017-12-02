@@ -127,9 +127,9 @@ public class VlanMcStudyController extends AbstractController {
 				String mac = "";
 				for (int j = 0; j < 6; j++) {
 					if(j!=5){
-						mac +=values[10+i*6+j]+"-";
+						mac +=values[9+i*6+j]+"-";
 					}else{
-						mac +=values[10+i*6+j];
+						mac +=values[9+i*6+j];
 					}
 					
 				}

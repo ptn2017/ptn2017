@@ -167,6 +167,7 @@
 		<attribute id="portNo" name="工作状态" visible="true" />
 		<attribute id="isWithSegment" name="是否连接段" visible="true" />
 		<attribute id="belongCard" name="所属板卡" visible="true" />
+		<attribute id="mac" name="MAC地址" visible="true" />
 	</table>
 
 	<table name="lspPathTable">
@@ -1751,4 +1752,41 @@
 		<attribute id="elanid" name="elan id" visible="true"></attribute>
 		<attribute id="macAddress" name="macAddress" visible="true"></attribute>
 	</table>
+	<table name="businessPanel" >
+	    <attribute id="id" name="序号" visible="false" />
+		<attribute id="name" name="业务名称" visible="true" />
+		<attribute id="serviceType" name="业务类型" visible="true" />
+		<attribute id="activeStatus" name="激活状态" visible="true" />
+		<attribute id="activeTime" name="激活时间" visible="false" />
+		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="clientName" name="客户名称" visible="true" />
+	</table>	
+    <table name="unAlarmEvent">
+			<attribute id="id" name="ID" visible="false"></attribute>
+			<attribute id="loginIp" name="登录IP" visible="true"></attribute>
+			<attribute id="loginTime" name="登录时间" visible="true"></attribute>
+			<attribute id="loginResult" name="登录结果" visible="true"></attribute>
+			<attribute id="exitTime" name="退出时间" visible="true"></attribute>
+	</table>
+	<table name="sitePortTable">
+		<attribute id="id" name="ID" visible="false" />
+		<attribute id="portName" name="端口名称" visible="true" />
+		<attribute id="portType" name="端口类型" visible="true" />		
+	</table>
+	<table name="SiteInfoPanel" layout="statistics">
+		<attribute id="id" name="序号" visible="false" />
+		<attribute id="SiteName" name="网元名称" visible="true" />
+		<attribute id="SiteType" name="网元类型" visible="true" />
+		<attribute id="siteStatus" name="网元状态" visible="true" />
+		<attribute id="slotNum" name="槽位" visible="true" />
+		<attribute id="cardType" name="板卡类型" visible="true" />
+		<attribute id="hardWareVersion" name="硬件版本" visible="true" />
+		<attribute id="softWareVersion" name="软件版本" visible="true" />
+		<attribute id="cellTime" name="启用时间" visible="true" />
+		<attribute id="PortType" name="端口类型" visible="true" />
+		<attribute id="PortCount" name="端口数量" visible="true" />
+		<attribute id="PortUsed" name="已使用端口" visible="true" />
+		<attribute id="PortUnUsed" name="空闲" visible="true" />
+		<attribute id="UsedRate" name="使用率%" visible="true" />
+	</table>		
 </xml-body>

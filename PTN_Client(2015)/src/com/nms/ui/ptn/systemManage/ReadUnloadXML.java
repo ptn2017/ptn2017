@@ -44,7 +44,7 @@ public class ReadUnloadXML {
 			}	
 
 		} catch (Exception e) {
-			ExceptionManage.dispose(e, null);
+			ExceptionManage.dispose(e, ReadUnloadXML.class);
 		}finally{
 			UiUtil.closeService_MB(unloadService);
 		}		

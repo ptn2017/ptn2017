@@ -48,6 +48,8 @@ import com.nms.ui.manager.keys.StringKeysMenu;
 import com.nms.ui.manager.keys.StringKeysPanel;
 import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
+import com.nms.ui.ptn.business.pw.BusinessNetworkTablePanel;
+import com.nms.ui.ptn.business.pw.PwNetworkTablePanel;
 import com.nms.ui.ptn.business.pw.PwQosQueuePanel;
 import com.nms.ui.ptn.ne.tunnel.controller.TunnelNodeController;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
@@ -70,6 +72,8 @@ public class TunnelPanel extends ContentView<Tunnel> {
 	private JTabbedPane tabbedPane;
 	private PwQosQueuePanel qosPanel;
 	private LspTablePanel lspPanel;
+	private PwNetworkTablePanel pwNetworkTablePanel;
+	private BusinessNetworkTablePanel businessNetworkTablePanel;
 
 	//private static TunnelPanel tunnelPanel;
 	/** Creates new form LspPanl */
@@ -103,6 +107,8 @@ public class TunnelPanel extends ContentView<Tunnel> {
 					// 清除详细面板数据
 					qosPanel.clear();
 					lspPanel.clear();
+					pwNetworkTablePanel.clear();
+					businessNetworkTablePanel.clear();
 					return;
 				} else {
 					getController().initDetailInfo();
@@ -143,11 +149,15 @@ public class TunnelPanel extends ContentView<Tunnel> {
 		qosPanel = new PwQosQueuePanel();
 		lspPanel = new LspTablePanel();
 		miUpdateQos = new JMenuItem(ResourceUtil.srcStr(StringKeysMenu.MENU_QOS_UPDATE));
+		pwNetworkTablePanel = new PwNetworkTablePanel();
+		businessNetworkTablePanel = new BusinessNetworkTablePanel(); 
 	}
 
 	public void setTabbedPaneLayout() {
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_LSP_INFO), lspPanel);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_QOS_INFO), qosPanel);
+		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_PW_INFORMATION), this.pwNetworkTablePanel);
+		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_BUSINESS_INFORMATION), this.businessNetworkTablePanel);
 	}
 
 	public void setLayout() {
@@ -353,5 +363,11 @@ public class TunnelPanel extends ContentView<Tunnel> {
 
 	private JMenuItem miUpdateQos;
 	
-
+	public PwNetworkTablePanel getPwNetworkTablePanel() {
+		return pwNetworkTablePanel;
+	}
+	
+	public BusinessNetworkTablePanel getBusinessNetworkTablePanel() {
+		return businessNetworkTablePanel;
+	}
 }

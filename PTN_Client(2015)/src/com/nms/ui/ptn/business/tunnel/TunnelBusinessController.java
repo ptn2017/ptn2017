@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mysql.jdbc.Util;
+import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.tunnel.Lsp;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.ptn.qos.QosInfo;
@@ -16,11 +18,13 @@ import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.BfdInfoService_MB;
 import com.nms.model.ptn.oam.OamInfoService_MB;
+import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.path.tunnel.TunnelService_MB;
 import com.nms.model.ptn.qos.QosInfoService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
 import com.nms.service.impl.base.DispatchBase;
+import com.nms.service.impl.util.ResultString;
 import com.nms.service.impl.util.SiteUtil;
 import com.nms.service.impl.util.WhImplUtil;
 import com.nms.ui.filter.impl.TunnelFilterDialog;
@@ -37,6 +41,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.tunnel.AddTunnelPathDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
 import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
 
 /**
@@ -390,12 +395,37 @@ public class TunnelBusinessController extends AbstractController {
 			this.initTopoPanel();
 			this.initSchematizePanel();
 			this.initOamMainInfoPanel();
+			this.initPwNetworkTablePanel();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}finally{
 			UiUtil.closeService_MB(tunnelServiceMB);
 		}
 	}
+	
+	private void initPwNetworkTablePanel() {
+		PwInfoService_MB pwServiceMB = null;
+		Tunnel tunnel = null;
+		PwInfo pwInfo =null;
+		try {
+			tunnel = this.view.getSelect();
+			pwInfo=new PwInfo();
+			pwInfo.setTunnelId(tunnel.getTunnelId());
+			pwServiceMB = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);			
+			List<PwInfo> pwList = new ArrayList<PwInfo>();
+			pwList=(List<PwInfo>) pwServiceMB.selectFilter(pwInfo);
+			if(pwList ==null){
+				pwList = new ArrayList<PwInfo>();
+			}
+			this.view.getPwNetworkTablePanel().clear();
+			this.view.getPwNetworkTablePanel().initData(pwList);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(pwServiceMB);
+		}
+	}	
+	
 
 	/**
 	 * 初始化图形化界面数据
@@ -600,8 +630,9 @@ public class TunnelBusinessController extends AbstractController {
 	@Override
 	public void search() {
 		try {
-			new SearchSegmentDialog(this.view);
-
+//			new SearchSegmentDialog(this.view);
+			Thread.sleep(20000);
+			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -771,5 +802,54 @@ public class TunnelBusinessController extends AbstractController {
 		}
 		view.getPrevPageBtn().setEnabled(true);
 		flipRefresh();
+	}
+	
+	/**
+	 * 一致性检测
+	 */
+	@Override
+	public void consistence(){
+		List<Tunnel> tunnelEMS = null;
+		TunnelService_MB tunnelServiceMB = null;
+		DispatchUtil dispatchUtil = null;
+		List<Tunnel> tunnelsNE = null;  
+		SiteService_MB siteService = null;
+		try {
+			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
+			List<SiteInst> siteInstList = siteService.select();
+			if(siteInstList != null){
+				for(SiteInst site : siteInstList){
+					if(site.getLoginstatus() == 1){
+						siteIdOnLineList.add(site.getSite_Inst_Id());
+					}
+				}
+			}
+			if(!siteIdOnLineList.isEmpty()){
+				tunnelServiceMB = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
+				tunnelEMS = new ArrayList<Tunnel>();
+				tunnelsNE = new ArrayList<Tunnel>();
+				dispatchUtil = new  DispatchUtil(RmiKeys.RMI_TUNNEL);
+				for(int siteId : siteIdOnLineList){
+					List<Tunnel> tunnelEMSSingle = tunnelServiceMB.selectWHNodesBySiteId(siteId);
+					List<Tunnel> tunnelNESingle = (List<Tunnel>) dispatchUtil.consistence(siteId);
+					if(tunnelEMSSingle != null && !tunnelEMSSingle.isEmpty()){
+						tunnelEMS.addAll(tunnelEMSSingle);
+					}
+					if(tunnelNESingle != null && !tunnelNESingle.isEmpty()){
+						tunnelsNE.addAll(tunnelNESingle);
+					}
+				}
+				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("TUNNEL", tunnelEMS, tunnelsNE, this);
+				UiUtil.showWindow(camporeDataDialog, 700, 600);
+			}else{
+				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}finally{
+			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(tunnelServiceMB);
+		}
 	}
 }

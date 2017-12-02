@@ -161,10 +161,12 @@ public class CheckBoxPanel extends JPanel {
 	private void setChkEnabledBackup(boolean isEnabled) {
 		this.chkSafety.setEnabled(isEnabled);
 		this.chkSite.setEnabled(isEnabled);
+		this.chkBusiness.setEnabled(isEnabled);
 
 		// 设置选中状态
 		this.chkSafety.setSelected(!isEnabled);
 		this.chkSite.setSelected(!isEnabled);
+		this.chkBusiness.setSelected(!isEnabled);
 	}
 
 	/**
@@ -198,11 +200,13 @@ public class CheckBoxPanel extends JPanel {
 		this.chkAll = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_DBTA));
 		this.chkSafety = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_USERANDLOG_DBTA));
 		this.chkSite = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_SITEADNALL_DBTA));
+		this.chkBusiness = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_CORE_DBTA));
 
 		// 把所有复选框放入集合中初始化按钮用
 		this.mapChk.put(ServerConstant.BACKUPS_ALL, chkAll);
 		this.mapChk.put(ServerConstant.BACKUPS_USER, chkSafety);
 		this.mapChk.put(ServerConstant.BACKUPS_SITE, chkSite);
+		this.mapChk.put(ServerConstant.BACKUPS_BUSINESS, chkBusiness);
 	}
 
 	/**
@@ -282,15 +286,19 @@ public class CheckBoxPanel extends JPanel {
 		c.gridwidth = 3;
 		componentLayout.setConstraints(this.chkAll, c);
 		this.add(this.chkAll);
+		
+		c.gridy = 2;
+		componentLayout.setConstraints(this.chkBusiness, c);
+		this.add(this.chkBusiness);
 
 		// 初始化网元复选框
-		c.gridy = 2;
+		c.gridy = 3;
 		componentLayout.setConstraints(this.chkSite, c);
 		this.add(this.chkSite);
 
 		// 初始化告警复选框
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 4;
 		componentLayout.setConstraints(this.chkSafety, c);
 		this.add(this.chkSafety);
 
