@@ -165,7 +165,7 @@ public class SpecificSiteStatisticsPanelController extends AbstractController {
 						}
 					}
 					sSSite.setId((id++)+"");
-					sSSite.setSiteName(site.getSite_Hum_Id());
+					sSSite.setSiteName(site.getCellId());
 					sSSite.setNeType(ssPort.getNeType());
 					sSSite.setSiteStatus(site.getLoginstatus() == 1 ? ResourceUtil.srcStr(StringKeysObj.STRING_ONLINE):ResourceUtil.srcStr(StringKeysObj.STRING_OFFLINE));
 					SlotInst slotCon = new SlotInst();
