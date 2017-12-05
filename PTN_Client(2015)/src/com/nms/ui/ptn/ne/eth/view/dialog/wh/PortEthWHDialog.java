@@ -368,7 +368,9 @@ public class PortEthWHDialog extends PortEthDialog{
 			alarmReversalComboBox = new JComboBox();
 			servicePortState = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_SERVICESTATE));
 			servicePortComboBox = new JComboBox();
-			
+			macAddresslabel = new JLabel("MAC");
+			macAddressText = new JTextField("00-00-00");
+			macAddressText.setEditable(false);
 			super.getComboBoxDataUtil().comboBoxData(this.laserCmboBox, "LASERENABLED");
 			super.getComboBoxDataUtil().comboBoxData(this.servicePortComboBox, "SERVICELOOPSTATE");
 			alarmReversalComboBox.addItem(ResourceUtil.srcStr(StringKeysObj.ALLCONFIG_FID_ENABLED_NO));
@@ -389,6 +391,8 @@ public class PortEthWHDialog extends PortEthDialog{
 			super.addComponent(this, alarmReversalComboBox, 5, 5, gridCon);
 			super.addComponent(this, servicePortState, 1, 6, gridCon);
 			super.addComponent(this, servicePortComboBox, 2, 6, gridCon);
+			super.addComponent(this, macAddresslabel, 4, 6, gridCon);
+			super.addComponent(this, macAddressText, 5, 6, gridCon);
 			
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -434,4 +438,7 @@ public class PortEthWHDialog extends PortEthDialog{
     private JComboBox alarmReversalComboBox;//告警反转使能
     private JLabel servicePortState;//业务端口环回状态
     private JComboBox  servicePortComboBox;
+    private JLabel macAddresslabel;//端口mac地址
+    private JTextField macAddressText;
+    
 }

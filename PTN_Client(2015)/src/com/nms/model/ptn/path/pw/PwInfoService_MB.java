@@ -1794,7 +1794,7 @@ public class PwInfoService_MB extends ObjectService_Mybatis{
 				pwInfo.setMsPwInfos(msPwMapper.queryByCondition(mspwinfoCondition));
 			}
 
-//			getOAMandQoSforPw(pwinfoList);
+			getOAMandQoSforPw(pwinfoList);
 
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());

@@ -36,6 +36,7 @@ import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.port.AcPortInfo;
+import com.nms.db.bean.ptn.qos.QosInfo;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EPwType;
@@ -924,6 +925,32 @@ public class AddElineDialog extends PtnDialog {
 		return str;
 	}
 
+	private boolean checkValue_nt(){
+		boolean flag = false;
+		ControlKeyValue pw = null;
+		ControlKeyValue aAc = null;
+		ControlKeyValue zAc = null;
+		pw = (ControlKeyValue) pwSelect.getSelectedItem();
+		aAc = (ControlKeyValue) aACjComboBox.getSelectedItem();
+		zAc = (ControlKeyValue) zACjComboBox.getSelectedItem();
+		AcPortInfo aAcPortInfo = (AcPortInfo) aAc.getObject();
+		AcPortInfo zAcPortInfo = (AcPortInfo) zAc.getObject();
+		PwInfo pwInfo = (PwInfo)pw.getObject();
+		if(pwInfo.getQosList() != null &&  pwInfo.getQosList().size()>0){
+			QosInfo qosInfo = pwInfo.getQosList().get(0);
+			if(aAcPortInfo.getSimpleQos().getCos() != qosInfo.getCos() || aAcPortInfo.getSimpleQos().getCir()>qosInfo.getCir()){
+				return flag;
+			}
+			if(zAcPortInfo.getSimpleQos().getCos() != qosInfo.getCos() || zAcPortInfo.getSimpleQos().getCir()>qosInfo.getCir()){
+				return flag;
+			}
+			
+		}else{
+			return flag;
+		}
+		
+		return true;
+	}
 	/**
 	 * 下发之前验证数据的正确性 true:全部正确； false：取值验证失败
 	 * @return
@@ -966,15 +993,11 @@ public class AddElineDialog extends PtnDialog {
 			}
 			
 			//验证pw和ac的qos是否匹配。
-//			qosInfoService=(QosInfoService) ConstantUtil.serviceFactory.newService(Services.QosInfo);
-//			List<AcPortInfo> acPortInfoList=new ArrayList<AcPortInfo>();
-//			acPortInfoList.add((AcPortInfo) aAc.getObject());
-//			acPortInfoList.add((AcPortInfo) zAc.getObject());
-//			if(!qosInfoService.checkPwAndAcQos((PwInfo)pw.getObject(), ((PwInfo)pw.getObject()).getQosList(),acPortInfoList)){
-//				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PW_AC_QOS_NOT_MATCHING));
-//				UiUtil.insertOperationLog(EOperationLogType.TUNNELCREATE9.getValue());//447
-//				return false;
-//			}
+			if(!checkValue_nt()){
+				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PW_AC_QOS_NOT_MATCHING));
+				UiUtil.insertOperationLog(EOperationLogType.TUNNELCREATE9.getValue());//447
+				return false;
+			}
 			//批量创建时，验证ac数量和pw数量是否匹配
 			int num = Integer.parseInt(this.ptnSpinnerNumber.getTxtData());
 			if(num > 1){

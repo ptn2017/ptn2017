@@ -259,6 +259,16 @@ public class StringKeysObj {
 	 * 15分钟
 	 */
 	public static final String OBJ_15_MINUTES= "OBJ_15_MINUTES";
+	
+	/**
+	 * 10分钟
+	 */
+	public static final String OBJ_10_MINUTES= "OBJ_10_MINUTES";
+	
+	/**
+	 * 50秒
+	 */
+	public static final String OBJ_50_M= "OBJ_50_M";
 	/**
 	 * 24小时
 	 */

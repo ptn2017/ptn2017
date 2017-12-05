@@ -86,6 +86,8 @@ public class CreatePerforTaskDialog extends PtnDialog {
 	private JTextField tfName;
 	private JRadioButton rb15min;
 	private JRadioButton rb24hour;
+	private JRadioButton rb50m;
+	private JRadioButton rb10min;
 	//网元，板卡，复选框
 	private JComboBox cbObjectType;
 	private JLabel lblObejctType;
@@ -649,6 +651,8 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		lblCycle = new JLabel(ResourceUtil.srcStr(StringKeysObj.RUN_PERIOD));
 		rb15min = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_15_MINUTES));
 		rb24hour = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_24_HOURS));
+		rb50m = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_15_MINUTES));
+		rb10min = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_15_MINUTES));
 		
 		startTime = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_START_TIME));
 		endTime = new JCheckBox(ResourceUtil.srcStr(StringKeysOperaType.BTN_OVER_TIME));
