@@ -105,7 +105,8 @@ public class CreatePerforTaskDialog extends PtnDialog {
     private JCheckBox endTime;//结束时间
 	private JTextField startTimeField;
 	private JTextField endTimeField;
-	
+	private JLabel trapLabel;
+	private JRadioButton rbTrap;
 	public CreatePerforTaskDialog(PerformanceTaskPanel view) {
 		this.setModal(true);
 		this.view = view;
@@ -690,6 +691,8 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		clear = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FILTER_CLEAR));
 		this.neTreePanel=new NeTreePanel(false, 2, null,false);
 		buttonPanel=new javax.swing.JPanel();
+		trapLabel = new JLabel("是否自动上报");
+		rbTrap = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_YES));
 	}
 
 	/*
@@ -941,9 +944,24 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		layout.addLayoutComponent(rbStop, c);
 		this.add(rbStop);
 		
+		c.gridx = 0;
+		c.gridy = 9;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(trapLabel, c);
+		this.add(trapLabel);
+		c.gridx = 1;
+		c.gridy = 9;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 0);
+		layout.addLayoutComponent(rbTrap, c);
+		this.add(rbTrap);
+		
 		if(view.getSelect() == null){
 			c.gridx = 0;
-			c.gridy = 9;
+			c.gridy = 10;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(10, 5, 20, 5);
@@ -952,7 +970,7 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		}
 		
 		c.gridx = 4;
-		c.gridy = 9;
+		c.gridy = 10;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);

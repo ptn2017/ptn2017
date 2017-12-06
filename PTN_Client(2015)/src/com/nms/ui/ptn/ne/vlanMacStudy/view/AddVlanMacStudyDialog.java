@@ -253,7 +253,7 @@ public class AddVlanMacStudyDialog extends PtnDialog {
 			this.cancel = new javax.swing.JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
 			this.btnPanel = new JPanel();
 			this.btnPanel1 = new JPanel();
-			portChoice = new JLabel(ResourceUtil.srcStr(StringKeysBtn.BTN_PORT_SELECT));
+			portChoice = new JLabel("vpls-name");
 			portCom = new JComboBox();			
 //			
 //			this.addButton = new javax.swing.JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_ADD)); // 增加按钮

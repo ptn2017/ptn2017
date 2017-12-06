@@ -95,7 +95,7 @@ public class PortLagController extends AbstractController {
 			if (siteService.getManufacturer(ConstantUtil.siteId) == EManufacturer.WUHAN.getValue()) {
 				portLagInfo = new PortLagInfo();
 				String siteType = siteService.getSiteType(ConstantUtil.siteId);
-				if(siteType.contains("710")){
+				if(siteType.contains("710") || siteType.contains("ETN-5000")){
 					if (getAllPortLagInfo().size() == 8) {
 						DialogBoxUtil.errorDialog(PortLagController.this.panel, ResourceUtil.srcStr(StringKeysTip.TIP_8_LAG));
 						return;

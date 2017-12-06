@@ -3,6 +3,7 @@ package com.nms.ui.topology.util;
 import java.awt.Color;
 import java.util.List;
 
+import twaver.BlinkingRule;
 import twaver.Card;
 import twaver.Element;
 import twaver.Group;

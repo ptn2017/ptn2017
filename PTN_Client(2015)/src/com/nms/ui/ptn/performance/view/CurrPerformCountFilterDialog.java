@@ -89,7 +89,7 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 		this.cmbPerformType = new JComboBox();
 		this.lblMonitorObj = new JLabel("监控对象");
 		this.cmbMonitorObj = new JComboBox();
-		this.lblCycle = new JLabel("采样周期(s):");
+		this.lblCycle = new JLabel("采样周期: ");
 		this.cmbCycle = new JComboBox();
 		this.clear = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FILTER_CLEAR));
 		this.confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),false);
@@ -274,9 +274,8 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 		this.cmbPerformType.addItem(new ControlKeyValue("4", "PW"));
 		this.cmbPerformType.addItem(new ControlKeyValue("5", "以太网业务"));
 		//采样周期: 20/40/60(s)
-		this.cmbCycle.addItem(new ControlKeyValue("1", "20"));
-		this.cmbCycle.addItem(new ControlKeyValue("2", "40"));
-		this.cmbCycle.addItem(new ControlKeyValue("3", "60"));
+		this.cmbCycle.addItem(new ControlKeyValue("1", "50s"));
+		this.cmbCycle.addItem(new ControlKeyValue("2", "15m"));
 	}
 	
 	/**
@@ -502,11 +501,9 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 		this.setFilterCurrentPerformance(infoList, currPerformList, this.filter);
 		long endTime = 0;
 		if(this.cmbCycle.getSelectedIndex() == 0){
-			endTime = startTime + 20*1000;
+			endTime = startTime + 50*1000;
 		}else if(this.cmbCycle.getSelectedIndex() == 1){
-			endTime = startTime + 40*1000;
-		}else if(this.cmbCycle.getSelectedIndex() == 2){
-			endTime = startTime + 60*1000;
+			endTime = startTime + 15*60*1000;
 		}
 		while(true){
 			if(System.currentTimeMillis() > endTime){

@@ -1712,18 +1712,18 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		// 菜单条：实时性能统计
-//		currPerformCountMenuItem.setText("实时性能统计");
+		currPerformCountMenuItem.setText("实时性能统计");
 //		/*
 //		 * 添加 权限验证
 //		 */
-//		roleRoot.setItemEnbale(this.currPerformCountMenuItem, RootFactory.PROFORMANCEMODU);
-//	    this.currPerformCountMenuItem.setMnemonic(KeyEvent.VK_M);
-//	    currPerformCountMenuItem.addActionListener(new java.awt.event.ActionListener() {
-//			@Override
-//			public void actionPerformed(java.awt.event.ActionEvent evt) {
-//				currPerformCountMenuItemActionPerformed();
-//			}
-//		});
+		roleRoot.setItemEnbale(this.currPerformCountMenuItem, RootFactory.PROFORMANCEMODU);
+	    this.currPerformCountMenuItem.setMnemonic(KeyEvent.VK_M);
+	    currPerformCountMenuItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				currPerformCountMenuItemActionPerformed();
+			}
+		});
 	    
 	    //历史性能统计
 	    jMenuItemPerfor.setText(ResourceUtil.srcStr(StringKeysMenu.TAB_PERFORINFO_T));
@@ -1756,7 +1756,7 @@ public class Ptnf extends javax.swing.JFrame {
 		jMenu17.add(currPerMenuItem);
 		jMenu17.add(hisPerMenuItem);
 		jMenu17.add(perTaskMenuItem);
-//		jMenu17.add(currPerformCountMenuItem);
+		jMenu17.add(currPerformCountMenuItem);
 		jMenu17.add(jMenuItemPerfor);
 		jMenu17.add(jMenuItemPathPerfor);
 		jMenuBar2.add(jMenu17);
