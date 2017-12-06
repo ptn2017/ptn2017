@@ -88,6 +88,7 @@ public class CreatePerforTaskDialog extends PtnDialog {
 	private JRadioButton rb24hour;
 	private JRadioButton rb50m;
 	private JRadioButton rb10min;
+	private ButtonGroup rbGroup;
 	//网元，板卡，复选框
 	private JComboBox cbObjectType;
 	private JLabel lblObejctType;
@@ -161,8 +162,12 @@ public class CreatePerforTaskDialog extends PtnDialog {
 			}
 			if (info.getMonitorCycle() == EMonitorCycle.MIN15) {
 				rb15min.setSelected(true);
-			} else {
+			} else if(info.getMonitorCycle() == EMonitorCycle.HOUR24){
 				rb24hour.setSelected(true);
+			}else if(info.getMonitorCycle() == EMonitorCycle.M50){
+				rb50m.setSelected(true);
+			}else if(info.getMonitorCycle() == EMonitorCycle.MIN10){
+				rb10min.setSelected(true);
 			}
 			rb15min.setEnabled(false);
 			rb24hour.setEnabled(false);
@@ -427,12 +432,16 @@ public class CreatePerforTaskDialog extends PtnDialog {
 			{
 				task.setEndTime("");
 			}
-			task.setMonitorCycle(EMonitorCycle.forms(rb15min.isSelected() ? 1 : 2));
-			if(rb15min.isSelected()&&rb24hour.isSelected()){
-				task.setTaskLabel(2);
-			}else{
-				task.setTaskLabel(1);
+			Integer cycle = 1;
+			if(rb24hour.isSelected()){
+				cycle = 2;
+			}else if(rb50m.isSelected()){
+				cycle = 3;
+			}else if(rb10min.isSelected()){
+				cycle = 4;
 			}
+			task.setMonitorCycle(EMonitorCycle.forms(cycle));
+			task.setTaskLabel(cycle);
 			
 			if (rbRun.isSelected()) {
 				task.setRunstates(ERunStates.RUN);
@@ -534,10 +543,10 @@ public class CreatePerforTaskDialog extends PtnDialog {
 //				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_PERFORMANCE_TYPE));
 //				return false;
 //			}		
-			if (!rb15min.isSelected() && !rb24hour.isSelected()) {
-				JOptionPane.showMessageDialog(CreatePerforTaskDialog.this, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_MONITORING_PERIOD));
-				return false;
-			}
+//			if (!rb15min.isSelected() && !rb24hour.isSelected()) {
+//				JOptionPane.showMessageDialog(CreatePerforTaskDialog.this, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_MONITORING_PERIOD));
+//				return false;
+//			}
 			
 			String regex = "^(((20[0-3][0-9]-(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|(20[0-3][0-9]-(0[2469]|11)-(0[1-9]|[12][0-9]|30))) (20|21|22|23|[0-1][0-9]):[0-5][0-9]:[0-5][0-9])$";
 			
@@ -651,8 +660,13 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		lblCycle = new JLabel(ResourceUtil.srcStr(StringKeysObj.RUN_PERIOD));
 		rb15min = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_15_MINUTES));
 		rb24hour = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_24_HOURS));
-		rb50m = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_15_MINUTES));
-		rb10min = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_15_MINUTES));
+		rb50m = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_50_M));
+		rb10min = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_10_MINUTES));
+		rbGroup = new ButtonGroup();
+		rbGroup.add(rb15min);
+		rbGroup.add(rb24hour);
+		rbGroup.add(rb50m);
+		rbGroup.add(rb10min);
 		
 		startTime = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_START_TIME));
 		endTime = new JCheckBox(ResourceUtil.srcStr(StringKeysOperaType.BTN_OVER_TIME));
@@ -851,7 +865,20 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		layout.addLayoutComponent(rb24hour, c);
 		this.add(rb24hour);
-		
+		c.gridx = 3;
+		c.gridy = 5;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		layout.addLayoutComponent(rb50m, c);
+		this.add(rb50m);
+		c.gridx = 4;
+		c.gridy = 5;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		layout.addLayoutComponent(rb10min, c);
+		this.add(rb10min);
 		
 		c.gridx = 0;
 		c.gridy = 6;

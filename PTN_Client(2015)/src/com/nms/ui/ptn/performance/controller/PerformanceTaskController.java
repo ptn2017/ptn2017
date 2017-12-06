@@ -375,7 +375,7 @@ public class PerformanceTaskController extends AbstractController {
 			if(taskInfoList != null && taskInfoList.size()>0){
 				for(int i =0 ; i< taskInfoList.size();i++){
 					taskInfo = taskInfoList.get(i);
-					if(taskInfo.getTaskLabel()==1){
+//					if(taskInfo.getTaskLabel()==1){
 						taskInfo.setThreadName(taskInfo.getTaskName());
 						if(flag){
 							if(taskInfoList.size() == 1){
@@ -387,7 +387,7 @@ public class PerformanceTaskController extends AbstractController {
 							taskInfo.setTaskName(taskInfo.getTaskName());
 						}
 							//监控当前15分钟的数据性能
-							if(taskInfo.getMonitorCycle().getValue()==1){
+							if(taskInfo.getMonitorCycle().getValue()==1 || taskInfo.getMonitorCycle().getValue() ==3 || taskInfo.getMonitorCycle().getValue()==4){
 								taskInfo.setPerformanceType(0);
 								taskInfo.setPerformanceCount(0);
 								taskInfo.setPerformanceBeginCount(0);
@@ -400,51 +400,51 @@ public class PerformanceTaskController extends AbstractController {
 							}
 								resultStr = performanceDispatch.excuteInsert(taskInfo);
 						
-					}else if(taskInfo.getTaskLabel()==2){
-						
-						PerformanceTaskInfo taskInfoOther=new PerformanceTaskInfo();
-						taskInfoOther=taskInfo;
-						taskName=taskInfo.getTaskName();
-						if(taskInfoOther!=null){
-							taskInfoOther.setThreadName(taskName);
-							if(flag){
-								if(taskInfoList.size() == 1){
-									taskInfoOther.setTaskName(taskInfoOther.getTaskName()+"_01");
-								}else{
-									taskInfoOther.setTaskName(taskInfoOther.getTaskName()+"_"+(i+1)+"_01");
-								}
-							}else{
-								taskInfo.setTaskName(taskInfo.getTaskName());
-							}
-							
-								//当前15分钟
-								taskInfo.setPerformanceType(0);
-								taskInfo.setPerformanceCount(0);
-								taskInfo.setPerformanceBeginCount(0);
-								
-								// 保存长期性能任务
-								resultStr = performanceDispatch.excuteInsert(taskInfoOther);
-						}
-						
-						// 保存长期性能任务
-						taskInfo.setId(0);
-						taskInfo.setThreadName(taskName+"_"+taskInfoOther.getSiteInst().getCellId()+"_02");
-						if(flag){
-							if(taskInfoList.size() == 1){
-								taskInfo.setTaskName(taskInfo.getTaskName()+"_02");
-							}else{
-								taskInfo.setTaskName(taskName+"_"+(i+1)+"_02");
-							}
-						}else{
-							taskInfo.setTaskName(taskInfo.getTaskName());
-						}
-							taskInfo.setMonitorCycle(EMonitorCycle.forms(2));
-							//当前24小时数据性能
-							taskInfo.setPerformanceCount(255);
-							taskInfo.setPerformanceBeginCount(0);
-							taskInfo.setPerformanceType(32);
-							resultStr = performanceDispatch.excuteInsert(taskInfo);
-					}
+//					}else if(taskInfo.getTaskLabel()==2){
+//						
+//						PerformanceTaskInfo taskInfoOther=new PerformanceTaskInfo();
+//						taskInfoOther=taskInfo;
+//						taskName=taskInfo.getTaskName();
+//						if(taskInfoOther!=null){
+//							taskInfoOther.setThreadName(taskName);
+//							if(flag){
+//								if(taskInfoList.size() == 1){
+//									taskInfoOther.setTaskName(taskInfoOther.getTaskName()+"_01");
+//								}else{
+//									taskInfoOther.setTaskName(taskInfoOther.getTaskName()+"_"+(i+1)+"_01");
+//								}
+//							}else{
+//								taskInfo.setTaskName(taskInfo.getTaskName());
+//							}
+//							
+//								//当前15分钟
+//								taskInfo.setPerformanceType(0);
+//								taskInfo.setPerformanceCount(0);
+//								taskInfo.setPerformanceBeginCount(0);
+//								
+//								// 保存长期性能任务
+//								resultStr = performanceDispatch.excuteInsert(taskInfoOther);
+//						}
+//						
+//						// 保存长期性能任务
+//						taskInfo.setId(0);
+//						taskInfo.setThreadName(taskName+"_"+taskInfoOther.getSiteInst().getCellId()+"_02");
+//						if(flag){
+//							if(taskInfoList.size() == 1){
+//								taskInfo.setTaskName(taskInfo.getTaskName()+"_02");
+//							}else{
+//								taskInfo.setTaskName(taskName+"_"+(i+1)+"_02");
+//							}
+//						}else{
+//							taskInfo.setTaskName(taskInfo.getTaskName());
+//						}
+//							taskInfo.setMonitorCycle(EMonitorCycle.forms(2));
+//							//当前24小时数据性能
+//							taskInfo.setPerformanceCount(255);
+//							taskInfo.setPerformanceBeginCount(0);
+//							taskInfo.setPerformanceType(32);
+//							resultStr = performanceDispatch.excuteInsert(taskInfo);
+//					}
 				}
 			}
 	   } catch (Exception e) {
