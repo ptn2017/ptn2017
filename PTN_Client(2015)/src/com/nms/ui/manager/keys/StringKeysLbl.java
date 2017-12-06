@@ -2834,4 +2834,5 @@ public class StringKeysLbl {
 	public static final String LBL_ROTATEMODE = "LBL_ROTATEMODE";
 	public static final String LBL_TNPLAYER = "LBL_TNPLAYER";
 	public static final String LBL_ROTATETHRESHOLD = "LBL_ROTATETHRESHOLD";
+	public static final String LBL_SITE_COLOR="LBL_SITE_COLOR";
 }

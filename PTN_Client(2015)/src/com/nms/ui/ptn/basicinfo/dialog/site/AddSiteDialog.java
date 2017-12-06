@@ -6,11 +6,13 @@
 
 package com.nms.ui.ptn.basicinfo.dialog.site;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -63,6 +65,7 @@ import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
 import com.nms.ui.manager.util.EquimentDataUtil;
 import com.nms.ui.manager.xmlbean.EquipmentType;
+import com.nms.ui.ptn.alarm.view.AlarmColorChooseDialog;
 import com.nms.ui.topology.NetworkElementPanel;
 
 /**
@@ -177,7 +180,9 @@ public class AddSiteDialog extends PtnDialog {
 //				txtSiteIp.setEnabled(false);
 				cmbSiteType.setEnabled(false);
 				cmbSiteManufacturer.setEnabled(false);
-
+				if(siteInst.getCellIcccode() != null && !"".equals(siteInst.getCellIcccode())){ 
+					this.siteColorJButton.setBackground(new Color(Integer.parseInt(siteInst.getCellIcccode()))); 
+				} 
 				this.switchLable.setText(this.siteInst.getSwich());
 				this.txtSiteName.setText(this.siteInst.getCellId());
 				this.txtSiteIp.setText(this.siteInst.getCellDescribe());
@@ -305,6 +310,17 @@ public class AddSiteDialog extends PtnDialog {
 						setComboBox(f.getId(),(DefaultComboBoxModel) subnetCombo.getModel(),subnetCombo);
 					}
 				}
+			}
+		});
+		siteColorJButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AlarmColorChooseDialog colorDialog = new AlarmColorChooseDialog(); 
+				Color color = colorDialog.getColor(); 
+				if(color != null){ 
+					siteColorJButton.setBackground(color); 
+				} 
 			}
 		});
 	}
@@ -602,6 +618,20 @@ public class AddSiteDialog extends PtnDialog {
 		layout.addLayoutComponent(this.chkIsGateway, c);
 		this.jPanel1.add(this.chkIsGateway);
 
+		c.gridx = 0; 
+		c.gridy = i; 
+		c.gridheight = 1; 
+		c.gridwidth = 1; 
+		layout.setConstraints(this.siteColorJLabel, c); 
+		this.jPanel1.add(this.siteColorJLabel); 
+		c.gridx = 1; 
+		c.gridy = i++; 
+		c.gridheight = 1; 
+		c.gridwidth = 2; 
+		layout.addLayoutComponent(this.siteColorJButton, c); 
+		this.jPanel1.add(this.siteColorJButton); 
+
+		
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = i;
@@ -682,6 +712,8 @@ public class AddSiteDialog extends PtnDialog {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		initGroupCombobox(this.groupJComboBox);
 		initCombobox(this.subnetCombo);
+		siteColorJLabel = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_SITE_lOCATION)); 
+		siteColorJButton = new JButton();
 	}
 
 	
@@ -839,6 +871,7 @@ public class AddSiteDialog extends PtnDialog {
 			}else{
 				this.siteInst.setFieldID(field.getId());
 			}
+			siteInst.setCellIcccode(siteColorJButton.getBackground().getRGB()+""); 
 			this.siteInst.setSiteType(Integer.parseInt(siteTypeSelect.getId()));
 			this.siteInst.setManufacturer(Integer.parseInt(((Code) ((ControlKeyValue) this.cmbSiteManufacturer.getSelectedItem()).getObject()).getCodeValue()));//确定网元厂商类型
 			if (siteInst.getSite_Inst_Id() == 0) {

@@ -200,9 +200,10 @@ public class CreateElementUtil {
 			node = new Node();
 			node.setName(siteInst.getCellId()+"");
 			setSiteAttribute(node, siteInst);
-			node.putLabelBackground(Color.RED);
-			node.putLabelBorderColor(Color.RED);
-			node.putLabelColor(Color.cyan);
+			if(siteInst.getCellIcccode() != null && !"".equals(siteInst.getCellIcccode())){ 
+				node.putLabelBackground(new Color(Integer.parseInt(siteInst.getCellIcccode()))); 
+				node.putBorderColor(new Color(Integer.parseInt(siteInst.getCellIcccode()))); 
+			} 
 			node.setLocation(siteInst.getSiteX(), siteInst.getSiteY());
 			node.setBusinessObject(siteInst);
 			if (siteInst.getIsGateway() == 1) {

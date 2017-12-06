@@ -99,7 +99,6 @@ import com.nms.ui.topology.action.RefreshAction;
 import com.nms.ui.topology.action.SavePlaceAction;
 import com.nms.ui.topology.util.CreateAllTopo;
 import com.nms.ui.topology.util.CreateElementUtil;
-import com.nms.ui.topology.util.Role;
 
 /**
  * 主拓扑
