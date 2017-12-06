@@ -1160,5 +1160,6 @@ public class AddSiteDialog extends PtnDialog {
 	private JLabel shelfJLabel;
 	private PtnTextField shelfPtnTextField;
 	// End of variables declaration//GEN-END:variables
-
+	private JLabel siteColorJLabel;
+	private JButton siteColorJButton;
 }

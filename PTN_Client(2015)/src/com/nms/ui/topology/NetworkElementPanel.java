@@ -142,9 +142,7 @@ public class NetworkElementPanel extends PtnPanel {
 						}
 					}
 					dataBox.setBackground(background);
-					Role role = new Role();
 					network.setDataBox(dataBox);
-					network.setBlinkingRule(role);
 					refreshLinked(dataBox, getShowTopoType());
 
 				} else {
