@@ -690,7 +690,7 @@
 	
 	<table name="CardInfoPanel" layout="statistics">
 		<attribute id="id" name="ID" visible="false" />
-		<attribute id="SiteName" name="网元名称" visible="true" />
+		<attribute id="count" name="数量" visible="true" />
 		<attribute id="CardId" name="单板ID" visible="false" />
 		<attribute id="EquipType" name="设备类型" visible="true" />		
 		<attribute id="CardType" name="单板类型" visible="true" />

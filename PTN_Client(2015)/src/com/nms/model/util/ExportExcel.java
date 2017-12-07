@@ -165,7 +165,8 @@ public class ExportExcel {
 			}
 			 fileChooser=null;
 			 file=null;
-			 fileOut=null;
+			 fileOut.close();
+			 fileOut = null;
 			 workbook=null;
 		}
 		return result;

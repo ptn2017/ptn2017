@@ -3,10 +3,22 @@
 <mapper namespace="com.nms.db.dao.report.StaticsticsMapper" >
 
   <select id="queryCard" resultMap="SsCardMap" >
-   select c.cardName as CardId,s.CellType,c.installedSerialNumber,s.cellId,s.versions ,s.hardversion from card_inst c,site_inst s where c.siteId = s.site_inst_id
+  SELECT
+	c.cardName AS CardId,
+	s.CellType,
+	c.installedSerialNumber,
+	s.cellId,
+	s.versions,
+	s.hardversion,COUNT(c.cardName) as count
+FROM
+	card_inst c,
+	site_inst s
+WHERE
+	c.siteId = s.site_inst_id GROUP BY c.cardName 
   </select>
   <resultMap id="SsCardMap" type="SSCard" >
     <id column="id" property="id" jdbcType="INTEGER" />
+     <id column="count" property="count" jdbcType="INTEGER" />
     <result column="cardName" property="CardId" jdbcType="VARCHAR" />
     <result column="CellType" property="CardType" jdbcType="VARCHAR" />
     <result column="installedSerialNumber" property="installedSerialNumber" jdbcType="VARCHAR" />
