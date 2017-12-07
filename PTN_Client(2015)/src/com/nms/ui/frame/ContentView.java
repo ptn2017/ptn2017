@@ -19,11 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import twaver.GeoCoordinate;
 import twaver.table.TPageNavigator;
 import twaver.table.TTableModel;
 import twaver.table.TTablePopupMenuFactory;
@@ -44,7 +42,6 @@ import com.nms.ui.manager.control.PtnTextField;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.safety.roleManage.RoleRoot;
-import com.nms.ui.ptn.safety.roleManage.RootFactory;
 
 /**
  * * table列表主面�? * 
@@ -134,9 +131,11 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	private void init() {
 		initComponents();
 		if (table.getLayoutType().equals("default")) {
-			// 默认的菜单栏包括：新建、修改、删除、刷�?			setDefaultLayout();
+			// 默认的菜单栏包括：新建、修改、删除、刷�?			
+			setDefaultLayout();
 		} else if (table.getLayoutType().equals("filter")) {
-			// 有过滤条件的菜单栏，包括：新建、修改、删除、刷新、设置过滤、清除过�?			setFilterLayout();
+			// 有过滤条件的菜单栏，包括：新建、修改、删除、刷新、设置过滤、清除过�?			
+			setFilterLayout();
 			setFlipLayout();
 		} else if (table.getLayoutType().equals("statistics")) {
 			setStatisticsLayout();
@@ -515,9 +514,6 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 		contentScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		contentPanel = new JPanel();
 		buttonPanel = new JPanel();
-		/**修改  按钮实例化对�?		 * @author sy
-		 *  添加标签�?		 * @param  label
-		 */	
 		addButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CREATE),false,this.rootLabel);
 		updateButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_UPDATE),false,this.rootLabel);
 		deleteButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_DELETE),this.rootLabel);

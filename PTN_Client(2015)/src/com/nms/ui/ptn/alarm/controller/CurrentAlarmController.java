@@ -12,11 +12,25 @@ import java.util.Map;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.db.bean.alarm.WarningLevel;
+import com.nms.db.bean.equipment.port.E1Info;
+import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
+import com.nms.db.bean.path.Segment;
+import com.nms.db.bean.ptn.path.ServiceInfo;
+import com.nms.db.bean.ptn.path.ces.CesInfo;
+import com.nms.db.bean.ptn.path.eth.ElanInfo;
+import com.nms.db.bean.ptn.path.eth.ElineInfo;
+import com.nms.db.bean.ptn.path.eth.EtreeInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Lsp;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.enums.EObjectType;
 import com.nms.db.enums.EOperationLogType;
+import com.nms.db.enums.EServiceType;
 import com.nms.model.alarm.CurAlarmService_MB;
 import com.nms.model.alarm.WarningLevelService_MB;
+import com.nms.model.equipment.port.E1InfoService_MB;
+import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
@@ -585,64 +599,156 @@ public class CurrentAlarmController {
 				cList.add(this.currAlarmList.get(i));
 			}
 			//根据告警源过滤
-			if(filter.getAlarmSrc() != 0){
+			if(filter != null && filter.getAlarmSrc() != 0){
 				List<CurrentAlarmInfo> list = new ArrayList<CurrentAlarmInfo>();
 				int alarmSrc = filter.getAlarmSrc();
-				String alarmBusi = filter.getAlarmBusiness();
-				for(CurrentAlarmInfo alarm : cList){
-					if(alarmSrc == 1){
-						if((alarm.getObjectType().getValue() == EObjectType.PORT.getValue()) ||
-								alarm.getObjectType().getValue() == EObjectType.E1.getValue()){
-							if(alarmBusi != null){
-//								if()
-							}else{
-								list.add(alarm);
+				Object alarmBusi = filter.getAlarmBusiness();
+				E1InfoService_MB e1Service = null;
+				PortService_MB portService = null;
+				try {
+					portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
+					e1Service = (E1InfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.E1Info);
+					
+					for(CurrentAlarmInfo alarm : cList){
+						if(alarmSrc == 1){// 端口
+							if((alarm.getObjectType().getValue() == EObjectType.PORT.getValue())){
+								if(alarmBusi != null){
+									PortInst port = (PortInst)alarmBusi;
+									if(alarm.getObjectId() == port.getNumber()){
+										list.add(alarm);
+									}
+								}else{
+									list.add(alarm);
+								}
+							}else if(alarm.getObjectType().getValue() == EObjectType.E1.getValue()){
+								if(alarmBusi != null){
+									PortInst port = (PortInst)alarmBusi;
+									E1Info e1Con = new E1Info();
+									e1Con.setPortId(port.getPortId());
+									try {
+										e1Con = e1Service.selectByCondition(e1Con).get(0);
+									} catch (Exception e) {
+										ExceptionManage.dispose(e, this.getClass());
+									}
+									if(("E1线路"+e1Con.getLegId()).equals(alarm.getObjectName())){
+										list.add(alarm);
+									}
+								}else{
+									list.add(alarm);
+								}
 							}
-						}
-					}else if(alarmSrc == 2){
-						if((alarm.getObjectType().getValue() == EObjectType.SEGMENT.getValue())){
-							if(alarmBusi != null){
-//								if()
-							}else{
-								list.add(alarm);
+						}else if(alarmSrc == 2){// 段
+							if((alarm.getObjectType().getValue() == EObjectType.TMS_OAM.getValue())){
+								if(alarmBusi != null){
+									PortInst portCon = new PortInst();
+									portCon.setSiteId(alarm.getSiteId());
+									portCon.setNumber(alarm.getObjectId());
+									List<PortInst> portList = portService.select(portCon);
+									if(portList != null && portList.size() == 1){
+										Segment segment = (Segment)alarmBusi;
+										portCon = portList.get(0);
+										if((segment.getASITEID() == portCon.getSiteId() && segment.getAPORTID() == portCon.getPortId()) || 
+												segment.getZSITEID() == portCon.getSiteId() && segment.getZPORTID() == portCon.getPortId()){
+											list.add(alarm);
+										}
+									}
+								}else{
+									list.add(alarm);
+								}
 							}
-						}
-					}else if(alarmSrc == 3){
-						if((alarm.getObjectType().getValue() == EObjectType.TUNNEL.getValue()) ||
-								alarm.getObjectType().getValue() == EObjectType.LSP.getValue()){
-							if(alarmBusi != null){
-//								if()
-							}else{
-								list.add(alarm);
+						}else if(alarmSrc == 3){// Tunnel
+							if((alarm.getObjectType().getValue() == EObjectType.TUNNEL.getValue())){
+								if(alarmBusi != null){
+									Tunnel tunnel = (Tunnel) alarmBusi;
+									for(Lsp lsp : tunnel.getLspParticularList()){
+										if((lsp.getASiteId() == alarm.getSiteId() && lsp.getAtunnelbusinessid() == alarm.getObjectId()) ||
+												(lsp.getZSiteId() == alarm.getSiteId() && lsp.getZtunnelbusinessid() == alarm.getObjectId())){
+											list.add(alarm);
+										}
+									}
+								}else{
+									list.add(alarm);
+								}
 							}
-						}
-					}else if(alarmSrc == 4){
-						if((alarm.getObjectType().getValue() == EObjectType.PW.getValue())){
-							if(alarmBusi != null){
-//								if()
-							}else{
-								list.add(alarm);
+							if(alarm.getObjectType().getValue() == EObjectType.LSP.getValue()){
+								if(alarmBusi != null){
+									Tunnel tunnel = (Tunnel) alarmBusi;
+									if(tunnel.getProtectTunnelId() > 0){
+										Tunnel pTunnel = tunnel.getProtectTunnel();
+										if((pTunnel.getASiteId() == alarm.getSiteId() && pTunnel.getAprotectId() == alarm.getObjectId()) ||
+												(pTunnel.getZSiteId() == alarm.getSiteId() && pTunnel.getZprotectId() == alarm.getObjectId())){
+											list.add(alarm);
+										}
+									}
+								}else{
+									list.add(alarm);
+								}
 							}
-						}
-					}else if(alarmSrc == 5){
-						if((alarm.getObjectType().getValue() == EObjectType.VPLS.getValue()) ||
-								alarm.getObjectType().getValue() == EObjectType.VPWS.getValue()){
-							if(alarmBusi != null){
-//								if()
-							}else{
-								list.add(alarm);
+						}else if(alarmSrc == 4){// Pw
+							if((alarm.getObjectType().getValue() == EObjectType.PW.getValue())){
+								if(alarmBusi != null){
+									PwInfo pw = (PwInfo) alarmBusi;
+									if((pw.getASiteId() == alarm.getSiteId() && pw.getApwServiceId() == alarm.getObjectId()) ||
+											(pw.getZSiteId() == alarm.getSiteId() && pw.getZpwServiceId() == alarm.getObjectId())){
+										
+									}
+								}else{
+									list.add(alarm);
+								}
 							}
-						}
-					}else if(alarmSrc == 6){
-						if((alarm.getObjectType().getValue() == EObjectType.VPWS.getValue())){
-							if(alarmBusi != null){
-//								if()
-							}else{
-								list.add(alarm);
+						}else if(alarmSrc == 5){// vpws业务
+							if(alarm.getObjectType().getValue() == EObjectType.VPWS.getValue()){
+								if(alarmBusi != null){
+									if(alarmBusi instanceof ElineInfo){
+										ElineInfo eline = (ElineInfo) alarmBusi;
+										if((eline.getaSiteId() == alarm.getSiteId() && eline.getaXcId() == alarm.getObjectId()) ||
+										(eline.getzSiteId() == alarm.getSiteId() && eline.getzXcId() == alarm.getObjectId())){
+											list.add(alarm);
+										}
+									}else if(alarmBusi instanceof CesInfo){
+										CesInfo ces = (CesInfo) alarmBusi;
+										if((ces.getaSiteId() == alarm.getSiteId() && ces.getAxcId() == alarm.getObjectId()) ||
+										(ces.getzSiteId() == alarm.getSiteId() && ces.getZxcId() == alarm.getObjectId())){
+											list.add(alarm);
+										}
+									}
+								}else{
+									list.add(alarm);
+								}
+							}
+						}else if(alarmSrc == 6){// vpls业务
+							if((alarm.getObjectType().getValue() == EObjectType.VPLS.getValue())){
+								if(alarmBusi != null){
+									List<ServiceInfo> serviceList = (List<ServiceInfo>) alarmBusi;
+									for(ServiceInfo serviceInfo : serviceList){
+										if(serviceInfo.getServiceType() == EServiceType.ETREE.getValue()){
+											EtreeInfo etree = (EtreeInfo) serviceInfo;
+											if((etree.getRootSite() == alarm.getSiteId() && etree.getaXcId() == alarm.getObjectId()) ||
+													(etree.getBranchSite() == alarm.getSiteId() && etree.getzXcId() == alarm.getObjectId())){
+												list.add(alarm);
+											}
+										}else if(serviceInfo.getServiceType() == EServiceType.ELAN.getValue()){
+											ElanInfo elan = (ElanInfo) serviceInfo;
+											if((elan.getaSiteId() == alarm.getSiteId() && elan.getAxcId() == alarm.getObjectId()) ||
+													(elan.getzSiteId() == alarm.getSiteId() && elan.getZxcId() == alarm.getObjectId())){
+												list.add(alarm);
+											}
+										}
+									}
+								}else{
+									list.add(alarm);
+								}
 							}
 						}
 					}
+				} catch (Exception e) {
+					ExceptionManage.dispose(e, this.getClass());
+				} finally {
+					UiUtil.closeService_MB(e1Service);
+					UiUtil.closeService_MB(portService);
 				}
+				cList.clear();
+				cList.addAll(list);
 			}
 			
 			this.currAlarmList.clear();

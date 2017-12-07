@@ -42,7 +42,7 @@ public class CurrentAlarmFilter {
     // 告警源类型
     private int alarmSrc;
     // 告警源
-    private String alarmBusiness;
+    private Object alarmBusiness;
     
 	public int getAlarmSrc() {
 		return alarmSrc;
@@ -52,11 +52,11 @@ public class CurrentAlarmFilter {
 		this.alarmSrc = alarmSrc;
 	}
 
-	public String getAlarmBusiness() {
+	public Object getAlarmBusiness() {
 		return alarmBusiness;
 	}
 
-	public void setAlarmBusiness(String alarmBusiness) {
+	public void setAlarmBusiness(Object alarmBusiness) {
 		this.alarmBusiness = alarmBusiness;
 	}
     

@@ -143,14 +143,14 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 	
 	private void initData() {
 		alarmTypeBox.clear();
-		//监控对象类型包括: 端口/段/TUNNEL/PW/以太网业务/TDM业务
+		//监控对象类型包括: 端口/段/TUNNEL/PW/VPWS业务/VPLS业务
 		this.cmbPerformType.addItem(new ControlKeyValue("0", "所有"));
 		this.cmbPerformType.addItem(new ControlKeyValue("1", "端口"));
 		this.cmbPerformType.addItem(new ControlKeyValue("2", "段"));
 		this.cmbPerformType.addItem(new ControlKeyValue("3", "TUNNEL"));
 		this.cmbPerformType.addItem(new ControlKeyValue("4", "PW"));
-		this.cmbPerformType.addItem(new ControlKeyValue("5", "以太网业务"));
-		this.cmbPerformType.addItem(new ControlKeyValue("6", "TDM业务"));
+		this.cmbPerformType.addItem(new ControlKeyValue("5", "VPWS业务"));
+		this.cmbPerformType.addItem(new ControlKeyValue("6", "VPLS业务"));
 		initType();
 	}
 	
@@ -388,14 +388,27 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 				UiUtil.closeService_MB(pwService);
 			}
 		}else if(id == 5){
-			//以太网业务
+			//vpws业务
 			ElineInfoService_MB elineService = null;
-			EtreeInfoService_MB etreeService = null;
-			ElanInfoService_MB elanService = null;
+			CesInfoService_MB cesService = null;
 			try {
 				elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
 				List<ElineInfo> elineList = elineService.select();
 				this.initCmbMonitorObj(elineList, 3, null);
+				cesService = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);
+				List<CesInfo> cesList = cesService.select();
+				this.initCmbMonitorObj(cesList, 6, null);
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			} finally {
+				UiUtil.closeService_MB(elineService);
+				UiUtil.closeService_MB(cesService);
+			}
+		}else if(id == 6){
+			//vpls业务
+			EtreeInfoService_MB etreeService = null;
+			ElanInfoService_MB elanService = null;
+			try {
 				etreeService = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);
 				Map<Integer, List<EtreeInfo>> etreeMap_netWork = etreeService.select();
 				this.initCmbMonitorObj(etreeMap_netWork, 4, null);
@@ -405,21 +418,8 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			} catch (Exception e) {
 				ExceptionManage.dispose(e, this.getClass());
 			} finally {
-				UiUtil.closeService_MB(elineService);
 				UiUtil.closeService_MB(etreeService);
 				UiUtil.closeService_MB(elanService);
-			}
-		}else if(id == 6){
-			//TDM业务
-			CesInfoService_MB cesService = null;
-			try {
-				cesService = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);
-				List<CesInfo> cesList = cesService.select();
-				this.initCmbMonitorObj(cesList, 6, null);
-			} catch (Exception e) {
-				ExceptionManage.dispose(e, this.getClass());
-			} finally {
-				UiUtil.closeService_MB(cesService);
 			}
 		}
 	}
@@ -672,7 +672,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		
 	  }
 
-	   private void addclear() {
+	private void addclear() {
 		try {
 			GridBagLayout layout = new GridBagLayout();
 			layout.columnWidths = new int[] {10,10};
@@ -1080,12 +1080,13 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 				filter.setAlarmBusiness(null);
 			}else{
 				// 具体某一种类型
+				filter.setAlarmSrc(id);
 				if(Integer.parseInt(conObj.getId()) == 0){
 					// 所有配置
 					filter.setAlarmBusiness(null);
 				}else{
 					// 具体某一条配置
-					filter.setAlarmBusiness(conObj.getName());
+					filter.setAlarmBusiness(conObj.getObject());
 				}
 			}
 			
