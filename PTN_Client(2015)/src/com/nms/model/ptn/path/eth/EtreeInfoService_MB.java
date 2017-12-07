@@ -74,8 +74,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/**
-	 * 查询所有业务
-	 * 
+	 * 查询所有业�?	 * 
 	 * @param serviceId
 	 * @return
 	 */
@@ -91,8 +90,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/**
-	 * 查询所有业务
-	 * 
+	 * 查询所有业�?	 * 
 	 * @param serviceId,name,brabchSite
 	 * @return
 	 */
@@ -123,6 +121,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 			
 			for (EtreeInfo etreeInfo_result : etreeServiceList) {
 				etreeInfo_result.setCreateTime(DateUtil.strDate(etreeInfo_result.getCreateTime(), DateUtil.FULLTIME));
+				etreeInfo_result.setActivatingTime(DateUtil.strDate(etreeInfo_result.getActivatingTime(), DateUtil.FULLTIME));
 				//存在通过端口查询
 				if(acIds != null)
 				{
@@ -159,8 +158,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/**
-	 * 查询a/Z端是否满足查询条件
-	 * @param acIds
+	 * 查询a/Z端是否满足查询条�?	 * @param acIds
 	 * @param etreeInfo_result
 	 * @return
 	 */
@@ -220,13 +218,13 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 				// 查出此网元所有根节点
 				map = this.convertMap(this.mapper.queryByRoot(siteInst.getSite_Inst_Id()));
 
-				// 遍历每一组根节点。寻找叶子节点
+				// 遍历每一组根节点。寻找叶子节�?				
 				for (int serviceId : map.keySet()) {
 					this.putCrateMap(map_create, createKey, map.get(serviceId), siteIdList);
 					createKey++;
 				}
 			}
-			// 如果map中有值，就循环创建每一组etree。
+			// 如果map中有值，就循环创建每一组etree�?			
 			if (map_create.keySet().size() > 0) {
 				for (int key : map_create.keySet()) {
 					this.createEtree(map_create.get(key), pwService);
@@ -270,15 +268,13 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 
 	
 	/**
-	 * 根据根节点，查询出叶子节点，验证叶子节点是否在siteids集合中，如果在，把此组etree放到map中
-	 * 
+	 * 根据根节点，查询出叶子节点，验证叶子节点是否在siteids集合中，如果在，把此组etree放到map�?	 * 
 	 * @param map_create
 	 *            创建的map集合
 	 * @param key
 	 *            创建的map中key
 	 * @param rootEtrees
-	 *            根节点
-	 * @param siteIds
+	 *            根节�?	 * @param siteIds
 	 *            网元集合
 	 * @throws Exception
 	 */
@@ -298,7 +294,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 			//根节点必须与叶子节点数量完全对应
 			if(etreeInfoList.size() == rootEtrees.size()){
 				for (EtreeInfo etreeInfo : etreeInfoList) {
-					// 如果是叶子节点，并且网元集合中不存在此网元，说明此次网元选择不足，不能合并
+					// 如果是叶子节点，并且网元集合中不存在此网元，说明此次网元选择不足，不能合�?					
 					if (etreeInfo.getBranchSite() > 0 && !siteIds.contains(etreeInfo.getBranchSite())) {
 						flag = false;
 						break;
@@ -307,7 +303,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 			}else{
 				flag = false;
 			}
-			// 如果通过验证，可以合并，把此组etree数据放到map中，统一做合并
+			// 如果通过验证，可以合并，把此组etree数据放到map中，统一做合�?			
 			if (flag) {
 				map_create.put(key, etreeList);
 			}
@@ -358,8 +354,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 			etreeInfoList_create = new ArrayList<EtreeInfo>();
 			for (EtreeInfo etreeInfo : etreeInfoList) {
 				if (etreeInfo.getRootSite() > 0) {
-					// 取叶子节点
-					branchEtree = this.getBranch(etreeInfo, etreeInfoList);
+					// 取叶子节�?					branchEtree = this.getBranch(etreeInfo, etreeInfoList);
 					// 根据根节点和叶节点组成一个etree对象
 					if(branchEtree != null){
 						etreeInfoList_create.add(this.combination(etreeInfo, branchEtree));
@@ -383,7 +378,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 					// 修改pw关联
 					pwService.setUser(etreeInfo.getPwId(), etreeInfo);
 				}
-				// 删除原有的数据
+				// 删除原有的数�?				
 				for (EtreeInfo etreeInfo : etreeInfoList) {
 					this.mapper.deleteByID(etreeInfo.getId());
 				}
@@ -394,9 +389,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/**
-	 * 根据根节点 找出对应的叶子节点
-	 * @param rootEtree  根节点
-	 * @param etreeInfoList
+	 * 根据根节�?找出对应的叶子节�?	 * @param rootEtree  根节�?	 * @param etreeInfoList
 	 * @throws Exception
 	 */
 	private EtreeInfo getBranch(EtreeInfo rootEtree, List<EtreeInfo> etreeInfoList) throws Exception {
@@ -415,10 +408,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	}
 
 	/**
-	 * 组合根和叶为一个etree对象。
-	 * @param rootEtree 根对象
-	 * @param branchEtree 叶对象
-	 * @throws Exception
+	 * 组合根和叶为一个etree对象�?	 * @param rootEtree 根对�?	 * @param branchEtree 叶对�?	 * @throws Exception
 	 */
 	private EtreeInfo combination(EtreeInfo rootEtree, EtreeInfo branchEtree) throws Exception {
 		EtreeInfo etreeInfo = new EtreeInfo();
@@ -493,10 +483,8 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	 * 验证名字是否重复
 	 * @author kk
 	 * @param afterName
-	 *            修改之后的名字
-	 * @param beforeName
-	 *            修改之前的名字
-	 * @return
+	 *            修改之后的名�?	 * @param beforeName
+	 *            修改之前的名�?	 * @return
 	 * @throws Exception
 	 * @Exception 异常对象
 	 */
@@ -511,8 +499,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	}
 
 	/**
-	 * 单网元名称验证
-	 * @param afterName
+	 * 单网元名称验�?	 * @param afterName
 	 * @param beforeName
 	 * @param siteId
 	 * @return
@@ -529,7 +516,7 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/*
-	 * 查询所有的etree业务(每一条可能包含多条业务)
+	 * 查询所有的etree业务(每一条可能包含多条业�?
 	 */
 	public Map<Integer, List<EtreeInfo>> select() throws Exception {
 		Map<Integer, List<EtreeInfo>> etreeInfoMap = new HashMap<Integer, List<EtreeInfo>>();

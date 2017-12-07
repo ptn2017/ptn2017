@@ -75,6 +75,9 @@ public class CesInfo extends ServiceInfo implements Serializable {
 			if(!getCreateTime().equals("null") && !getCreateTime().equals("")){ 
 				this.putClientProperty("createTime", DateUtil.strDate(getCreateTime(), DateUtil.FULLTIME));
 			}
+			if (getActivatingTime() != null) {
+				this.putClientProperty("activatingTime", DateUtil.strDate(getActivatingTime(), DateUtil.FULLTIME));
+			}
 			this.putClientProperty("type", ECesType.forms(this.getCestype()));
 			
 			if(!this.isNode()){

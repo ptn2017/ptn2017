@@ -47,13 +47,11 @@ import com.nms.ui.ptn.safety.roleManage.RoleRoot;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
 
 /**
- * * table列表主面板
- * 
+ * * table列表主面�? * 
  * @author lp
  * 
  * @param <T>
- *            列表中一条记录对象的类类型
- */
+ *            列表中一条记录对象的类类�? */
 public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 
 	private static final long serialVersionUID = 9042969010414268686L;
@@ -83,7 +81,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	private JMenuItem deleteMenu;
 	private JButton fiterZero;
 	private PtnButton consistenceButton;
-	//权限标签，验证（与DB，是否拥有此权限）
+	//权限标签，验证（与DB，是否拥有此权限�?	
 	private int rootLabel;
 	int pageSize[] = null;
 	private PtnButton prevPageBtn;
@@ -94,6 +92,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	private PtnTextField goToTextField;
 	private PtnButton goToJButton;
 	private JPanel flipPanel;//分页操作面板
+	private PtnButton queryBtn;
 	
 	private TTablePopupMenuFactory menuFactory = null;
 	/**
@@ -101,8 +100,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	 * @author		sy
 	 * @param tableAttrs 
 	 * @param rootLabel
-	 * 				权限标签值，>0的整数
-	 */
+	 * 				权限标签值，>0的整�?	 */
 	public ContentView(String tableAttrs,int rootLabel) {
 		this.tableAttrs = tableAttrs;
 		this.rootLabel=rootLabel;
@@ -114,8 +112,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	 * @author		sy
 	 * @param tableAttrs 
 	 * @param rootLabel
-	 * 				权限标签值，>0的整数
-	 */
+	 * 				权限标签值，>0的整�?	 */
 	public ContentView(int siteId ,String wuTableAttrs,String cxTableAttrs,int rootLabel) {
 		SiteService_MB siteService = null;
 		try {
@@ -137,11 +134,9 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	private void init() {
 		initComponents();
 		if (table.getLayoutType().equals("default")) {
-			// 默认的菜单栏包括：新建、修改、删除、刷新
-			setDefaultLayout();
+			// 默认的菜单栏包括：新建、修改、删除、刷�?			setDefaultLayout();
 		} else if (table.getLayoutType().equals("filter")) {
-			// 有过滤条件的菜单栏，包括：新建、修改、删除、刷新、设置过滤、清除过滤
-			setFilterLayout();
+			// 有过滤条件的菜单栏，包括：新建、修改、删除、刷新、设置过滤、清除过�?			setFilterLayout();
 			setFlipLayout();
 		} else if (table.getLayoutType().equals("statistics")) {
 			setStatisticsLayout();
@@ -284,6 +279,18 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 			}
 		});
 
+		queryBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					controller.query();
+				} catch (Exception e) {
+					ExceptionManage.dispose(e,this.getClass());
+				}
+			}
+		});
+
 		// 导出按钮事件
 		exportButton.addActionListener(new MyActionListener() {
 
@@ -321,7 +328,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 			}
 		});
 		
-		//零值过滤按钮事件
+		//零值过滤按钮事�?		
 		fiterZero.addActionListener(new ActionListener() {
 
 			@Override
@@ -478,8 +485,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	}
 
 	/**
-	 * 默认右键选项为menuFactory，若需要设置自己的右键菜单，则重写此方法
-	 */
+	 * 默认右键选项为menuFactory，若需要设置自己的右键菜单，则重写此方�?	 */
 	public void setTablePopupMenuFactory() {
 	}
 
@@ -509,10 +515,8 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 		contentScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		contentPanel = new JPanel();
 		buttonPanel = new JPanel();
-		/**修改  按钮实例化对象
-		 * @author sy
-		 *  添加标签值
-		 * @param  label
+		/**修改  按钮实例化对�?		 * @author sy
+		 *  添加标签�?		 * @param  label
 		 */	
 		addButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CREATE),false,this.rootLabel);
 		updateButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_UPDATE),false,this.rootLabel);
@@ -520,6 +524,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 		refreshButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_REFRESH));
 		synchroButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_SYNCHRO),true,this.rootLabel);
 		searchButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_SEARCH),false,this.rootLabel);
+		queryBtn = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_SELECT),false,this.rootLabel);
 		exportButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT),false);
 		inportButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_INPORT),false,this.rootLabel);
 		fiterZero=new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FITER_ZERO)); 
@@ -528,7 +533,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setVisible(true);
 		filterButton = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FILTER));
-		filterText = new JLabel("过滤条件=请选择过滤条件！");
+		filterText = new JLabel("过滤条件=请选择过滤条件");
 		clearFilterButton = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FILTER_CLEAR));
 		this.prevPageBtn = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_PREV_PAGE), true, this.rootLabel);
 		this.nextPageBtn = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_NEXT_PAGE),true, this.rootLabel);
@@ -579,8 +584,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	}
 
 	/**
-	 * 若需要移除的按钮(增、删、改、查、设置过滤、清除过滤)，则重写此方法
-	 * 
+	 * 若需要移除的按钮(增、删、改、查、设置过滤、清除过�?，则重写此方�?	 * 
 	 * @return 要移除按钮的集合
 	 */
 	public List<JButton> setNeedRemoveButtons() {
@@ -823,6 +827,10 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 		return searchButton;
 	}
 
+	public PtnButton getQueryBtn() {
+		return queryBtn;
+	}
+
 	public JButton getFiterZero() {
 		return fiterZero;
 	}
@@ -897,8 +905,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 		return deleteMenu;
 	}
 	/** -sy
-	 * 权限验证  （菜单 ）   根据菜单 的不同形式（按钮，菜单）  ，比对：传人权限标识是否  在用户的权限内
-	 * @param menuItem    菜单条   
+	 * 权限验证  （菜�?�?  根据菜单 的不同形式（按钮，菜单）  ，比对：传人权限标识是否  在用户的权限�?	 * @param menuItem    菜单�?  
 	 * @param label		权限标签 		
 	 */
 	public boolean checkRoot(Object object,int label){
@@ -906,8 +913,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 		return roleRoot.setItemEnbale(object, label);
 	}
 	/**
-	 * 权限验证  : 比对 传人参数 （权限标签）是否  存在于      登陆用户的权限之中
-	 * @param label  标签 与 此角色的   可操作权限集合 验证
+	 * 权限验证  : 比对 传人参数 （权限标签）是否  存在�?     登陆用户的权限之�?	 * @param label  标签 �?此角色的   可操作权限集�?验证
 	 */
 	public boolean checkRoot(int label){
 		RoleRoot roleRoot =new RoleRoot();

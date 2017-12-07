@@ -28,6 +28,7 @@ import com.nms.ui.filter.impl.EthNeFilterDialog;
 import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -71,8 +72,7 @@ public class ElanController extends AbstractController {
 				Map.Entry entry2 = (Map.Entry) iter.next();
 				infos.addAll((Collection<? extends ElanInfo>) entry2.getValue());
 			}
-			//删除serviceID重复的,重复的算一条
-			elanInfo = removeRepeatedElan(infos);
+			//删除serviceID重复�?重复的算一�?			elanInfo = removeRepeatedElan(infos);
 			this.getElanPanel().clear();
 			this.getElanPanel().getPwElinePanel().clear();
 			this.getElanPanel().getAcElinePanel().clear();
@@ -106,8 +106,7 @@ public class ElanController extends AbstractController {
 	}
 	
 	/**
-	 * 选中一条记录后，查看详细信息
-	 * 
+	 * 选中一条记录后，查看详细信�?	 * 
 	 * @throws Exception
 	 */
 	@Override
@@ -329,8 +328,7 @@ public class ElanController extends AbstractController {
 	}
 
 	/**
-	 * 激活处理事件
-	 */
+	 * 激活处理事�?	 */
 	public void doActive() {
 		List<ElanInfo> infos = null;
 		String result = null;
@@ -348,6 +346,7 @@ public class ElanController extends AbstractController {
 					elanInfos = elanInfoService.selectByServiceId(info.getServiceId());
 					for(ElanInfo elanInfo : elanInfos){
 						elanInfo.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+						elanInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 						elanInfo2.add(elanInfo);
 					}
 				}
@@ -375,8 +374,7 @@ public class ElanController extends AbstractController {
 	}
 
 	/**
-	 * 去激活处理事件
-	 */
+	 * 去激活处理事�?	 */
 	public void doUnActive() {
 		List<ElanInfo> infos = null;
 		String result = null;
@@ -394,6 +392,7 @@ public class ElanController extends AbstractController {
 					elanInfos = elanInfoService.selectByServiceId(info.getServiceId());
 					for(ElanInfo elanInfo : elanInfos){
 						elanInfo.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+						elanInfo.setActivatingTime(null);
 						elanInfo2.add(elanInfo);
 					}
 				}
@@ -427,7 +426,7 @@ public class ElanController extends AbstractController {
 
 	@Override
 	public void openUpdateDialog() throws Exception {
-		//只能修改单网元
+		//只能修改单网�?		
 		if(this.elanPanel.getSelect().getIsSingle() == 0){
 			DialogBoxUtil.succeedDialog(this.getElanPanel(), ResourceUtil.srcStr(StringKeysTip.TIP_UPDATE_NODE));
 			return;

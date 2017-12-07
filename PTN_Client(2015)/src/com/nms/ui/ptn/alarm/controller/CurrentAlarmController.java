@@ -52,7 +52,7 @@ public class CurrentAlarmController {
 	private int currPage = 1;//当前页数
 	private int minId = 0;//当前页面告警数据的最小id
 	private int maxId = 0;//当前页面告警数据的最大id
-	private int pageCount = 300;//每页大小
+	private int pageCount = 3000;//每页大小
 	public CurrentAlarmController(CurrentAlarmPanel view) {
 		this.view = view;
 		this.init();
@@ -584,8 +584,70 @@ public class CurrentAlarmController {
 			for (int i = this.currAlarmList.size()-1; i >=0; i--) {
 				cList.add(this.currAlarmList.get(i));
 			}
+			//根据告警源过滤
+			if(filter.getAlarmSrc() != 0){
+				List<CurrentAlarmInfo> list = new ArrayList<CurrentAlarmInfo>();
+				int alarmSrc = filter.getAlarmSrc();
+				String alarmBusi = filter.getAlarmBusiness();
+				for(CurrentAlarmInfo alarm : cList){
+					if(alarmSrc == 1){
+						if((alarm.getObjectType().getValue() == EObjectType.PORT.getValue()) ||
+								alarm.getObjectType().getValue() == EObjectType.E1.getValue()){
+							if(alarmBusi != null){
+//								if()
+							}else{
+								list.add(alarm);
+							}
+						}
+					}else if(alarmSrc == 2){
+						if((alarm.getObjectType().getValue() == EObjectType.SEGMENT.getValue())){
+							if(alarmBusi != null){
+//								if()
+							}else{
+								list.add(alarm);
+							}
+						}
+					}else if(alarmSrc == 3){
+						if((alarm.getObjectType().getValue() == EObjectType.TUNNEL.getValue()) ||
+								alarm.getObjectType().getValue() == EObjectType.LSP.getValue()){
+							if(alarmBusi != null){
+//								if()
+							}else{
+								list.add(alarm);
+							}
+						}
+					}else if(alarmSrc == 4){
+						if((alarm.getObjectType().getValue() == EObjectType.PW.getValue())){
+							if(alarmBusi != null){
+//								if()
+							}else{
+								list.add(alarm);
+							}
+						}
+					}else if(alarmSrc == 5){
+						if((alarm.getObjectType().getValue() == EObjectType.VPLS.getValue()) ||
+								alarm.getObjectType().getValue() == EObjectType.VPWS.getValue()){
+							if(alarmBusi != null){
+//								if()
+							}else{
+								list.add(alarm);
+							}
+						}
+					}else if(alarmSrc == 6){
+						if((alarm.getObjectType().getValue() == EObjectType.VPWS.getValue())){
+							if(alarmBusi != null){
+//								if()
+							}else{
+								list.add(alarm);
+							}
+						}
+					}
+				}
+			}
+			
 			this.currAlarmList.clear();
 			this.currAlarmList.addAll(cList);
+			
 			//以时间排序
 			this.sortListByTime(cList);
 			this.view.initData(cList);

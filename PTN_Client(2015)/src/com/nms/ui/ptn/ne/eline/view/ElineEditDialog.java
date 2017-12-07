@@ -75,8 +75,7 @@ public class ElineEditDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化数据
-	 * @throws Exception 
+	 * 初始化数�?	 * @throws Exception 
 	 */
 	private void initData() throws Exception {
 		Tools tool = new Tools();
@@ -100,10 +99,10 @@ public class ElineEditDialog extends PtnDialog {
 				}else{
 					this.eLineAc = acInfoServiceMB.selectById(this.elineInfo.getzAcId());
 				}
-				//区分端口类型初始化端口
-//				UiUtil.comboBoxSelect(this.cmbPort, eLineAc);
+				//区分端口类型初始化端�?
+				//				UiUtil.comboBoxSelect(this.cmbPort, eLineAc);
 				tool.initPortAndLagByAcForCMB(this.cmbPort,this.eLineAc); 
-//				//将修改对应的ac添加到对应的AC下拉列表中
+//				//将修改对应的ac添加到对应的AC下拉列表�?				
 				if(!super.getComboBoxDataUtil().isExistSameOption(cmbAc,this.eLineAc.getId()+"")){
 					DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) this.cmbAc.getModel();
 					defaultComboBoxModel.addElement(new ControlKeyValue(this.eLineAc.getId() + "", this.eLineAc.getName(), eLineAc));
@@ -182,8 +181,7 @@ public class ElineEditDialog extends PtnDialog {
 				return false;
 			}
 			
-			//验证pw和ac的qos是否匹配。
-			controlKeyValue_ac = (ControlKeyValue) this.cmbAc.getSelectedItem();
+			//验证pw和ac的qos是否匹配�?			controlKeyValue_ac = (ControlKeyValue) this.cmbAc.getSelectedItem();
 			controlKeyValue_pw = (ControlKeyValue) this.cmbPw.getSelectedItem();
 			pwinfo = (PwInfo) controlKeyValue_pw.getObject();
 			qosInfoServiceMB=(QosInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.QosInfo);
@@ -280,8 +278,12 @@ public class ElineEditDialog extends PtnDialog {
 			this.elineInfo.setServiceType(EServiceType.ELINE.getValue());
 			this.elineInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
 			this.elineInfo.setCreateUser(ConstantUtil.user.getUser_Name());
-
-			// 判断是a还是z端
+			if(chbActivate.isSelected()){
+				elineInfo.setActivatingTime(elineInfo.getCreateTime());
+			}else{
+				elineInfo.setActivatingTime(null);
+			}
+			// 判断是a还是z�?			
 			if (pwinfo.getASiteId() == ConstantUtil.siteId) {
 				this.elineInfo.setaSiteId(ConstantUtil.siteId);
 				this.elineInfo.setaAcId(Integer.parseInt(controlKeyValue_ac.getId()));
@@ -294,8 +296,7 @@ public class ElineEditDialog extends PtnDialog {
 				this.elineInfo.setzAcName(((AcPortInfo)controlKeyValue_ac.getObject()).getName());
 			}
 			
-			//如果修改a段ac 给BeforeAAc赋值
-//			if(0!=this.elineInfo.getaAcId()&&this.elineInfo.getaAcId()!=Integer.parseInt(controlKeyValue_ac.getId())){
+			//如果修改a段ac 给BeforeAAc赋�?//			if(0!=this.elineInfo.getaAcId()&&this.elineInfo.getaAcId()!=Integer.parseInt(controlKeyValue_ac.getId())){
 ////				this.elineInfo.setBeforeAAc(acInfoService.selectById(this.elineInfo.getaAcId()));
 //				beforeAcportList = new ArrayList<AcPortInfo>();
 //				beforeAcportList.add(acInfoService.selectById(this.elineInfo.getaAcId()));
@@ -383,7 +384,7 @@ public class ElineEditDialog extends PtnDialog {
 			eline.setCreateTime(this.elineInfo.getCreateTime());
 			eline.setCreateUser(ConstantUtil.user.getUser_Name());
 
-			// 判断是a还是z端
+			// 判断是a还是z�?			
 			AcPortInfo ac = (AcPortInfo) ((ControlKeyValue) this.cmbAc.getItemAt(i+1)).getObject();
 			if (pw.getASiteId() == ConstantUtil.siteId) {
 				eline.setaSiteId(ConstantUtil.siteId);
@@ -428,8 +429,7 @@ public class ElineEditDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化控件
-	 * 
+	 * 初始化控�?	 * 
 	 * @throws Exception
 	 */
 	private void initComponent() throws Exception {

@@ -236,8 +236,7 @@ public class AddCESPanel extends PtnDialog {
 	}
 
 	/**
-	 * 给tunnel面板上的控件赋值
-	 * 
+	 * 给tunnel面板上的控件赋�?	 * 
 	 * @param siteInst
 	 * @param portInst
 	 * @param type
@@ -324,6 +323,11 @@ public class AddCESPanel extends PtnDialog {
 			this.cesInfo.setActiveStatus(BtnIsactive.isSelected() ? 1 : 0);
 			this.cesInfo.setServiceType(EServiceType.CES.getValue());
 			this.cesInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+			if(this.BtnIsactive.isSelected()){
+				cesInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
+			}else{
+				cesInfo.setActivatingTime(null);
+			}
 			this.cesInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 
 			this.dispose();

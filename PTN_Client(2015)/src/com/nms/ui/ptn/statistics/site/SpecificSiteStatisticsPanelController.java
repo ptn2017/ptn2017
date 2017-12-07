@@ -187,7 +187,7 @@ public class SpecificSiteStatisticsPanelController extends AbstractController {
 							if(cardList != null){
 								for(CardInst card : cardList){
 									boolean isGEP8 = false;
-									if("GEP8".equals(card.getCardName())){
+									if("EG8-T".equals(card.getCardName())){
 										isGEP8 = true;
 									}
 									cardType.append(card.getCardName()).append(" ");

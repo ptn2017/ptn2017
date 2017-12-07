@@ -1,6 +1,7 @@
 ﻿package com.nms.ui.ptn.business.etree;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +9,7 @@ import java.util.Set;
 
 import com.nms.db.bean.client.Client;
 import com.nms.db.bean.equipment.shelf.SiteInst;
-import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.StaticUnicastInfo;
-import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.eth.EtreeInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.pw.PwNniInfo;
@@ -20,7 +19,6 @@ import com.nms.db.enums.EOperationLogType;
 import com.nms.model.client.ClientService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.path.SingleSpreadService_MB;
-import com.nms.model.ptn.path.eth.ElineInfoService_MB;
 import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.port.AcPortInfoService_MB;
@@ -34,6 +32,7 @@ import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.CheckingUtil;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -41,9 +40,8 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
-import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.etreepath.AddEtreeDialog;
-import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 
 /**
  * 网络侧etree列表按钮事件控制类
@@ -488,6 +486,7 @@ public class EtreeBusinessController extends AbstractController {
 					etreeInfos = etreeService.selectByServiceId(info.getServiceId());
 					for (EtreeInfo etreeInfo : etreeInfos) {
 						etreeInfo.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+						etreeInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 						etreeInfos2.add(etreeInfo);
 					}
 				}
@@ -534,6 +533,7 @@ public class EtreeBusinessController extends AbstractController {
 					etreeInfos = etreeService.selectByServiceId(info.getServiceId());
 					for (EtreeInfo etreeInfo : etreeInfos) {
 						etreeInfo.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+						etreeInfo.setActivatingTime(null);
 						etreeInfos2.add(etreeInfo);
 					}
 				}
@@ -665,8 +665,8 @@ public class EtreeBusinessController extends AbstractController {
 	public void consistence(){
 		EtreeInfoService_MB etreeService = null;
 		SiteService_MB siteService = null;
-		List<EtreeInfo> emsList = null;
-		List<EtreeInfo> neList = null;
+		Map<Integer, List<EtreeInfo>> etreeEMSMap = null;
+		Map<Integer, List<EtreeInfo>> etreeNEMap = null;
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
@@ -680,21 +680,21 @@ public class EtreeBusinessController extends AbstractController {
 			}
 			if(!siteIdOnLineList.isEmpty()){
 				etreeService = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);
-				emsList = new ArrayList<EtreeInfo>();
-				neList = new ArrayList<EtreeInfo>();
+				etreeEMSMap = new HashMap<Integer, List<EtreeInfo>>();
+				etreeNEMap = new HashMap<Integer, List<EtreeInfo>>();
 				DispatchUtil etreeDispatch = new DispatchUtil(RmiKeys.RMI_ETREE);
 				for(int siteId : siteIdOnLineList){
 					List<EtreeInfo> nESingle = (List<EtreeInfo>) etreeDispatch.consistence(siteId);
 					Map<String, List<EtreeInfo>> emsMap = etreeService.selectNodeBySite(siteId);
 					List<EtreeInfo> eMSSingle = this.getEmsList(emsMap, siteId); 
 					if(eMSSingle != null && !eMSSingle.isEmpty()){
-						emsList.addAll(eMSSingle);
+						etreeEMSMap.put(siteId, eMSSingle);
 					}
 					if(nESingle != null && !nESingle.isEmpty()){
-						neList.addAll(nESingle);
+						etreeNEMap.put(siteId, nESingle);
 					}
 				}
-				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("ETREE", emsList, neList, this);
+				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("ETREE", etreeEMSMap, etreeNEMap, this);
 				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);

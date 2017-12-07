@@ -1,7 +1,9 @@
 ﻿package com.nms.ui.ptn.business.pw;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.oam.OamInfo;
@@ -19,7 +21,6 @@ import com.nms.db.bean.ptn.qos.QosInfo;
 import com.nms.db.bean.report.SSProfess;
 import com.nms.db.enums.EManufacturer;
 import com.nms.db.enums.EOperationLogType;
-import com.nms.db.enums.EServiceType;
 import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.BfdInfoService_MB;
@@ -50,10 +51,9 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
-import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.pwpath.AddPDialog;
 import com.nms.ui.ptn.business.dialog.pwpath.AddPwFilterDialog;
-import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
 
 /**
@@ -923,8 +923,8 @@ public class PwBusinessController extends AbstractController {
 	public void consistence() throws Exception{
 		DispatchUtil  pwDispatch = null;
 		PwInfoService_MB pwinfoService = null;
-		List<PwInfo> emsList = null;
-		List<PwInfo> neList = null;
+		Map<Integer, List<PwInfo>> pwEMSMap = null;
+		Map<Integer, List<PwInfo>> pwNEMap = null;
 		SiteService_MB siteService = null;
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
@@ -939,20 +939,20 @@ public class PwBusinessController extends AbstractController {
 			}
 			if(!siteIdOnLineList.isEmpty()){
 				pwinfoService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
-				emsList = new ArrayList<PwInfo>();
-				neList = new ArrayList<PwInfo>();
+				pwEMSMap = new HashMap<Integer, List<PwInfo>>();
+				pwNEMap = new HashMap<Integer, List<PwInfo>>();
 				pwDispatch = new DispatchUtil(RmiKeys.RMI_PW);
 				for(int siteId : siteIdOnLineList){
 					List<PwInfo> pwEMSSingle = pwinfoService.selectNodeBySiteid(siteId);
 					List<PwInfo> pwNESingle = (List<PwInfo>) pwDispatch.consistence(siteId);
 					if(pwEMSSingle != null && !pwEMSSingle.isEmpty()){
-						emsList.addAll(pwEMSSingle);
+						pwEMSMap.put(siteId, pwEMSSingle);
 					}
 					if(pwNESingle != null && !pwNESingle.isEmpty()){
-						neList.addAll(pwNESingle);
+						pwNEMap.put(siteId, pwNESingle);
 					}
 				}
-				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("PW", emsList, neList, this);
+				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("PW", pwEMSMap, pwNEMap, this);
 				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);

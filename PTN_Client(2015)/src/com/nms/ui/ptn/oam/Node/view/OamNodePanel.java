@@ -254,7 +254,7 @@ public class OamNodePanel extends ContentView<OamInfo> {
 	}
 
 	
-	//监听下拉列表事件:如果是以太网OAM讲显示"删除按钮"否则隐藏改按钮
+	//监听下拉列表事件:如果是以太网OAM讲显�?删除按钮"否则隐藏改按�?	
 	private void addListener() {
 		oamTypeComboBox.addItemListener(new ItemListener() {
 			@Override
@@ -304,7 +304,14 @@ public class OamNodePanel extends ContentView<OamInfo> {
 
 	@Override
 	public List<JButton> setAddButtons() {
-		return null;
+		List<JButton> needAddButtons = new ArrayList<JButton>();
+		try {
+			needAddButtons.add(getQueryBtn());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
+
+		return needAddButtons;
 	}
 
 	@Override

@@ -49,16 +49,19 @@ public class DateUtil {
 	 * @throws ParseException
 	 */
 	public static String strDate(String strDate, String format) throws ParseException {
+		if(strDate != null){
 		Date date = new Date();
 		SimpleDateFormat sfmt = new SimpleDateFormat(format);
 		date = sfmt.parse(strDate);
 		sfmt.format(date);
 		return sfmt.format(date);
+		}else{
+			return null;
+		}
 	}
 
 	/**
-	 * String类型转换成日期格式
-	 * 
+	 * String类型转换成日期格�?	 * 
 	 * @param dateStr
 	 * @param formatStr
 	 * @return
@@ -80,8 +83,7 @@ public class DateUtil {
 	}
 	
 	/**
-	 * DATE类型转换为日期类型
-	 * @param date
+	 * DATE类型转换为日期类�?	 * @param date
 	 * @return
 	 */
 	 public static String getDate(Date date , String formatStr) {
@@ -90,8 +92,7 @@ public class DateUtil {
     }
 
 	/**
-	 * 修改时间的格式
-	 * 
+	 * 修改时间的格�?	 * 
 	 * @param updateTime
 	 * @return
 	 */
@@ -111,8 +112,7 @@ public class DateUtil {
 		return newTime;
 	}
 	/**
-	 * 修改时间的格式
-	 * 
+	 * 修改时间的格�?	 * 
 	 * @param updateTime
 	 * @return
 	 */
@@ -132,8 +132,7 @@ public class DateUtil {
 	}
 	
 	/**
-	 * 修改时间的格式
-	 * 
+	 * 修改时间的格�?	 * 
 	 * @param updateTime
 	 * @return
 	 */

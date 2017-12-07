@@ -28,6 +28,7 @@ import com.nms.ui.filter.impl.EthNeFilterDialog;
 import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -109,8 +110,7 @@ public class EtreeController extends AbstractController {
 	}
 
 	/**
-	 * 选中一条记录后，查看详细信息
-	 * 
+	 * 选中一条记录后，查看详细信�?	 * 
 	 * @throws Exception
 	 */
 	@Override
@@ -358,8 +358,7 @@ public class EtreeController extends AbstractController {
 	}
 
 	/**
-	 * 激活处理事件
-	 */
+	 * 激活处理事�?	 */
 	public void doActive() {
 		List<EtreeInfo> infos = null;
 		String result = null;
@@ -377,6 +376,7 @@ public class EtreeController extends AbstractController {
 					etreeInfos = etreeService.selectByServiceId(info.getServiceId());
 					for (EtreeInfo etreeInfo : etreeInfos) {
 						etreeInfo.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+						etreeInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 						etreeInfos2.add(etreeInfo);
 					}
 				}
@@ -404,8 +404,7 @@ public class EtreeController extends AbstractController {
 	}
 
 	/**
-	 * 去激活处理事件
-	 */
+	 * 去激活处理事�?	 */
 	public void doUnActive() {
 		List<EtreeInfo> infos = null;
 		String result = null;
@@ -423,6 +422,7 @@ public class EtreeController extends AbstractController {
 					etreeInfos = etreeService.selectByServiceId(info.getServiceId());
 					for (EtreeInfo etreeInfo : etreeInfos) {
 						etreeInfo.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+						etreeInfo.setActivatingTime(null);
 						etreeInfos2.add(etreeInfo);
 					}
 				}
@@ -457,7 +457,7 @@ public class EtreeController extends AbstractController {
 	// 修改
 	@Override
 	public void openUpdateDialog() throws Exception {
-		//只能修改单网元
+		//只能修改单网�?		
 		if(this.etreePanel.getSelect().getIsSingle() == 0){
 			DialogBoxUtil.succeedDialog(this.getEtreePanel(), ResourceUtil.srcStr(StringKeysTip.TIP_UPDATE_NODE));
 			return;

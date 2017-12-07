@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -31,11 +33,30 @@ import twaver.list.TList;
 import twaver.tree.ElementNode;
 
 import com.nms.db.bean.alarm.WarningLevel;
+import com.nms.db.bean.equipment.port.PortInst;
+import com.nms.db.bean.equipment.shelf.SiteInst;
+import com.nms.db.bean.path.Segment;
+import com.nms.db.bean.ptn.path.ces.CesInfo;
+import com.nms.db.bean.ptn.path.eth.ElanInfo;
+import com.nms.db.bean.ptn.path.eth.ElineInfo;
+import com.nms.db.bean.ptn.path.eth.EtreeInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.enums.EObjectType;
 import com.nms.model.alarm.WarningLevelService_MB;
+import com.nms.model.equipment.port.PortService_MB;
+import com.nms.model.equipment.shlef.SiteService_MB;
+import com.nms.model.path.SegmentService_MB;
+import com.nms.model.ptn.path.ces.CesInfoService_MB;
+import com.nms.model.ptn.path.eth.ElanInfoService_MB;
+import com.nms.model.ptn.path.eth.ElineInfoService_MB;
+import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
+import com.nms.model.ptn.path.pw.PwInfoService_MB;
+import com.nms.model.ptn.path.tunnel.TunnelService_MB;
 import com.nms.model.util.Services;
 import com.nms.ui.manager.CheckingUtil;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.ControlKeyValue;
 import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -102,6 +123,10 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 	private JTextField clearTimeEndText;//清除时间
 	private JCheckBox userEnsure;//确定用户
 	private JTextField userEnsureText;
+	private JLabel lblPerformType;//监控对象类型
+	private JComboBox cmbPerformType;
+	private JLabel  lblMonitorObj;//监控对象
+	private JComboBox cmbMonitorObj;
 	
 	public CurrentAlarmFilterDialog(int label) {
 		this.setModal(true);
@@ -118,6 +143,14 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 	
 	private void initData() {
 		alarmTypeBox.clear();
+		//监控对象类型包括: 端口/段/TUNNEL/PW/以太网业务/TDM业务
+		this.cmbPerformType.addItem(new ControlKeyValue("0", "所有"));
+		this.cmbPerformType.addItem(new ControlKeyValue("1", "端口"));
+		this.cmbPerformType.addItem(new ControlKeyValue("2", "段"));
+		this.cmbPerformType.addItem(new ControlKeyValue("3", "TUNNEL"));
+		this.cmbPerformType.addItem(new ControlKeyValue("4", "PW"));
+		this.cmbPerformType.addItem(new ControlKeyValue("5", "以太网业务"));
+		this.cmbPerformType.addItem(new ControlKeyValue("6", "TDM业务"));
 		initType();
 	}
 	
@@ -137,6 +170,15 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		  return null;
 	}
 	private void addListener() {
+		//监控对象类型
+		cmbPerformType.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				performTypeChange();
+			}
+		});
+		
 		//取消按钮
 		cancel.addActionListener(new ActionListener() {
 
@@ -272,6 +314,202 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		clearTimeText.setText("");
 	}
 	
+	/**
+	 * 监控对象类型改变时加载对应的监控对象
+	 */
+	private void performTypeChange() {
+		ControlKeyValue selectedItem = (ControlKeyValue) this.cmbPerformType.getSelectedItem();
+		int id = Integer.parseInt(selectedItem.getId());
+		this.cmbMonitorObj.removeAllItems();
+		if(id == 1){
+			// 端口
+			PortService_MB portService = null;
+			SiteService_MB siteService = null;
+			try {
+				siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+				portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
+				List<SiteInst> siteList = siteService.select();
+				Map<Integer, SiteInst> siteMap = new HashMap<Integer, SiteInst>();
+				for(SiteInst site : siteList){
+					siteMap.put(site.getSite_Inst_Id(), site);
+				}
+				PortInst port = new PortInst();
+				List<PortInst> portList = portService.select(port);
+				List<PortInst> portInstList = new ArrayList<PortInst>();
+				if(portList != null){
+					for (PortInst p : portList) {
+						String type = p.getPortType();
+						if("NONE".equals(type) || "NNI".equals(type) || "UNI".equals(type) || "e1".equals(type)){
+							portInstList.add(p);
+						}
+					}
+				}
+				this.initCmbMonitorObj(portInstList, 7, siteMap);
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			} finally {
+				UiUtil.closeService_MB(portService);
+				UiUtil.closeService_MB(siteService);
+			}
+		}else if(id == 2){
+			// 段
+			SegmentService_MB segmentService = null;
+			try {
+				segmentService = (SegmentService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SEGMENT);
+				List<Segment> segmentList = segmentService.select();
+				this.initCmbMonitorObj(segmentList, 8, null);
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			} finally {
+				UiUtil.closeService_MB(segmentService);
+			}
+		}else if(id == 3){
+			//TUNNEL
+			TunnelService_MB tunnelService = null;
+			try {
+				tunnelService = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
+				List<Tunnel> tunnelList = tunnelService.select();
+				this.initCmbMonitorObj(tunnelList, 1, null);
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			} finally {
+				UiUtil.closeService_MB(tunnelService);
+			}
+		}else if(id == 4){
+			//PW
+			PwInfoService_MB pwService = null;
+			try {
+				pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+				List<PwInfo> pwList = pwService.select();	
+				this.initCmbMonitorObj(pwList, 2, null);
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			} finally {
+				UiUtil.closeService_MB(pwService);
+			}
+		}else if(id == 5){
+			//以太网业务
+			ElineInfoService_MB elineService = null;
+			EtreeInfoService_MB etreeService = null;
+			ElanInfoService_MB elanService = null;
+			try {
+				elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
+				List<ElineInfo> elineList = elineService.select();
+				this.initCmbMonitorObj(elineList, 3, null);
+				etreeService = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);
+				Map<Integer, List<EtreeInfo>> etreeMap_netWork = etreeService.select();
+				this.initCmbMonitorObj(etreeMap_netWork, 4, null);
+				elanService = (ElanInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.ElanInfo);
+				Map<Integer, List<ElanInfo>> elanMap_netWork = elanService.select();
+				this.initCmbMonitorObj(elanMap_netWork, 5, null);
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			} finally {
+				UiUtil.closeService_MB(elineService);
+				UiUtil.closeService_MB(etreeService);
+				UiUtil.closeService_MB(elanService);
+			}
+		}else if(id == 6){
+			//TDM业务
+			CesInfoService_MB cesService = null;
+			try {
+				cesService = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);
+				List<CesInfo> cesList = cesService.select();
+				this.initCmbMonitorObj(cesList, 6, null);
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			} finally {
+				UiUtil.closeService_MB(cesService);
+			}
+		}
+	}
+	
+	/**
+	 * 初始化监控对象
+	 */
+	@SuppressWarnings("unchecked")
+	private void initCmbMonitorObj(Object obj, int type, Map<Integer, SiteInst> siteMap) {
+		if(type == 1){
+			//Tunnel
+			List<Tunnel> tunnelList = (List<Tunnel>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new Tunnel());
+			this.cmbMonitorObj.addItem(all);
+			for (Tunnel tunnel : tunnelList) {
+				ControlKeyValue con = new ControlKeyValue(tunnel.getTunnelId()+"", tunnel.getTunnelName(), tunnel);
+				this.cmbMonitorObj.addItem(con);
+			}
+		}else if(type == 2){
+			//Pw 
+			List<PwInfo> pwList = (List<PwInfo>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new PwInfo());
+			this.cmbMonitorObj.addItem(all);
+			for (PwInfo pw : pwList) {
+				ControlKeyValue con = new ControlKeyValue(pw.getPwId()+"", pw.getPwName(), pw);
+				this.cmbMonitorObj.addItem(con);
+			}
+		}else if(type == 3){
+			//eline
+			List<ElineInfo> elineList = (List<ElineInfo>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new ElineInfo());
+			this.cmbMonitorObj.addItem(all);
+			for (ElineInfo eline : elineList) {
+				ControlKeyValue con = new ControlKeyValue(eline.getId()+"", eline.getName(), eline);
+				this.cmbMonitorObj.addItem(con);
+			}
+		}else if(type == 4){
+			//etree
+			Map<Integer, List<EtreeInfo>> etreeList = (Map<Integer, List<EtreeInfo>>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new ArrayList<EtreeInfo>());
+			this.cmbMonitorObj.addItem(all);
+			for(Integer serviceId : etreeList.keySet()){
+				List<EtreeInfo> eList = etreeList.get(serviceId);
+				if(eList.size() > 0){
+					ControlKeyValue con = new ControlKeyValue(serviceId+"", eList.get(0).getName(), eList);
+					this.cmbMonitorObj.addItem(con);
+				}
+			}
+		}else if(type == 5){
+			//elan
+			Map<Integer, List<ElanInfo>> elanList = (Map<Integer, List<ElanInfo>>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new ArrayList<ElanInfo>());
+			this.cmbMonitorObj.addItem(all);
+			for(Integer serviceId : elanList.keySet()){
+				List<ElanInfo> eList = elanList.get(serviceId);
+				if(eList.size() > 0){
+					ControlKeyValue con = new ControlKeyValue(serviceId+"", eList.get(0).getName(), eList);
+					this.cmbMonitorObj.addItem(con);
+				}
+			}
+		}else if(type == 6){
+			//ces
+			List<CesInfo> cesList = (List<CesInfo>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new CesInfo());
+			this.cmbMonitorObj.addItem(all);
+			for (CesInfo ces : cesList) {
+				ControlKeyValue con = new ControlKeyValue(ces.getId()+"", ces.getName(), ces);
+				this.cmbMonitorObj.addItem(con);
+			}
+		}else if(type == 7){
+			// 端口
+			List<PortInst> portList = (List<PortInst>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new PortInst());
+			this.cmbMonitorObj.addItem(all);
+			for (PortInst port : portList) {
+				ControlKeyValue con = new ControlKeyValue(port.getPortId()+"", siteMap.get(port.getSiteId()).getCellId()+"/"+port.getPortName(), port);
+				this.cmbMonitorObj.addItem(con);
+			}
+		}else if(type == 8){
+			// 段
+			List<Segment> segmentList = (List<Segment>) obj;
+			ControlKeyValue all = new ControlKeyValue("0", "所有", new Segment());
+			this.cmbMonitorObj.addItem(all);
+			for (Segment segment : segmentList) {
+				ControlKeyValue con = new ControlKeyValue(segment.getId()+"", segment.getNAME(), segment);
+				this.cmbMonitorObj.addItem(con);
+			}
+		}
+	}
+	
 	// 清除面板信息
 	private void clear() {
 		//对象类型选择网元
@@ -279,6 +517,9 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		//告警对象清空
 		this.neTreePanel.clear();
 		this.neTreePanel.setLevel(2);
+		// 告警源清空
+		this.cmbPerformType.setSelectedIndex(0);
+		this.cmbMonitorObj.removeAllItems();
 		//告警名称清空
 		this.cbType.setSelected(false);
 		this.alarmTypeBox.getSelectionModel().clearSelection();
@@ -394,6 +635,10 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		alarmPerforType.addItem(ResourceUtil.srcStr(StringKeysObj.STRING_DO_ERROR_ALARM));
 		alarmPerforType.addItem(ResourceUtil.srcStr(StringKeysObj.STRING_ENVIRONMENT_ALARM));
 		alarmPerforType.addItem(ResourceUtil.srcStr(StringKeysObj.STRING_EQUIPPOWER_ALARM));
+		this.lblPerformType = new JLabel(ResourceUtil.srcStr(StringKeysObj.OBJ_TYPE));
+		this.cmbPerformType = new JComboBox();
+		this.lblMonitorObj = new JLabel(ResourceUtil.srcStr(StringKeysObj.MONITORING_OBJ));
+		this.cmbMonitorObj = new JComboBox();
 		
 		alarmHappenText = new JTextField();
 		alarmHappenText.setEditable(false);
@@ -482,12 +727,10 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
-		}
-		
+		}	
 	}
 
-	private void setLayout() {
-		
+	private void setLayout() {		
 		GridBagLayout layout = new GridBagLayout();
 		layout.columnWidths = new int[] {20,30,40,40,40,40};
 		layout.columnWeights = new double[] { 0, 0, 0, 0, 0.3};
@@ -529,10 +772,45 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		layout.addLayoutComponent(this.neTreePanel, c);
 		this.add(this.neTreePanel);
 		
-		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 3;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		layout.addLayoutComponent(lblPerformType, c);
+		this.add(lblPerformType);
+		
+		c.gridx = 1;
+		c.gridy = 3;
+		c.gridheight = 1;
+		c.gridwidth = 4;
+		c.insets = new Insets(5, 5, 5, 5);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		layout.addLayoutComponent(cmbPerformType, c);
+		this.add(cmbPerformType);
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		layout.addLayoutComponent(lblMonitorObj, c);
+		this.add(lblMonitorObj);
+		
+		c.gridx = 1;
+		c.gridy = 4;
+		c.gridheight = 1;
+		c.gridwidth = 4;
+		c.insets = new Insets(5, 5, 5, 5);
+		layout.addLayoutComponent(cmbMonitorObj, c);
+		this.add(cmbMonitorObj);
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 5;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -540,7 +818,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		this.add(lblAlarmName);
 		
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 5;
 		c.gridheight = 2;
 		c.gridwidth = 4;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -549,7 +827,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		
 		
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 7;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -558,7 +836,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -566,7 +844,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		this.add(lblObjectSeverity);
 		
 		c.gridx = 1;
-		c.gridy = 6;
+		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -574,7 +852,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		this.add(chbUrgency);
 		
 		c.gridx = 2;
-		c.gridy = 6;
+		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -582,7 +860,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		this.add(chbMajor);
 		
 		c.gridx = 3;
-		c.gridy = 6;
+		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -590,7 +868,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		this.add(chbMinor);
 		
 		c.gridx = 4;
-		c.gridy = 6;
+		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -599,7 +877,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
-			c.gridy = 7;
+			c.gridy = 9;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -608,7 +886,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
-			c.gridy = 7;
+			c.gridy = 9;
 			c.gridheight = 1;
 			c.gridwidth = 2;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -617,7 +895,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
-			c.gridy = 8;
+			c.gridy = 10;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -626,7 +904,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
-			c.gridy = 8;
+			c.gridy = 10;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -635,7 +913,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 2;
-			c.gridy = 8;
+			c.gridy = 10;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -644,7 +922,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
-			c.gridy = 9;
+			c.gridy = 11;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -652,7 +930,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			this.add(startTimeLabel);
 			
 			c.gridx = 1;
-			c.gridy = 9;
+			c.gridy = 11;
 			c.gridheight = 1;
 			c.gridwidth = 2;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -661,7 +939,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.NONE;
 			c.gridx = 3;
-			c.gridy = 9;
+			c.gridy = 11;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 10, 5, 10);
@@ -670,7 +948,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 4;
-			c.gridy = 9;
+			c.gridy = 11;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -679,7 +957,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
-			c.gridy = 11;
+			c.gridy = 13;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -688,7 +966,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
-			c.gridy = 11;
+			c.gridy = 13;
 			c.gridheight = 1;
 			c.gridwidth = 2;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -696,7 +974,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			this.add(ensureTimeText);
 			c.fill = GridBagConstraints.NONE;
 			c.gridx = 3;
-			c.gridy = 11;
+			c.gridy = 13;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -705,7 +983,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 4;
-			c.gridy = 11;
+			c.gridy = 13;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -714,7 +992,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
-			c.gridy = 12;
+			c.gridy = 14;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -723,7 +1001,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
-			c.gridy = 12;
+			c.gridy = 14;
 			c.gridheight = 1;
 			c.gridwidth = 2;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -732,7 +1010,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.NONE;
 			c.gridx = 3;
-			c.gridy = 12;
+			c.gridy = 14;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -741,7 +1019,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 4;
-			c.gridy = 12;
+			c.gridy = 14;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -750,7 +1028,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
-			c.gridy = 13;
+			c.gridy = 15;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -759,7 +1037,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
-			c.gridy = 13;
+			c.gridy = 15;
 			c.gridheight = 1;
 			c.gridwidth = 2;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -768,7 +1046,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
-			c.gridy = 14;
+			c.gridy = 16;
 			c.gridheight = 1;
 			c.gridwidth = 1;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -776,7 +1054,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 			this.add(claerJpanel);
 			
 			c.gridx = 4;
-			c.gridy = 14;
+			c.gridy = 16;
 			c.gridheight = 1;
 			c.gridwidth = 2;
 			c.insets = new Insets(5, 5, 5, 5);
@@ -793,6 +1071,24 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		List<Integer> levelList = new ArrayList<Integer>();
 		//添加监控对象条件
 		try{
+			ControlKeyValue conType = (ControlKeyValue) this.cmbPerformType.getSelectedItem();
+			ControlKeyValue conObj = (ControlKeyValue) this.cmbMonitorObj.getSelectedItem();
+			int id = Integer.parseInt(conType.getId());
+			filter.setAlarmSrc(0);
+			if(id == 0){
+				// 所有
+				filter.setAlarmBusiness(null);
+			}else{
+				// 具体某一种类型
+				if(Integer.parseInt(conObj.getId()) == 0){
+					// 所有配置
+					filter.setAlarmBusiness(null);
+				}else{
+					// 具体某一条配置
+					filter.setAlarmBusiness(conObj.getName());
+				}
+			}
+			
 			strBuilder.append(ResourceUtil.srcStr(StringKeysObj.OBJ_TYPE)).append("：").append(cbObjectType.getSelectedItem()).append(";");
 			if(cbObjectType.getSelectedItem().equals(ResourceUtil.srcStr(StringKeysObj.NET_BASE))){
 				// 根据网元查询当前性能值
@@ -803,6 +1099,7 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 				filter.setSlotInsts(this.neTreePanel.getSelectSlotInst());
 				filter.setObjectType(EObjectType.SLOTINST);
 			}
+			
 			strBuilder.append(ResourceUtil.srcStr(StringKeysObj.ALARM_LEVEL)).append("：");
 			if(chbUrgency.isSelected())
 			{

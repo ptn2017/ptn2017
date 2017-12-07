@@ -21,6 +21,7 @@ import com.nms.ui.filter.impl.EthNeFilterDialog;
 import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -147,8 +148,7 @@ public class ElineController extends AbstractController {
 	}
 
 	/**
-	 * 激活处理事件
-	 */
+	 * 激活处理事�?	 */
 	public void doActive() {
 		List<ElineInfo> infos = null;
 		String result = null;
@@ -160,6 +160,7 @@ public class ElineController extends AbstractController {
 				dispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
 				for (ElineInfo info : infos) {
 					info.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+					info.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 					result = dispatch.excuteUpdate(info);
 					if(result == null || !result.contains(ResultString.CONFIG_SUCCESS)){
 						failCount++;
@@ -203,8 +204,7 @@ public class ElineController extends AbstractController {
 	}
 
 	/**
-	 * 去激活处理事件
-	 */
+	 * 去激活处理事�?	 */
 	public void doUnActive() {
 		List<ElineInfo> infos = null;
 		String result = null;
@@ -216,6 +216,7 @@ public class ElineController extends AbstractController {
 				dispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
 				for (ElineInfo info : infos) {
 					info.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+					info.setActivatingTime(null);
 					result = dispatch.excuteUpdate(info);
 					if(result == null || !result.contains(ResultString.CONFIG_SUCCESS)){
 						failCount++;
@@ -243,8 +244,7 @@ public class ElineController extends AbstractController {
 	}
 
 	/**
-	 * 选中一条记录后，查看详细信息
-	 */
+	 * 选中一条记录后，查看详细信�?	 */
 	@Override
 	public void initDetailInfo() {
 		try {
@@ -343,7 +343,7 @@ public class ElineController extends AbstractController {
 	// 修改
 	@Override
 	public void openUpdateDialog() throws Exception {
-		//只能修改单网元
+		//只能修改单网�?		
 		if(this.elinePanel.getSelect().getIsSingle() == 0){
 			DialogBoxUtil.succeedDialog(this.getElinePanel(), ResourceUtil.srcStr(StringKeysTip.TIP_UPDATE_NODE));
 			return;

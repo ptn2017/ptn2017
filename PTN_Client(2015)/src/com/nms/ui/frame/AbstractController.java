@@ -28,11 +28,11 @@ public abstract class AbstractController {
 	public void inport() throws Exception {
 	};
 
-	// 界面零值过滤
+	// 界面零值过�?	
 	public void filterZero() throws Exception {
 		
 	};
-	// 选中一条记录后，查看详细信息
+	// 选中一条记录后，查看详细信�?	
 	public void initDetailInfo() {
 	};
 
@@ -65,7 +65,7 @@ public abstract class AbstractController {
 	/**
 	 * 删除前的验证
 	 * 
-	 * @return true 验证成功， false 验证失败
+	 * @return true 验证成功�?false 验证失败
 	 * @throws Exception
 	 */
 	public boolean deleteChecking() throws Exception {
@@ -73,27 +73,28 @@ public abstract class AbstractController {
 	}
 	
 	/**
-	 * 一致性检测
-	 */
+	 * 一致性检�?	 */
 	public void consistence() throws Exception{
 		
 	}
 
 	/**
-	 * 上一页
-	 */
+	 * 上一�?	 */
 	public void prevPage() throws Exception {
 		
 	}
 
 	/**
-	 * 下一页
-	 */
+	 * 下一�?	 */
 	public void nextPage() throws Exception {
 		
 	}
 	
 	public void goToAction()throws Exception {
+		
+	}
+	
+	public void query()throws Exception {
 		
 	}
 }

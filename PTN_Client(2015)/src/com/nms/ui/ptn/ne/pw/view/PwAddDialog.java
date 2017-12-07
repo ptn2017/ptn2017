@@ -115,8 +115,7 @@ public class PwAddDialog extends PtnDialog {
 	public PwAddDialog(){}
 	
 	/**
-	 * 处理武汉晨晓不相同部分
-	 * 
+	 * 处理武汉晨晓不相同部�?	 * 
 	 * @throws Exception
 	 */
 	private void different() throws Exception {
@@ -193,15 +192,13 @@ public class PwAddDialog extends PtnDialog {
 					targetMacField.setText(this.pwInfo.getZtargetMac());
 				}
 				else
-				/****************多段赋值********************/
+				/****************多段赋�?*******************/
 				{
 					
 					managerButoon.setEnabled(true);
-					//入标签
-					txtInlabel.setEditable(false);
+					//入标�?					txtInlabel.setEditable(false);
 					txtInlabel.setText("17");
-					//出标签
-					txtOutlabel.setEditable(false);
+					//出标�?					txtOutlabel.setEditable(false);
 					txtOutlabel.setText("17");
 					//可选择tunnel
 					cmbTunnel.setEnabled(false);
@@ -315,7 +312,7 @@ public class PwAddDialog extends PtnDialog {
 			}
 		});
 		
-		/***************多段配置属性界面***************************/
+		/***************多段配置属性界�?**************************/
 		managerButoon.addActionListener(new ActionListener() {
 			
 			@Override
@@ -339,10 +336,8 @@ public class PwAddDialog extends PtnDialog {
 				if(codePwServiceType.getCodeValue().equals("0"))
 				{
 					managerButoon.setEnabled(false);
-					//入标签
-					txtInlabel.setEditable(true);
-					//出标签
-					txtOutlabel.setEditable(true);
+					//入标�?					txtInlabel.setEditable(true);
+					//出标�?					txtOutlabel.setEditable(true);
 					//可选择tunnel
 					cmbTunnel.setEnabled(true);
 					txtQos.setEnabled(true);
@@ -361,11 +356,9 @@ public class PwAddDialog extends PtnDialog {
 					}
 					
 					managerButoon.setEnabled(true);
-					//入标签
-					txtInlabel.setEditable(false);
+					//入标�?					txtInlabel.setEditable(false);
 					txtInlabel.setText("17");
-					//出标签
-					txtOutlabel.setEditable(false);
+					//出标�?					txtOutlabel.setEditable(false);
 					txtOutlabel.setText("17");
 					//可选择tunnel
 					cmbTunnel.setEnabled(false);
@@ -422,8 +415,7 @@ public class PwAddDialog extends PtnDialog {
 		}
 	}
 	/**
-	 * 映射表配置管理
-	 * @throws Exception
+	 * 映射表配置管�?	 * @throws Exception
 	 */
 	private void phbMapping() throws Exception {
 		new MappingConfigDialog(pwInfo);
@@ -451,8 +443,7 @@ public class PwAddDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化控件
-	 * @throws Exception 
+	 * 初始化控�?	 * @throws Exception 
 	 */
 	private void initComponent() throws Exception {
 		this.lblMessage=new JLabel();
@@ -463,7 +454,7 @@ public class PwAddDialog extends PtnDialog {
 		this.txtName = new PtnTextField(true,PtnTextField.STRING_MAXLENGTH,this.lblMessage,this.btnSave,this);
 		this.lblType = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_TYPE));
 		this.cmbType = new JComboBox();
-	/********2015-3-2 张坤 增加单站测pw类型(普通/多段)*****************************************/	
+	/********2015-3-2 张坤 增加单站测pw类型(普�?多段)*****************************************/	
 		pwType = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_SERVICENAME_TYPE));
 		pwTypeComboBox = new JComboBox();
 		super.getComboBoxDataUtil().comboBoxData(this.pwTypeComboBox, "BUSINESSTYPE");
@@ -498,8 +489,7 @@ public class PwAddDialog extends PtnDialog {
 		this.chbActivate = new JCheckBox();
 		this.txtOppositeId = new PtnTextField(false, PtnTextField.TYPE_IP, PtnTextField.IP_MAXLENGTH, this.lblMessage, this.btnSave, this);
 		this.txtOppositeId.setText("0.0.0.0");
-		//新增映射表管理
-		this.lblMapping = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_MAPPING_MANAGE));
+		//新增映射表管�?		this.lblMapping = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_MAPPING_MANAGE));
 		this.btnMapping = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIG));
 		this.autoNamingBtn = new JButton(ResourceUtil.srcStr(StringKeysLbl.LBL_AUTO_NAME));
 		this.payloadTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_PAYLOAD));
@@ -538,7 +528,7 @@ public class PwAddDialog extends PtnDialog {
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		// 第一行 名称
+		// 第一�?名称
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridheight = 1;
@@ -566,7 +556,7 @@ public class PwAddDialog extends PtnDialog {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		int i = 0;
-		// 第一行 错误提示
+		// 第一�?错误提示
 		c.gridx = 0;
 		c.gridy = i++;
 		c.gridheight = 1;
@@ -575,7 +565,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.lblMessage, c);
 		this.add(this.lblMessage);
 		
-		// 第一行 名称
+		// 第一�?名称
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridheight = 1;
@@ -596,7 +586,7 @@ public class PwAddDialog extends PtnDialog {
 		this.add(this.autoNamingBtn);
 		
 
-		// 第二行 类型
+		// 第二�?类型
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
@@ -609,7 +599,7 @@ public class PwAddDialog extends PtnDialog {
 		this.add(this.cmbType);
 
 		
-		// 第三行 业务类型
+		// 第三�?业务类型
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
@@ -622,8 +612,7 @@ public class PwAddDialog extends PtnDialog {
 		this.add(this.pwTypeComboBox);
 		
 		
-		// 第三行  负载净荷
-		c.gridx = 0;
+		// 第三�? 负载净�?		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.payloadTxt, c);
@@ -634,7 +623,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.payloadCombo, c);
 		this.add(this.payloadCombo);
 
-		// 第4行 承载tunnel
+		// �?�?承载tunnel
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
@@ -646,7 +635,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.cmbTunnel, c);
 		this.add(this.cmbTunnel);
 
-//		// 第四行 端口配置
+//		// 第四�?端口配置
 //		c.gridx = 0;
 //		c.gridy = 4;
 //		c.gridwidth = 1;
@@ -657,8 +646,7 @@ public class PwAddDialog extends PtnDialog {
 //		componentLayout.setConstraints(this.cmbPwport, c);
 //		this.add(this.cmbPwport);
 
-		// 第五行 入标签
-		c.gridx = 0;
+		// 第五�?入标�?		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblInlabel, c);
@@ -669,8 +657,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.txtInlabel, c);
 		this.add(this.txtInlabel);
 
-		// 第六行 出标签
-		c.gridx = 0;
+		// 第六�?出标�?		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblOutlabel, c);
@@ -717,8 +704,7 @@ public class PwAddDialog extends PtnDialog {
 //		componentLayout.setConstraints(this.vlanEnableComboBox, c);
 //		this.add(this.vlanEnableComboBox);
 		
-		//外层vlan值
-//		c.gridx = 0;
+		//外层vlan�?//		c.gridx = 0;
 //		c.gridy = i;
 //		c.gridwidth = 1;
 //		componentLayout.setConstraints(this.vlanValue, c);
@@ -729,7 +715,7 @@ public class PwAddDialog extends PtnDialog {
 //		componentLayout.setConstraints(this.vlanValuePtnTextField, c);
 //		this.add(this.vlanValuePtnTextField);
 
-		// 第七行 对端网元
+		// 第七�?对端网元
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
@@ -741,7 +727,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.txtOppositeId, c);
 		this.add(this.txtOppositeId);
 
-		// 第八行 qos
+		// 第八�?qos
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
@@ -768,8 +754,7 @@ public class PwAddDialog extends PtnDialog {
 		this.add(this.modelJComboBox);
 		
 		
-		// 第10行 激活状态
-		c.gridx = 0;
+		// �?0�?激活状�?		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblActivate, c);
@@ -780,8 +765,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.chbActivate, c);
 		this.add(this.chbActivate);
 		
-		//插入一行 映射表管理
-		c.gridx = 0;
+		//插入一�?映射表管�?		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblMapping, c);
@@ -795,8 +779,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.btnMapping, c);
 		this.add(this.btnMapping);
 		
-		//插入一行 映射表管理
-		c.gridx = 0;
+		//插入一�?映射表管�?		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.doubleManagerLabel, c);
@@ -825,7 +808,7 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
 		this.add(this.ptnSpinnerNumber);
 		
-		// 第12行 按钮
+		// �?2�?按钮
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 //		c.gridx = 1;
@@ -842,8 +825,7 @@ public class PwAddDialog extends PtnDialog {
 	}
 	
 //	/**
-//	 * 修改pw时，pwnni端口赋值
-//	 */
+//	 * 修改pw时，pwnni端口赋�?//	 */
 //	private void updatePwNni(int pwId){
 //		
 //		PwNniInfo pwNniInfo = null;
@@ -923,7 +905,7 @@ public class PwAddDialog extends PtnDialog {
 			tunnelList = (List<Tunnel>) filter.filterList(tunnelServiceMB.selectNodesBySiteId(ConstantUtil.siteId));
 			oamInfoService = (OamInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.OamInfo);
 			if(!"1".equals(codePwType.getCodeValue())){
-				//过滤非eth条件下 的tunnel  ，因为双规保护占用的tunnel只能用于eth时的pw
+				//过滤非eth条件�?的tunnel  ，因为双规保护占用的tunnel只能用于eth时的pw
 				dualProtectList = dualProtectService.selectBySite(ConstantUtil.siteId);
 				for(DualProtect dualProtect:dualProtectList){
 					tunnelMap.put(dualProtect.getBreakoverTunnel().getTunnelId(), dualProtect.getBreakoverTunnel());
@@ -936,9 +918,9 @@ public class PwAddDialog extends PtnDialog {
 			}
 			defaultComboBoxModel = new DefaultComboBoxModel();
 			for (Tunnel tunnel : tunnelList) {
-				// 如果不是xc 就添加到下拉列表中
+				// 如果不是xc 就添加到下拉列表�?				
 				if (tunnel.getASiteId() == ConstantUtil.siteId || tunnel.getZSiteId() == ConstantUtil.siteId) {
-					//过滤非eth条件下 的tunnel  ，因为双规保护占用的tunnel只能用于eth时的pw;
+					//过滤非eth条件�?的tunnel  ，因为双规保护占用的tunnel只能用于eth时的pw;
 					if(null==tunnelMap.get(tunnel.getTunnelId())){
 						defaultComboBoxModel.addElement(new ControlKeyValue(tunnel.getTunnelId() + "", tunnel.getTunnelName(), tunnel));
 					}
@@ -1145,7 +1127,7 @@ public class PwAddDialog extends PtnDialog {
 				
 				if(pwServiceType.equals("0"))
 				{
-					//新建时  验证qos是否充足
+					//新建�? 验证qos是否充足
 					pwInfoService=(PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
 					if(!pwInfoService.checkingQos(pwInfo, pwInfo.getQosList(),null)){
 						if(Integer.parseInt(codePwType.getCodeValue()) == EPwType.PDH.getValue()) {
@@ -1215,7 +1197,11 @@ public class PwAddDialog extends PtnDialog {
 			pwInfo.setAtp_id(this.pwInfo.getAtp_id());
 			pwInfo.setaOutVlanValue(this.pwInfo.getaOutVlanValue());
 			pwInfo.setaVlanEnable(this.pwInfo.getaVlanEnable());
+			pwInfo.setzOutVlanValue(this.pwInfo.getzOutVlanValue());
+			pwInfo.setzVlanEnable(this.pwInfo.getzVlanEnable());
 			pwInfo.setaSourceMac(this.pwInfo.getaSourceMac());
+			pwInfo.setAtargetMac(this.pwInfo.getAtargetMac());
+			pwInfo.setzSourceMac(this.pwInfo.getzSourceMac());
 			pwInfo.setZtargetMac(this.pwInfo.getZtargetMac());
 			pwInfo.setType(this.pwInfo.getType());
 			pwInfo.setIsSingle(1);
@@ -1334,7 +1320,7 @@ public class PwAddDialog extends PtnDialog {
 //			}
 //			if(b){
 				result = labelInfoService.select(labelValues, ConstantUtil.siteId, "PW");
-				/*目前设备的芯片不支持同一端口的lsp的入标签和该端口上的pw的入标签一样,所以要加上下面的代码*******************************/
+				/*目前设备的芯片不支持同一端口的lsp的入标签和该端口上的pw的入标签一�?所以要加上下面的代�?******************************/
 				if(result == null || "".equals(result)){
 					if(labelValues.size() > 0){
 						if(!this.verifyInLabel(labelValues.get(0),tunnel)){
@@ -1342,9 +1328,8 @@ public class PwAddDialog extends PtnDialog {
 						}
 					}
 				}
-				/*如果以后芯片支持同一端口的lsp的入标签和该端口上的pw的入标签一样,就把上面的代码关掉**************************/
-				//出标签单独验证
-//				tunnel = (Tunnel) ((ControlKeyValue) this.cmbTunnel.getSelectedItem()).getObject();
+				/*如果以后芯片支持同一端口的lsp的入标签和该端口上的pw的入标签一�?就把上面的代码关�?*************************/
+				//出标签单独验�?//				tunnel = (Tunnel) ((ControlKeyValue) this.cmbTunnel.getSelectedItem()).getObject();
 //				int label = Integer.parseInt(this.txtOutlabel.getText().trim());
 				result += this.checkOutLabelUsable(tunnel,label,outLabelValue);
 //			}
@@ -1365,7 +1350,7 @@ public class PwAddDialog extends PtnDialog {
 	}
 	
 	/**
-	 * 验证pw的入标签,如果同一端口的lsp的入标签和该端口上的pw的入标签一样,返回false,如果不一样,返回true
+	 * 验证pw的入标签,如果同一端口的lsp的入标签和该端口上的pw的入标签一�?返回false,如果不一�?返回true
 	 */
 	private boolean verifyInLabel(int inLabel,Tunnel tunnel) {
 		LspInfoService_MB lspService = null;
@@ -1387,9 +1372,7 @@ public class PwAddDialog extends PtnDialog {
 
 
 	/**
-	 * 验证出标签是否可用
-	 * 同一个端口的出标签不能一样
-	 * @throws Exception
+	 * 验证出标签是否可�?	 * 同一个端口的出标签不能一�?	 * @throws Exception
 	 */
 	private String checkOutLabelUsable(Tunnel tunnel,int label,int outLabelValue) throws Exception  {
 		PwInfoService_MB pwService = null;
@@ -1403,8 +1386,7 @@ public class PwAddDialog extends PtnDialog {
 			 pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
 			 tunnelServiceMB = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
 			if(label != outLabelValue){
-				//同一个端口的出标签不能一样
-//				tunnel = (Tunnel) ((ControlKeyValue) this.cmbTunnel.getSelectedItem()).getObject();
+				//同一个端口的出标签不能一�?//				tunnel = (Tunnel) ((ControlKeyValue) this.cmbTunnel.getSelectedItem()).getObject();
 				if(tunnel.getASiteId() == ConstantUtil.siteId){
 					portId = tunnel.getAPortId();
 				}else{
@@ -1439,8 +1421,7 @@ public class PwAddDialog extends PtnDialog {
 	
 
 	/**
-	 * 获取入标签集合
-	 * 
+	 * 获取入标签集�?	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -1448,8 +1429,7 @@ public class PwAddDialog extends PtnDialog {
 		List<Integer> labelvalues = null;
 		try {
 			labelvalues = new ArrayList<Integer>();
-			//如过修改pw时，未修改此标签就不用验证，即可用
-//			if(Integer.parseInt(this.txtInlabel.getText().trim()) != inLabel){
+			//如过修改pw时，未修改此标签就不用验证，即可�?//			if(Integer.parseInt(this.txtInlabel.getText().trim()) != inLabel){
 				if(Integer.parseInt(inLabelValue) != inLabel){
 				this.setLabelValues(labelvalues, Integer.parseInt(inLabelValue));
 			}
@@ -1523,8 +1503,7 @@ public class PwAddDialog extends PtnDialog {
 			curAlarmService = (CurAlarmService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CurrentAlarm);
 			tunnelServiceMB=(TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
 			siteList = tunnelServiceMB.getSiteIds(tunnel,false);
-			if(siteList != null && siteList.size()>0){//选择的tunnel包含武汉的设备
-				currentAlarmInfo = new CurrentAlarmInfo();
+			if(siteList != null && siteList.size()>0){//选择的tunnel包含武汉的设�?				currentAlarmInfo = new CurrentAlarmInfo();
 				currentAlarmInfo.setAlarmCode(183);
 				currentAlarmInfo.setAlarmLevel(2);
 				if(ConstantUtil.siteId == tunnel.getASiteId()){
@@ -1596,7 +1575,7 @@ public class PwAddDialog extends PtnDialog {
 	private JComboBox cmbType;
 	/************PW类型 普通还是多段的leble标签*************************/
 	private JLabel pwType;
-	/************PW类型 普通还是多段*************************/
+	/************PW类型 普通还是多�?************************/
 	private JComboBox pwTypeComboBox;
 	private JLabel doubleManagerLabel;
 	private JButton managerButoon;
@@ -1630,7 +1609,7 @@ public class PwAddDialog extends PtnDialog {
 	private PtnTextField targetMacField;
 	private JLabel vlanEnable;//外层vlan使能
 	private JComboBox vlanEnableComboBox;
-	private JLabel vlanValue;//外层vlan值
+	private JLabel vlanValue;//外层vlan�?	
 	private PtnTextField vlanValuePtnTextField;
 	private JLabel tp_idJLabel;//TP_ID
 	private JComboBox tp_idJComboBox;

@@ -49,6 +49,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.VerifyNameUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.control.PtnDialog;
+import com.nms.ui.manager.control.PtnSpinner;
 import com.nms.ui.manager.control.PtnTextField;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysLbl;
@@ -98,6 +99,7 @@ public class EtreeEditDialog extends PtnDialog {
 				this.etreeInfo = new EtreeInfo();
 				this.setTitle(ResourceUtil.srcStr(StringKeysTitle.TIT_CREATE_ETREE));
 			}else{
+				this.ptnSpinnerNumber.setEnabled(false);
 				this.setTitle(ResourceUtil.srcStr(StringKeysOperaType.BTN_ETREE_UPDATE));
 				this.txtname.setText(this.etreeInfo.getName());
 				this.nameBefore = this.etreeInfo.getName();
@@ -402,13 +404,50 @@ public class EtreeEditDialog extends PtnDialog {
 				return;
 			}
 			
-			etreeInfoList = new ArrayList<EtreeInfo>();
 			code_type = (Code) ((ControlKeyValue) this.cmbtype.getSelectedItem()).getObject();
 			acIdList = new ArrayList<Integer>();
 			useAcPortList = new ArrayList<AcPortInfo>();
 			getAllAcId(acIdList,useAcPortList);
-			
-			
+			// 批量创建
+			int num = Integer.parseInt(this.ptnSpinnerNumber.getTxt().getText());
+			List<List<EtreeInfo>> etreeBatchList = new ArrayList<List<EtreeInfo>>();
+			if(num > 1){
+				if((defaultListModel.getSize() < num) || (defaultListModelAc.getSize() < num)){
+					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PORTCOUNT_NOT_EQUAL));
+					return;
+				}
+				for(int i = 0; i < num; i++){
+					etreeInfoList = new ArrayList<EtreeInfo>();
+					pwinfo = (PwInfo) ((ControlKeyValue) defaultListModel.getElementAt(i)).getObject();
+					etreeInfo = new EtreeInfo();
+					etreeInfo.setName(this.txtname.getText().trim()+"_copy"+(i+1));				
+					etreeInfo.setServiceType(EServiceType.ETREE.getValue());
+					etreeInfo.setActiveStatus(this.chkactivate.isSelected() ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
+					etreeInfo.setIsSingle(1);
+					etreeInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+					if(chkactivate.isSelected()){
+						etreeInfo.setActivatingTime(etreeInfo.getCreateTime());
+					}else{
+						etreeInfo.setActivatingTime(null);
+					}
+					etreeInfo.setCreateUser(ConstantUtil.user.getUser_Name());
+					etreeInfo.setPwId(pwinfo.getPwId());
+					etreeInfo.setPwName(pwinfo.getPwName());
+					AcPortInfo ac =  (AcPortInfo) ((ControlKeyValue) defaultListModelAc.getElementAt(i)).getObject();
+					if ("root".endsWith(code_type.getCodeValue())) {
+						etreeInfo.setRootSite(ConstantUtil.siteId);
+						etreeInfo.setaSiteId(ConstantUtil.siteId);
+						etreeInfo.setAmostAcId(ac.getId()+"");
+					} else {
+						etreeInfo.setBranchSite(ConstantUtil.siteId);
+						etreeInfo.setzSiteId(ConstantUtil.siteId);
+						etreeInfo.setZmostAcId(ac.getId()+"");
+					}
+					etreeInfoList.add(etreeInfo);
+					etreeBatchList.add(etreeInfoList);
+				}
+			}else{
+				etreeInfoList = new ArrayList<EtreeInfo>();
 			for(int i = 0; i < defaultListModel.getSize(); i++){
 				pwinfo = (PwInfo) ((ControlKeyValue) defaultListModel.getElementAt(i)).getObject();
 				etreeInfo = new EtreeInfo();
@@ -417,6 +456,11 @@ public class EtreeEditDialog extends PtnDialog {
 				etreeInfo.setActiveStatus(this.chkactivate.isSelected() ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
 				etreeInfo.setIsSingle(1);
 				etreeInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+					if(chkactivate.isSelected()){
+						etreeInfo.setActivatingTime(etreeInfo.getCreateTime());
+					}else{
+						etreeInfo.setActivatingTime(null);
+					}
 				etreeInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 				etreeInfo.setPwId(pwinfo.getPwId());
 				etreeInfo.setPwName(pwinfo.getPwName());
@@ -431,12 +475,16 @@ public class EtreeEditDialog extends PtnDialog {
 				}
 				etreeInfoList.add(etreeInfo);
 			}
+				etreeBatchList.add(etreeInfoList);
+			}
 			etreeDispatch = new DispatchUtil(RmiKeys.RMI_ETREE);
 			if(0==this.etreeInfo.getServiceId()){
-				resultStr = etreeDispatch.excuteInsert(etreeInfoList);
+				for(List<EtreeInfo> list : etreeBatchList){
+					resultStr = etreeDispatch.excuteInsert(list);
 				//日志记录
-				VplsInfo vplsInfo = this.getVplsBefore(etreeInfoList, 1);
+					VplsInfo vplsInfo = this.getVplsBefore(list, 1);
 				AddOperateLog.insertOperLog(btnSave, EOperationLogType.ETREEINSERT.getValue(), resultStr, null, vplsInfo, ConstantUtil.siteId, vplsInfo.getVplsName(), "etree");
+				}
 			}else{
 				integrateEtreeList(etreeInfoList); //整理修改数据
 //				checkUpdateRoot(); //验证当根ac修改时 ，是否有修改操作
@@ -633,6 +681,11 @@ public class EtreeEditDialog extends PtnDialog {
 				// 如果为null 说明没有匹配项目，是新增操作。
 				// 把创建时间和创建人修改成以前的数据
 				etreeInfo_new.setCreateTime(this.etreeInfoListForUpdate.get(0).getCreateTime());
+				if(chkactivate.isSelected()){
+					etreeInfo_new.setActivatingTime(this.etreeInfoListForUpdate.get(0).getActivatingTime());
+				}else{
+					etreeInfo_new.setActivatingTime(null);
+				}
 				etreeInfo_new.setCreateUser(this.etreeInfoListForUpdate.get(0).getCreateUser());
 				etreeInfo_new.setServiceId(this.etreeInfoListForUpdate.get(0).getServiceId());
 				etreeInfo_new.setaXcId(this.etreeInfoListForUpdate.get(0).getaXcId());
@@ -1040,10 +1093,24 @@ public class EtreeEditDialog extends PtnDialog {
 		componentLayout.setConstraints(this.chkactivate, c);
 		this.add(this.chkactivate);
 
+		// 批量创建
+		c.gridx = 2;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		componentLayout.setConstraints(this.lblNumber, c);
+		this.add(this.lblNumber);
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.WEST;
+		c.gridx = 3;
+		c.gridwidth = 2;
+		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
+		this.add(this.ptnSpinnerNumber);
+
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridheight = 4;
+		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblPw, c);
 		this.add(this.lblPw);
 		c.gridx = 1;
@@ -1124,6 +1191,8 @@ public class EtreeEditDialog extends PtnDialog {
 			this.chkactivate.setSelected(this.etreeInfo.getActiveStatus()==1?true:false);
 			this.cmbtype.setEnabled(false);
 		}
+		this.lblNumber = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CREATE_NUM));
+		this.ptnSpinnerNumber = new PtnSpinner(1, 1, 64, 1);
 	}
 
 	/**
@@ -1170,4 +1239,6 @@ public class EtreeEditDialog extends PtnDialog {
 	private JList listSelectAC;
 	private JButton btnAcLeft;
 	private JButton btnAcRight;
+	private JLabel lblNumber;
+	private PtnSpinner ptnSpinnerNumber;
 }

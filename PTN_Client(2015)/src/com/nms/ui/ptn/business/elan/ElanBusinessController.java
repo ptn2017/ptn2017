@@ -1,6 +1,7 @@
 ﻿package com.nms.ui.ptn.business.elan;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.CheckingUtil;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -38,9 +40,8 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
-import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.elanpath.AddElanDialog;
-import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 
 /**
  * @author lepan
@@ -450,6 +451,7 @@ public class ElanBusinessController extends AbstractController {
 					elanInfos = elanInfoService.selectByServiceId(info.getServiceId());
 					for (ElanInfo elanInfo : elanInfos) {
 						elanInfo.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+						elanInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 						elanInfo2.add(elanInfo);
 					}
 				}
@@ -497,6 +499,7 @@ public class ElanBusinessController extends AbstractController {
 					elanInfos = elanInfoService.selectByServiceId(info.getServiceId());
 					for (ElanInfo elanInfo : elanInfos) {
 						elanInfo.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+						elanInfo.setActivatingTime(null);
 						elanInfo2.add(elanInfo);
 					}
 				}
@@ -670,8 +673,8 @@ public class ElanBusinessController extends AbstractController {
 	public void consistence(){
 		ElanInfoService_MB elanService = null;
 		SiteService_MB siteService = null;
-		List<ElanInfo> emsList = null;
-		List<ElanInfo> neList = null;
+		Map<Integer, List<ElanInfo>> elanEMSMap = null;
+		Map<Integer, List<ElanInfo>> elanNEMap = null;
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
@@ -685,21 +688,22 @@ public class ElanBusinessController extends AbstractController {
 			}
 			if(!siteIdOnLineList.isEmpty()){
 				elanService = (ElanInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.ElanInfo);
-				emsList = new ArrayList<ElanInfo>();
-				neList = new ArrayList<ElanInfo>();
+				elanEMSMap = new HashMap<Integer, List<ElanInfo>>();
+				elanNEMap = new HashMap<Integer, List<ElanInfo>>();
 				DispatchUtil elanDispatch = new DispatchUtil(RmiKeys.RMI_ELAN);
 				for(int siteId : siteIdOnLineList){
 					List<ElanInfo> nESingle = (List<ElanInfo>)elanDispatch.consistence(siteId);
 					Map<Integer, List<ElanInfo>> emsMap = elanService.selectBySiteId(siteId);
 					List<ElanInfo> eMSSingle = this.getEmsList(emsMap, siteId); 
 					if(eMSSingle != null && !eMSSingle.isEmpty()){
-						emsList.addAll(eMSSingle);
+						elanEMSMap.put(siteId, eMSSingle);
+						
 					}
 					if(nESingle != null && !nESingle.isEmpty()){
-						neList.addAll(nESingle);
+						elanNEMap.put(siteId, nESingle);
 					}
 				}
-				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("ELAN", emsList, neList, this);
+				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("ELAN", elanEMSMap, elanNEMap, this);
 				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);

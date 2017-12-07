@@ -39,6 +39,26 @@ public class CurrentAlarmFilter {
     private String ensureUser;	
 	//下列属性在查询历史告警时需要用到
     private List<Integer> alarmCodeList = new ArrayList<Integer>();
+    // 告警源类型
+    private int alarmSrc;
+    // 告警源
+    private String alarmBusiness;
+    
+	public int getAlarmSrc() {
+		return alarmSrc;
+	}
+
+	public void setAlarmSrc(int alarmSrc) {
+		this.alarmSrc = alarmSrc;
+	}
+
+	public String getAlarmBusiness() {
+		return alarmBusiness;
+	}
+
+	public void setAlarmBusiness(String alarmBusiness) {
+		this.alarmBusiness = alarmBusiness;
+	}
     
 	public List<Integer> getAlarmCodeList() {
 		return alarmCodeList;
