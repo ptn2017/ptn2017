@@ -26,11 +26,12 @@
     <result column="branchProtectSite" property="branchProtectSite" jdbcType="INTEGER" />
     <result column="zmostAcIds" property="zmostAcId" jdbcType="VARCHAR" />
     <result column="amostAcIds" property="amostAcId" jdbcType="VARCHAR" />
+    <result column="activatingTime" property="activatingTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, serviceId, pwId, serviceType, name, aXcId, zXcId, activeStatus, rootSite, branchSite, 
     aAcId, zAcId, createUser, createTime, aSiteId, zSiteId, isSingle, cestype, jobstatus, 
-    clientId, branchMainSite, branchProtectSite, zmostAcIds, amostAcIds
+    clientId, branchMainSite, branchProtectSite, zmostAcIds, amostAcIds,activatingTime
   </sql>
   <select id="selectBySiteAndisSingle" resultMap="BaseResultMap" >
   select * from serviceinfo where serviceType = 3 

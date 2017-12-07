@@ -61,7 +61,9 @@ public class ElineInfo extends ServiceInfo {
 			if (getCreateTime() != null) {
 				this.putClientProperty("createTime", DateUtil.strDate(getCreateTime(), DateUtil.FULLTIME));
 			}
-			
+			if (getActivatingTime() != null) {
+				this.putClientProperty("activatingTime", DateUtil.strDate(getActivatingTime(), DateUtil.FULLTIME));
+			}
 			if(0==this.getIsSingle()){
 				this.putClientProperty("pwName", getPwname(getPwId()));
 				this.putClientProperty("asiteName", getASiteName());

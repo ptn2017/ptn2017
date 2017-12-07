@@ -77,6 +77,15 @@ public class ServiceInfo extends ViewDataObj{
 	 * 0表示查询所有板卡，其他表示具体某块板卡
 	 */
 	private int cardId = 0;// 用于设置过滤
+	private String activatingTime;// 激活时间
+	
+	public String getActivatingTime() {
+		return activatingTime;
+	}
+
+	public void setActivatingTime(String activatingTime) {
+		this.activatingTime = activatingTime;
+	}
 	
 	public int getCardId() {
 		return cardId;

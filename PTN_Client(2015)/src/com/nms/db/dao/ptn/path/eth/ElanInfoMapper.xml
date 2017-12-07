@@ -24,11 +24,12 @@
     <result column="branchProtectSite" property="branchProtectSite" jdbcType="INTEGER" />
     <result column="zmostAcIds" property="zmostAcId" jdbcType="VARCHAR" />
     <result column="amostAcIds" property="amostAcId" jdbcType="VARCHAR" />
+    <result column="activatingTime" property="activatingTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, serviceId, pwId, serviceType, name, aXcId, zXcId, activeStatus, rootSite, branchSite, 
     aAcId, zAcId, createUser, createTime, aSiteId, zSiteId, isSingle, cestype, jobstatus, 
-    clientId, branchMainSite, branchProtectSite, zmostAcIds, amostAcIds
+    clientId, branchMainSite, branchProtectSite, zmostAcIds, amostAcIds,activatingTime
   </sql>
   <select id="filterSelect" resultMap="BaseResultMap" parameterType="ElanInfo">
   SELECT * FROM serviceinfo s WHERE serviceType=2
@@ -105,7 +106,7 @@
  </if>
  </select>
   <select id="queryAll" resultMap="BaseResultMap" >
-  SELECT jobstatus,issingle,id, serviceId, pwId, serviceType,name, aXcId, zXcId, activeStatus ,aAcId , zAcId , createUser , createTime,aSiteId, zSiteId , clientId,amostAcIds,zmostAcIds FROM serviceinfo WHERE serviceType=2  and issingle=0
+  SELECT jobstatus,issingle,id, serviceId, pwId, serviceType,name, aXcId, zXcId, activeStatus ,aAcId , zAcId , createUser , createTime,aSiteId, zSiteId , clientId,amostAcIds,zmostAcIds,activatingTime FROM serviceinfo WHERE serviceType=2  and issingle=0
   </select>
   
   <select id="selectBySiteAndisSingle" resultMap="BaseResultMap" >

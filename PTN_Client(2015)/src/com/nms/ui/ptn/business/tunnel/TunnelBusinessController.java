@@ -1,9 +1,10 @@
 ﻿package com.nms.ui.ptn.business.tunnel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.mysql.jdbc.Util;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
@@ -13,7 +14,6 @@ import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.ptn.qos.QosInfo;
 import com.nms.db.enums.EManufacturer;
 import com.nms.db.enums.EOperationLogType;
-import com.nms.db.enums.EServiceType;
 import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.BfdInfoService_MB;
@@ -39,9 +39,8 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
-import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.tunnel.AddTunnelPathDialog;
-import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
 
 /**
@@ -809,10 +808,10 @@ public class TunnelBusinessController extends AbstractController {
 	 */
 	@Override
 	public void consistence(){
-		List<Tunnel> tunnelEMS = null;
+		Map<Integer, List<Tunnel>> tunnelEMSMap = null;
+		Map<Integer, List<Tunnel>> tunnelNEMap = null;  
 		TunnelService_MB tunnelServiceMB = null;
 		DispatchUtil dispatchUtil = null;
-		List<Tunnel> tunnelsNE = null;  
 		SiteService_MB siteService = null;
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
@@ -827,20 +826,20 @@ public class TunnelBusinessController extends AbstractController {
 			}
 			if(!siteIdOnLineList.isEmpty()){
 				tunnelServiceMB = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
-				tunnelEMS = new ArrayList<Tunnel>();
-				tunnelsNE = new ArrayList<Tunnel>();
+				tunnelEMSMap = new HashMap<Integer, List<Tunnel>>();
+				tunnelNEMap = new HashMap<Integer, List<Tunnel>>();
 				dispatchUtil = new  DispatchUtil(RmiKeys.RMI_TUNNEL);
 				for(int siteId : siteIdOnLineList){
 					List<Tunnel> tunnelEMSSingle = tunnelServiceMB.selectWHNodesBySiteId(siteId);
 					List<Tunnel> tunnelNESingle = (List<Tunnel>) dispatchUtil.consistence(siteId);
 					if(tunnelEMSSingle != null && !tunnelEMSSingle.isEmpty()){
-						tunnelEMS.addAll(tunnelEMSSingle);
+						tunnelEMSMap.put(siteId, tunnelEMSSingle);
 					}
 					if(tunnelNESingle != null && !tunnelNESingle.isEmpty()){
-						tunnelsNE.addAll(tunnelNESingle);
+						tunnelNEMap.put(siteId, tunnelNESingle);
 					}
 				}
-				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("TUNNEL", tunnelEMS, tunnelsNE, this);
+				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("TUNNEL", tunnelEMSMap, tunnelNEMap, this);
 				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);

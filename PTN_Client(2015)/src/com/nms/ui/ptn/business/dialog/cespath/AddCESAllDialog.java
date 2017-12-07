@@ -171,8 +171,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.setConstraints(this.lblMessage, c);
 		this.leftPanel.add(this.lblMessage);
 
-		 //第一行名称LABLE,文本框3列 有2列合并
-		c.fill = GridBagConstraints.HORIZONTAL;
+		 //第一行名称LABLE,文本�?�?�?列合�?		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridheight = 1;
@@ -190,7 +189,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.autoNamingBtn, c);
 		this.leftPanel.add(this.autoNamingBtn);
 		 
-		// 第二行 pw类型
+		// 第二�?pw类型
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = i;
@@ -204,8 +203,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.pwTypeJcbBox, c);
 		this.leftPanel.add(this.pwTypeJcbBox);
 		
-		//第三行 负载净荷
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//第三�?负载净�?		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
@@ -240,7 +238,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.aPortBtn, c);
 		this.leftPanel.add(this.aPortBtn);
 		
-		//第五行 z端端口选择
+		//第五�?z端端口选择
 		i += 2;
 		c.gridx = 0;
 		c.gridy = i;
@@ -262,7 +260,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.zPortBtn, c);
 		this.leftPanel.add(this.zPortBtn);
 
-		 //第6行,QosLable,文本框,按钮
+		 //�?�?QosLable,文本�?按钮
 		i += 2;
 		c.gridx = 0;
 		c.gridy = i;
@@ -284,7 +282,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.qosConfigBtn, c);
 		this.leftPanel.add(this.qosConfigBtn);
 
-		// 第7行，批量创建的数量
+		// �?行，批量创建的数�?		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = i;
@@ -298,7 +296,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.ptnSpinnerNumber, c);
 		this.leftPanel.add(this.ptnSpinnerNumber);
 
-		// 第8行 , 是否激活,单选按钮,有2列合并
+		// �?�?, 是否激�?单选按�?�?列合�?		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = i;
@@ -312,7 +310,7 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.isActiveCBox, c);
 		this.leftPanel.add(this.isActiveCBox);
 
-		// 第10行 确定按钮 中间空出一行
+		// �?0�?确定按钮 中间空出一�?		
 		c.gridx = 2;
 		c.gridy = i;
 		c.fill = GridBagConstraints.NONE;
@@ -521,7 +519,7 @@ public class AddCESAllDialog extends AddPDialog{
 			List<PwInfo> pwList = this.filterPwList(tunnelIdList);
 			// 减去已经被在同一条隧道上pw使用过的qos
 			int used = 0;//已用带宽
-			int use = 0;//总带宽
+			int use = 0;//总带�?			
 			if(pwList != null && !pwList.isEmpty()){
 				for (PwInfo pw : pwList) {
 					List<QosInfo> pwUsedQosInfoList = new ArrayList<QosInfo>();
@@ -633,7 +631,7 @@ public class AddCESAllDialog extends AddPDialog{
 					pwInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
 					pwInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 					pwInfo.setPwStatus(this.isActiveCBox.isSelected() == true ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
-					pwInfo.setBusinessType(0+"");//业务类型为普通
+					pwInfo.setBusinessType(0+"");//业务类型为普�?					
 					pwInfo.setaSourceMac("00-00-00-33-44-55");
 					pwInfo.setAtargetMac("00-00-00-AA-BB-CC");
 					pwInfo.setZtargetMac("00-00-00-33-44-55");
@@ -681,6 +679,11 @@ public class AddCESAllDialog extends AddPDialog{
 					cesInfo.setActiveStatus(this.isActiveCBox.isSelected() == true ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
 					cesInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 					cesInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+					if(this.isActiveCBox.isSelected()){
+						cesInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
+					}else{
+						cesInfo.setActivatingTime(null);
+					}
 					cesInfo.setaSiteId(this.siteId_a);
 					cesInfo.setzSiteId(this.siteId_z);
 					cesInfo.setPwId(pwList.get(i).getPwId());
@@ -815,8 +818,7 @@ public class AddCESAllDialog extends AddPDialog{
 	}
 	
 	/**
-	 * 验证界面值
-	 */
+	 * 验证界面�?	 */
 	private boolean verify() {
 		OamInfoService_MB oamInfoService = null;
 		try {
@@ -843,7 +845,7 @@ public class AddCESAllDialog extends AddPDialog{
 					return false;
 				}
 			}
-			// 对OAM、QoS作校验
+			// 对OAM、QoS作校�?			
 			if (this.getQosList() == null || this.getQosList().size() == 0) {
 				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_QOS_FILL));
 				return false;
@@ -906,19 +908,19 @@ public class AddCESAllDialog extends AddPDialog{
 	private JButton autoNamingBtn;//自动命名按钮
 	private JLabel lblPwType;//pw类型
 	private JComboBox pwTypeJcbBox;
-	private JLabel lblPayload;//负载净荷
+	private JLabel lblPayload;//负载净�?	
 	private JComboBox payloadJcbBox;
-	private JLabel lblZPort;//a端端口
-	private JLabel lblAPort;//z端端口
+	private JLabel lblZPort;//a端端�?	
+	private JLabel lblAPort;//z端端�?	
 	private ViewDataTable<CesPortInfo> portTable_a;
 	private ViewDataTable<CesPortInfo> portTable_z;
 	private JScrollPane jscrollPane_portTable_a;
 	private JScrollPane jscrollPane_portTable_z;
-	private JButton aPortBtn;//选择a端端口
-	private JButton zPortBtn;//选择z端端口
+	private JButton aPortBtn;//选择a端端�?	
+	private JButton zPortBtn;//选择z端端�?	
 	private JLabel lblNumber;//创建数量
 	private PtnSpinner ptnSpinnerNumber;
-	private JLabel lblIsActive;//激活状态
+	private JLabel lblIsActive;//激活状�?	
 	private JCheckBox isActiveCBox;
 	private PtnButton saveBtn;//保存按钮
 	private JLabel lblQos;//QoS

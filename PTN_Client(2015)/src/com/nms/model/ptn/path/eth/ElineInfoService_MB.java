@@ -11,6 +11,7 @@ import com.nms.db.bean.ptn.Businessid;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
 import com.nms.db.bean.ptn.oam.OamMipInfo;
+import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.pw.PwNniInfo;
@@ -74,6 +75,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 			if (elineinfoList != null && !elineinfoList.isEmpty()) {
 				for (ElineInfo elineInfo : elineinfoList) {
 					elineInfo.setCreateTime(DateUtil.strDate(elineInfo.getCreateTime(), DateUtil.FULLTIME));
+					elineInfo.setActivatingTime(DateUtil.strDate(elineInfo.getActivatingTime(), DateUtil.FULLTIME));
 				}
 			}
 			if(eline.getAportId()>0){
@@ -122,6 +124,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 			if (elineinfoList != null && !elineinfoList.isEmpty()) {
 				for (ElineInfo elineInfo : elineinfoList) {
 					elineInfo.setCreateTime(DateUtil.strDate(elineInfo.getCreateTime(), DateUtil.FULLTIME));
+					elineInfo.setActivatingTime(DateUtil.strDate(elineInfo.getActivatingTime(), DateUtil.FULLTIME));
 				}
 			}
 		} catch (Exception e) {
@@ -140,7 +143,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 			if(elineInfo.getCardId() > 0){
 				portServiceMB = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT,this.sqlSession);
 				List<PortInst> portConList = new ArrayList<PortInst>();
-				// 查询具体某块板卡的所有端口
+				// 查询具体某块板卡的所有端�?				
 				if(elineInfo.getAportId() == 0){
 					PortInst condition = new PortInst();
 					condition.setCardId(elineInfo.getCardId());
@@ -153,7 +156,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 						}
 					}
 				}else{
-					// 查询具体某块板卡的具体某个端口
+					// 查询具体某块板卡的具体某个端�?					
 					portInst = portServiceMB.selectPortybyid(elineInfo.getAportId());
 					portConList.add(portInst);
 				}
@@ -420,10 +423,8 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 	 * @author kk
 	 * 
 	 * @param afterName
-	 *            修改之后的名字
-	 * @param beforeName
-	 *            修改之前的名字
-	 * 
+	 *            修改之后的名�?	 * @param beforeName
+	 *            修改之前的名�?	 * 
 	 * @return
 	 * @throws Exception
 	 * 
@@ -569,7 +570,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 			result = elineinfo.getId();
 
 			pwInfoMapper.setUser(elineinfo.getPwId(), result, EServiceType.ELINE.getValue());
-			// 判断ac不等于0 就修改ac状态
+			// 判断ac不等�? 就修改ac状�?			
 			if (elineinfo.getaAcId() != 0) {
 				acportInfoMapper.setUser(elineinfo.getaAcId(), 1);
 			}
@@ -661,7 +662,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 			businessId.setType("eline");
 			businessidMapper.updateBusinessid(businessId);
 
-			// 判断ac不等于0 就修改ac状态
+			// 判断ac不等�? 就修改ac状�?			
 			if (elineinfo.getaAcId() != 0) {
 				if (elineBefore.getaAcId() != elineinfo.getaAcId()) {
 					if (!isRelatedAC(elineBefore.getaAcId())) {
@@ -725,8 +726,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 	 * 在删除之前判断着PW是否存在其他的业务的关联
 	 * 
 	 * @param pwId
-	 * @return true存在 false 不存在
-	 */
+	 * @return true存在 false 不存�?	 */
 	private boolean isRelatedPW(int pwId) {
 		try {
 			int i = this.mapper.isRelatedPW(pwId);
@@ -743,8 +743,7 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 	 * 在删除之前判断着AC是否存在其他的业务的关联
 	 * 
 	 * @param AcId
-	 * @return true存在 false 不存在
-	 */
+	 * @return true存在 false 不存�?	 */
 	private boolean isRelatedAC(int acId){
 		List<ElineInfo> elineInfos = null;
 		int isRelatedAc = 0;
@@ -805,5 +804,23 @@ public class ElineInfoService_MB extends ObjectService_Mybatis {
 		List<ElineInfo> elineInfos = null;
 		elineInfos = this.mapper.selectByacids(integers);
 		return elineInfos;
+	}
+	
+	/**
+	 * 根据网元id和业务id查询所有记录
+	 * @param siteId
+	 * @return
+	 * @throws Exception
+	 */
+	public int queryEthBySiteAndServiceId(int siteId, int serviceId) throws Exception {
+		List<ServiceInfo> infoList = null;
+		try {
+			infoList = this.mapper.queryEthBySiteAndServiceId(siteId, serviceId);
+			if(infoList != null)
+				return infoList.size();
+		} catch (Exception e) {
+			throw e;
+		}
+		return 0;
 	}
 }

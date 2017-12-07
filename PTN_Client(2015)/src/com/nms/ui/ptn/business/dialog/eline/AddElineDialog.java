@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AddPWDialog.java
  *
  * Created on __DATE__, __TIME__
@@ -77,8 +77,7 @@ import com.nms.ui.ptn.oam.view.dialog.OamInfoDialog;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
 
 /**
- * 新建Eline 对话框
- * @author __USER__
+ * 新建Eline 对话�? * @author __USER__
  */
 public class AddElineDialog extends PtnDialog {
 
@@ -90,8 +89,7 @@ public class AddElineDialog extends PtnDialog {
 	private List<OamInfo> oamList = new ArrayList<OamInfo>();
 	private TNetwork network = null;
 	private TunnelTopoPanel tunnelTopoPanel;
-	private List<PwInfo> batchPwList = new ArrayList<PwInfo>();//批量创建eline时用到
-	/** Creates new form AddPWDialog */
+	private List<PwInfo> batchPwList = new ArrayList<PwInfo>();//批量创建eline时用�?	/** Creates new form AddPWDialog */
 	public AddElineDialog(ElineBusinessPanel jPanel1, boolean modal, ElineInfo elineinfo) {
 		try {
 			this.setModal(modal);
@@ -130,8 +128,7 @@ public class AddElineDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化组件
-	 * 
+	 * 初始化组�?	 * 
 	 * @throws Exception
 	 */
 	private void initComponents() throws Exception {
@@ -191,8 +188,7 @@ public class AddElineDialog extends PtnDialog {
 		this.jPanel3.add(this.lblMessage);
 
 		/**
-		 * 第一行,名称LABLE,文本框3列 有2列合并
-		 */
+		 * 第一�?名称LABLE,文本�?�?�?列合�?		 */
 
 		c.gridx = 0;
 		c.gridy = 1;
@@ -217,8 +213,7 @@ public class AddElineDialog extends PtnDialog {
 		this.jPanel3.add(this.autoNamingButton);
 
 		/**
-		 * 第二行,PW名称,下拉列表 3列 有2列合并
-		 */
+		 * 第二�?PW名称,下拉列表 3�?�?列合�?		 */
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;
@@ -234,8 +229,7 @@ public class AddElineDialog extends PtnDialog {
 		layout.addLayoutComponent(this.pwSelect, c);
 		this.jPanel3.add(this.pwSelect);
 		/**
-		 * 第三行,A端AC,下拉列表 有2列合并
-		 */
+		 * 第三�?A端AC,下拉列表 �?列合�?		 */
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridheight = 1;
@@ -251,8 +245,7 @@ public class AddElineDialog extends PtnDialog {
 		layout.addLayoutComponent(this.aACjComboBox, c);
 		this.jPanel3.add(this.aACjComboBox);
 		/**
-		 * 第四行,Z端AC,下拉列表 有2列合并
-		 */
+		 * 第四�?Z端AC,下拉列表 �?列合�?		 */
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridheight = 1;
@@ -269,7 +262,7 @@ public class AddElineDialog extends PtnDialog {
 		this.jPanel3.add(this.zACjComboBox);
 
 		/**
-		 * 第五行,选中客户
+		 * 第五�?选中客户
 		 */
 		c.gridx = 0;
 		c.gridy = 5;
@@ -287,11 +280,10 @@ public class AddElineDialog extends PtnDialog {
 		this.jPanel3.add(this.clientComboBox);
 
 		/**
-		 * 第六行,OamLable,文本框,按钮
+		 * 第六�?OamLable,文本�?按钮
 		 */
 		if(CodeConfigItem.getInstance().getWuhan() == 0){
-			//晨晓的需要OAM,武汉的不需要
-			c.gridx = 0;
+			//晨晓的需要OAM,武汉的不需�?			c.gridx = 0;
 			c.gridy = 6;
 			c.gridheight = 1;
 			c.gridwidth = 1;
@@ -314,8 +306,7 @@ public class AddElineDialog extends PtnDialog {
 			this.jPanel3.add(this.oamConfigButton);
 			
 			/**
-			 * 第七行 , 是否激活,单选按钮,有2列合并
-			 */
+			 * 第七�?, 是否激�?单选按�?�?列合�?			 */
 			c.gridx = 0;
 			c.gridy = 7;
 			c.gridheight = 1;
@@ -332,8 +323,7 @@ public class AddElineDialog extends PtnDialog {
 			layout.addLayoutComponent(this.ActivejCheckBox1, c);
 			this.jPanel3.add(this.ActivejCheckBox1);
 		}else{
-			// 第7行，批量创建的数量
-			c.fill = GridBagConstraints.HORIZONTAL;
+			// �?行，批量创建的数�?			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 6;
 			c.gridwidth = 1;
@@ -348,8 +338,7 @@ public class AddElineDialog extends PtnDialog {
 			this.jPanel3.add(this.ptnSpinnerNumber);
 			
 			/**
-			 * 第8行 , 是否激活,单选按钮,有2列合并
-			 */
+			 * �?�?, 是否激�?单选按�?�?列合�?			 */
 			c.gridx = 0;
 			c.gridy = 7;
 			c.gridheight = 1;
@@ -366,7 +355,7 @@ public class AddElineDialog extends PtnDialog {
 			this.jPanel3.add(this.ActivejCheckBox1);
 		}
 
-		/** 第九行 确定按钮 中间空出一行 */
+		/** 第九�?确定按钮 中间空出一�?*/
 		c.gridx = 2;
 		c.gridy = 8;
 		c.gridheight = 1;
@@ -506,8 +495,7 @@ public class AddElineDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化客户信息下拉列表
-	 */
+	 * 初始化客户信息下拉列�?	 */
 	private void clientComboxData() {
 
 		ClientService_MB service = null;
@@ -655,8 +643,7 @@ public class AddElineDialog extends PtnDialog {
 	}
 
 	/**
-	 * 检查是否填写完整
-	 * 
+	 * 检查是否填写完�?	 * 
 	 * @return
 	 */
 	private boolean checkPortHasConfig() {
@@ -841,14 +828,14 @@ public class AddElineDialog extends PtnDialog {
 			}
 			elineInfo.setPwId(pw.getPwId());
 			if(elineInfo.getId() > 0){
-				//如果修改a段ac 给BeforeAAc赋值
+				//如果修改a段ac 给BeforeAAc赋�?				
 				if(0!=elineInfo.getaAcId()&&elineInfo.getaAcId()!=((AcPortInfo) aAc.getObject()).getId()){
 					aAcportList = new ArrayList<AcPortInfo>();
 					aAcportList.add(acPortInfoServiceMB.selectById(elineInfo.getaAcId()));
 					elineInfo.setBeforeAAcList(aAcportList);
 					elineInfo.setAction(1);
 				}
-				//如果修改z段ac 给BeforeZAc赋值
+				//如果修改z段ac 给BeforeZAc赋�?				
 				if(0!=elineInfo.getzAcId()&&elineInfo.getzAcId()!=((AcPortInfo) zAc.getObject()).getId()){
 					zAcportList = new ArrayList<AcPortInfo>();
 					zAcportList.add(acPortInfoServiceMB.selectById(elineInfo.getzAcId()));
@@ -880,6 +867,11 @@ public class AddElineDialog extends PtnDialog {
 			elineInfo.setServiceType(EServiceType.ELINE.getValue());
 			elineInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
 			elineInfo.setCreateUser(ConstantUtil.user.getUser_Name());
+			if(ActivejCheckBox1.isSelected()){
+				elineInfo.setActivatingTime(elineInfo.getCreateTime());
+			}else{
+				elineInfo.setActivatingTime(null);
+			}
 			if (!"".equals(client.getId())) 
 				elineInfo.setClientId(Integer.parseInt(client.getId()));
 			if(((Client)client.getObject()) != null){
@@ -952,8 +944,7 @@ public class AddElineDialog extends PtnDialog {
 		return true;
 	}
 	/**
-	 * 下发之前验证数据的正确性 true:全部正确； false：取值验证失败
-	 * @return
+	 * 下发之前验证数据的正确�?true:全部正确�?false：取值验证失�?	 * @return
 	 */
 	private boolean checkValue() {
 		ControlKeyValue pw = null;
@@ -992,7 +983,7 @@ public class AddElineDialog extends PtnDialog {
 				return false;
 			}
 			
-			//验证pw和ac的qos是否匹配。
+			//验证pw和ac的qos是否匹配�?			
 			if(!checkValue_nt()){
 				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PW_AC_QOS_NOT_MATCHING));
 				UiUtil.insertOperationLog(EOperationLogType.TUNNELCREATE9.getValue());//447
@@ -1004,14 +995,14 @@ public class AddElineDialog extends PtnDialog {
 				DefaultComboBoxModel aAcModel = (DefaultComboBoxModel)this.aACjComboBox.getModel();
 				int aAcCount = aAcModel.getSize();
 				if(aAcCount < num){
-					//提示A端AC数量不匹配
+					//提示A端AC数量不匹�?					
 					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_A_AC_IS_NOT_MATCHING));
 					return false;
 				}
 				DefaultComboBoxModel zAcModel = (DefaultComboBoxModel)this.zACjComboBox.getModel();
 				int zAcCount = zAcModel.getSize();
 				if(zAcCount < num){
-					//提示Z端AC数量不匹配
+					//提示Z端AC数量不匹�?					
 					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_Z_AC_IS_NOT_MATCHING));
 					return false;
 				}
@@ -1030,8 +1021,7 @@ public class AddElineDialog extends PtnDialog {
 					}
 				}
 				if(count < num){
-					//提示PW数量不匹配
-					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PW_IS_NOT_MATCHING));
+					//提示PW数量不匹�?					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PW_IS_NOT_MATCHING));
 					return false;
 				}
 			}

@@ -24,11 +24,12 @@
     <result column="branchProtectSite" property="branchprotectsite" jdbcType="INTEGER" />
     <result column="zmostAcIds" property="zmostacids" jdbcType="VARCHAR" />
     <result column="amostAcIds" property="amostacids" jdbcType="VARCHAR" />
+    <result column="activatingTime" property="activatingTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, serviceId, pwId, serviceType, name, aXcId, zXcId, activeStatus, rootSite, branchSite, 
     aAcId, zAcId, createUser, createTime, aSiteId, zSiteId, isSingle, cestype, jobstatus, 
-    clientId, branchMainSite, branchProtectSite, zmostAcIds, amostAcIds
+    clientId, branchMainSite, branchProtectSite, zmostAcIds, amostAcIds,activatingTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -307,7 +308,7 @@
   
   <select id="filterQuery" resultMap="BaseResultMap" parameterType="CesInfo" >
    SELECT s.jobstatus, s.cestype, s.issingle, s.id, s.serviceId, s.pwId, s.serviceType, s. NAME, s.aXcId, s.zXcId, s.aAcId, s.zAcId, 
-   s.activeStatus, s.aSiteId, s.zSiteId, s.createTime, s.createUser, sa.CellId AS ASiteName, sz.CellId AS ZSiteName, s.clientId FROM 
+   s.activeStatus, s.aSiteId, s.zSiteId, s.createTime, s.createUser, sa.CellId AS ASiteName, sz.CellId AS ZSiteName, s.clientId,s.activatingTime FROM 
    serviceinfo s, pwinfo p, site_inst sa, site_inst sz WHERE s.pwId = p.pwId AND s.aSiteId = sa.site_inst_id AND s.zSiteId = sz.site_inst_id 
    AND serviceType = 0 and s.isSingle =0
    	<if test="name != null and name != '' ">
@@ -336,7 +337,7 @@
   
   <select id="filterSingle" resultMap="BaseResultMap" parameterType="map" >
    SELECT s.jobstatus, s.cestype, s.issingle, s.id, s.serviceId, s.pwId, s.serviceType, s. NAME, s.aXcId, s.zXcId, s.aAcId, s.zAcId, s.activeStatus, 
-   s.aSiteId, s.zSiteId, s.createTime, s.createUser, sa.CellId AS showaSiteName, sa.CellId AS showzSiteName, s.clientId FROM serviceinfo s, 
+   s.aSiteId, s.zSiteId, s.createTime, s.createUser, sa.CellId AS showaSiteName, sa.CellId AS showzSiteName, s.clientId, s.activatingTime FROM serviceinfo s, 
    site_inst sa WHERE  serviceType = 0 AND sa.site_inst_id=#{siteId}
    	<if test="cesInfo.name != null and cesInfo.name != '' ">
    		and s.name like '%${cesInfo.name}%'

@@ -218,9 +218,7 @@ public class CesEditDialog extends PtnDialog {
 	}
 	
 	/**
-	 * 如果是选择的pdh类型,当pw改变时,e1端口也要变
-	 * pw和e1端口通过pw入标签绑定
-	 */
+	 * 如果是选择的pdh类型,当pw改变�?e1端口也要�?	 * pw和e1端口通过pw入标签绑�?	 */
 //	private void pwSelected() {
 //		ControlKeyValue controlKeyValue = (ControlKeyValue) this.cmbtype.getSelectedItem();
 //		Code code = (Code) controlKeyValue.getObject();
@@ -335,6 +333,11 @@ public class CesEditDialog extends PtnDialog {
 			this.cesInfo.setCestype(type);
 			this.cesInfo.setIsSingle(1);
 			this.cesInfo.setActiveStatus(this.chkactivate.isSelected()?EActiveStatus.ACTIVITY.getValue():EActiveStatus.UNACTIVITY.getValue());
+			if(this.chkactivate.isSelected()){
+				this.cesInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
+			}else{
+				this.cesInfo.setActivatingTime(null);
+			}
 			this.cesInfo.setPwId(Integer.parseInt(controlKeyValue_pw.getId()));
 			this.cesInfo.setPwName(((PwInfo)controlKeyValue_pw.getObject()).getPwName());
 			if(pwinfo.getASiteId()==ConstantUtil.siteId){
@@ -429,6 +432,12 @@ public class CesEditDialog extends PtnDialog {
 			cesInfo.setPwId(pw.getPwId());
 			cesInfo.setPwName(pw.getPwName());
 			cesInfo.setCreateTime(this.cesInfo.getCreateTime());
+			cesInfo.setActivatingTime(this.cesInfo.getActivatingTime());
+			if(chkactivate.isSelected()){
+				cesInfo.setActivatingTime(cesInfo.getCreateTime());
+			}else{
+				cesInfo.setActivatingTime(null);
+			}
 			cesInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 			ControlKeyValue controlKeyValue_port = (ControlKeyValue) this.cmbport.getItemAt(i+1);
 			if(pw.getASiteId()==ConstantUtil.siteId){
@@ -635,8 +644,7 @@ public class CesEditDialog extends PtnDialog {
 //						}
 //					}
 				}
-				//如果是pdh类型的pw,则需要给端口加载一个默认值
-//				if(type == EPwType.PDH.getValue() && pwinfoList.size() > 0){
+				//如果是pdh类型的pw,则需要给端口加载一个默认�?//				if(type == EPwType.PDH.getValue() && pwinfoList.size() > 0){
 //					ControlKeyValue ck = (ControlKeyValue) boxModel.getElementAt(0);
 //					this.setE1Info((PwInfo) ck.getObject());
 //				}
@@ -655,8 +663,7 @@ public class CesEditDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化时隙下拉列表数据
-	 * 
+	 * 初始化时隙下拉列表数�?	 * 
 	 * @throws Exception
 	 */
 	private void initTimeoutData() throws Exception {
@@ -715,8 +722,7 @@ public class CesEditDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化端口下拉列表数据
-	 * 
+	 * 初始化端口下拉列表数�?	 * 
 	 * @throws Exception
 	 */
 	private void initPortData() throws Exception {
@@ -818,8 +824,7 @@ public class CesEditDialog extends PtnDialog {
 	}
 
 	/**
-	 * 初始化控件
-	 * @throws Exception 
+	 * 初始化控�?	 * @throws Exception 
 	 */
 	private void initCompoent() throws Exception {
 		this.lblMessage=new JLabel();

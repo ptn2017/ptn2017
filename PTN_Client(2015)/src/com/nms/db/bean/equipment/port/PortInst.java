@@ -425,7 +425,7 @@ public class PortInst extends ViewDataObj {
 		}else{
 			this.getClientProperties().put("surplusCirCount",this.getCirCount()-this.getUseCirBandwidth());
 		}
-		this.getClientProperties().put("mac", "00-00-00-00-00-"+this.getMac(this.getNumber()));
+		this.getClientProperties().put("mac", "00-85-DE-"+this.getMac(this.getNumber())+"-EF-"+this.getMac(this.getNumber()));
 	}
 	
 	private String getMac(int num){

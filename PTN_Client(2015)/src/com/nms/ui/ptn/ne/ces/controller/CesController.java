@@ -22,6 +22,7 @@ import com.nms.ui.filter.impl.CesNeFilterDialog;
 import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -66,7 +67,7 @@ public class CesController extends AbstractController {
 			portCon.setPortType("e1");
 			List<PortInst> portInstList = null;
 			portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
-			// 查询所有板卡
+			// 查询所有板�?			
 			CesInfo cesCon = new CesInfo();
 			cesCon.setName(this.cesInfo.getName());
 			cesCon.setPwId(this.cesInfo.getPwId());
@@ -85,7 +86,7 @@ public class CesController extends AbstractController {
 					}
 				}
 			}else{
-				// 查询具体某块板卡的所有端口
+				// 查询具体某块板卡的所有端�?				
 				if(this.cesInfo.getAportId() == 0){
 					List<CesInfo> cesList = null;
 					portCon.setCardId(this.cesInfo.getCardId());
@@ -99,7 +100,7 @@ public class CesController extends AbstractController {
 						}
 					}
 				}else{
-					// 查询具体某块板卡的具体端口
+					// 查询具体某块板卡的具体端�?					
 					cesInfos2 = (List<CesInfo>) filter.filterList(cesInfoServiceMB.filterSingle(this.cesInfo,ConstantUtil.siteId));
 				}
 				
@@ -193,8 +194,7 @@ public class CesController extends AbstractController {
 	}
 
 	/**
-	 * 选中一条记录后，查看详细信息
-	 */
+	 * 选中一条记录后，查看详细信�?	 */
 	@Override
 	public void initDetailInfo() {
 		try {
@@ -243,8 +243,7 @@ public class CesController extends AbstractController {
 	}
 
 	/**
-	 * 激活处理事件
-	 */
+	 * 激活处理事�?	 */
 	public void doActive() {
 		String result = null;
 		DispatchUtil dispatch = null;
@@ -256,6 +255,7 @@ public class CesController extends AbstractController {
 			if (cesInfoList != null && cesInfoList.size() > 0) {
 				for (CesInfo cesInfo : cesInfoList) {
 					cesInfo.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+					cesInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 					result = dispatch.excuteUpdate(cesInfo);
 					if(result == null || !result.contains(ResultString.CONFIG_SUCCESS)){
 						failCount++;
@@ -300,8 +300,7 @@ public class CesController extends AbstractController {
 
 
 	/**
-	 * 去激活处理事件
-	 */
+	 * 去激活处理事�?	 */
 	public void doUnActive() {
 		String result = null;
 		DispatchUtil dispatch = null;
@@ -313,6 +312,7 @@ public class CesController extends AbstractController {
 			if (cesInfoList != null && cesInfoList.size() > 0) {
 				for (CesInfo cesInfo : cesInfoList) {
 					cesInfo.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+					cesInfo.setActivatingTime(null);
 					result = dispatch.excuteUpdate(cesInfo);
 					if(result == null || !result.contains(ResultString.CONFIG_SUCCESS)){
 						failCount++;

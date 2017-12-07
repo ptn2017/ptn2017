@@ -1,4 +1,4 @@
-﻿/*
+/**
  * AddPWDialog.java
  *
  * Created on __DATE__, __TIME__
@@ -99,25 +99,22 @@ public class AddEtreeDialog extends PtnDialog {
 	private EtreeBusinessPanel etreeBusPanel;
 	List<Node> selBranchNodeList = new ArrayList<Node>();//只要选择了叶子节点的所有数据（包括（选择了端口和没选择端口））
 	ControlKeyValue rootAcAndSiteInst = null;
-	private ViewDataTable<AcPortInfo> branchAcTable; // 选择的叶子table 叶子节点的所有数据（包括（选择了端口））
+	private ViewDataTable<AcPortInfo> branchAcTable; // 选择的叶子table 叶子节点的所有数据（包括（选择了端口）�?	
 	private ViewDataTable<PwInfo> pwInfoTable; // 选择的pwtable
-	private final String ACTABLENAME = "selectAcList"; // AC列表的名称
-	private final String PWTABLENAME = "selectPwList"; // pw列表的名称
-	private JScrollPane jscrollPane_ac; // ac滚动条面板
-	private JScrollPane jscrollPane_pw; // pw滚动条面板
+	private final String ACTABLENAME = "selectAcList"; // AC列表的名�?	
+	private final String PWTABLENAME = "selectPwList"; // pw列表的名�?	
+	private JScrollPane jscrollPane_ac; // ac滚动条面�?	
+	private JScrollPane jscrollPane_pw; // pw滚动条面�?	
 	private List<EtreeInfo> etreeInfoList_update = null; // 要修改的etree集合。新建时此对象为null
 	private int rootAcId = 0; // 根ACID 修改界面加载时，给此属性赋值。修改时通过此属性验证是否对根AC做了改变
 	private TunnelTopoPanel tunnelTopoPanel=null;
-	private String nameBefore = null;//日志记录需要
-
+	private String nameBefore = null;//日志记录需�?
 	/**
-	 * 构造方法
-	 * 
+	 * 构造方�?	 * 
 	 * @param etreeBusinessPanel
 	 *            panel对象，用来刷新列表用
 	 * @param modal
-	 *            是否为模式窗口
-	 * @param etreeInfoList
+	 *            是否为模式窗�?	 * @param etreeInfoList
 	 *            要修改的etree数据，新建时传入null
 	 */
 	public AddEtreeDialog(EtreeBusinessPanel etreeBusinessPanel, boolean modal, List<EtreeInfo> etreeInfoList) {
@@ -149,44 +146,43 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 修改时，初始化数据
-	 * 
+	 * 修改时，初始化数�?	 * 
 	 * @throws Exception
 	 */
 	private void initData() throws Exception {
 		EtreeInfo etreeInfo = null;
 		SiteService_MB siteService = null;
-		SiteInst siteInst_root = null; // 根网元对象
+		SiteInst siteInst_root = null; // 根网元对�?		
 		AcPortInfo acPortInfo_root = null; // 根AC对象
 		AcPortInfoService_MB acInfoService = null;
 		UiUtil uiutil = null;
 		try {
 			if (null != this.etreeInfoList_update && this.etreeInfoList_update.size() > 0) {
-				// 取第一条数据
+				// 取第一条数�?				
 				uiutil = new UiUtil();
 				etreeInfo = this.etreeInfoList_update.get(0);
 
-				// 根据根AC主键查询根端口对象
+				// 根据根AC主键查询根端口对�?				
 				acInfoService = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo);
 				acPortInfo_root = acInfoService.selectById(uiutil.getAcIdSets(etreeInfo.getAmostAcId()).iterator().next());
 
-				// 查询根网元对象
+				// 查询根网元对�?				
 				siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 				siteInst_root = siteService.select(etreeInfo.getRootSite());
 
 				this.rootAcAndSiteInst = new ControlKeyValue(acPortInfo_root.getId() + "", "", siteInst_root);
-				// 并且给name、根端口、客户信息赋值
+				// 并且给name、根端口、客户信息赋�?				
 				this.rootTextField.setText(acPortInfo_root.getName());
 				this.etreeNameTextField.setText(etreeInfo.getName());
 				this.activeCheckBox.setSelected(etreeInfo.getActiveStatus() == EActiveStatus.ACTIVITY.getValue() ? true : false);
-				// 如果选择了客户信息，界面显示选中的客户信息
+				// 如果选择了客户信息，界面显示选中的客户信�?				
 				if (etreeInfo.getClientId() > 0) {
 					super.getComboBoxDataUtil().comboBoxSelect(this.clientComboBox, etreeInfo.getClientId() + "");
 				}
 
-				// 绑定叶子端口列表值
+				// 绑定叶子端口列表�?				
 				this.initAcListData(acInfoService);
-				// 绑定pw列表值
+				// 绑定pw列表�?				
 				this.initPwListData();
 				// 绑定拓扑数据
 				this.initTopoData();
@@ -201,8 +197,7 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 修改时初始化拓扑数据，link为蓝色，网元有标识
-	 * 
+	 * 修改时初始化拓扑数据，link为蓝色，网元有标�?	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -236,8 +231,7 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 设置node的business属性 即显示的提示语，root或branch 修改etree时，加载etree的的拓扑，在拓扑标注根与叶子时用。
-	 * 
+	 * 设置node的business属�?即显示的提示语，root或branch 修改etree时，加载etree的的拓扑，在拓扑标注根与叶子时用�?	 * 
 	 * @param node
 	 *            要设置的node
 	 * @throws Exception
@@ -248,14 +242,14 @@ public class AddEtreeDialog extends PtnDialog {
 		try {
 			// 获取根的网元ID
 			rootSiteId = this.etreeInfoList_update.get(0).getRootSite();
-			// 如果不存在business属性 才添加
+			// 如果不存在business属�?才添�?			
 			if (null == node.getBusinessObject() || "".equals(node.getBusinessObject())) {
 				siteId = ((SiteInst) node.getUserObject()).getSite_Inst_Id();
 				if (siteId == rootSiteId) {
 					node.setBusinessObject("root");
 				} else {
 					node.setBusinessObject("branch");
-					// 把叶子节点添加到集合中。
+					// 把叶子节点添加到集合中�?					
 					this.getSelBranchNodeList().add(node);
 				}
 				node.addAttachment("topoTitle");
@@ -341,7 +335,7 @@ public class AddEtreeDialog extends PtnDialog {
 
 			@Override
 			public boolean checking() {
-				// 因为保存按钮显示等待条属性为false，所以此方法不执行，返回默认值
+				// 因为保存按钮显示等待条属性为false，所以此方法不执行，返回默认�?				
 				return checkValue();
 			}
 
@@ -401,8 +395,7 @@ public class AddEtreeDialog extends PtnDialog {
 					}
 				}
 			} else {
-				// 修改操作，加载此根下的所有pw。
-				this.getRootPw(pwinfoList_result);
+				// 修改操作，加载此根下的所有pw�?				this.getRootPw(pwinfoList_result);
 			}
 		} catch (Exception e) {
 			throw e;
@@ -435,8 +428,8 @@ public class AddEtreeDialog extends PtnDialog {
 			pwInfoList = pwService.select(siteId);
 
 			for (PwInfo pwInfo : pwInfoList) {
-				// 如果pw没被使用，或者pw在要修改的etree中存在，就显示到拓扑中
-				// 已经被使用，并且在etree中存在。 是要在拓扑中显示的
+				// 如果pw没被使用，或者pw在要修改的etree中存在，就显示到拓扑�?				
+				// 已经被使用，并且在etree中存在�?是要在拓扑中显示�?				
 				if (pwInfo.getRelatedServiceId() == 0 || this.isPwInEtree(pwInfo.getPwId())) {
 					if(pwInfo.getType() != null && pwInfo.getType() == EPwType.ETH){
 						pwinfoList_result.add(pwInfo);
@@ -453,10 +446,8 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 验证pw是否在etree中存在
-	 * 
-	 * @return true 存在 false 不存在
-	 * @throws Exception
+	 * 验证pw是否在etree中存�?	 * 
+	 * @return true 存在 false 不存�?	 * @throws Exception
 	 */
 	private boolean isPwInEtree(int pwid) throws Exception {
 		boolean flag = false;
@@ -484,14 +475,12 @@ public class AddEtreeDialog extends PtnDialog {
 		List<PwInfo> pwInfoList = null;
 		TNetwork network = null;
 		try {
-			// 获取pw集合并且在拓扑中画出所有pw路径及网元
-			pwInfoList = this.getPwList();
+			// 获取pw集合并且在拓扑中画出所有pw路径及网�?			pwInfoList = this.getPwList();
 			tunnelTopoPanel.boxDataByPws(pwInfoList);
 			// 设置拓扑的自动布局
 			network = tunnelTopoPanel.getNetWork();
 //			network.doLayout(TWaverConst.LAYOUT_CIRCULAR);
-			// 加载etree的右键菜单
-			this.setMenu();
+			// 加载etree的右键菜�?			this.setMenu();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		} finally {
@@ -501,12 +490,11 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 加载etree的菜单
-	 */
+	 * 加载etree的菜�?	 */
 	private void setMenu() {
 		TNetwork network = tunnelTopoPanel.getNetWork();
 
-		// 设置拓扑的右键菜单
+		// 设置拓扑的右键菜�?		
 		network.setPopupMenuGenerator(new PopupMenuGenerator() {
 			@Override
 			public JPopupMenu generate(TView tview, MouseEvent mouseEvent) {
@@ -517,7 +505,7 @@ public class AddEtreeDialog extends PtnDialog {
 					if (!tview.getDataBox().getSelectionModel().isEmpty()) {
 						final Element element = tview.getDataBox().getLastSelectedElement();
 						if (element instanceof Node) {
-							// 如果此node没有设置根或者叶子，加载菜单为 设置根节点、设置叶子节点
+							// 如果此node没有设置根或者叶子，加载菜单�?设置根节点、设置叶子节�?							
 							if (element.getBusinessObject() == null || "".equals(element.getBusinessObject().toString())) {
 								// 如果不是修改，才显示设置根菜单，因为修改时，只能修改叶子，不能修改根
 								if (null == etreeInfoList_update) {
@@ -526,7 +514,7 @@ public class AddEtreeDialog extends PtnDialog {
 								menu.add(addEtreeMenu.createMenu(StringKeysMenu.MENU_SELECT_LEAF, element,etreeInfoList_update));
 								TWaverUtil.clearImageIconCache();
 							} else { // 否则加载取消设置、选择端口菜单
-								// 如果不是修改，才显示取消设置菜单，因为修改时，只能修改叶子，不能修改根
+								// 如果不是修改，才显示取消设置菜单，因为修改时，只能修改叶子，不能修改�?								
 								if (null == etreeInfoList_update) {
 									menu.add(addEtreeMenu.createMenu(StringKeysMenu.MENU_CANEL_CONFIG, element,etreeInfoList_update));
 								} else {
@@ -539,7 +527,7 @@ public class AddEtreeDialog extends PtnDialog {
 							}
 
 						} else if (element instanceof Link) {
-							// 如果是link 并且颜色是绿色 说明没有被选中，加载 设置路径菜单
+							// 如果是link 并且颜色是绿�?说明没有被选中，加�?设置路径菜单
 							link = (Link) element;
 							if (link.getLinkColor() == Color.GREEN) {
 								menu.add(addEtreeMenu.createMenu(StringKeysMenu.MENU_SELECT_PATH, element,etreeInfoList_update));
@@ -560,8 +548,7 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 移除根节点
-	 */
+	 * 移除根节�?	 */
 	protected void clearFields() {
 		rootTextField.setText("");
 		rootAcAndSiteInst = null;
@@ -599,8 +586,7 @@ public class AddEtreeDialog extends PtnDialog {
 					rootTextField.setText(acPortInfoList.get(0).getName());
 				}
 					
-				// 如果有同网元的端口，清除掉。添加新的
-				acPortList = new ArrayList<AcPortInfo>();
+				// 如果有同网元的端口，清除掉。添加新�?				acPortList = new ArrayList<AcPortInfo>();
 				for (AcPortInfo acPortInfo_table : this.branchAcTable.getAllElement()) {
 					if(!isInsertTabel(acPortInfo_table.getSiteId(),acPortInfoList))
 					{
@@ -705,6 +691,11 @@ public class AddEtreeDialog extends PtnDialog {
 				mostAcString(branchAcList,etreeInfo);
 				etreeInfo.setZportId(pwInfo.getzPortConfigId());
 				etreeInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+				if(activeCheckBox.isSelected()){
+					etreeInfo.setActivatingTime(etreeInfo.getCreateTime());
+				}else{
+					etreeInfo.setActivatingTime(null);
+				}
 				etreeInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 				etreeInfo.setServiceType(EServiceType.ETREE.getValue());
 				etreeInfo.setName(etreeNameTextField.getText());
@@ -758,10 +749,8 @@ public class AddEtreeDialog extends PtnDialog {
 
 	/**
 	 * 需要将List<EtreeInfo>排序，便于日志记录时比对
-	 * 如：修改前是1,2,3三个网元，修改后是1,3两个网元，需要将之前的集合调整为1,3,2的顺序
-	 * @param etreeInfoList需要调整顺序的集合
-	 * @param siteIdList调整的顺序
-	 */
+	 * 如：修改前是1,2,3三个网元，修改后�?,3两个网元，需要将之前的集合调整为1,3,2的顺�?	 * @param etreeInfoList需要调整顺序的集合
+	 * @param siteIdList调整的顺�?	 */
 	private void sortEtreeList(List<EtreeInfo> etreeInfoList, List<Integer> siteIdList) {
 		List<EtreeInfo> etreeList = new ArrayList<EtreeInfo>();
 		for (int siteId : siteIdList) {
@@ -801,9 +790,7 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 获取修改前的业务数据，便于日志记录
-	 * @param type 0/1 需要查询/不需要查询
-	 * @return
+	 * 获取修改前的业务数据，便于日志记�?	 * @param type 0/1 需要查�?不需要查�?	 * @return
 	 */
 	private VplsInfo getVplsBefore(List<EtreeInfo> etreeInfoList, ControlKeyValue client, int type) {
 		EtreeInfoService_MB service = null;
@@ -925,23 +912,22 @@ public class AddEtreeDialog extends PtnDialog {
 	
 	
 	/**
-	 * 验证值的正确性
-	 * @return
+	 * 验证值的正确�?	 * @return
 	 */
 
 	private boolean checkValue() {
 		boolean flag = false;
 		ControlKeyValue client = null;
 		List<PwInfo> pwInfoList = null;
-		List<AcPortInfo> branchAcList = null;//所以叶子端口列表中的数据
-		String beofreName = null; // etree的修改之前的名称。
+		List<AcPortInfo> branchAcList = null;//所以叶子端口列表中的数�?		
+		String beofreName = null; // etree的修改之前的名称�?		
 		try {
 			// 获取客户信息
 			client = (ControlKeyValue) clientComboBox.getSelectedItem();
 			pwInfoList = this.pwInfoTable.getAllElement();
 			branchAcList = this.branchAcTable.getAllElement();
 
-			// 如果etree存在，说明是修改操作。记录etree名称。
+			// 如果etree存在，说明是修改操作。记录etree名称�?			
 			if (null != this.etreeInfoList_update && this.etreeInfoList_update.size() > 0) {
 				beofreName = this.etreeInfoList_update.get(0).getName();
 			}
@@ -961,7 +947,7 @@ public class AddEtreeDialog extends PtnDialog {
 				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_ROOT_PORTERROR));
 				return false;
 			}
-			// 验证是否选择了叶子节点
+			// 验证是否选择了叶子节�?			
 			if (this.getSelBranchNodeList().size() == 0) {
 				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_BRANCH));
 				return false;
@@ -979,7 +965,7 @@ public class AddEtreeDialog extends PtnDialog {
 				return false;	
 			}
 
-			// 验证叶子ac端口和pw的个数是否相同
+			// 验证叶子ac端口和pw的个数是否相�?			
 			if (pwInfoList.size() != this.getSelBranchNodeList().size()) {
 				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_PW_ERROR));
 				return false;
@@ -1008,7 +994,7 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 	
 	
-	   /***********验证AC的正确性******************/
+	   /***********验证AC的正确�?*****************/
 	private boolean  verifyAc() 
 	{
 		boolean flga = false;
@@ -1055,17 +1041,13 @@ public class AddEtreeDialog extends PtnDialog {
 	
 	
 	/**
-	 * 验证etree中是否修改了根端口。 问题描述：如果叶子节点没有保留，全部删除后。
-	 *  添加新叶子，此时。etree集合中的action都是2或者3，没有action=1 就没办法修改根的端口 此方法解决以上问题，
-	 *  验证条件如下：1.如果集合中的action没有1或者0的情况下。 找出action=2的第一条记录。
-	 *               2.验证此条记录的根端口是否与修改之前的根端口相等。
-	 *               3.如果不相等，把之前的端口对象查询出来，给此etree记录的BeforeRootAc赋值。
-	 * @throws Exception
+	 * 验证etree中是否修改了根端口�?问题描述：如果叶子节点没有保留，全部删除后�?	 *  添加新叶子，此时。etree集合中的action都是2或�?，没有action=1 就没办法修改根的端口 此方法解决以上问题，
+	 *  验证条件如下�?.如果集合中的action没有1或�?的情况下�?找出action=2的第一条记录�?	 *               2.验证此条记录的根端口是否与修改之前的根端口相等�?	 *               3.如果不相等，把之前的端口对象查询出来，给此etree记录的BeforeRootAc赋值�?	 * @throws Exception
 	 */
 	private void checkUpdateRoot() throws Exception {
 		AcPortInfoService_MB acInfoService = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo);
 		try {
-			int etreeIndex = -1; // etree新增对象的索引。 如果集合中有action为0或1的情况。 此索引为-1 不操作。否则操作etree新增对象
+			int etreeIndex = -1; // etree新增对象的索引�?如果集合中有action�?�?的情况�?此索引为-1 不操作。否则操作etree新增对象
 			for (int i = 0; i < this.etreeInfoList_update.size(); i++) {
 				if (this.etreeInfoList_update.get(i).getAction() == 0 || this.etreeInfoList_update.get(i).getAction() == 1) {
 					etreeIndex = -1;
@@ -1101,7 +1083,7 @@ public class AddEtreeDialog extends PtnDialog {
 
 		EtreeInfo etreeInfo_update = null; // 匹配后的etree对象
 
-		// 先把所有修改的etree数据改成删除状态，之后如果匹配到数据，会把状态改成其他状态
+		// 先把所有修改的etree数据改成删除状态，之后如果匹配到数据，会把状态改成其他状�?		
 		for (EtreeInfo etreeInfo : this.etreeInfoList_update) {
 			etreeInfo.setAction(3);
 		}
@@ -1113,31 +1095,31 @@ public class AddEtreeDialog extends PtnDialog {
 			if (null != etreeInfo_update) {
 				this.integrateEtree(etreeInfo_update, etreeInfo_new);
 			} else {
-				// 如果为null 说明没有匹配项目，是新增操作。
-				// 把创建时间和创建人修改成以前的数据
-				etreeInfo_new.setCreateTime(this.etreeInfoList_update.get(0).getCreateTime());
+				// 如果为null 说明没有匹配项目，是新增操作�?				// 把创建时间和创建人修改成以前的数�?				etreeInfo_new.setCreateTime(this.etreeInfoList_update.get(0).getCreateTime());
+				if(activeCheckBox.isSelected()){
+					etreeInfo_new.setActivatingTime(this.etreeInfoList_update.get(0).getActivatingTime());
+				}else{
+					etreeInfo_new.setActivatingTime(null);
+				}
 				etreeInfo_new.setCreateUser(this.etreeInfoList_update.get(0).getCreateUser());
 				etreeInfo_new.setServiceId(this.etreeInfoList_update.get(0).getServiceId());
 				etreeInfo_new.setaXcId(this.etreeInfoList_update.get(0).getaXcId());
-				etreeInfo_new.setAction(2); // 把此etree记录标识为新增数据
-
-				// 把此数据添加到要修改的etree集合中。
-				this.etreeInfoList_update.add(etreeInfo_new);
+				etreeInfo_new.setAction(2); // 把此etree记录标识为新增数�?
+				// 把此数据添加到要修改的etree集合中�?				this.etreeInfoList_update.add(etreeInfo_new);
 			}
 		}
 	}
 	
 	/**
-	 * 通过新的etree数据中的rootsite和branchsite去要修改的etree集合中找。
-	 * 
+	 * 通过新的etree数据中的rootsite和branchsite去要修改的etree集合中找�?	 * 
 	 * @param etreeInfo_new
 	 *            新的etree数据
-	 * @return 如果找到了，把找到的etree返回。 如果没找到，返回null
+	 * @return 如果找到了，把找到的etree返回�?如果没找到，返回null
 	 */
 	private EtreeInfo findEtree(EtreeInfo etreeInfo_new) {
 
 		for (EtreeInfo etreeInfo : this.etreeInfoList_update) {
-			// 如果根网元和叶网元都相等，说明不是新增和删除操作。
+			// 如果根网元和叶网元都相等，说明不是新增和删除操作�?			
 			if (etreeInfo.getRootSite() == etreeInfo_new.getRootSite() && etreeInfo.getBranchSite() == etreeInfo_new.getBranchSite()) {
 				return etreeInfo;
 			}
@@ -1146,8 +1128,7 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 
 	/**
-	 * 整合两个etree对象。 把新的etree值传入要修改的etree对象中
-	 * 
+	 * 整合两个etree对象�?把新的etree值传入要修改的etree对象�?	 * 
 	 * @param etreeInfo_update
 	 *            要修改的etree对象
 	 * @param etreeInfo_new
@@ -1174,18 +1155,17 @@ public class AddEtreeDialog extends PtnDialog {
 				etreeInfo_update.setAmostAcId(etreeInfo_new.getAmostAcId());
 				etreeInfo_update.setAction(1);
 			}
-			// 如果修改了叶子端口 取之前的叶子端口对象，并且更新etreeInfo_update中的zAcId、BeforeBranchAc、action=1字段
+			// 如果修改了叶子端�?取之前的叶子端口对象，并且更新etreeInfo_update中的zAcId、BeforeBranchAc、action=1字段
 			if (null != etreeInfo_update.getZmostAcId()&&!isSame(etreeInfo_update.getZmostAcId(),etreeInfo_new.getZmostAcId())) 
 			{
 				setBerforeAAcList(etreeInfo_update,etreeInfo_new.getZmostAcId(),2,etreeInfo_update.getZmostAcId());
 				etreeInfo_update.setZmostAcId(etreeInfo_new.getZmostAcId());
 				etreeInfo_update.setAction(1);
 			}
-			// 赋其他修改参数
-			etreeInfo_update.setName(etreeInfo_new.getName());
+			// 赋其他修改参�?			etreeInfo_update.setName(etreeInfo_new.getName());
 			etreeInfo_update.setActiveStatus(etreeInfo_new.getActiveStatus());
 			etreeInfo_update.setClientId(etreeInfo_new.getClientId());
-			// 如果action还等于3 说明上面三个条件没有成立，此时给此属性赋0=没有改变pw、根ac、叶ac
+			// 如果action还等�? 说明上面三个条件没有成立，此时给此属性赋0=没有改变pw、根ac、叶ac
 			if (etreeInfo_update.getAction() == 3) {
 				etreeInfo_update.setAction(0);
 			}
@@ -1199,12 +1179,10 @@ public class AddEtreeDialog extends PtnDialog {
 	}
 	
 	/**
-	 * 给修改以前的AC赋值
-	 * @param elanInfoAction
+	 * 给修改以前的AC赋�?	 * @param elanInfoAction
 	 * @param mostAcId
 	 * @param acIdList
-	 * @param  label ==1:添加root节点 2添加支节点
-	 */
+	 * @param  label ==1:添加root节点 2添加支节�?	 */
 	private void setBerforeAAcList(EtreeInfo etreeInfo_update,String mostAcId,int label,String oldMostAcId) 
 	{
 		String[] acIds = oldMostAcId.split(",");
@@ -1306,9 +1284,7 @@ public class AddEtreeDialog extends PtnDialog {
 	 * @param pwinfoList
 	 *            所有选中的pw
 	 * @param rootSiteInst
-	 *            根网元
-	 * @return true=是 false=否
-	 * @throws Exception
+	 *            根网�?	 * @return true=�?false=�?	 * @throws Exception
 	 */
 	private boolean checkingPwRoot(List<PwInfo> pwinfoList, SiteInst rootSiteInst) throws Exception {
 
@@ -1346,13 +1322,12 @@ public class AddEtreeDialog extends PtnDialog {
 		boolean flag = true;
 		List<Integer> siteIdList = null;
 		try {
-			// 把ac的所有网元放入集合中，做比较用
-			siteIdList = new ArrayList<Integer>();
+			// 把ac的所有网元放入集合中，做比较�?			siteIdList = new ArrayList<Integer>();
 			for (AcPortInfo acPortInfo : acPortInfoList) {
 				siteIdList.add(acPortInfo.getSiteId());
 			}
 
-			// 遍历pw,分别比较AZ端。如果有一端不在ac中。 说明验证不通过。返回false
+			// 遍历pw,分别比较AZ端。如果有一端不在ac中�?说明验证不通过。返回false
 			for (PwInfo pwInfo : pwInfoList) {
 
 				if (pwInfo.getASiteId() != rootSiteId) {
@@ -1444,7 +1419,7 @@ public class AddEtreeDialog extends PtnDialog {
 		layout.setConstraints(this.lblMessage, c);
 		this.jPanel3.add(this.lblMessage);
 
-		/** 第一行 名称 */
+		/** 第一�?名称 */
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridheight = 1;
@@ -1466,7 +1441,7 @@ public class AddEtreeDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		layout.addLayoutComponent(this.jButton, c);
 		this.jPanel3.add(this.jButton);
-		/** 第二行 根端口 */
+		/** 第二�?根端�?*/
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;
@@ -1482,7 +1457,7 @@ public class AddEtreeDialog extends PtnDialog {
 		layout.addLayoutComponent(this.rootTextField, c);
 		this.jPanel3.add(this.rootTextField);
 
-		/** 第三行 客户 */
+		/** 第三�?客户 */
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridheight = 1;
@@ -1501,7 +1476,7 @@ public class AddEtreeDialog extends PtnDialog {
 		layout.addLayoutComponent(this.clientComboBox, c);
 		this.jPanel3.add(this.clientComboBox);
 
-		/** 第4行 ac列表 */
+		/** �?�?ac列表 */
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridheight = 1;
@@ -1518,7 +1493,7 @@ public class AddEtreeDialog extends PtnDialog {
 //		c.fill = GridBagConstraints.BOTH;
 		layout.addLayoutComponent(this.jscrollPane_ac, c);
 		this.jPanel3.add(this.jscrollPane_ac);
-		/** 第5行 pw列表 */
+		/** �?�?pw列表 */
 		c.gridx = 0;
 		c.gridy = 5;
 		c.gridheight = 1;
@@ -1536,7 +1511,7 @@ public class AddEtreeDialog extends PtnDialog {
 		layout.setConstraints(this.jscrollPane_pw, c);
 		this.jPanel3.add(this.jscrollPane_pw);
 
-		/** 第七行 */
+		/** 第七�?*/
 		c.gridx = 0;
 		c.gridy = 6;
 		c.gridheight = 1;
@@ -1553,7 +1528,7 @@ public class AddEtreeDialog extends PtnDialog {
 		layout.addLayoutComponent(this.activeCheckBox, c);
 		this.jPanel3.add(this.activeCheckBox);
 
-		/** 第八行 确定按钮 空出一行 */
+		/** 第八�?确定按钮 空出一�?*/
 		c.gridx = 2;
 		c.gridy = 8;
 		c.gridheight = 1;

@@ -88,6 +88,9 @@ public class EtreeInfo extends ServiceInfo {
 			this.putClientProperty("activeStates", getActiveStatus() == 1 ? EActiveStatus.ACTIVITY.toString() : EActiveStatus.UNACTIVITY.toString());
 			this.putClientProperty("creater", getCreateUser());
 			this.putClientProperty("createTime", DateUtil.strDate(getCreateTime(), DateUtil.FULLTIME));
+			if (getActivatingTime() != null) {
+				this.putClientProperty("activatingTime", DateUtil.strDate(getActivatingTime(), DateUtil.FULLTIME));
+			}
 			this.putClientProperty("issingle", this.getIsSingle()==0 ? ResourceUtil.srcStr(StringKeysObj.OBJ_NO) :ResourceUtil.srcStr(StringKeysObj.OBJ_YES));
 			this.putClientProperty("jobstatus", super.getJobStatus(this.getJobStatus()));
 		} catch (Exception e) {

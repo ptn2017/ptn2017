@@ -104,7 +104,7 @@ public class SSProfess extends ViewDataObj {
 			}
 			this.putClientProperty("alarmCount",this.getAlarmCount()==0?ResourceUtil.srcStr(StringKeysTab.TAB_UNEXIT_ALARM):ResourceUtil.srcStr(StringKeysTab.TAB_EXIT_ALARM));
 			this.putClientProperty("activeStatus",EActiveStatus.forms(this.getActiveStatus()).toString());
-			this.putClientProperty("activeTime",EActiveStatus.forms(this.getActiveStatus()).getValue() ==1 ?DateUtil.strDate(this.getCreateTime(),DateUtil.FULLTIME):"");
+			this.putClientProperty("activeTime",DateUtil.strDate(this.getActiveTime(),DateUtil.FULLTIME));
 			this.putClientProperty("createTime",DateUtil.strDate(this.getCreateTime(),DateUtil.FULLTIME));
 			this.putClientProperty("clientName",this.getClientName());					
 					

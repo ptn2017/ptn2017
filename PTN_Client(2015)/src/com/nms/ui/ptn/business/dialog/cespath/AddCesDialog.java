@@ -173,9 +173,9 @@ public class AddCesDialog extends PtnDialog {
 			if (cesInfo.getClientId() != 0) {
 				super.getComboBoxDataUtil().comboBoxSelect(clientComboBox, String.valueOf(cesInfo.getClientId()));
 			}
-			// 是否激活
+			// 是否激�?			
 			ckbActivity.setSelected(EActiveStatus.ACTIVITY.getValue() == cesInfo.getActiveStatus() ? true : false);
-			// A端端口
+			// A端端�?			
 			int aAcId=cesInfo.getaAcId();
 			portinst = new PortInst();
 			portinst.setPortType("e1");
@@ -191,8 +191,7 @@ public class AddCesDialog extends PtnDialog {
 				this.siteId_a=portList.get(0).getSiteId();
 				this.loadPortTable_a(cesPortInfoList, siteId_a);
 			}
-			// Z端端口
-			portinst = new PortInst();
+			// Z端端�?			portinst = new PortInst();
 			portinst.setPortType("e1");
 			portinst.setPortId(cesInfo.getzAcId());
 			portList = portService.select(portinst);
@@ -229,10 +228,8 @@ public class AddCesDialog extends PtnDialog {
 	/**
 	 * 
 	 * @param cesPathPanel
-	 *            父面板
-	 * @param modal
-	 *            当modal为true时，代表用户必须结束对话框才能回到原来所属的窗口。当modal为 false时，代表对话框与所属窗口可以互相切换，彼此之间在操作上没有顺序性。
-	 * @param selectId
+	 *            父面�?	 * @param modal
+	 *            当modal为true时，代表用户必须结束对话框才能回到原来所属的窗口。当modal�?false时，代表对话框与所属窗口可以互相切换，彼此之间在操作上没有顺序性�?	 * @param selectId
 	 *            修改时，选中ces的主键id
 	 * @throws Exception
 	 */
@@ -311,8 +308,8 @@ public class AddCesDialog extends PtnDialog {
 		jscrollPane_portTable_a.setViewportView(portTable_a);
 		jscrollPane_portTable_z.setViewportView(portTable_z);
 
-		leftBtn = new JButton("▲");
-		rightBtn = new JButton("▼");
+		leftBtn = new JButton("<<");
+		rightBtn = new JButton(">>");
 		client = new javax.swing.JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CLIENT_NAME));
 		clientComboBox = new javax.swing.JComboBox();
 		autoNamingButton = new JButton(ResourceUtil.srcStr(StringKeysLbl.LBL_AUTO_NAME));
@@ -379,8 +376,7 @@ public class AddCesDialog extends PtnDialog {
 	}
 
 	/**
-	 * 根据ces业务类型，获取不同的pw集合。用来刷新拓扑
-	 * 
+	 * 根据ces业务类型，获取不同的pw集合。用来刷新拓�?	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -496,6 +492,11 @@ public class AddCesDialog extends PtnDialog {
 		cesInfo.setActiveStatus(ckbActivity.isSelected() == true ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
 		cesInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 		cesInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+		if(ckbActivity.isSelected()){
+			cesInfo.setActivatingTime(cesInfo.getCreateTime());
+		}else{
+			cesInfo.setActivatingTime(null);
+		}
 		cesInfo.setaSiteId(this.siteId_a);
 		cesInfo.setzSiteId(this.siteId_z);
 		cesInfo.setPwId(pw.getPwId());
@@ -534,7 +535,7 @@ public class AddCesDialog extends PtnDialog {
 		layout.setConstraints(this.lblMessage, c);
 		this.leftPanel.add(this.lblMessage);
 
-		/** 第一行 */
+		/** 第一�?*/
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridheight = 1;
@@ -556,7 +557,7 @@ public class AddCesDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		layout.addLayoutComponent(autoNamingButton, c);
 		this.leftPanel.add(autoNamingButton);
-		/** 第二行 */
+		/** 第二�?*/
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;
@@ -572,7 +573,7 @@ public class AddCesDialog extends PtnDialog {
 		layout.addLayoutComponent(this.serviceTypeCbox, c);
 		this.leftPanel.add(this.serviceTypeCbox);
 
-		/** 第3行 */
+		/** �?�?*/
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridheight = 1;
@@ -589,7 +590,7 @@ public class AddCesDialog extends PtnDialog {
 		layout.addLayoutComponent(this.clientComboBox, c);
 		this.leftPanel.add(this.clientComboBox);
 
-		/** 第4行 */
+		/** �?�?*/
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridheight = 1;
@@ -605,7 +606,7 @@ public class AddCesDialog extends PtnDialog {
 		c.fill = GridBagConstraints.BOTH;
 		layout.addLayoutComponent(this.jscrollPane_portTable_a, c);
 		this.leftPanel.add(this.jscrollPane_portTable_a);
-		/** 第5行 */
+		/** �?�?*/
 		c.gridx = 0;
 		c.gridy = 5;
 		c.gridheight = 1;
@@ -622,7 +623,7 @@ public class AddCesDialog extends PtnDialog {
 		c.fill = GridBagConstraints.BOTH;
 		layout.addLayoutComponent(this.jscrollPane_portTable_z, c);
 		this.leftPanel.add(this.jscrollPane_portTable_z);
-		/** 第6行 */
+		/** �?�?*/
 		c.gridx = 0;
 		c.gridy = 6;
 		c.gridheight = 1;
@@ -638,7 +639,7 @@ public class AddCesDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		layout.setConstraints(this.ckbActivity, c);
 		this.leftPanel.add(this.ckbActivity);
-		/** 第7行 */
+		/** �?�?*/
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridheight = 1;
@@ -654,8 +655,7 @@ public class AddCesDialog extends PtnDialog {
 		c.fill = GridBagConstraints.BOTH;
 		layout.setConstraints(this.pwListJSP, c);
 		this.leftPanel.add(this.pwListJSP);
-		// 第8行
-		c.gridx = 1;
+		// �?�?		c.gridx = 1;
 		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -672,8 +672,7 @@ public class AddCesDialog extends PtnDialog {
 		c.anchor = GridBagConstraints.WEST;
 		layout.setConstraints(this.rightBtn, c);
 		this.leftPanel.add(this.rightBtn);
-		// 第9行
-		c.gridx = 0;
+		// �?�?		c.gridx = 0;
 		c.gridy = 9;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -690,8 +689,7 @@ public class AddCesDialog extends PtnDialog {
 		layout.setConstraints(this.selPwListJSP, c);
 		this.leftPanel.add(this.selPwListJSP);
 
-		// 第10行
-		c.gridx = 2;
+		// �?0�?		c.gridx = 2;
 		c.gridy = 11;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -722,7 +720,7 @@ public class AddCesDialog extends PtnDialog {
 		setSiteId_z(siteId);
 		getPortTable_z().initData(cesPortInfoList);
 	}
-	//用于显示PW列表的
+	//用于显示PW列表�?	
 	public void loadPw(Collection<PwInfo> pwInfoCollection) {
 		this.selpwVector.removeAllElements();
 		getPwVector().removeAllElements();
@@ -964,8 +962,7 @@ public class AddCesDialog extends PtnDialog {
 
 	/**
 	 * @param pwId
-	 *            通过pwID 来获取PW的名称
-	 * @return
+	 *            通过pwID 来获取PW的名�?	 * @return
 	 */
 	private PwInfo getPwNameById(int pwId) {
 		PwInfoService_MB pwService = null;

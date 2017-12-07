@@ -1,7 +1,9 @@
 ﻿package com.nms.ui.ptn.business.eline;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.nms.db.bean.client.Client;
 import com.nms.db.bean.equipment.shelf.SiteInst;
@@ -28,6 +30,7 @@ import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.CheckingUtil;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -35,9 +38,8 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
-import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.eline.AddElineDialog;
-import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
 
 /**
@@ -390,6 +392,7 @@ public class ElineBusinessController extends AbstractController {
 				dispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
 				for (ElineInfo info : infos) {
 					info.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+					info.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 					result = dispatch.excuteUpdate(info);
 					if (result == null || !result.contains(ResultString.CONFIG_SUCCESS)) {
 						failCount++;
@@ -447,6 +450,7 @@ public class ElineBusinessController extends AbstractController {
 				dispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
 				for (ElineInfo info : infos) {
 					info.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+					info.setActivatingTime(null);
 					result = dispatch.excuteUpdate(info);
 					if (result == null || !result.contains(ResultString.CONFIG_SUCCESS)) {
 						failCount++;
@@ -623,8 +627,8 @@ public class ElineBusinessController extends AbstractController {
 	public void consistence(){
 		ElineInfoService_MB elineService = null;
 		SiteService_MB siteService = null;
-		List<ElineInfo> emsList = null;
-		List<ServiceInfo> neList = null;
+		Map<Integer, List<ElineInfo>> elineEMSMap = null;
+		Map<Integer, List<ElineInfo>> elineNEMap = null;
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
@@ -638,21 +642,20 @@ public class ElineBusinessController extends AbstractController {
 			}
 			if(!siteIdOnLineList.isEmpty()){
 				elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
-				emsList = new ArrayList<ElineInfo>();
-				neList = new ArrayList<ServiceInfo>();
+				elineEMSMap = new HashMap<Integer, List<ElineInfo>>();
+				elineNEMap = new HashMap<Integer, List<ElineInfo>>();
 				DispatchUtil elineDispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
 				for(int siteId : siteIdOnLineList){
 					List<ElineInfo> eMSSingle = elineService.selectElineBySite(siteId);
-					List<ElineInfo> nESingle = (List<ElineInfo>) elineDispatch.consistence(siteId);
+					List<ServiceInfo> nESingle = (List<ServiceInfo>) elineDispatch.consistence(siteId);
 					if(eMSSingle != null && !eMSSingle.isEmpty()){
-						emsList.addAll(eMSSingle);
+						elineEMSMap.put(siteId, eMSSingle);
 					}
 					if(nESingle != null && !nESingle.isEmpty()){
-						neList.addAll(nESingle);
+						elineNEMap.put(siteId, this.filterElineList(nESingle));
 					}
 				}
-				this.filterElineList(neList);
-				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("ELINE", emsList, neList, this);
+				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("ELINE", elineEMSMap, elineNEMap, this);
 				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
@@ -668,14 +671,13 @@ public class ElineBusinessController extends AbstractController {
 	/**
 	 * 过滤出eline业务
 	 */
-	private void filterElineList(List<ServiceInfo> neList) {
+	private List<ElineInfo> filterElineList(List<ServiceInfo> neList) {
 		List<ElineInfo> elineList = new ArrayList<ElineInfo>();
 		for (ServiceInfo elineInfo : neList) {
 			if(elineInfo.getServiceType() == 1){
 				elineList.add((ElineInfo)elineInfo);
 			}
 		}
-		neList.clear();
-		neList.addAll(elineList);
+		return elineList;
 	}
 }

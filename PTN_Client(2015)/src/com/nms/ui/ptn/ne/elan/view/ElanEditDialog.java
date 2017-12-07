@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import com.nms.db.bean.ptn.CommonBean;
 import com.nms.db.bean.ptn.path.eth.ElanInfo;
+import com.nms.db.bean.ptn.path.eth.EtreeInfo;
 import com.nms.db.bean.ptn.path.eth.VplsInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.port.AcPortInfo;
@@ -47,6 +48,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.VerifyNameUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.control.PtnDialog;
+import com.nms.ui.manager.control.PtnSpinner;
 import com.nms.ui.manager.control.PtnTextField;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysLbl;
@@ -74,9 +76,9 @@ public class ElanEditDialog extends PtnDialog {
 			this.addListener();
 			this.initData();
 			if(ResourceUtil.language.equals("zh_CN")){
-				UiUtil.showWindow(this, 510, 450);
+				UiUtil.showWindow(this, 510, 500);
 			}else{
-				UiUtil.showWindow(this, 550, 450);
+				UiUtil.showWindow(this, 550, 500);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -93,6 +95,7 @@ public class ElanEditDialog extends PtnDialog {
 				this.elanInfo = new ElanInfo();
 				this.setTitle(ResourceUtil.srcStr(StringKeysTitle.TIT_CREATE_ELAN));
 			}else{
+				this.ptnSpinnerNumber.setEnabled(false);
 				this.setTitle(ResourceUtil.srcStr(StringKeysLbl.LBL_UPDATE_ELAN));
 				this.txtname.setText(this.elanInfo.getName());
 //				this.btnRight.setEnabled(false);
@@ -403,20 +406,61 @@ public class ElanEditDialog extends PtnDialog {
 				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_EXCEEDACELANNUMBER));
 				return;
 			}
-			elanInfoList = new ArrayList<ElanInfo>();
 			acIdList = new ArrayList<Integer>();
 			useAcPortList = new ArrayList<AcPortInfo>();
 			getAllAcId(acIdList,useAcPortList);
 			List<Integer> pwIdList = new ArrayList<Integer>();
+			
+			// 批量创建
+			int num = Integer.parseInt(this.ptnSpinnerNumber.getTxt().getText());
+			List<List<ElanInfo>> elanBatchList = new ArrayList<List<ElanInfo>>();
+			if(num > 1){
+				if((defaultListModel.getSize() < 2*num) || (defaultListModelAc.getSize() != num)){
+					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PORTCOUNT_NOT_EQUAL));
+					return;
+				}
+				for(int i = 0; i < num; i++){
+					elanInfoList = new ArrayList<ElanInfo>();
+					for(int j = 0; j < 2; j++){
+						pwinfo = (PwInfo) ((ControlKeyValue) defaultListModel.getElementAt(2*i+j)).getObject();
+						elanInfoAction = new ElanInfo();
+						//匹配pw和 原elan数据
+						elanInfoAction.setName(this.txtname.getText().trim());
+						elanInfoAction.setServiceType(EServiceType.ELAN.getValue());
+						elanInfoAction.setActiveStatus(this.chkactivate.isSelected() ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
+						elanInfoAction.setIsSingle(1);
+						elanInfoAction.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+						if(chkactivate.isSelected()){
+							elanInfoAction.setActivatingTime(elanInfoAction.getCreateTime());
+						}else{
+							elanInfoAction.setActivatingTime(null);
+						}
+						elanInfoAction.setCreateUser(ConstantUtil.user.getUser_Name());
+						elanInfoAction.setPwId(pwinfo.getPwId());
+						pwIdList.add(pwinfo.getPwId());
+						elanInfoAction.setaSiteId(ConstantUtil.siteId);
+						AcPortInfo ac =  (AcPortInfo) ((ControlKeyValue) defaultListModelAc.getElementAt(i)).getObject();
+						elanInfoAction.setAmostAcId(ac.getId()+"");
+						elanInfoList.add(elanInfoAction);
+					}
+					elanBatchList.add(elanInfoList);
+				}
+			}else{
+				elanInfoList = new ArrayList<ElanInfo>();
 			for (int i = 0; i < defaultListModel.getSize(); i++) {
 				pwinfo = (PwInfo) ((ControlKeyValue) defaultListModel.getElementAt(i)).getObject();
 				elanInfoAction = new ElanInfo();
-				//匹配pw和 原elan数据
+					//匹配pw和 原elan数据
 				elanInfoAction.setName(this.txtname.getText().trim());
 				elanInfoAction.setServiceType(EServiceType.ELAN.getValue());
 				elanInfoAction.setActiveStatus(this.chkactivate.isSelected() ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
 				elanInfoAction.setIsSingle(1);
 				elanInfoAction.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+					if(chkactivate.isSelected()){
+						elanInfoAction.setActivatingTime(elanInfoAction.getCreateTime());
+					}else{
+						elanInfoAction.setActivatingTime(null);
+					}
 				elanInfoAction.setCreateUser(ConstantUtil.user.getUser_Name());
 				elanInfoAction.setPwId(pwinfo.getPwId());
 				pwIdList.add(pwinfo.getPwId());
@@ -424,6 +468,11 @@ public class ElanEditDialog extends PtnDialog {
 				elanInfoAction.setAmostAcId(acIdList.toString().subSequence(1, acIdList.toString().length() -1).toString());
 				elanInfoList.add(elanInfoAction);
 			}
+				elanBatchList.add(elanInfoList);
+			}
+			
+			
+			
 			elanDispatch = new DispatchUtil(RmiKeys.RMI_ELAN);
 			if(this.elanInfo.getServiceId()>0){
 				integrateElanList(elanInfoList);
@@ -433,10 +482,12 @@ public class ElanEditDialog extends PtnDialog {
 				VplsInfo vplsInfo = this.getVplsBefore(null, 0, pwIdList);
 				AddOperateLog.insertOperLog(btnSave, EOperationLogType.ELANUPDATE.getValue(), resultStr, vplsBefore, vplsInfo, ConstantUtil.siteId, vplsInfo.getVplsName(), "elan");
 			}else{
-				resultStr = elanDispatch.excuteInsert(elanInfoList);
+				for(List<ElanInfo> list : elanBatchList){
+					resultStr = elanDispatch.excuteInsert(list);
 				//添加日志记录
-				VplsInfo vplsInfo = this.getVplsBefore(elanInfoList, 1, null);
+					VplsInfo vplsInfo = this.getVplsBefore(list, 1, null);
 				AddOperateLog.insertOperLog(btnSave, EOperationLogType.ELANINSERT.getValue(), resultStr, null, vplsInfo, ConstantUtil.siteId, vplsInfo.getVplsName(), "elan");
+			}
 			}
 			
 			DialogBoxUtil.succeedDialog(this, resultStr);
@@ -570,6 +621,11 @@ public class ElanEditDialog extends PtnDialog {
 			{
 				//如果为空 说明为新增加的PW
 				elanInst.setCreateTime(elanInfoListForUpdate.get(0).getCreateTime());
+				if(chkactivate.isSelected()){
+					elanInst.setActivatingTime(this.elanInfoListForUpdate.get(0).getActivatingTime());
+				}else{
+					elanInst.setActivatingTime(null);
+				}
 				elanInst.setCreateUser(elanInfoListForUpdate.get(0).getCreateUser());
 				elanInst.setServiceId(elanInfoListForUpdate.get(0).getServiceId());
 				elanInst.setAxcId(elanInfoListForUpdate.get(0).getAxcId());
@@ -907,13 +963,27 @@ public class ElanEditDialog extends PtnDialog {
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.btnRight, c);
 		this.add(this.btnRight);
-		c.gridy = 8;
+		c.gridy = 9;
 		componentLayout.setConstraints(this.btnLeft, c);
 		this.add(this.btnLeft);
 
+		// 批量创建
+		c.gridx = 0;
+		c.gridy = 10;
+		c.gridwidth = 1;
+		componentLayout.setConstraints(this.lblNumber, c);
+		this.add(this.lblNumber);
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.WEST;
+		c.gridx = 1;
+		c.gridwidth = 1;
+		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
+		this.add(this.ptnSpinnerNumber);
+
+
 		c.anchor = GridBagConstraints.EAST;
 		c.gridx = 3;
-		c.gridy = 10;
+		c.gridy = 11;
 		componentLayout.setConstraints(this.btnSave, c);
 		this.add(this.btnSave);
 		c.gridx = 4;
@@ -961,6 +1031,8 @@ public class ElanEditDialog extends PtnDialog {
 		this.slpSelectPw.setViewportView(ListSelectPw);
 		this.btnLeft = new JButton("<<");
 		this.btnRight = new JButton(">>");
+		this.lblNumber = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CREATE_NUM));
+		this.ptnSpinnerNumber = new PtnSpinner(1, 1, 64, 1);
 	}
 	
 	/**
@@ -1006,4 +1078,6 @@ public class ElanEditDialog extends PtnDialog {
 	private JButton btnLeft;
 	private JButton btnRight;
 	private JLabel lblMessage;
+	private JLabel lblNumber;
+	private PtnSpinner ptnSpinnerNumber;
 }

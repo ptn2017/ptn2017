@@ -93,8 +93,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/**
-	 * 查询a/Z端是否满足查询条件
-	 * @param acIds
+	 * 查询a/Z端是否满足查询条�?	 * @param acIds
 	 * @param etreeInfo_result
 	 * @return
 	 */
@@ -133,6 +132,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 		if(elaninfoList != null && elaninfoList.size() > 0){
 			for (ElanInfo elanInfo : elaninfoList) {
 				elanInfo.setCreateTime(DateUtil.strDate(elanInfo.getCreateTime(), DateUtil.FULLTIME));
+				elanInfo.setActivatingTime(DateUtil.strDate(elanInfo.getActivatingTime(), DateUtil.FULLTIME));
 			}
 		}
 	}
@@ -169,8 +169,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 				map = this.getMapBySite(siteInst.getSite_Inst_Id());
 				// 遍历每一组elan 找出与此elan相匹配的elan
 				for (int serviceId : map.keySet()) {
-					// 如果此serviceId不在要创建的map中，才去验证。防止重复
-//					if(map.get(serviceId).size()>1){
+					// 如果此serviceId不在要创建的map中，才去验证。防止重�?//					if(map.get(serviceId).size()>1){
 						if (!this.serviceIdIsExist(map_create, serviceId)) {
 							this.putCreateMap(map_create, createKey, map.get(serviceId), siteIdList);
 							createKey++;
@@ -178,7 +177,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 //					}
 				}
 			}
-			// 如果map中有值，就循环创建每一组elan。
+			// 如果map中有值，就循环创建每一组elan�?			
 			if (map_create.keySet().size() > 0) {
 				for (int key : map_create.keySet()) {
 					this.createElan(map_create.get(key));
@@ -191,8 +190,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/**
-	 * 验证serviceid在map中是否存在。
-	 * @param map_create 要创建的map集合
+	 * 验证serviceid在map中是否存在�?	 * @param map_create 要创建的map集合
 	 * @param serviceId 要验证的serviceid
 	 * @return
 	 * @throws Exception
@@ -247,8 +245,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/**
-	 * 根据elanInfoList，查询出对应的elan，验证叶是否在siteids集合中，如果在，把此组elan放到map中
-	 * @param map_create 创建的map集合
+	 * 根据elanInfoList，查询出对应的elan，验证叶是否在siteids集合中，如果在，把此组elan放到map�?	 * @param map_create 创建的map集合
 	 * @param key 创建的map中key
 	 * @param elanInfoList 要匹配的elan集合
 	 * @param siteIds 网元集合
@@ -282,7 +279,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 					}
 				}
 			}
-			// 如果通过验证，可以合并，把此组elan数据放到map中，统一做合并
+			// 如果通过验证，可以合并，把此组elan数据放到map中，统一做合�?			
 			if (flag) {
 				map_create.put(key, elanInfoList);
 			}
@@ -442,7 +439,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 					// 修改pw关联
 					pwService.setUser(elanInfo_element.getPwId(), elanInfo_element);
 				}
-				// 删除原有的数据
+				// 删除原有的数�?				
 				for (ElanInfo elanInfo_element : elanInfoLitst) {
 					this.mapper.delete(elanInfo_element.getServiceId());
 				}
@@ -551,10 +548,8 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 	 * 验证名字是否重复
 	 * @author kk
 	 * @param afterName
-	 *            修改之后的名字
-	 * @param beforeName
-	 *            修改之前的名字
-	 * @return
+	 *            修改之后的名�?	 * @param beforeName
+	 *            修改之前的名�?	 * @return
 	 * @throws Exception
 	 * @Exception 异常对象
 	 */
@@ -568,8 +563,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 	}
 
 	/**
-	 * 单网元名称验证
-	 * @param afterName
+	 * 单网元名称验�?	 * @param afterName
 	 * @param beforeName
 	 * @param siteId
 	 * @return
@@ -586,7 +580,7 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 	}
 	
 	/*
-	 * 查询所有的elan业务(每一条可能包含多条业务)
+	 * 查询所有的elan业务(每一条可能包含多条业�?
 	 */
 	public Map<Integer, List<ElanInfo>> select() throws Exception {
 		Map<Integer, List<ElanInfo>> elanInfoMap = new HashMap<Integer, List<ElanInfo>>();

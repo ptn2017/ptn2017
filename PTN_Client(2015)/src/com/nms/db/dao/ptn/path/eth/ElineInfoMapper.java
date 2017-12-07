@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.eth.ElineInfo;
 
 public interface ElineInfoMapper {
@@ -54,4 +55,6 @@ public interface ElineInfoMapper {
 	public List<ElineInfo> queryAllElineByPwId(@Param("pwIdList")List<Integer> pwIdList);
 
 	List<ElineInfo> selectByacids(@Param("integers")List<Integer> integers);
+
+	List<ServiceInfo> queryEthBySiteAndServiceId(@Param("siteId")int siteId,@Param("serviceId")int serviceId);
 }

@@ -53,7 +53,7 @@ import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
 public class TunnelNodeController extends AbstractController {
 
 	private TunnelPanel view;
-	private Tunnel filterCondition = null;// tunnel的过滤条件
+	private Tunnel filterCondition = null;// tunnel的过滤条�?	
 	private List<Tunnel> infos = null;
 	private int total;
 	private int now = 1;
@@ -90,7 +90,7 @@ public class TunnelNodeController extends AbstractController {
 				DialogBoxUtil.errorDialog(this.getView(), ResourceUtil.srcStr(StringKeysTip.TIP_DELETE_NODE));
 				return false;
 			}else{
-				//判断是否为在线托管网元
+				//判断是否为在线托管网�?				
 				SiteUtil siteUtil = new SiteUtil();
 				if(1==siteUtil.SiteTypeOnlineUtil(ConstantUtil.siteId)){
 					WhImplUtil wu = new WhImplUtil();
@@ -104,7 +104,7 @@ public class TunnelNodeController extends AbstractController {
 			
 			// 删除tunnel之前先验证该tunnel是否有按需oam，没有才可删除，否则提示不能删除
 			for (Tunnel tunnel : tunnelList) {
-				// 如果为true，说明该条tunnel有按需oam，不能删除
+				// 如果为true，说明该条tunnel有按需oam，不能删�?				
 				if (checkIsOam(tunnel)) {
 					flag = true;
 					break;
@@ -117,7 +117,7 @@ public class TunnelNodeController extends AbstractController {
 
 			// 删除tunnel之前先验证该tunnel是否有bfd，没有才可删除，否则提示不能删除
 			for (Tunnel tunnel : tunnelList) {
-				// 如果为true，说明该条tunnel有bfd，不能删除
+				// 如果为true，说明该条tunnel有bfd，不能删�?				
 				if (checkIsBfd(tunnel)) {
 					flag = true;
 					break;
@@ -150,8 +150,7 @@ public class TunnelNodeController extends AbstractController {
 			bfdService = (BfdInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.BFDMANAGEMENT);
 			lspIds=new ArrayList<Integer>();
 			lspIds2=new ArrayList<Integer>();
-			//a端
-			aSiteId=tunnel.getaSiteId();
+			//a�?			aSiteId=tunnel.getaSiteId();
 			lspIds=bfdService.queryLspIds(aSiteId, 1);
 			lspIds2=bfdService.queryLspIds(aSiteId,2);
 			for(int i=0;i<tunnel.getLspParticularList().size();i++){
@@ -170,7 +169,7 @@ public class TunnelNodeController extends AbstractController {
 					}
 				}
 			}			
-		//z端	
+		//z�?
 			aSiteId=tunnel.getzSiteId();
 			lspIds=bfdService.queryLspIds(aSiteId, 1);
 			lspIds2=bfdService.queryLspIds(aSiteId,2);
@@ -192,8 +191,7 @@ public class TunnelNodeController extends AbstractController {
 			}
 			//保护
 			if(tunnel.getProtectTunnel()!=null){
-				//a端
-				aSiteId=tunnel.getProtectTunnel().getaSiteId();
+				//a�?				aSiteId=tunnel.getProtectTunnel().getaSiteId();
 				lspIds=bfdService.queryLspIds(aSiteId, 1);
 				lspIds2=bfdService.queryLspIds(aSiteId,2);
 				for(int i=0;i<tunnel.getProtectTunnel().getLspParticularList().size();i++){
@@ -212,7 +210,7 @@ public class TunnelNodeController extends AbstractController {
 						}
 					}
 				}			
-			//z端	
+			//z�?
 				aSiteId=tunnel.getProtectTunnel().getzSiteId();
 				lspIds=bfdService.queryLspIds(aSiteId, 1);
 				lspIds2=bfdService.queryLspIds(aSiteId,2);
@@ -303,7 +301,7 @@ public class TunnelNodeController extends AbstractController {
 		List<Tunnel> needs= null;
 		try {
 			tunnelServiceMB = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
-			// 若 filterCondition清空，则进入原有的为过滤的方法
+			// �?filterCondition清空，则进入原有的为过滤的方�?			
 			if (this.filterCondition == null) {
 				this.filterCondition=new Tunnel();
 			}
@@ -364,8 +362,7 @@ public class TunnelNodeController extends AbstractController {
 	}
 
 	/**
-	 * 选中一条记录后，查看详细信息
-	 */
+	 * 选中一条记录后，查看详细信�?	 */
 	@Override
 	public void initDetailInfo() {
 		try {
@@ -408,54 +405,59 @@ public class TunnelNodeController extends AbstractController {
 				cesInfoServiceMB = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);			
 				dualInfoServiceMB = (DualInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.DUALINFO);			
 				List<ElineInfo> elineList = elineInfoServiceMB.selectElineByPwId(pwList);
+				ssList = new ArrayList<SSProfess>();		
 				if(elineList!=null && elineList.size()!=0){
+					for(ElineInfo eline : elineList){
 					ss=new SSProfess();
-					ss.setName(elineList.get(0).getName());
-					ss.setServiceType(elineList.get(0).getServiceType());
-					ss.setCreateTime(elineList.get(0).getCreateTime());
-					ss.setActiveStatus(elineList.get(0).getActiveStatus());
-					ss.setClientName(elineList.get(0).getClientName());
-					ssList = new ArrayList<SSProfess>();				
+						ss.setName(eline.getName());
+						ss.setServiceType(eline.getServiceType());
+						ss.setCreateTime(eline.getCreateTime());
+						ss.setActiveStatus(eline.getActiveStatus());
+						ss.setClientName(eline.getClientName());
 					ssList.add(ss);
+					}
 					this.view.getBusinessNetworkTablePanel().clear();
 					this.view.getBusinessNetworkTablePanel().initData(ssList);
 				}else{
 					List<EtreeInfo> etreeList = etreeInfoServiceMB.selectEtreeByPwId(pwList);
 					if(etreeList!=null && etreeList.size()!=0){
+						for(EtreeInfo etree : etreeList){
 						ss=new SSProfess();
-						ss.setName(etreeList.get(0).getName());
-						ss.setServiceType(etreeList.get(0).getServiceType());
-						ss.setCreateTime(etreeList.get(0).getCreateTime());
-						ss.setActiveStatus(etreeList.get(0).getActiveStatus());
-						ss.setClientName(etreeList.get(0).getClientName());
-						ssList = new ArrayList<SSProfess>();
+							ss.setName(etree.getName());
+							ss.setServiceType(etree.getServiceType());
+							ss.setCreateTime(etree.getCreateTime());
+							ss.setActiveStatus(etree.getActiveStatus());
+							ss.setClientName(etree.getClientName());
 						ssList.add(ss);
+						}
 						this.view.getBusinessNetworkTablePanel().clear();
 						this.view.getBusinessNetworkTablePanel().initData(ssList);
 					}else{
 						List<ElanInfo> elanList = elanInfoServiceMB.selectElanbypwid(pwList);
 						if(elanList!=null && elanList.size()!=0){
+							for(ElanInfo elan : elanList){
 							ss=new SSProfess();
-							ss.setName(elanList.get(0).getName());
-							ss.setServiceType(elanList.get(0).getServiceType());
-							ss.setCreateTime(elanList.get(0).getCreateTime());
-							ss.setActiveStatus(elanList.get(0).getActiveStatus());
-							ss.setClientName(elanList.get(0).getClientName());
-							ssList = new ArrayList<SSProfess>();
+								ss.setName(elan.getName());
+								ss.setServiceType(elan.getServiceType());
+								ss.setCreateTime(elan.getCreateTime());
+								ss.setActiveStatus(elan.getActiveStatus());
+								ss.setClientName(elan.getClientName());
 							ssList.add(ss);
+							}
 							this.view.getBusinessNetworkTablePanel().clear();
 							this.view.getBusinessNetworkTablePanel().initData(ssList);					
 						}else{
 							List<CesInfo> cesList = cesInfoServiceMB.selectCesByPwId(pwList);
 							if(cesList!=null && cesList.size()!=0){
+								for(CesInfo ces : cesList){
 								ss=new SSProfess();
-								ss.setName(cesList.get(0).getName());
-								ss.setServiceType(cesList.get(0).getServiceType());
-								ss.setCreateTime(cesList.get(0).getCreateTime());
-								ss.setActiveStatus(cesList.get(0).getActiveStatus());
-								ss.setClientName(cesList.get(0).getClientName());
-								ssList = new ArrayList<SSProfess>();
+									ss.setName(ces.getName());
+									ss.setServiceType(ces.getServiceType());
+									ss.setCreateTime(ces.getCreateTime());
+									ss.setActiveStatus(ces.getActiveStatus());
+									ss.setClientName(ces.getClientName());
 								ssList.add(ss);
+								}
 								this.view.getBusinessNetworkTablePanel().clear();
 								this.view.getBusinessNetworkTablePanel().initData(ssList);	
 							}else{
@@ -561,8 +563,7 @@ public class TunnelNodeController extends AbstractController {
 	}
 
 	/**
-	 * 转换lsp对象 给lsp所需要的列赋值
-	 * 
+	 * 转换lsp对象 给lsp所需要的列赋�?	 * 
 	 * @param tunnel
 	 * @throws Exception
 	 */
@@ -631,7 +632,7 @@ public class TunnelNodeController extends AbstractController {
 				}
 			}
 
-			// 类型是1:1保护 把保护的lsp信息绑定到列表中
+			// 类型�?:1保护 把保护的lsp信息绑定到列表中
 			if (!"0".equals(tunnel.getTunnelType()) && "2".equals(UiUtil.getCodeById(Integer.parseInt(tunnel.getTunnelType())).getCodeValue())) {
 				Tunnel protectTunnel = tunnel.getProtectTunnel();
 
@@ -714,8 +715,7 @@ public class TunnelNodeController extends AbstractController {
 	}
 
 	/**
-	 * 一致性检测
-	 */
+	 * 一致性检�?	 */
 	@Override
 	public void consistence(){
 		List<Tunnel> tunnelEMS = null;
@@ -790,7 +790,7 @@ public class TunnelNodeController extends AbstractController {
 	
 	@Override
 	public void goToAction() throws Exception {
-		if (CheckingUtil.checking(view.getGoToTextField().getText(), CheckingUtil.NUM1_9)) {// 判断填写是否为数字
+		if (CheckingUtil.checking(view.getGoToTextField().getText(), CheckingUtil.NUM1_9)) {// 判断填写是否为数�?			
 			Integer goi = Integer.parseInt(view.getGoToTextField().getText());
 			if(goi>= total){
 				goi = total;

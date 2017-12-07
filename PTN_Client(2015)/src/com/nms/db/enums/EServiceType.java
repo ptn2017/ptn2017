@@ -9,7 +9,7 @@ public enum EServiceType {
 	OAM(31),ETHERNET(32),QOS(33),DATADOWNLOAD(34),PWETH(35),PWPDH(36),PWSDH(37),CESPDH(38),
 	CESSDH(39),DUAL(40),MSPPROTECT(41),OAMETHLINK(42),TUNNELMIPOAM(43),TUNNELMEPOAM(44),
 	SECTION_TEST(45),TUNNEL_TEST(46),PW_TEST(47),WRAPPINGPROTECT(48),PERFORMANCETASK(49),
-	QINQ(50),RULENAME(51),CCC(52),ARP(53);
+	QINQ(50),RULENAME(51),CCC(52),ARP(53),PORT(54);
 	
 	private int value;
 	
@@ -166,6 +166,8 @@ public enum EServiceType {
 			return "CCC";
 		}else if(this.value == 53){
 			return "ARP";
+		}else if(this.value == 54){
+			return "PORT";
 		}
 		return "";
 	}

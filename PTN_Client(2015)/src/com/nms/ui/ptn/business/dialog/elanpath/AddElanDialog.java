@@ -688,6 +688,11 @@ public class AddElanDialog extends PtnDialog {
 				PwInfo pwinfo = pwInfoList.get(i);
 				elanInfo = new ElanInfo();
 				elanInfo.setCreateTime(DateUtil.getDate(DateUtil.FULLTIME));
+				if(isActivateCBox.isSelected()){
+					elanInfo.setActivatingTime(elanInfo.getCreateTime());
+				}else{
+					elanInfo.setActivatingTime(null);
+				}
 				elanInfo.setCreateUser(ConstantUtil.user.getUser_Name());
 				elanInfo.setPwId(pwinfo.getPwId());
 				elanInfo.setActiveStatus(isActivateCBox.isSelected() ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
@@ -916,6 +921,11 @@ public class AddElanDialog extends PtnDialog {
 			{
 				//如果为空 说明为新增加的PW
 				elanInst.setCreateTime(elanservice.get(0).getCreateTime());
+				if(isActivateCBox.isSelected()){
+					elanInst.setActivatingTime(this.elanservice.get(0).getActivatingTime());
+				}else{
+					elanInst.setActivatingTime(null);
+				}
 				elanInst.setCreateUser(elanservice.get(0).getCreateUser());
 				elanInst.setServiceId(elanservice.get(0).getServiceId());
 				if(isExit(elanInst.getaSiteId()))

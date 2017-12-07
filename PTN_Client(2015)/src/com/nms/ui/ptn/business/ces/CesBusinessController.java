@@ -2,7 +2,9 @@ package com.nms.ui.ptn.business.ces;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.nms.db.bean.client.Client;
 import com.nms.db.bean.equipment.port.PortInst;
@@ -10,7 +12,6 @@ import com.nms.db.bean.equipment.port.PortStmTimeslot;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.path.ServiceInfo;
 import com.nms.db.bean.ptn.path.ces.CesInfo;
-import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.pw.PwNniInfo;
 import com.nms.db.enums.EActiveStatus;
@@ -21,7 +22,6 @@ import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.port.PortStmTimeslotService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.path.ces.CesInfoService_MB;
-import com.nms.model.ptn.path.eth.ElineInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
@@ -33,6 +33,7 @@ import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.CheckingUtil;
 import com.nms.ui.manager.ConstantUtil;
+import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
@@ -41,11 +42,10 @@ import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
-import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.ces.bean.CesPortTableBean;
 import com.nms.ui.ptn.business.dialog.cespath.AddCesDialog;
 import com.nms.ui.ptn.business.dialog.cespath.controller.CesHandlerController;
-import com.nms.ui.ptn.ne.camporeData.CamporeDataDialog;
+import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 
 /**
  * 网络侧 -处理CES
@@ -485,6 +485,7 @@ public class CesBusinessController extends AbstractController {
 			if (infos != null && infos.size() > 0) {
 				for (CesInfo cesInfo : infos) {
 					cesInfo.setActiveStatus(EActiveStatus.ACTIVITY.getValue());
+					cesInfo.setActivatingTime(DateUtil.getDate(DateUtil.FULLTIME));
 					result = cesDispatch.excuteUpdate(cesInfo);
 					if(result == null || !result.contains(ResultString.CONFIG_SUCCESS)){
 						failCount++;
@@ -541,6 +542,7 @@ public class CesBusinessController extends AbstractController {
 			if (infos != null && infos.size() > 0) {
 				for (CesInfo cesInfo : infos) {
 					cesInfo.setActiveStatus(EActiveStatus.UNACTIVITY.getValue());
+					cesInfo.setActivatingTime(null);
 					result = cesDispatch.excuteUpdate(cesInfo);
 					if(result == null || !result.contains(ResultString.CONFIG_SUCCESS)){
 						failCount++;
@@ -660,8 +662,8 @@ public class CesBusinessController extends AbstractController {
 		CesInfoService_MB cesServiceMB = null;
 		PwInfoService_MB pwServiceMB = null;
 		SiteService_MB siteService = null;
-		List<CesInfo> emsList = null;
-		List<ServiceInfo> neList = null;
+		Map<Integer, List<CesInfo>> cesEMSMap = null;
+		Map<Integer, List<CesInfo>> cesNEMap = null;
 		try {
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			List<Integer> siteIdOnLineList = new ArrayList<Integer>();
@@ -676,8 +678,8 @@ public class CesBusinessController extends AbstractController {
 			if(!siteIdOnLineList.isEmpty()){
 				cesServiceMB = (CesInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CesInfo);
 				pwServiceMB = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
-				emsList = new ArrayList<CesInfo>();
-				neList = new ArrayList<ServiceInfo>();
+				cesEMSMap = new HashMap<Integer, List<CesInfo>>();
+				cesNEMap = new HashMap<Integer, List<CesInfo>>();
 				DispatchUtil cesDispatch = new DispatchUtil(RmiKeys.RMI_CES);
 				for(int siteId : siteIdOnLineList){
 					List<CesInfo> eMSSingle = cesServiceMB.selectNodeBySite(siteId);
@@ -686,14 +688,13 @@ public class CesBusinessController extends AbstractController {
 						for (CesInfo cesInfo : eMSSingle) {
 							cesInfo.getPwNniList().add(this.getPwNniInfo(siteId, cesInfo, pwServiceMB));
 						}
-						emsList.addAll(eMSSingle);
+						cesEMSMap.put(siteId, eMSSingle);
 					}
 					if(nESingle != null && !nESingle.isEmpty()){
-						neList.addAll(nESingle);
+						cesNEMap.put(siteId, this.filterCesList(nESingle));
 					}
 				}
-				this.filterCesList(neList);
-				CamporeDataDialog camporeDataDialog = new CamporeDataDialog("CES", emsList, neList, this);
+				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("CES", cesEMSMap, cesNEMap, this);
 				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
@@ -710,15 +711,14 @@ public class CesBusinessController extends AbstractController {
 	/**
 	 * 过滤出eline业务
 	 */
-	private void filterCesList(List<ServiceInfo> neList) {
+	private List<CesInfo> filterCesList(List<ServiceInfo> neList) {
 		List<CesInfo> cesList = new ArrayList<CesInfo>();
 		for (ServiceInfo cesInfo : neList) {
 			if(cesInfo.getServiceType() == 0){
 				cesList.add((CesInfo)cesInfo);
 			}
 		}
-		neList.clear();
-		neList.addAll(cesList);
+		return cesList;
 	}
 
 	private PwNniInfo getPwNniInfo(int siteId, CesInfo cesInfo, PwInfoService_MB pwServiceMB) throws Exception {

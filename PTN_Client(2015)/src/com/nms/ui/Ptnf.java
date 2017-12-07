@@ -1557,7 +1557,7 @@ public class Ptnf extends javax.swing.JFrame {
 		
 		jMenu1.add(jMenuItem1);
 		jMenu1.add(alarmVoiceMenuItem);
-//		jMenu1.add(alarmReversal);
+		jMenu1.add(alarmReversal);
 		
 		jMenu16.add(jMenu1);
 		jMenu16.add(currAlarmMenuItem);

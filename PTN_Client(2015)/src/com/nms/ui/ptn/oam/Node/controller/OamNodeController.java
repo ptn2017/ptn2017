@@ -6,16 +6,25 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nms.db.bean.alarm.CurrentAlarmInfo;
+import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.ptn.oam.OamEthernetInfo;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamLinkInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.enums.EManufacturer;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EServiceType;
+import com.nms.model.alarm.CurAlarmService_MB;
+import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.oam.OamEthreNetService_MB;
 import com.nms.model.ptn.oam.OamInfoService_MB;
+import com.nms.model.ptn.path.eth.ElineInfoService_MB;
+import com.nms.model.ptn.path.pw.PwInfoService_MB;
+import com.nms.model.ptn.path.tunnel.TunnelService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
 import com.nms.service.impl.util.SiteUtil;
@@ -113,7 +122,7 @@ public class OamNodeController extends AbstractController {
 					DialogBoxUtil.errorDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_DATA_ONE));
 					return false;
 				}
-				//判断是否为在线托管网元
+				//判断是否为在线托管网�?				
 				SiteUtil siteUtil = new SiteUtil();
 				if(1==siteUtil.SiteTypeOnlineUtil(ConstantUtil.siteId)){
 					WhImplUtil wu = new WhImplUtil();
@@ -198,8 +207,7 @@ public class OamNodeController extends AbstractController {
 		}
 	}
 	/**
-	 * 刷新和搜索
-	 * @return
+	 * 刷新和搜�?	 * @return
 	 * @throws Exception
 	 */
 	private List<OamInfo> searchAndrefreshdata() throws Exception {
@@ -368,8 +376,7 @@ public class OamNodeController extends AbstractController {
 	};
 
 	/**
-	 *  oam链路 初始化数据
-	 */
+	 *  oam链路 初始化数�?	 */
 	@Override
 	public void initDetailInfo() {
 		OamInfo oamInfo = null;
@@ -385,8 +392,7 @@ public class OamNodeController extends AbstractController {
 	}
 	
 	/**
-	 * oam链路 初始化数据
-	 * @param oamInfo
+	 * oam链路 初始化数�?	 * @param oamInfo
 	 */
 	private void initBasicInfo(OamInfo oamInfo) {
 		if (oamInfo.getOamMep() != null) {
@@ -437,5 +443,130 @@ public class OamNodeController extends AbstractController {
 		} finally {
 			oamDispatch = null;
 		}
+	}
+	
+	@Override
+	public void query() throws Exception {
+		if (Integer.parseInt(((ControlKeyValue) (view.getOamTypeComboBox().getSelectedItem())).getId()) == 0) {
+			DialogBoxUtil.errorDialog(view, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_TYPE));
+			refresh();
+			return;
+		}
+		if (this.getView().getAllSelect().size() != 1) {
+			DialogBoxUtil.errorDialog(this.getView(), ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_DATA_ONE));
+			return;
+		}
+		OamInfo oam = this.getView().getAllSelect().get(0);
+		if (Integer.parseInt(((ControlKeyValue) (view.getOamTypeComboBox().getSelectedItem())).getId()) == EServiceType.SECTION.getValue()) {
+			DialogBoxUtil.succeedDialog(this.getView(), this.queryLink(EServiceType.SECTION, oam));
+			refresh();
+		}
+		if (Integer.parseInt(((ControlKeyValue) (view.getOamTypeComboBox().getSelectedItem())).getId()) == EServiceType.TUNNEL.getValue()) {
+			DialogBoxUtil.succeedDialog(this.getView(), this.queryLink(EServiceType.TUNNEL, oam));
+			refresh();
+		}
+		if (Integer.parseInt(((ControlKeyValue) (view.getOamTypeComboBox().getSelectedItem())).getId()) == EServiceType.PW.getValue()) {
+			DialogBoxUtil.succeedDialog(this.getView(), this.queryLink(EServiceType.PW, oam));
+			refresh();
+		}
+		if (Integer.parseInt(((ControlKeyValue) (view.getOamTypeComboBox().getSelectedItem())).getId()) == EServiceType.ETHERNET.getValue()) {
+			DialogBoxUtil.succeedDialog(this.getView(), this.queryLink(EServiceType.ETHERNET, oam));
+			refresh();
+		}
+	}
+	
+	/**
+	 * 查询连通性检测结�?	 */
+	private String queryLink(EServiceType type, OamInfo oam){
+		String result = "LINK_UP";
+		CurAlarmService_MB alarmService = null;
+		PortService_MB portService = null;
+		TunnelService_MB tunnelService = null;
+		PwInfoService_MB pwService = null;
+		ElineInfoService_MB elineService = null;
+		try {
+			alarmService = (CurAlarmService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CurrentAlarm);
+			List<Integer> siteIdList = new ArrayList<Integer>();
+			siteIdList.add(ConstantUtil.siteId);
+			List<CurrentAlarmInfo> alarmList = alarmService.queryCurBySites(siteIdList);
+			if(alarmList != null && !alarmList.isEmpty()){
+				List<Integer> codeList = new ArrayList<Integer>();
+				if(EServiceType.SECTION == type){
+					codeList.add(118);codeList.add(10);codeList.add(119);codeList.add(117);codeList.add(120);codeList.add(116);
+					portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
+					for(CurrentAlarmInfo alarm : alarmList){
+						if(alarm.getAlarmLevel() == 4 || alarm.getAlarmLevel() == 5){
+							if(codeList.contains(alarm.getAlarmCode())){
+								int portNum = alarm.getObjectId();
+								PortInst port = new PortInst();
+								port.setNumber(portNum);
+								port.setSiteId(ConstantUtil.siteId);
+								List<PortInst> portList = portService.select(port);
+								if(portList != null && !portList.isEmpty()){
+									if(portList.get(0).getPortId() == oam.getOamMep().getObjId()){
+										result = "LINK_DOWN";
+										break;
+									}
+								}
+							}
+						}
+					}
+				}else if(EServiceType.TUNNEL == type){
+					tunnelService = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
+					codeList.add(108);codeList.add(7);codeList.add(110);codeList.add(106);codeList.add(112);codeList.add(104);
+					for(CurrentAlarmInfo alarm : alarmList){
+						if(alarm.getAlarmLevel() == 4 || alarm.getAlarmLevel() == 5){
+							if(codeList.contains(alarm.getAlarmCode())){
+								Tunnel tunnel = tunnelService.selectBySiteIdAndServiceId(ConstantUtil.siteId, alarm.getObjectId());
+								if(oam.getOamMep().getObjId() == tunnel.getTunnelId()){
+									result = "LINK_DOWN";
+									break;
+								}
+							}
+						}
+					}
+				}else if(EServiceType.PW == type){
+					pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+					PwInfo pw = pwService.selectByPwId(oam.getOamMep().getObjId());
+					codeList.add(109);codeList.add(6);codeList.add(111);codeList.add(107);codeList.add(113);codeList.add(105);
+					for(CurrentAlarmInfo alarm : alarmList){
+						if(alarm.getAlarmLevel() == 4 || alarm.getAlarmLevel() == 5){
+							if(codeList.contains(alarm.getAlarmCode())){
+								if((pw.getASiteId() == ConstantUtil.siteId && pw.getApwServiceId() == alarm.getObjectId()) || 
+										(pw.getZSiteId() == ConstantUtil.siteId && pw.getZpwServiceId() == alarm.getObjectId())){
+									result = "LINK_DOWN";
+									break;
+								}
+							}
+						}
+					}
+				}else{
+					codeList.add(131);codeList.add(129);codeList.add(8);codeList.add(100);codeList.add(103);codeList.add(199);
+					codeList.add(21);codeList.add(132);codeList.add(101);codeList.add(102);
+					elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
+					for(CurrentAlarmInfo alarm : alarmList){
+						if(alarm.getAlarmLevel() == 3 || alarm.getAlarmLevel() == 4 || alarm.getAlarmLevel() == 5){
+							if(codeList.contains(alarm.getAlarmCode())){
+								int serviceId = alarm.getObjectId();
+								int count = elineService.queryEthBySiteAndServiceId(ConstantUtil.siteId, serviceId);
+								if(count > 0){
+									result = "LINK_DOWN";
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(alarmService);
+			UiUtil.closeService_MB(portService);
+			UiUtil.closeService_MB(tunnelService);
+			UiUtil.closeService_MB(pwService);
+			UiUtil.closeService_MB(elineService);
+		}
+		return result;
 	}
 }
