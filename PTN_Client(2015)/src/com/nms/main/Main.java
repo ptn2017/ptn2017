@@ -16,6 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		try {   
+			
 			javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel");
 
 			Font font = new Font("宋体", Font.PLAIN, 12);
