@@ -87,11 +87,7 @@ public class SSCard extends ViewDataObj{
 		this.putClientProperty("SiteName",this.getSiteName());
 		this.putClientProperty("CardId", this.getCardId());
 		//单独统计单板信息
-		if(!this.getCardId().contains("703")){
-			this.putClientProperty("EquipType","710系列");
-		}else{
-			this.putClientProperty("EquipType",this.getCardType());
-		}
+		this.putClientProperty("EquipType",this.getCardType());
 //		
 //		if(this.getSiteName() != null){
 //			this.putClientProperty("EquipType",this.getCardType());
@@ -105,8 +101,8 @@ public class SSCard extends ViewDataObj{
 //		}		
 		this.putClientProperty("CardType",this.getCardId());
 		this.putClientProperty("count",this.getCount());
-		this.putClientProperty("Version",this.getVersion());	
-		this.putClientProperty("hardwareVersion",this.getHardversion());
+		this.putClientProperty("Version",this.getCardType().equals("ETN-5000")?"V3.2.5":"V2.1.3");	
+		this.putClientProperty("hardwareVersion",this.getCardType().equals("ETN-5000")?"EB5000.003V01":"EB204E.002V03");
 		this.putClientProperty("SN", this.getInstalledSerialNumber());
 		this.putClientProperty("protectWay", ResourceUtil.srcStr(StringKeysObj.LSP_TYPE_NO));
 	}

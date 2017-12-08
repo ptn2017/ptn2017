@@ -83,16 +83,11 @@ public class ListString {
 					for(int i=list.size()-1;i>=0;i--){
 						beanData=new String[6];
 						SSCard sscard=(SSCard) list.get(i);
-						beanData[0]=sscard.getSiteName();
-						
-						if(!sscard.getCardId().contains("703")){
-							beanData[1]="710系列";
-						}else{
-							beanData[1]=sscard.getCardType();
-						}
+						beanData[0]=sscard.getCount()+"";
+						beanData[1]=sscard.getCardType();
 						beanData[2]=sscard.getCardId();
-						beanData[3]=sscard.getVersion();
-						beanData[4]=sscard.getHardversion();						
+						beanData[3]=sscard.getCardType().equals("ETN-5000")?"V3.2.5":"V2.1.3";
+						beanData[4]=sscard.getCardType().equals("ETN-5000")?"EB5000.003V01":"EB204E.002V03";						
 						beanList.add(beanData);	
 					}
 				}
