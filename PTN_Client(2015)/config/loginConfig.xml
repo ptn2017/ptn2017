@@ -2,4 +2,5 @@
 <node type="login">
 	<serviceIp>127.0.0.1</serviceIp>
 	<username>admin</username>
+	<version>V2.1.6</version>
 </node>

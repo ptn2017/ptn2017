@@ -919,4 +919,13 @@ public class DispatchUtil {
 		}
 		return result;
 	}
+	
+	public String getVersion() throws RemoteException, Exception{
+		if (this.object_interface instanceof SiteDispatchI) {
+			SiteDispatchI otherDispatchI = (SiteDispatchI) this.object_interface;
+			return otherDispatchI.getVersion();
+		} else {
+			throw new Exception("object_interface is error");
+		}
+	}
 }

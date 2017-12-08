@@ -170,4 +170,11 @@ public interface SiteDispatchI extends DispatchInterface{
 	public String routeIn()throws RemoteException;
 	
 	public String vlanMac(SiteInst siteInst,List<String> value)throws RemoteException;
+	/**
+	 * 获取服务器版本
+	 * @return
+	 * @throws RemoteException
+	 * @throws Exception
+	 */
+	public String getVersion() throws RemoteException, Exception ;
 }

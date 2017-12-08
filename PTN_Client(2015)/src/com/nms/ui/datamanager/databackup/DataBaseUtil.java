@@ -14,8 +14,10 @@ import java.util.List;
 
 import com.ibatis.common.jdbc.ScriptRunner;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.manager.LoginUtil;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.keys.StringKeysLbl;
+import com.nms.ui.manager.xmlbean.LoginConfig;
 		 
 public class DataBaseUtil {
    /**
@@ -31,7 +33,9 @@ public class DataBaseUtil {
    	BufferedReader br = null;
    	FileOutputStream fout = null;
    	OutputStreamWriter writer = null;
-       try { 
+    try { 
+    	LoginUtil loginUtil=new LoginUtil();
+   		LoginConfig loginConfig = loginUtil.readLoginConfig();
        	StringBuffer sbNames = new StringBuffer("");
        	for (String tName : tableNames) {
        		sbNames.append(" "+tName);
@@ -53,7 +57,8 @@ public class DataBaseUtil {
         // 要用来做导入用的sql目标文件：
            fout = new FileOutputStream(backUpPath);     
            writer = new OutputStreamWriter(fout, "utf8");
-           String version = ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN);
+           String version = ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN)+loginConfig.getVersion();
+//           String version = ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN);
            writer.write("-- "+version.substring(version.length()-6, version.length())+"\r\n");//写入版本号
            writer.flush();
            while ((inStr = br.readLine()) != null) { 

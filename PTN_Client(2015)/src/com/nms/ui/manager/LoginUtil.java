@@ -61,6 +61,7 @@ public class LoginUtil {
 				if ("login".equals(element.getAttribute("type"))) {
 					loginConfig.setServiceIp(element.getElementsByTagName("serviceIp").item(0).getTextContent());
 					loginConfig.setUsername(element.getElementsByTagName("username").item(0).getTextContent());
+					loginConfig.setVersion(element.getElementsByTagName("version").item(0).getTextContent());
 				}
 			}
 
@@ -109,8 +110,15 @@ public class LoginUtil {
 					break;
 				}
 			}
-			element.getElementsByTagName("serviceIp").item(0).setTextContent(loginConfig.getServiceIp());
-			element.getElementsByTagName("username").item(0).setTextContent(loginConfig.getUsername());
+			if(loginConfig.getServiceIp()!=null ){
+			    element.getElementsByTagName("serviceIp").item(0).setTextContent(loginConfig.getServiceIp());
+			}
+			if(loginConfig.getUsername()!=null){
+			    element.getElementsByTagName("username").item(0).setTextContent(loginConfig.getUsername());
+			}
+			if(loginConfig.getVersion()!=null){
+			    element.getElementsByTagName("version").item(0).setTextContent(loginConfig.getVersion());
+			}
 			output(element);
 
 		} catch (Exception e) {

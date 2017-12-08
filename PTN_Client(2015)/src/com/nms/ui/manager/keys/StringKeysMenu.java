@@ -392,5 +392,17 @@ public class StringKeysMenu {
      * 网元替换
      */
     public static final String MENU_REPLACE_SITE = "MENU_REPLACE_SITE";
+    /**
+     * 版本信息
+     */
+    public static final String TAB_VERSIONINFO="TAB_VERSIONINFO";
+    /**
+     * 加载补丁
+     */
+    public static final String MENU_LOAD_PATCH = "MENU_LOAD_PATCH";
+    /**
+     * 卸载补丁
+     */
+    public static final String MENU_UNLOAD_PATCH = "MENU_UNLOAD_PATCH";
 }
 

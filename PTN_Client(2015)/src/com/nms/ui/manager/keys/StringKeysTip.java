@@ -1870,5 +1870,17 @@ public class StringKeysTip {
 	public static final String TIP_NO_M_INSERT="TIP_NO_M_INSERT";
 	
 	public static final String TIP_NO_AREA="TIP_NO_AREA";
+	/**
+	 * 配置成功,请重启客户端生效
+	 */
+	public static final String TIP_RESET_CLIENT="TIP_RESET_CLIENT";
+	/**
+	 * 请选择文件
+	 */
+	public static final String TIP_SELECT_FILE="TIP_SELECT_FILE";
+	/**
+	 * 是否进行客户端升级，升级请点击确定按钮!
+	 */
+	public static final String TIP_UPDATE_CLIENT = "TIP_UPDATE_CLIENT";
 }
 

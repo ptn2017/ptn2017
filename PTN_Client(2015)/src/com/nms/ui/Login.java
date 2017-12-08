@@ -11,13 +11,17 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.nms.db.bean.system.loginlog.LoginLog;
 import com.nms.db.bean.system.loginlog.UserLock;
@@ -37,8 +41,10 @@ import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.LoginUtil;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
+import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.util.EquimentDataUtil;
+import com.nms.ui.manager.wait.WaitDialogs;
 import com.nms.ui.manager.xmlbean.LoginConfig;
 import com.nms.ui.ptn.safety.dialog.ModifyPassword;
 import com.nms.ui.ptn.safety.roleManage.RoleRoot;
@@ -298,7 +304,7 @@ public class Login extends javax.swing.JFrame {
 			userlockServiece = (UserLockServiece_MB) serviceFactory.newService_MB(Services.USERLOCKSERVIECE);
 			loginLogServiece = (LoginLogServiece_Mb) serviceFactory.newService_MB(Services.LOGINLOGSERVIECE);
 			userInstServiece = (UserInstServiece_Mb) serviceFactory.newService_MB(Services.UserInst);
-
+			sameVersion();
 
 			// 根据用户名查询用户
 			userInst = new UserInst();
@@ -561,6 +567,41 @@ public class Login extends javax.swing.JFrame {
             return false;
         }
     }
+	
+	private boolean sameVersion(){
+		boolean flag = false;
+		DispatchUtil otherDispatch;
+		try {
+			otherDispatch = new DispatchUtil(RmiKeys.RMI_SITE);
+			String serverVersion = otherDispatch.getVersion();
+			LoginUtil loginUtil=new LoginUtil();
+			LoginConfig loginConfig = loginUtil.readLoginConfig();
+			if(!(loginConfig.getVersion()).equals(serverVersion)){
+				int result = DialogBoxUtil.confirmDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_UPDATE_CLIENT));
+				if(result == JOptionPane.NO_OPTION){
+					return false;
+				}else{
+					this.updateVersion(serverVersion);
+				}
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+		
+		
+		return flag;
+	}
+	
+	private void updateVersion(String version) throws IOException{
+	    LoginConfig loginConfig=new LoginConfig();
+	    loginConfig.setVersion(version);
+		LoginUtil loginUtil=new LoginUtil();
+		loginUtil.writeLoginConfig(loginConfig);			
+		WaitDialogs wait=new WaitDialogs();
+		wait.showDialog(this);
+		DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysLbl.LBL_RESET_CLIENT));
+		System.exit(0);
+}
 	
 	private boolean isRemindtime(UserInst user)
 	{

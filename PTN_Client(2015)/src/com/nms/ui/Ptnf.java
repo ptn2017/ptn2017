@@ -60,6 +60,7 @@ import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.manager.LoginUtil;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.TopoAttachment;
 import com.nms.ui.manager.UiUtil;
@@ -68,7 +69,9 @@ import com.nms.ui.manager.keys.StringKeysMenu;
 import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
+import com.nms.ui.manager.xmlbean.LoginConfig;
 import com.nms.ui.ptn.alarm.tca.TCAAlarmPanel;
+import com.nms.ui.ptn.alarm.view.AlarmBusinessBlockDialog;
 import com.nms.ui.ptn.alarm.view.AlarmBusinessShield;
 import com.nms.ui.ptn.alarm.view.AlarmReversalPanel;
 import com.nms.ui.ptn.alarm.view.AlarmVoiceDialog;
@@ -97,6 +100,8 @@ import com.nms.ui.ptn.client.view.ClientManagerPanel;
 import com.nms.ui.ptn.configinfo.AlarmDescPanel;
 import com.nms.ui.ptn.event.oamEvent.view.OamEventPanel;
 import com.nms.ui.ptn.help.AboutHelp;
+import com.nms.ui.ptn.help.VersionInfoDialog;
+import com.nms.ui.ptn.patchConfig.PatchManagerDialog;
 import com.nms.ui.ptn.performance.model.PerformanceRAMInfo;
 import com.nms.ui.ptn.performance.view.CurrPerformCountPanel;
 import com.nms.ui.ptn.performance.view.CurrentPerformancePanel;
@@ -211,7 +216,10 @@ public class Ptnf extends javax.swing.JFrame {
 			ConstantUtil.jTabbedPane = this.jTabbedPane1;
 			this.mainTabPanel(jTabbedPane1, ResourceUtil.srcStr(StringKeysTab.TAB_TOPO), NetworkElementPanel.getNetworkElementPanel());
 			// 软件版本号和登陆用户显示
-			this.jLabel1.setText(ResourceUtil.srcStr(StringKeysLbl.LBL_VERSIONS) + ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_VERSIONS));
+			LoginUtil loginUtil=new LoginUtil();
+			LoginConfig loginConfig = loginUtil.readLoginConfig();
+			this.jLabel1.setText(ResourceUtil.srcStr(StringKeysLbl.LBL_VERSIONS) + loginConfig.getVersion());
+//			this.jLabel1.setText(ResourceUtil.srcStr(StringKeysLbl.LBL_VERSIONS) + ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_VERSIONS));
 			logLabel = ResourceUtil.srcStr(StringKeysLbl.LBL_LOGINUSER) + ConstantUtil.user.getUser_Name();
 			this.loginLabel.setText(logLabel);
             this.neCountLable.setText(necount);
@@ -869,6 +877,7 @@ public class Ptnf extends javax.swing.JFrame {
 		userDesign = new javax.swing.JMenuItem();
 		help = new javax.swing.JMenuItem();// 帮助
 		about = new javax.swing.JMenuItem();// 关于
+		versionInfo = new javax.swing.JMenuItem();// 版本信息
 		clientManagerMenuItem = new javax.swing.JMenuItem();		
 		this.menuItemLogout = new JMenuItem(); // 退出系统
 		this.unloadItem = new JMenuItem();// 转储管理
@@ -914,6 +923,8 @@ public class Ptnf extends javax.swing.JFrame {
 		batchSoftwateUpdate = new JMenuItem();//批量升级网元
 		this.selectNe = new JMenuItem();// 搜索网元
 		this.telnetManage = new JMenuItem();//telnet设置
+		this.loadPatchItem = new JMenuItem();//加载补丁
+		this.unLoadPatchItem = new JMenuItem();//卸载补丁
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
 		this.addWindowListener(new WindowAdapter() {
@@ -994,6 +1005,35 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		this.menuSystem.add(this.menuItemCloseAlarm);
+		
+		//加载补丁
+		this.loadPatchItem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_LOAD_PATCH));
+		this.loadPatchItem.setMnemonic(KeyEvent.VK_Y);
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.loadPatchItem, RootFactory.SYSTEMMODU);
+		this.loadPatchItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				new PatchManagerDialog(ResourceUtil.srcStr(StringKeysMenu.MENU_LOAD_PATCH));
+			}
+		});
+		this.menuSystem.add(this.loadPatchItem);	
+		//卸载补丁
+		this.unLoadPatchItem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_UNLOAD_PATCH));
+		this.unLoadPatchItem.setMnemonic(KeyEvent.VK_Y);
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.unLoadPatchItem, RootFactory.SYSTEMMODU);
+		this.unLoadPatchItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				new PatchManagerDialog(ResourceUtil.srcStr(StringKeysMenu.MENU_UNLOAD_PATCH));
+			}
+		});
+		this.menuSystem.add(this.unLoadPatchItem);
 
 		// 转储管理
 		this.unloadItem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_UNLOADING_T));
@@ -2185,6 +2225,16 @@ public class Ptnf extends javax.swing.JFrame {
 
 		setJMenuBar(jMenuBar2);
 		
+		jMenu22.add(versionInfo);// 版本信息
+		versionInfo.setText(ResourceUtil.srcStr(StringKeysMenu.TAB_VERSIONINFO));
+		versionInfo.setMnemonic(KeyEvent.VK_A);
+		versionInfo.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jMenuItemVersionActionPerformed();
+			}
+		});
+		
 //		this.selectNe.setMnemonicKeyEvent.VK_F);
 //		this.selectNe.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,ActionEvent.CTRL_MASK));
 //		this.selectNe.addActionListener(new java.awt.event.ActionListener() {
@@ -2202,9 +2252,17 @@ public class Ptnf extends javax.swing.JFrame {
 		this.setPreferredSize(new Dimension(900, 751));
 		pack();
 		
-		
-		
-		
+	}
+	
+	/**
+	 * 网管版本信息
+	 */
+	private void jMenuItemVersionActionPerformed(){
+		try {
+			new VersionInfoDialog();
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
 	}
 
 	/**
@@ -2643,8 +2701,11 @@ public class Ptnf extends javax.swing.JFrame {
 	}
 	
 	private void siteAlarmShieldActionPerformed() {
+		AlarmBusinessBlockDialog alarmDialog = null;
 		try {
-			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_ALARMSHIELD), new AlarmBusinessShield());
+//			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_ALARMSHIELD), new AlarmBusinessShield());
+			alarmDialog = new AlarmBusinessBlockDialog();
+			UiUtil.showWindow(alarmDialog, 550, 500);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -3250,6 +3311,9 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenuItem UNIPortMovedMenuItem;//UNI端口迁移
 	private javax.swing.JMenuItem selectNe;// 定位网元
 	private javax.swing.JMenuItem telnetManage;// telnet设置
+	private javax.swing.JMenuItem versionInfo;//版本信息
+	private JMenuItem loadPatchItem;//加载补丁
+	private JMenuItem unLoadPatchItem;//卸载补丁
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;
 	}

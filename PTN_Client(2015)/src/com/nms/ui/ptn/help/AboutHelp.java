@@ -13,11 +13,13 @@ import javax.swing.JPanel;
 
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.manager.LoginUtil;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.control.PtnDialog;
 import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysTab;
+import com.nms.ui.manager.xmlbean.LoginConfig;
 
 public class AboutHelp extends PtnDialog {
 	/**
@@ -98,13 +100,15 @@ public class AboutHelp extends PtnDialog {
 		GridBagLayout gridBagLayouts = null;
 		GridBagConstraints gridBagConstraints = null;
 		try {
+			LoginUtil loginUtil=new LoginUtil();
+			LoginConfig loginConfig = loginUtil.readLoginConfig();
 			gridBagLayouts=new GridBagLayout();
 			gridBagConstraints = new GridBagConstraints();
 			jlabel1 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL1_PTN));
 			jlabel1.setFont(new java.awt.Font("微软雅黑", 1, 14));
-			jlabel2 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_PTN));
+			jlabel2 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_PTN)+loginConfig.getVersion());
 			jlabel2.setFont(new java.awt.Font("微软雅黑", 1, 14));
-			jlabel3 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN));
+			jlabel3 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN)+loginConfig.getVersion());
 			jlabel3.setFont(new java.awt.Font("微软雅黑", 1, 14));
 			jlabel4 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL4_PTN)+ConstantUtil.serviceBean.getMaxConnection());
 			jlabel4.setFont(new java.awt.Font("微软雅黑", 1, 14));

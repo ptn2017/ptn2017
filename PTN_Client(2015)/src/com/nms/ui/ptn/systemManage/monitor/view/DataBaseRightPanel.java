@@ -28,10 +28,12 @@ import com.nms.rmi.ui.util.RmiKeys;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.manager.LoginUtil;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysTip;
+import com.nms.ui.manager.xmlbean.LoginConfig;
 import com.nms.ui.ptn.systemManage.monitor.MointorCPUThread;
 import com.nms.ui.ptn.systemManage.monitor.MonitorDbThread;
 /**
@@ -512,6 +514,8 @@ public class DataBaseRightPanel extends JPanel{
 		String[] lables = new String[6];
     	try 
     	{
+    		LoginUtil loginUtil=new LoginUtil();
+     		LoginConfig loginConfig = loginUtil.readLoginConfig();
     		if(lable == 1){
     			dataBaseService = (DataBaseService_MB)ConstantUtil.serviceFactory.newService_MB(Services.DATABASEINFO);
     			dataBaseInfo = dataBaseService.slectDataInfo();
@@ -531,7 +535,8 @@ public class DataBaseRightPanel extends JPanel{
     			 String serviceInfo = serviceDispatch.synchro(lable);
     			 lables[0] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_EQUIETNAME)+"("+ConstantUtil.serviceIp+")";
      			 lables[1] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_EQUIETTYPE);
-     			 lables[2] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_NEVERSIONS)+ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN);
+     			 lables[2] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_NEVERSIONS)+ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN)+loginConfig.getVersion();
+//     			 lables[2] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_NEVERSIONS)+ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN);
      			 lables[3] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_HOSTIP)+ConstantUtil.serviceIp;
      			 lables[4] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_HOSTNAME)+serviceInfo.split(";")[0];
      			 lables[5] = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_OS)+serviceInfo.split(";")[1];

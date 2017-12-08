@@ -12,6 +12,14 @@ public class LoginConfig {
 
 	private String serviceIp;
 	private String username;
+	private String version;
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	public String getServiceIp() {
 		return serviceIp;

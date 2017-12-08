@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+
 import com.nms.db.bean.system.UnLoading;
 import com.nms.db.dao.system.TranferInfoMapper;
 import com.nms.model.util.ObjectService_Mybatis;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.manager.LoginUtil;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.keys.StringKeysLbl;
+import com.nms.ui.manager.xmlbean.LoginConfig;
 import com.nms.ui.ptn.systemManage.bean.TranferInfo;
 
 /**
@@ -73,12 +76,15 @@ public class TranferService_Mb extends ObjectService_Mybatis{
 		String byTime=null;
 		List<TranferInfo> tranferInfoList=null;
 		try {
+			LoginUtil loginUtil=new LoginUtil();
+			LoginConfig loginConfig = loginUtil.readLoginConfig();
 			tranferInfoList=new ArrayList<TranferInfo>();
 			//在所有转储文件加上文件头，便于用数据库恢复功能恢复数据
 			/*添加文件头*********************/
 			TranferInfo t1 = new TranferInfo();
 			t1.setId(0);
-			t1.setSql("/*"+ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_VERSIONS)+"*/\n");/*V2.1.4*/
+			t1.setSql("/*"+loginConfig.getVersion()+"*/\n");/*V2.1.4*/
+//			t1.setSql("/*"+ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_VERSIONS)+"*/\n");/*V2.1.4*/
 			TranferInfo t2 = new TranferInfo();
 			t2.setId(0);
 			t2.setSql("/*Database: ptn*/\n");/*Database: ptn*/

@@ -491,4 +491,28 @@ public class StringKeysObj {
 	 * 配置中的所有网元
 	 */
 	public static final String OBJ_ALLSITE_IN_CONFIG="OBJ_ALLSITE_IN_CONFIG";
+	/**
+	 * 查询服务组件,提供告警、性能、日志查询的服务
+	 */
+	public static final String OBJ_QUERYSERVER="OBJ_QUERYSERVER";
+	/**
+	 * 配置管理服务
+	 */
+	public static final String OBJ_CFGSERVER="OBJ_CFGSERVER";
+	/**
+	 * 网元配置服务
+	 */
+	public static final String OBJ_NECFGSERVICE="OBJ_NECFGSERVICE";
+	/**
+	 * 多业务管理服务
+	 */
+	public static final String OBJ_MSMPSERVER="OBJ_MSMPSERVER";
+	/**
+	 * 数据处理组件,接收并处理来自其他组件的命令
+	 */
+	public static final String OBJ_DTSERVER="OBJ_DTSERVER";
+	/**
+	 * 数据分发组件,完成数据处理结果的分发
+	 */
+	public static final String OBJ_DISPSERVER="OBJ_DISPSERVER";
 }
