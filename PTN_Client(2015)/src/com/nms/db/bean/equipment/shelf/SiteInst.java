@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.table.TableModel;
-
 import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.SiteLock;
 import com.nms.model.system.FieldService_MB;

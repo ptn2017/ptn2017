@@ -3,6 +3,7 @@ package com.nms.ui.ptn.ne.camporeData;
 public class CamporeData {
 	private String EMS = "";
 	private String NE = "";
+	
 	public String getEMS() {
 		return EMS;
 	}

@@ -734,8 +734,8 @@ public class CurrentAlarmFilterDialog  extends PtnDialog {
 		GridBagLayout layout = new GridBagLayout();
 		layout.columnWidths = new int[] {20,30,40,40,40,40};
 		layout.columnWeights = new double[] { 0, 0, 0, 0, 0.3};
-		layout.rowHeights = new int[] { 20, 20, 20, 20, 20, 20};
-		layout.rowWeights = new double[] { 0, 0.1, 0, 0, 0.2, 0};
+		layout.rowHeights = new int[] { 20, 20, 20, 20, 20, 20,20,20};
+		layout.rowWeights = new double[] { 0, 0.2, 0, 0, 0, 0, 0.2, 0};
 		this.setLayout(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		
