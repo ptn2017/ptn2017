@@ -410,7 +410,7 @@
 		<attribute id="cardId" name="所属板卡" visible="true" />
 		<attribute id="softwarType" name="软件摘要信息" visible="true" />
 		<attribute id="crc" name="crc校验" visible="true" />
-		<attribute id="time" name="编译时间" visible="true" />
+		<attribute id="time" name="编译时间" visible="false" />
 		
 	</table>
 

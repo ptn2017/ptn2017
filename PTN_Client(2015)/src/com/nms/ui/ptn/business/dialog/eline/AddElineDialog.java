@@ -930,10 +930,10 @@ public class AddElineDialog extends PtnDialog {
 		PwInfo pwInfo = (PwInfo)pw.getObject();
 		if(pwInfo.getQosList() != null &&  pwInfo.getQosList().size()>0){
 			QosInfo qosInfo = pwInfo.getQosList().get(0);
-			if(aAcPortInfo.getSimpleQos().getCos() != qosInfo.getCos() || aAcPortInfo.getSimpleQos().getCir()>qosInfo.getCir()){
+			if(aAcPortInfo.getBufferList().get(0).getCir()>qosInfo.getCir()){
 				return flag;
 			}
-			if(zAcPortInfo.getSimpleQos().getCos() != qosInfo.getCos() || zAcPortInfo.getSimpleQos().getCir()>qosInfo.getCir()){
+			if(zAcPortInfo.getBufferList().get(0).getCir()>qosInfo.getCir()){
 				return flag;
 			}
 			

@@ -181,6 +181,7 @@ public class OamNodeController extends AbstractController {
 						dialog.setSize(new Dimension(680, 490));
 						dialog.setVisible(true);
 					}
+					refresh();
 				}
 				if (Integer.parseInt(((ControlKeyValue) (view.getOamTypeComboBox().getSelectedItem())).getId()) == EServiceType.ELINE.getValue()) {
 					new OamInfoSingleDialog(oamInfo, EServiceType.ELINE.toString(), true);

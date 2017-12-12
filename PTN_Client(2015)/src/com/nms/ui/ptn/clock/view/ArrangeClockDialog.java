@@ -158,9 +158,9 @@ public class ArrangeClockDialog extends PtnDialog {
 							|| "703-4A".equals(siteInst.getCellType()) || "703-1".equals(siteInst.getCellType()) ||
 							"703-2".equals(siteInst.getCellType()) || "703-3".equals(siteInst.getCellType()) ||
 							"703-4".equals(siteInst.getCellType()) || "703-5".equals(siteInst.getCellType()) ||
-							"703-6".equals(siteInst.getCellType()) || "703-7".equals(siteInst.getCellType())){
+							"ETN-200-204".equals(siteInst.getCellType()) || "ETN-200-204E".equals(siteInst.getCellType())){
 						builder.append(element.getUserObject());
-					}else if("710A".equals(siteInst.getCellType()) || "710".equals(siteInst.getCellType())){
+					}else if("710A".equals(siteInst.getCellType()) || "710".equals(siteInst.getCellType())|| "ETN-5000".equals(siteInst.getCellType())){
 						if(Integer.parseInt((String) element.getUserObject())>10){
 							builder.append((Integer.parseInt((String) element.getUserObject()))+"");
 						}else{
