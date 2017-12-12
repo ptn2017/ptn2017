@@ -100,6 +100,7 @@ public class WhETHLinkOamNodeDialog extends PtnDialog {
 	private JLabel lblMessage;
 	private OamLinkInfo linkOamBefore;//保留修改前的数据，log日志用到
 	public WhETHLinkOamNodeDialog(OamInfo info) {
+		System.out.println(this);
 		this.setModal(true);
 		try {
 			initComponent();
@@ -609,20 +610,22 @@ public class WhETHLinkOamNodeDialog extends PtnDialog {
 	}
 
 	private void intalWorkWayCombox(JComboBox comboBox) {
-		DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) comboBox.getModel();
-		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
-		map.put(0, ResourceUtil.srcStr(StringKeysObj.STRING_INITIATIVE));
-		map.put(1, ResourceUtil.srcStr(StringKeysObj.STRING_PASSIVE));
-		for (Integer key : map.keySet()) {
-			comboBoxModel.addElement(new ControlKeyValue(key + "", map.get(key)));
-		}
+		comboBox.addItem(ResourceUtil.srcStr(StringKeysObj.STRING_INITIATIVE));
+		comboBox.addItem(ResourceUtil.srcStr(StringKeysObj.STRING_PASSIVE));
+//		DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) comboBox.getModel();
+//		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+//		map.put(0, ResourceUtil.srcStr(StringKeysObj.STRING_INITIATIVE));
+//		map.put(1, ResourceUtil.srcStr(StringKeysObj.STRING_PASSIVE));
+//		for (Integer key : map.keySet()) {
+//			comboBoxModel.addElement(new ControlKeyValue(key + "", map.get(key)));
+//		}
 	}
 
 	private void setValue() {
 		OamLinkInfo oamLinkInfo = oamInfo.getOamLinkInfo();
 		portComboBox.setEnabled(false);
 		oamEnableCheckBox.setSelected(oamLinkInfo.isOamEnable());
-		super.getComboBoxDataUtil().comboBoxSelect(workWayComboBox, oamLinkInfo.getMode() + "");
+		workWayComboBox.setSelectedIndex(oamLinkInfo.getMode());
 		remoteLoopCheckBox.setSelected(oamLinkInfo.getRemoteLoop() == 1 ? true : false);
 		loopTimeOutField.setText(oamLinkInfo.getResponseOutTimeThreshold() + "");
 		linkEnableCheckBox.setText(oamLinkInfo.getLinkEvent() + "");
@@ -660,8 +663,7 @@ public class WhETHLinkOamNodeDialog extends PtnDialog {
 		oamLinkInfo.setObjId(portInst.getPortId());
 		oamLinkInfo.setObjType(EServiceType.LINKOAM.toString());
 		oamLinkInfo.setOamEnable(oamEnableCheckBox.isSelected());
-		ControlKeyValue controlKeyValue = (ControlKeyValue) this.workWayComboBox.getSelectedItem();
-		oamLinkInfo.setMode(Integer.parseInt(controlKeyValue.getId()));
+		oamLinkInfo.setMode(this.workWayComboBox.getSelectedIndex());
 		oamLinkInfo.setRemoteLoop(remoteLoopCheckBox.isSelected() ? 1 : 2);
 		oamLinkInfo.setResponseOutTimeThreshold(Integer.parseInt(loopTimeOutField.getText().trim()));
 

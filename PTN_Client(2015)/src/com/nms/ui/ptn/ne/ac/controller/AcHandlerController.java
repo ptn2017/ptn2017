@@ -1240,6 +1240,9 @@ public class AcHandlerController {
 					if(!qosInfoService.checkPwAndAcQos(pwinfo, pwinfo.getQosList(),acPortInfos)){
 						return false;
 					}
+					if(info.getBufferList().get(0).getCir()>pwinfo.getQosList().get(0).getCir()){
+						return false;
+					}
 				}
 //				etreeInfos = etreeService.selectByAcIdAndSiteId(acPortInfo.getId(),acPortInfo.getSiteId());
 //				elanInfos = elanInfoService.selectByAcIdAndSiteId(acPortInfo.getId(),acPortInfo.getSiteId());
