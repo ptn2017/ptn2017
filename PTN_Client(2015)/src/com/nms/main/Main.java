@@ -14,10 +14,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
 		try {   
 			javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel");
-
 			Font font = new Font("宋体", Font.PLAIN, 12);
 			Enumeration<Object> keys = UIManager.getDefaults().keys();
 			while (keys.hasMoreElements()) {
