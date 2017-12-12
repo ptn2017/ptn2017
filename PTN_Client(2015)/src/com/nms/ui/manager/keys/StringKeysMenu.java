@@ -404,5 +404,17 @@ public class StringKeysMenu {
      * 卸载补丁
      */
     public static final String MENU_UNLOAD_PATCH = "MENU_UNLOAD_PATCH";
+    /**
+     * 自动校正配置
+     */
+    public static final String MENU_AUTO_CORRECTION = "MENU_AUTO_CORRECTION";
+    
+    public static final String MENU_TIME_ACTIVATION = "MENU_TIME_ACTIVATION";//激活
+    public static final String MENU_VOLUME_ACTIVATION = "MENU_VOLUME_ACTIVATION";//激活
+    public static final String MENU_DATA_ANALYSIS = "MENU_DATA_ANALYSIS";//激活
+    public static final String MENU_DELETE_LOG ="MENU_DELETE_LOG";
+    public static final String MENU_PASTE = "MENU_PASTE";
+    public static final String MENU_SYSTEM_LOG = "MENU_SYSTEM_LOG";
+
 }
 

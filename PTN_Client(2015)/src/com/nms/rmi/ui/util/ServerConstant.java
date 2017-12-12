@@ -48,6 +48,14 @@ public class ServerConstant {
 	public static final String AUTODATABACKALARM_FILE = System.getProperty("user.dir")+File.separator+"databaseBackAlarm";//告警自动转储的目录地址
 	public static final String AUTODATABACKOPERATION_FILE = System.getProperty("user.dir")+File.separator+"databaseBackoperationLog";//操作日志转储的目录地址
 	public static final String AUTODATABACKLOGING_FILE = System.getProperty("user.dir")+File.separator+"databaseBackloginLog";//登录日志转储的目录地址
+	public static final String AUTODATABACKOPERATION_LOGTIMEFILE = System.getProperty("user.dir")+File.separator+"databaseBackTimeoperationLog";//操作日志转储的目录地址	
+	public static final String AUTODATABACKOPERATION_LOGVOLUMNEFILE = System.getProperty("user.dir")+File.separator+"databaseBackVolumneoperationLog";//操作日志转储的目录地址	
+	public static final String AUTODATABACKLOGIN_LOGTIMEFILE = System.getProperty("user.dir")+File.separator+"databaseBackTimeloginLog";//操作日志转储的目录地址	
+	public static final String AUTODATABACKLOGIN_LOGVOLUMNEFILE = System.getProperty("user.dir")+File.separator+"databaseBackVolumneloginLog";//操作日志转储的目录地址		
+	public static final String AUTODATAEXPORT_ALARM = System.getProperty("user.dir")+File.separator+"exportAlarm";
+	public static final String AUTODATAEXPORT_PM = System.getProperty("user.dir")+File.separator+"exportPM";
+	public static final String AUTODATAEXPORT_OPERATION = System.getProperty("user.dir")+File.separator+"exportOperation";
+	public static final String AUTODATAEXPORT_LOGIN = System.getProperty("user.dir")+File.separator+"exportLogin";
 	public static final long CYCLETIME = 12;//数据库自动转储功能的周期
 	public static final int AUTODATABACKCOUNT = 5000;//数据库告警和性能自动转储功能的默认总条目数5000
 	public static final String HELPMANUALADDRESS =System.getProperty("user.dir")+File.separator+"/config/INM200网管手册.chm";//数据库自动转储的目录地址

@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.nms.db.dao.system.UnloadMapper" >
+  <resultMap id="BaseResultMap" type="UnLoading" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="unloadType" property="unloadType" jdbcType="INTEGER" />
+    <result column="cellType" property="cellType" jdbcType="INTEGER" />
+    <result column="unloadLimit" property="unloadLimit" jdbcType="INTEGER" />
+    <result column="spillEntry" property="spillEntry" jdbcType="INTEGER" />
+    <result column="holdEntry" property="holdEntry" jdbcType="INTEGER" />
+    <result column="unloadMod" property="unloadMod" jdbcType="INTEGER" />
+    <result column="fileWay" property="fileWay" jdbcType="VARCHAR" />
+    <result column="isAuto" property="isAuto" jdbcType="INTEGER" />
+    <result column="autoStartTime" property="autoStartTime" jdbcType="VARCHAR" />
+    <result column="timeInterval" property="timeInterval" jdbcType="INTEGER" />
+    <result column="fileModel" property="fileModel" jdbcType="INTEGER" />
+    <result column="exportWay" property="exportWay" jdbcType="VARCHAR" />
+    <result column="deleteTime" property="deleteTime" jdbcType="INTEGER" />
+    <result column="deleteCellyType" property="deleteCellyType" jdbcType="INTEGER" />
+    <result column="deleteStartTime" property="deleteStartTime" jdbcType="VARCHAR" />   
+  </resultMap>
   <sql id="Base_Column_List" >
-    id, unloadType, cellType, unloadLimit, spillEntry, holdEntry, unloadMod, fileWay, isAuto, autoStartTime, timeInterval
+    id, unloadType, cellType, unloadLimit, spillEntry, holdEntry, unloadMod, fileWay, isAuto, autoStartTime, timeInterval,fileModel,exportWay,deleteTime,
+    deleteStartTime,deleteCellyType
   </sql>
   <select id="selectAll" resultType="UnLoading" >
     select 
@@ -31,17 +50,30 @@
       <if test="fileWay != null" >
         fileWay = #{fileWay,jdbcType=VARCHAR},
       </if>
-      <if test="unloadType !=3 and unloadType !=4">
-          <if test="isAuto != null">
+      <if test="isAuto != null">
             isAuto = #{isAuto,jdbcType=INTEGER},
-          </if>
-	      <if test="autoStartTime != null" >
+      </if>
+	  <if test="autoStartTime != null" >
 	        autoStartTime = #{autoStartTime,jdbcType=VARCHAR},
-	      </if> 
-	      <if test="timeInterval != null" >
+	  </if> 
+	  <if test="timeInterval != null" >
 	        timeInterval = #{timeInterval,jdbcType=VARCHAR},
-	      </if> 
-	  </if>          
+	  </if>  
+	  <if test="fileModel != null" >
+	        fileModel = #{fileModel,jdbcType=INTEGER},
+	  </if> 
+	  <if test="exportWay != null" >
+	        exportWay  = #{exportWay ,jdbcType=VARCHAR},
+	  </if> 	
+	  <if test="deleteTime != null" >
+	        deleteTime  = #{deleteTime ,jdbcType=INTEGER},
+	  </if> 
+	  <if test="deleteCellyType != null" >
+	        deleteCellyType  = #{deleteCellyType ,jdbcType=INTEGER},
+	  </if> 
+	  <if test="deleteStartTime != null" >
+	        deleteStartTime  = #{deleteStartTime ,jdbcType=VARCHAR},
+	  </if>	  	  	            
     </set>
     where unloadType = #{unloadType,jdbcType=INTEGER}
   </update>

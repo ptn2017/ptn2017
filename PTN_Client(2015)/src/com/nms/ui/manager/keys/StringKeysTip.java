@@ -1882,5 +1882,12 @@ public class StringKeysTip {
 	 * 是否进行客户端升级，升级请点击确定按钮!
 	 */
 	public static final String TIP_UPDATE_CLIENT = "TIP_UPDATE_CLIENT";
+	/**
+	 * 请选择ZIP或RAR格式的文件
+	 */
+	public static final String TIP_ZIP_RAR = "TIP_ZIP_RAR";
+	
+	public static final String TIP_UPDATE_LOGMANAGER="TIP_UPDATE_LOGMANAGER";
+	public static final String TIP_DELETE_LOG="TIP_DELETE_LOG";
 }
 

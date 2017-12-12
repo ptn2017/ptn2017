@@ -498,13 +498,13 @@ public class Tunnel extends ViewDataObj {
 			this.putClientProperty("activeStates", getTunnelStatus() == 1 ? EActiveStatus.ACTIVITY.toString() : EActiveStatus.UNACTIVITY.toString());
 			this.putClientProperty("createTime", DateUtil.strDate(getCreateTime(), DateUtil.FULLTIME));
 			this.putClientProperty("creater", getCreateUser());
+			this.putClientProperty("direction", ResourceUtil.srcStr(StringKeysTab.TAB_TWOWAY));
 			if (!isNode()) {// 端到端对象
 				this.putClientProperty("isReversed", getIsReverse() == 0 ? Boolean.FALSE : Boolean.TRUE);
 				this.putClientProperty("zsiteName", getShowSiteZname());
 				this.putClientProperty("aportName", getShowPortAname());
 				this.putClientProperty("asiteName", getShowSiteAname());
 				this.putClientProperty("zportName", getShowPortZname());
-				this.putClientProperty("direction", ResourceUtil.srcStr(StringKeysTab.TAB_TWOWAY));
 				this.putClientProperty("protectTunnelId", getProtectTunnelId());
 				this.putClientProperty("protectType", getProtectType() == 0 ? "" : UiUtil.getCodeById(getProtectType()).getCodeName());
 				if(this.getTunnelType().equals("0"))

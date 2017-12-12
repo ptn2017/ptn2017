@@ -171,7 +171,8 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.setConstraints(this.lblMessage, c);
 		this.leftPanel.add(this.lblMessage);
 
-		 //第一行名称LABLE,文本�?�?�?列合�?		c.fill = GridBagConstraints.HORIZONTAL;
+		 //第一行名称LABLE,文本�?�?�?列合�?		
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridheight = 1;
@@ -203,7 +204,8 @@ public class AddCESAllDialog extends AddPDialog{
 		layout.addLayoutComponent(this.pwTypeJcbBox, c);
 		this.leftPanel.add(this.pwTypeJcbBox);
 		
-		//第三�?负载净�?		c.fill = GridBagConstraints.HORIZONTAL;
+		//第三�?负载净�?		
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;

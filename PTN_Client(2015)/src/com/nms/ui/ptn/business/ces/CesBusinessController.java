@@ -42,6 +42,7 @@ import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
+import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.ces.bean.CesPortTableBean;
 import com.nms.ui.ptn.business.dialog.cespath.AddCesDialog;
 import com.nms.ui.ptn.business.dialog.cespath.controller.CesHandlerController;
@@ -242,9 +243,9 @@ public class CesBusinessController extends AbstractController {
 	@Override
 	public void search() throws Exception {
 		try {
-//			new SearchSegmentDialog(this.view);
-			Thread.sleep(22000);
-			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
+			new SearchSegmentDialog(this.view);
+//			Thread.sleep(22000);
+//			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -695,7 +696,6 @@ public class CesBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("CES", cesEMSMap, cesNEMap, this);
-				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}

@@ -215,6 +215,7 @@
 		<attribute id="zsiteName" name="Sink NE" visible="true" />
 		<attribute id="direction" name="Direction" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="false" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 	
@@ -229,6 +230,9 @@
 		<attribute id="inLabelValue" name="Ingress Label" visible="true" />
 		<attribute id="outLabelValue" name="Engress Label" visible="true" />
 		<attribute id="siteName" name="Peer Network Element Name" visible="true" />
+		<attribute id="direction" name="Direction" visible="true" />
+		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="false" />
 		<attribute id="issingle" name="Is Single NE" visible="true" />
 	</table>
 	
@@ -268,6 +272,7 @@
 		<attribute id="zportName" name="Sink Port" visible="true" />
 		<attribute id="direction" name="Direction" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="false" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 
@@ -279,7 +284,9 @@
 		<attribute id="jobStatus" name="Working Status" visible="true" />
 		<attribute id="role" name="Role" visible="true" />
 		<attribute id="isSingle" name="Is Single NE" visible="true" />
+		<attribute id="direction" name="Direction" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="false" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 
@@ -292,6 +299,7 @@
 		<attribute id="asiteName" name="Source NE" visible="true" />
 		<attribute id="zsiteName" name="Sink NE" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 
@@ -303,6 +311,7 @@
 		<attribute id="type" name="Service Type" visible="true" />
 		<attribute id="issingle" name="Is Single NE" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 
@@ -324,6 +333,7 @@
 		<attribute id="asiteName" name="Source NE" visible="true" />
 		<attribute id="zsiteName" name="Sink NE" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 	<table name="elineNodeTable">
@@ -333,6 +343,7 @@
 		<attribute id="jobstatus" name="Working Status" visible="true" />
 		<attribute id="issingle" name="Is Single NE" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Createdr" visible="true" />
 	</table>
 	<table name="elineAcTable">
@@ -368,6 +379,7 @@
 		<attribute id="elanName" name="Name" visible="true" />
 		<attribute id="activeStates" name="Activation" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 
@@ -378,6 +390,7 @@
 		<attribute id="jobstatus" name="Working Status" visible="true" />
 		<attribute id="issingle" name="Is Single NE" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 
@@ -386,6 +399,7 @@
 		<attribute id="etreeName" name="Name" visible="true" />
 		<attribute id="activeStates" name="Activation" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 
@@ -397,6 +411,7 @@
 		<attribute id="type" name="Service Type" visible="true" />
 		<attribute id="issingle" name="Is Single NE" visible="true" />
 		<attribute id="createTime" name="Create Time" visible="true" />
+		<attribute id="activatingTime" name="activatingTime" visible="true" />
 		<attribute id="creater" name="Creater" visible="true" />
 	</table>
 

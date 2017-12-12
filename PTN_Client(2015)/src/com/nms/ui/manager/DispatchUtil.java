@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.nms.db.bean.alarm.CurrentAlarmBlock;
 import com.nms.db.bean.equipment.manager.UpgradeManage;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.path.Segment;
@@ -927,5 +928,27 @@ public class DispatchUtil {
 		} else {
 			throw new Exception("object_interface is error");
 		}
+	}
+	
+	/**
+	 * 告警屏蔽
+	 * @param block
+	 * @return
+	 * @throws RemoteException
+	 * @throws Exception
+	 */
+	public String alarmBlocking(CurrentAlarmBlock block) throws RemoteException, Exception{
+		String result = ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_FAIL);
+		try {
+			if (this.object_interface instanceof AlarmDispatchI) {
+				AlarmDispatchI alarmDispatchI = (AlarmDispatchI) this.object_interface;
+				result = validateResult(alarmDispatchI.alarmBlocking(block));
+			} else {
+				throw new Exception("object_interface is error");
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, getClass());
+		}
+		return result;
 	}
 }

@@ -1,5 +1,6 @@
-package com.nms.ui.ptn.alarm.model;
+package com.nms.db.bean.alarm;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,8 @@ import com.nms.db.enums.EObjectType;
  * 当前告警屏蔽
  *
  */
-public class CurrentAlarmBlock {
+public class CurrentAlarmBlock implements Serializable{
+	private static final long serialVersionUID = 1L;
 	// 监控网元id列表
 	private List<SiteInst> siteList;
 	// 监控板卡

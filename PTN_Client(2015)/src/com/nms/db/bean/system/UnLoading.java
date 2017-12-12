@@ -2,6 +2,8 @@ package com.nms.db.bean.system;
 
 import com.nms.ui.frame.ViewDataObj;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.manager.ResourceUtil;
+import com.nms.ui.manager.keys.StringKeysLbl;
 /**
  * Bean 类
  * 与本地unload.xml 对应
@@ -24,7 +26,51 @@ public class UnLoading extends ViewDataObj {
 	private int isAuto;//是否自动转储 0:不设置；1:自动转储
 	private String autoStartTime;//转储开始时间
 	private int timeInterval;//时间间隔
-	
+	private int fileModel;
+	private String exportWay;
+	private int deleteTime;
+	private int deleteCellyType;
+	private String deleteStartTime;
+	public String getDeleteStartTime() {
+		return deleteStartTime;
+	}
+
+	public void setDeleteStartTime(String deleteStartTime) {
+		this.deleteStartTime = deleteStartTime;
+	}
+
+	public int getDeleteCellyType() {
+		return deleteCellyType;
+	}
+
+	public void setDeleteCellyType(int deleteCellyType) {
+		this.deleteCellyType = deleteCellyType;
+	}
+
+	public int getDeleteTime() {
+		return deleteTime;
+	}
+
+	public void setDeleteTime(int deleteTime) {
+		this.deleteTime = deleteTime;
+	}
+
+	public String getExportWay() {
+		return exportWay;
+	}
+
+	public void setExportWay(String exportWay) {
+		this.exportWay = exportWay;
+	}
+
+	public int getFileModel() {
+		return fileModel;
+	}
+
+	public void setFileModel(int fileModel) {
+		this.fileModel = fileModel;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -151,6 +197,22 @@ public class UnLoading extends ViewDataObj {
 			getClientProperties().put("isAuto",this.getIsAuto());
 			getClientProperties().put("autoTime", this.getAutoStartTime());
 			getClientProperties().put("timeInterval", this.getTimeInterval());
+			getClientProperties().put("deleteStartTime", this.getDeleteStartTime());
+			if(this.getDeleteTime()==1){
+				getClientProperties().put("deleteTime",ResourceUtil.srcStr(StringKeysLbl.LBL_ONETIME_AUTO_BACKDATA));
+			}else if(this.getDeleteTime()==7){
+				getClientProperties().put("deleteTime",ResourceUtil.srcStr(StringKeysLbl.LBL_ONE_WEEK_TIME_AUTO_BACKDATA));
+			}else if(this.getDeleteTime()==15){
+				getClientProperties().put("deleteTime",ResourceUtil.srcStr(StringKeysLbl.LBL_FIFTHTEEN_TIME_AUTO_BACKDATA));
+			}else if(this.getDeleteTime()==30){
+				getClientProperties().put("deleteTime",ResourceUtil.srcStr(StringKeysLbl.LBL_THIRDY_TIME_AUTO_BACKDATA));
+			}
+			
+			if(this.getDeleteCellyType()==1){
+				getClientProperties().put("deleteCellyType",true);
+			}else {
+				getClientProperties().put("deleteCellyType",false);
+			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}

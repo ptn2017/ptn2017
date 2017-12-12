@@ -88,7 +88,7 @@ public class UnLoadingPanel extends ContentView<UnLoading> {
 	}
 	@Override
 	public void setController() {
-		controller = new UnLoadingController(this);	
+		controller = new UnLoadingController(this,1);	
 	}
 	private void setViewLayout(){		
 		getContentPanel().setBorder(BorderFactory.createTitledBorder(ResourceUtil.srcStr(StringKeysTitle.TT_UNLOADING)));

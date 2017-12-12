@@ -136,4 +136,5 @@ public class Services {
 	public static final int ARP=144;
 	public static final int OSPF_WH = 145;
 	public static final int UNLOADING = 146;
+	public static final int LOGMANAGER = 148;
 }

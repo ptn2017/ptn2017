@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nms.db.dao.system.LogManagerMapper" >
+  <resultMap id="BaseResultMap" type="LogManager" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="logType" property="logType" jdbcType="INTEGER" />
+    <result column="cellType" property="cellType" jdbcType="INTEGER" />
+    <result column="vcellType" property="vcellType" jdbcType="INTEGER" />
+    <result column="timeLimit" property="timeLimit" jdbcType="INTEGER" />
+    <result column="volumeLimit" property="volumeLimit" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+    <result column="fileWay" property="fileWay" jdbcType="VARCHAR" />
+    <result column="fileVWay" property="fileVWay" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="Map1" type="LogManager" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="totalCount" property="totalCount" jdbcType="INTEGER" />
+    <result column="maxId" property="maxId" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+    id, logType, cellType,vcellType,startTime, timeLimit, volumeLimit, fileWay ,fileVWay
+  </sql>
+  <select id="selectAll" resultType="LogManager" >
+    select 
+    <include refid="Base_Column_List" />
+    from log_Manager
+  </select>
+
+  <update id="update" parameterType="LogManager" >
+    update log_Manager
+    <set >
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="timeLimit != null" >
+        timeLimit = #{timeLimit,jdbcType=INTEGER},
+      </if>
+      <if test="cellType != null" >
+        cellType = #{cellType,jdbcType=INTEGER},
+      </if>  
+      <if test="vcellType != null" >
+        vcellType = #{vcellType,jdbcType=INTEGER},
+      </if>           
+      <if test="volumeLimit != null" >
+        volumeLimit = #{volumeLimit,jdbcType=INTEGER},
+      </if>   
+      <if test="fileWay != null" >
+        fileWay = #{fileWay,jdbcType=VARCHAR},
+      </if>    
+      <if test="fileVWay != null" >
+        fileVWay = #{fileVWay,jdbcType=VARCHAR},
+      </if>                 
+      <if test="fileModel != null" >
+        fileModel = #{fileModel,jdbcType=INTEGER},
+      </if>          
+    </set>
+    where logType = #{logType,jdbcType=INTEGER}
+  </update>
+ 
+   <select id="selectCount" parameterType="java.lang.Integer" resultMap="Map1" >
+    <if test="label == 3">select count(*) as totalCount,max(id) as maxId from operation_log</if>
+    <if test="label == 4">select count(*)as totalCount,max(id) as from login_log</if>
+  </select>
+  
+ <select id="selectCounts" parameterType="java.lang.Integer" resultMap="Map1" >
+    select count(*) as totalCount from operationdatalog where opeLogId &lt; #{label} and opeLogId=#{label}
+
+  </select>
+  
+    
+ <select id="selectMaxId" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+    select id from operation_log ORDER BY ID ASC LIMIT #{label},#{label}
+
+  </select>
+</mapper>

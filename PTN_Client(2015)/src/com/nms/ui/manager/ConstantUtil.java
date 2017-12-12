@@ -85,4 +85,5 @@ public class ConstantUtil {
 	public static Map<String,Thread> threadMap = new HashMap<String, Thread>();//用来标记是否开启了数据库监控+CPU内存
 	public static boolean isCurrentPerformnace = true;//判断是查询当前性能true/历史性能false
 	public static int flipNumber = 100;//分页默认值
+	public static int autoCorrection = 0;// 0/1/2 = 人工校正/(自动校正)以网管数据为准/(自动校正)以设备数据为准
 }

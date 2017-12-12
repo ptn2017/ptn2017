@@ -89,7 +89,8 @@ public class AddElineDialog extends PtnDialog {
 	private List<OamInfo> oamList = new ArrayList<OamInfo>();
 	private TNetwork network = null;
 	private TunnelTopoPanel tunnelTopoPanel;
-	private List<PwInfo> batchPwList = new ArrayList<PwInfo>();//批量创建eline时用�?	/** Creates new form AddPWDialog */
+	private List<PwInfo> batchPwList = new ArrayList<PwInfo>();//批量创建eline时用�?
+	/** Creates new form AddPWDialog */
 	public AddElineDialog(ElineBusinessPanel jPanel1, boolean modal, ElineInfo elineinfo) {
 		try {
 			this.setModal(modal);
@@ -283,7 +284,8 @@ public class AddElineDialog extends PtnDialog {
 		 * 第六�?OamLable,文本�?按钮
 		 */
 		if(CodeConfigItem.getInstance().getWuhan() == 0){
-			//晨晓的需要OAM,武汉的不需�?			c.gridx = 0;
+			//晨晓的需要OAM,武汉的不需�?			
+			c.gridx = 0;
 			c.gridy = 6;
 			c.gridheight = 1;
 			c.gridwidth = 1;
@@ -323,7 +325,8 @@ public class AddElineDialog extends PtnDialog {
 			layout.addLayoutComponent(this.ActivejCheckBox1, c);
 			this.jPanel3.add(this.ActivejCheckBox1);
 		}else{
-			// �?行，批量创建的数�?			c.fill = GridBagConstraints.HORIZONTAL;
+			// �?行，批量创建的数�?			
+			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 6;
 			c.gridwidth = 1;
@@ -944,7 +947,8 @@ public class AddElineDialog extends PtnDialog {
 		return true;
 	}
 	/**
-	 * 下发之前验证数据的正确�?true:全部正确�?false：取值验证失�?	 * @return
+	 * 下发之前验证数据的正确�?true:全部正确�?false：取值验证失�?	
+	 *  * @return
 	 */
 	private boolean checkValue() {
 		ControlKeyValue pw = null;
@@ -1021,7 +1025,8 @@ public class AddElineDialog extends PtnDialog {
 					}
 				}
 				if(count < num){
-					//提示PW数量不匹�?					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PW_IS_NOT_MATCHING));
+					//提示PW数量不匹�?					
+					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PW_IS_NOT_MATCHING));
 					return false;
 				}
 			}

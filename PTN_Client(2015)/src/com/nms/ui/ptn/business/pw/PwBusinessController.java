@@ -51,6 +51,7 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
+import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.pwpath.AddPDialog;
 import com.nms.ui.ptn.business.dialog.pwpath.AddPwFilterDialog;
 import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
@@ -691,9 +692,9 @@ public class PwBusinessController extends AbstractController {
 	@Override
 	public void search() {
 		try {
-//			new SearchSegmentDialog(this.view);
-			Thread.sleep(21000);
-			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
+			new SearchSegmentDialog(this.view);
+//			Thread.sleep(21000);
+//			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		} 
@@ -953,7 +954,6 @@ public class PwBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("PW", pwEMSMap, pwNEMap, this);
-				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}

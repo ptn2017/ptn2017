@@ -218,6 +218,7 @@
 		<attribute id="zsiteName" name="Z端网元名称" visible="true" />
 		<attribute id="direction" name="方向" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="false" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -232,6 +233,9 @@
 		<attribute id="inLabelValue" name="入标签" visible="true" />
 		<attribute id="outLabelValue" name="出标签" visible="true" />
 		<attribute id="siteName" name="对端网元名称" visible="true" />
+		<attribute id="direction" name="方向" visible="true" />
+		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="false" />
 		<attribute id="issingle" name="是否为单网元" visible="true" />
 	</table>
 
@@ -272,6 +276,7 @@
 		<attribute id="zportName" name="Z端端口名称" visible="true" />
 		<attribute id="direction" name="方向" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="false" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -282,8 +287,10 @@
 		<attribute id="activeStates" name="激活状态" visible="true" />
 		<attribute id="jobStatus" name="工作状态" visible="true" />
 		<attribute id="role" name="角色" visible="true" />
+		<attribute id="direction" name="方向" visible="true" />
 		<attribute id="isSingle" name="是否为单网元" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="false" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -296,6 +303,7 @@
 		<attribute id="asiteName" name="A端网元名称" visible="true" />
 		<attribute id="zsiteName" name="Z端网元名称" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -307,6 +315,7 @@
 		<attribute id="type" name="业务类型" visible="true" />
 		<attribute id="issingle" name="是否为单网元" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -328,6 +337,7 @@
 		<attribute id="asiteName" name="A端网元名称" visible="true" />
 		<attribute id="zsiteName" name="Z端网元名称" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 	<table name="elineNodeTable">
@@ -337,6 +347,7 @@
 		<attribute id="jobstatus" name="工作状态" visible="true" />
 		<attribute id="issingle" name="是否为单网元" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 	<table name="elineAcTable">
@@ -372,6 +383,7 @@
 		<attribute id="elanName" name="名称" visible="true" />
 		<attribute id="activeStates" name="激活状态" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -382,6 +394,7 @@
 		<attribute id="jobstatus" name="工作状态" visible="true" />
 		<attribute id="issingle" name="是否为单网元" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -390,6 +403,7 @@
 		<attribute id="etreeName" name="名称" visible="true" />
 		<attribute id="activeStates" name="激活状态" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 
@@ -401,6 +415,7 @@
 		<attribute id="type" name="业务类型" visible="true" />
 		<attribute id="issingle" name="是否为单网元" visible="true" />
 		<attribute id="createTime" name="创建时间" visible="true" />
+		<attribute id="activatingTime" name="激活时间" visible="true" />
 		<attribute id="creater" name="创建人" visible="true" />
 	</table>
 

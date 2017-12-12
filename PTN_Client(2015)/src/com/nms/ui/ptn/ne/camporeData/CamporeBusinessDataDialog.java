@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
@@ -91,7 +92,6 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 	private int type;
 	private AbstractController controller;
 	public CamporeBusinessDataDialog(String title,Object EMSobject,Object nEObject, AbstractController controller){
-		
 		camporeDataDialog = this;
 		this.setTitle(ResourceUtil.srcStr(StringKeysLbl.LBL_CAMPORE_DATA));
 		this.title = title;
@@ -101,6 +101,20 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		setLayout();
 		addListener();
 		this.controller = controller;
+		if(ConstantUtil.autoCorrection == 0){
+			// 人工校正
+			UiUtil.showWindow(this, 700, 600);
+		}else{
+			// 自动校正
+			if(ConstantUtil.autoCorrection == 1){
+				// 以网管数据为准
+				this.emsDataJRadioButton.setSelected(true);
+			}else{
+				// 以设备数据为准
+				this.neDataJRadioButton.setSelected(true);
+			}
+			this.button.doClick();
+		}
 	}
 	
 	private void initComponent(){
@@ -134,6 +148,7 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		jCheckBox = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_ONLE_DIFFERENT));
 		loader = new CamporeBusinessInfoLoader(box,EMSobject, nEObject, this);
 	}
+	
 	private void setLayout(){
 		this.add(new JScrollPane(table), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
@@ -144,9 +159,7 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		buttonPanel.add(cancelButton);
 	}
 	
-	
 	private void addListener(){
-		
 		cancelButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -197,158 +210,170 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 	private void butonActionPerformed(){
 		String result = ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS);
 		if(emsDataJRadioButton.isSelected()){//网管数据为准
-			if(EMSobject != null && ((List)EMSobject).size() > 0){
-				//端口操作
-				if(type == EServiceType.ETH.getValue()){
-					List<PortInst> portInsts = (List<PortInst>) EMSobject;
-//					for(PortInst portInst : portInsts){
-						try {
-							DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_PORT);
-							result = dispatchUtil.excuteUpdate(portInsts.get(0));
-							for (PortInst portInst : portInsts) {
-								AddOperateLog.insertOperLog(null, EOperationLogType.EMSPORT.getValue(), result, 
-										null, null, ConstantUtil.siteId, portInst.getPortName(), null);
-							}
-						} catch (Exception e) {
-							ExceptionManage.dispose(e, this.getClass());
-						}	
-//					}
-				}else if(type == EServiceType.CES.getValue()){
-					List<CesInfo> cesList = (List<CesInfo>) EMSobject;
-//					for (CesInfo cesInfo : cesList) {
-						try {
-							DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_CES);
-							result = dispatchUtil.excuteUpdate(cesList.get(0));
-							for (CesInfo cesInfo : cesList) {
-								AddOperateLog.insertOperLog(null, EOperationLogType.EMSCES.getValue(), result, 
-										null, null, ConstantUtil.siteId, cesInfo.getName(), null);
-							}
-						} catch (Exception e) {
-							ExceptionManage.dispose(e, this.getClass());
-						}
-//					}
-				}else if(type == EServiceType.ELINE.getValue()){
-					List<ElineInfo> elineList = (List<ElineInfo>) EMSobject;
-//					for (ElineInfo elineInfo : elineList) {
-						try {
-							DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_ELINE);
-							result = dispatchUtil.excuteUpdate(elineList.get(0));
-							for (ElineInfo elineInfo : elineList) {
-								AddOperateLog.insertOperLog(null, EOperationLogType.EMSELINE.getValue(), result, 
-										null, null, ConstantUtil.siteId, elineInfo.getName(), null);
-							}
-						} catch (Exception e) {
-							ExceptionManage.dispose(e, this.getClass());
-						}
-//					}
-				}else if(type == EServiceType.ETREE.getValue()){
-					List<EtreeInfo> etreeList = (List<EtreeInfo>) EMSobject;
-					try {
-						DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_ETREE);
-						result = dispatchUtil.excuteUpdate(etreeList);
-						for (EtreeInfo etreeInfo : etreeList) {
-							AddOperateLog.insertOperLog(null, EOperationLogType.EMSETREE.getValue(), result, 
-									null, null, ConstantUtil.siteId, etreeInfo.getName(), null);
-						}
-					} catch (Exception e) {
-						ExceptionManage.dispose(e, this.getClass());
-					}
-				}else if(type == EServiceType.ELAN.getValue()){
-					List<ElanInfo> elanList = (List<ElanInfo>) EMSobject;
-					try {
-						DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_ELAN);
-						result = dispatchUtil.excuteUpdate(elanList);
-						for (ElanInfo elanInfo : elanList) {
-							AddOperateLog.insertOperLog(null, EOperationLogType.EMSELAN.getValue(), result, 
-									null, null, ConstantUtil.siteId, elanInfo.getName(), null);
-						}
-					} catch (Exception e) {
-						ExceptionManage.dispose(e, this.getClass());
-					}
-				}else if(type == EServiceType.TUNNEL.getValue()){//tunnel操作
-					List<Tunnel> tunnels = (List<Tunnel>) EMSobject;
-					try {
-						DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_TUNNEL);
-						dispatchUtil.excuteUpdate(tunnels.get(0));
-						for (Tunnel tunnel : tunnels) {
-							AddOperateLog.insertOperLog(null, EOperationLogType.EMSTUNNEL.getValue(), result, 
-									null, null, ConstantUtil.siteId, tunnel.getTunnelName(), null);
-						}
-					} catch (Exception e) {
-						ExceptionManage.dispose(e, this.getClass());
-					}
-				}else if(type == EServiceType.CCC.getValue()){
-					List<CccInfo> cccList = (List<CccInfo>) EMSobject;
-						try {
-							DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_CCC);
-							result = dispatchUtil.excuteUpdate(cccList.get(0));
-							for (CccInfo cccInfo : cccList) {
-								AddOperateLog.insertOperLog(null, EOperationLogType.EMSCCC.getValue(), result, 
-										null, null, ConstantUtil.siteId, cccInfo.getName(), null);
-							}
-						} catch (Exception e) {
-							ExceptionManage.dispose(e, this.getClass());
-						}
-					}else if(type == EServiceType.PW.getValue()){
-					try {
-						List<Object> pwList = (List<Object>) EMSobject;
-						DispatchUtil  pwDispatch = new DispatchUtil(RmiKeys.RMI_PW);
-						if(pwList != null && pwList.size()>0){
-							for(Object object : pwList){
-								if(object instanceof PwInfo){
-									pwDispatch.excuteUpdate((PwInfo)object);
-									break;
+			if(EMSobject != null){
+				Map<Integer, List> eMSMap = (Map<Integer, List>) EMSobject;
+				for(Integer	siteId : eMSMap.keySet()){
+					List list = eMSMap.get(siteId);
+					if(list != null && list.size() > 0){
+						//端口操作
+						if(type == EServiceType.ETH.getValue()){
+							List<PortInst> portInsts = (List<PortInst>) list;
+//							for(PortInst portInst : portInsts){
+								try {
+									DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_PORT);
+									result = dispatchUtil.excuteUpdate(portInsts.get(0));
+									for (PortInst portInst : portInsts) {
+										AddOperateLog.insertOperLog(null, EOperationLogType.EMSPORT.getValue(), result, 
+												null, null, siteId, portInst.getPortName(), null);
+									}
+								} catch (Exception e) {
+									ExceptionManage.dispose(e, this.getClass());
+								}	
+//							}
+						}else if(type == EServiceType.CES.getValue()){
+							List<CesInfo> cesList = (List<CesInfo>) list;
+//							for (CesInfo cesInfo : cesList) {
+								try {
+									DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_CES);
+									result = dispatchUtil.excuteUpdate(cesList.get(0));
+									for (CesInfo cesInfo : cesList) {
+										AddOperateLog.insertOperLog(null, EOperationLogType.EMSCES.getValue(), result, 
+												null, null, siteId, cesInfo.getName(), null);
+									}
+								} catch (Exception e) {
+									ExceptionManage.dispose(e, this.getClass());
 								}
+//							}
+						}else if(type == EServiceType.ELINE.getValue()){
+							List<ElineInfo> elineList = (List<ElineInfo>) list;
+//							for (ElineInfo elineInfo : elineList) {
+								try {
+									DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_ELINE);
+									result = dispatchUtil.excuteUpdate(elineList.get(0));
+									for (ElineInfo elineInfo : elineList) {
+										AddOperateLog.insertOperLog(null, EOperationLogType.EMSELINE.getValue(), result, 
+												null, null, siteId, elineInfo.getName(), null);
+									}
+								} catch (Exception e) {
+									ExceptionManage.dispose(e, this.getClass());
+								}
+//							}
+						}else if(type == EServiceType.ETREE.getValue()){
+							List<EtreeInfo> etreeList = (List<EtreeInfo>) list;
+							try {
+								DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_ETREE);
+								result = dispatchUtil.excuteUpdate(etreeList);
+								for (EtreeInfo etreeInfo : etreeList) {
+									AddOperateLog.insertOperLog(null, EOperationLogType.EMSETREE.getValue(), result, 
+											null, null, siteId, etreeInfo.getName(), null);
+								}
+							} catch (Exception e) {
+								ExceptionManage.dispose(e, this.getClass());
+							}
+						}else if(type == EServiceType.ELAN.getValue()){
+							List<ElanInfo> elanList = (List<ElanInfo>) list;
+							try {
+								DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_ELAN);
+								result = dispatchUtil.excuteUpdate(elanList);
+								for (ElanInfo elanInfo : elanList) {
+									AddOperateLog.insertOperLog(null, EOperationLogType.EMSELAN.getValue(), result, 
+											null, null, siteId, elanInfo.getName(), null);
+								}
+							} catch (Exception e) {
+								ExceptionManage.dispose(e, this.getClass());
+							}
+						}else if(type == EServiceType.TUNNEL.getValue()){//tunnel操作
+							List<Tunnel> tunnels = (List<Tunnel>) list;
+							try {
+								DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_TUNNEL);
+								dispatchUtil.excuteUpdate(tunnels.get(0));
+								for (Tunnel tunnel : tunnels) {
+									AddOperateLog.insertOperLog(null, EOperationLogType.EMSTUNNEL.getValue(), result, 
+											null, null, siteId, tunnel.getTunnelName(), null);
+								}
+							} catch (Exception e) {
+								ExceptionManage.dispose(e, this.getClass());
+							}
+						}else if(type == EServiceType.CCC.getValue()){
+							List<CccInfo> cccList = (List<CccInfo>) list;
+								try {
+									DispatchUtil dispatchUtil = new DispatchUtil(RmiKeys.RMI_CCC);
+									result = dispatchUtil.excuteUpdate(cccList.get(0));
+									for (CccInfo cccInfo : cccList) {
+										AddOperateLog.insertOperLog(null, EOperationLogType.EMSCCC.getValue(), result, 
+												null, null, siteId, cccInfo.getName(), null);
+									}
+								} catch (Exception e) {
+									ExceptionManage.dispose(e, this.getClass());
+								}
+							}else if(type == EServiceType.PW.getValue()){
+							try {
+								List<Object> pwList = (List<Object>) list;
+								DispatchUtil  pwDispatch = new DispatchUtil(RmiKeys.RMI_PW);
+								if(pwList != null && pwList.size()>0){
+									for(Object object : pwList){
+										if(object instanceof PwInfo){
+											pwDispatch.excuteUpdate((PwInfo)object);
+											break;
+										}
+									}
+								}
+								for (Object object : pwList) {
+									AddOperateLog.insertOperLog(null, EOperationLogType.EMSPW.getValue(), ResultString.CONFIG_SUCCESS, 
+											null, null, siteId, ((PwInfo)object).getPwName(), null);
+								}
+							} catch (Exception e) {
+								ExceptionManage.dispose(e, this.getClass());
 							}
 						}
-						for (Object object : pwList) {
-							AddOperateLog.insertOperLog(null, EOperationLogType.EMSPW.getValue(), ResultString.CONFIG_SUCCESS, 
-									null, null, ConstantUtil.siteId, ((PwInfo)object).getPwName(), null);
-						}
-					} catch (Exception e) {
-						ExceptionManage.dispose(e, this.getClass());
+					}else{
+						result = ResourceUtil.srcStr(StringKeysTip.TIP_EMSISNULL);
 					}
 				}
-			}else{
-				result = ResourceUtil.srcStr(StringKeysTip.TIP_EMSISNULL);
 			}
 		}else if(neDataJRadioButton.isSelected()){//设备数据为准
-			if(nEObject != null && ((List)nEObject).size() > 0){
-				//端口操作
-				if(type == EServiceType.ETH.getValue()){
-					List<PortInst> portInsts = (List<PortInst>) nEObject;
-					portNEAction(portInsts);
-				}else if(type == EServiceType.CES.getValue()){
-					List<CesInfo> cesList = (List<CesInfo>) nEObject;
-					cesNEAction(cesList);
-				}else if(type == EServiceType.ELINE.getValue()){
-					List<ElineInfo> elineList = (List<ElineInfo>) nEObject;
-					elineNEAction(elineList);
-				}else if(type == EServiceType.ETREE.getValue()){
-					List<EtreeInfo> etreeList = (List<EtreeInfo>) nEObject;
-					etreeNEAction(etreeList);
-				}else if(type == EServiceType.ELAN.getValue()){
-					List<ElanInfo> elanList = (List<ElanInfo>) nEObject;
-					elanNEAction(elanList);
-				}else if(type == EServiceType.TUNNEL.getValue()){//tunnel操作
-					SynchroUtil synchroUtil = new SynchroUtil();
-					List<Tunnel> tunnels = (List<Tunnel>) nEObject;
-					for (Tunnel tunnel : tunnels) {
-						try {
-							synchroUtil.tunnelSynchro(tunnel,"", ConstantUtil.siteId);
-						} catch (Exception e) {
-							ExceptionManage.dispose(e,this.getClass());
+			if(nEObject != null){
+				Map<Integer, List> nEMap = (Map<Integer, List>) nEObject;
+				for(Integer	siteId : nEMap.keySet()){
+					List list = nEMap.get(siteId);
+					if(list != null && list.size() > 0){
+						//端口操作
+						if(type == EServiceType.ETH.getValue()){
+							List<PortInst> portInsts = (List<PortInst>) list;
+							portNEAction(portInsts, siteId);
+						}else if(type == EServiceType.CES.getValue()){
+							List<CesInfo> cesList = (List<CesInfo>) list;
+							cesNEAction(cesList, siteId);
+						}else if(type == EServiceType.ELINE.getValue()){
+							List<ElineInfo> elineList = (List<ElineInfo>) list;
+							elineNEAction(elineList, siteId);
+						}else if(type == EServiceType.ETREE.getValue()){
+							List<EtreeInfo> etreeList = (List<EtreeInfo>) list;
+							etreeNEAction(etreeList, siteId);
+						}else if(type == EServiceType.ELAN.getValue()){
+							List<ElanInfo> elanList = (List<ElanInfo>) list;
+							elanNEAction(elanList, siteId);
+						}else if(type == EServiceType.TUNNEL.getValue()){//tunnel操作
+							SynchroUtil synchroUtil = new SynchroUtil();
+							List<Tunnel> tunnels = (List<Tunnel>) list;
+							for (Tunnel tunnel : tunnels) {
+								try {
+									synchroUtil.tunnelSynchro(tunnel,"", siteId);
+								} catch (Exception e) {
+									ExceptionManage.dispose(e,this.getClass());
+								}
+							}
+						}else if(type == EServiceType.PW.getValue()){
+							List<Object> pwList = (List<Object>) list;
+							elinePWAction(pwList, siteId);
+						}else if(type == EServiceType.CCC.getValue()){
+							List<CccInfo> cccList = (List<CccInfo>) list;
+							cccNEAction(cccList, siteId);
 						}
+					}else{
+						result = ResourceUtil.srcStr(StringKeysTip.TIP_NEISNULL);
 					}
-				}else if(type == EServiceType.PW.getValue()){
-					List<Object> pwList = (List<Object>) nEObject;
-					elinePWAction(pwList);
-				}else if(type == EServiceType.CCC.getValue()){
-					List<CccInfo> cccList = (List<CccInfo>) nEObject;
-					cccNEAction(cccList);
 				}
-			}else{
-				result = ResourceUtil.srcStr(StringKeysTip.TIP_NEISNULL);
 			}
 		}
 		DialogBoxUtil.succeedDialog(this, result);
@@ -363,14 +388,14 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 	}
 	
 	//以设备的数据为准 将服务器上的数据修改
-	private void elinePWAction(List<Object> pwList) {
+	private void elinePWAction(List<Object> pwList, int siteId) {
 		try {
 			if(pwList != null && pwList.size() >0){
 				SynchroUtil synchroUtil = new SynchroUtil();
 				for (Object pwInfo : pwList) {
 					try {
 						if(pwInfo instanceof PwInfo){
-							synchroUtil.pwInfoSynchro((PwInfo)pwInfo, ConstantUtil.siteId);
+							synchroUtil.pwInfoSynchro((PwInfo)pwInfo, siteId);
 						}
 //						else if(pwInfo instanceof MsPwInfo){
 //							this.synchroMspw_db((MsPwInfo)pwInfo,ConstantUtil.siteId);
@@ -426,11 +451,11 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 	 * 与同步类似操作
 	 * @param protInfoList
 	 */
-	private void portNEAction(List<PortInst> protInfoList){
+	private void portNEAction(List<PortInst> protInfoList, int siteId){
 		PortService_MB portService = null;
 		try {
 			portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
-			portService.initializtionSite(ConstantUtil.siteId);
+			portService.initializtionSite(siteId);
 			SynchroUtil synchroUtil = new SynchroUtil();
 			for (PortInst portInst : protInfoList) {
 				try {
@@ -439,7 +464,7 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 					ExceptionManage.dispose(e,this.getClass());
 				}
 				AddOperateLog.insertOperLog(null, EOperationLogType.PORTEMS.getValue(),ResultString.CONFIG_SUCCESS,
-						null, null, ConstantUtil.siteId, portInst.getPortName(), null);
+						null, null, siteId, portInst.getPortName(), null);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
@@ -448,19 +473,19 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		}
 	}
 	
-	private void cesNEAction(List<CesInfo> cesList) {
+	private void cesNEAction(List<CesInfo> cesList, int siteId) {
 		ElineInfoService_MB elineService = null;
 		try {
 			SynchroUtil synchroUtil = new SynchroUtil();
 			//把所有ces业务修改为未激活
 			elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
-			elineService.updateActiveStatusByType(ConstantUtil.siteId, EActiveStatus.UNACTIVITY.getValue(), EServiceType.CES.getValue());
+			elineService.updateActiveStatusByType(siteId, EActiveStatus.UNACTIVITY.getValue(), EServiceType.CES.getValue());
 			for (CesInfo cesInfo : cesList) {
 				try {
-					synchroUtil.CesSynchro(cesInfo, ConstantUtil.siteId);
-					synchroUtil.pwNniBufferInfoSynchro(cesInfo.getPwNniList().get(0), ConstantUtil.siteId, false);
+					synchroUtil.CesSynchro(cesInfo, siteId);
+					synchroUtil.pwNniBufferInfoSynchro(cesInfo.getPwNniList().get(0), siteId, false);
 					AddOperateLog.insertOperLog(null, EOperationLogType.CESEMS.getValue(),ResultString.CONFIG_SUCCESS, 
-							null, null, ConstantUtil.siteId, cesInfo.getName(), null);
+							null, null, siteId, cesInfo.getName(), null);
 				} catch (Exception e) {
 					ExceptionManage.dispose(e,this.getClass());
 				}
@@ -472,27 +497,27 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		}
 	}
 	
-	private void elineNEAction(List<ElineInfo> elineList) {
+	private void elineNEAction(List<ElineInfo> elineList, int siteId) {
 		ElineInfoService_MB elineService = null;
 		try {
 			SynchroUtil synchroUtil = new SynchroUtil();
 			//把所有eline业务修改为未激活
 			elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
-			elineService.updateActiveStatusByType(ConstantUtil.siteId, EActiveStatus.UNACTIVITY.getValue(), EServiceType.ELINE.getValue());
+			elineService.updateActiveStatusByType(siteId, EActiveStatus.UNACTIVITY.getValue(), EServiceType.ELINE.getValue());
 			for (ElineInfo eline : elineList) {
 				try {
-					synchroUtil.acPortInfoSynchro(eline.getAcPortList().get(0), ConstantUtil.siteId);
+					synchroUtil.acPortInfoSynchro(eline.getAcPortList().get(0), siteId);
 					AcPortInfo ac = eline.getAcPortList().get(0);
-					if(eline.getaSiteId() == ConstantUtil.siteId){
+					if(eline.getaSiteId() == siteId){
 						eline.setaAcId(ac.getId());
 					}else{
 						eline.setzAcId(ac.getId());
 					}
-					synchroUtil.elineSynchro(eline, ConstantUtil.siteId);
-					synchroUtil.acPortInfoSynchro(eline.getAcPortList().get(0), ConstantUtil.siteId);
-					synchroUtil.pwNniBufferInfoSynchro(eline.getPwNniList().get(0), ConstantUtil.siteId, false);
+					synchroUtil.elineSynchro(eline, siteId);
+					synchroUtil.acPortInfoSynchro(eline.getAcPortList().get(0), siteId);
+					synchroUtil.pwNniBufferInfoSynchro(eline.getPwNniList().get(0), siteId, false);
 					AddOperateLog.insertOperLog(null, EOperationLogType.ELINEEMS.getValue(),ResultString.CONFIG_SUCCESS, 
-							null, null, ConstantUtil.siteId, eline.getName(), null);
+							null, null, siteId, eline.getName(), null);
 				} catch (Exception e) {
 					ExceptionManage.dispose(e,this.getClass());
 				}
@@ -504,13 +529,13 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		}
 	}
 	
-	private void etreeNEAction(List<EtreeInfo> etreeList) {
+	private void etreeNEAction(List<EtreeInfo> etreeList, int siteId) {
 		try {
 			DispatchUtil etreeDispatch = new DispatchUtil(RmiKeys.RMI_ETREE);
-			etreeDispatch.synchro(ConstantUtil.siteId);
+			etreeDispatch.synchro(siteId);
 			for (EtreeInfo etreeInfo : etreeList) {
 				AddOperateLog.insertOperLog(null, EOperationLogType.ETREEEMS.getValue(),ResultString.CONFIG_SUCCESS, 
-						null, null, ConstantUtil.siteId, etreeInfo.getName(), null);
+						null, null, siteId, etreeInfo.getName(), null);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
@@ -541,13 +566,13 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 //		}
 	}
 
-	private void elanNEAction(List<ElanInfo> elanList) {
+	private void elanNEAction(List<ElanInfo> elanList, int siteId) {
 		try {
 			DispatchUtil elanDispatch = new DispatchUtil(RmiKeys.RMI_ELAN);
-			elanDispatch.synchro(ConstantUtil.siteId);
+			elanDispatch.synchro(siteId);
 			for (ElanInfo elanInfo : elanList) {
 				AddOperateLog.insertOperLog(null, EOperationLogType.ELANEMS.getValue(),ResultString.CONFIG_SUCCESS, 
-						null, null, ConstantUtil.siteId, elanInfo.getName(), null);
+						null, null, siteId, elanInfo.getName(), null);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -579,13 +604,13 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 //		}
 	}
 
-	private void cccNEAction(List<CccInfo> cccList) {
+	private void cccNEAction(List<CccInfo> cccList, int siteId) {
 		try {
 			DispatchUtil cccDispatch = new DispatchUtil(RmiKeys.RMI_CCC);
-			cccDispatch.synchro(ConstantUtil.siteId);
+			cccDispatch.synchro(siteId);
 			for (CccInfo cccInfo : cccList) {
 				AddOperateLog.insertOperLog(null, EOperationLogType.CCCEMS.getValue(),ResultString.CONFIG_SUCCESS, 
-						null, null, ConstantUtil.siteId, cccInfo.getName(), null);
+						null, null, siteId, cccInfo.getName(), null);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());

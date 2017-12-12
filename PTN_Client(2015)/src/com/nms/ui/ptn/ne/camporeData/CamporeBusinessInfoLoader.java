@@ -77,13 +77,17 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 			Map<Integer, List> nEMap = (Map<Integer, List>) neMap;
 			if(eMSMap != null && eMSMap.size() > 0){
 				for (int id : eMSMap.keySet()){
-					busiObject = ((List)eMSMap.get(id)).get(0);
-					break;
+					if(((List)eMSMap.get(id)).size() > 0){
+						busiObject = ((List)eMSMap.get(id)).get(0);
+						break;
+					}
 				}
 			}else if(nEMap != null && nEMap.size() > 0){
 				for (int id : nEMap.keySet()){
-					busiObject = ((List)nEMap.get(id)).get(0);
-					break;
+					if(((List)nEMap.get(id)).size() > 0){
+						busiObject = ((List)nEMap.get(id)).get(0);
+						break;
+					}
 				}
 			}
 			if (busiObject instanceof PortInst) {//端口
@@ -1375,9 +1379,9 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 			//ces业务,显示端口名称
 			Node e1Name = new Node();
 			CamporeData e1NameData = new CamporeData();
-			String neName = serviceNe == null ? null:this.getE1PortName(((CesInfo)serviceNe));
+			String neName = serviceNe == null ? null:this.getE1PortName(((CesInfo)serviceNe), siteId);
 			e1NameData.setNE(neName);
-			String emsName = serviceEms == null ? null:this.getE1PortName((CesInfo)serviceEms);
+			String emsName = serviceEms == null ? null:this.getE1PortName((CesInfo)serviceEms, siteId);
 			this.setNode(ResourceUtil.srcStr(StringKeysLbl.LBL_PORT_NAME), e1NameData, e1Name, emsName, element);
 			if(serviceNe == null || serviceEms == null || !isDifferent){//显示所有节点
 				box.addElement(e1Name);
@@ -2062,12 +2066,12 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 		}
 	}
 
-	private String getE1PortName(CesInfo serviceNe) {
+	private String getE1PortName(CesInfo serviceNe, int siteId) {
 		E1InfoService_MB e1Service = null;
 		try {
 			e1Service = (E1InfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.E1Info);
 			E1Info e1 = new E1Info();
-			if(serviceNe.getaSiteId() == ConstantUtil.siteId){
+			if(serviceNe.getaSiteId() == siteId){
 				e1.setPortId(serviceNe.getaAcId());
 			}else{
 				e1.setPortId(serviceNe.getzAcId());

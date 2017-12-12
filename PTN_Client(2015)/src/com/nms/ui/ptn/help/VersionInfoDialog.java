@@ -99,11 +99,12 @@ public class VersionInfoDialog extends PtnDialog {
 	private void initTable() {
 		versionTable.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] {ResourceUtil.srcStr(StringKeysLbl.LBL_NAME),ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_DESC),
-				ResourceUtil.srcStr(StringKeysLbl.SOFTWARE_EDITION),ResourceUtil.srcStr(StringKeysLbl.COMPILE_TIME)}) {
+				ResourceUtil.srcStr(StringKeysLbl.SOFTWARE_EDITION), ResourceUtil.srcStr(StringKeysLbl.PATCH_EDITION),
+				ResourceUtil.srcStr(StringKeysLbl.COMPILE_TIME)}) {
 			@SuppressWarnings("unchecked")
 			Class[] types = new Class[] { java.lang.Object.class,
 					java.lang.Object.class, java.lang.Object.class,
-					java.lang.Object.class };
+					java.lang.Object.class, java.lang.Object.class };
 
 			@Override
 			@SuppressWarnings({ "unchecked"})
@@ -136,23 +137,23 @@ public class VersionInfoDialog extends PtnDialog {
 		DefaultTableModel tableModel = (DefaultTableModel) versionTable.getModel();
 		String v = "V2.1.6";//服务器版本:V2.1.6
 		Object[] obj = new Object[] {"ServerVersion", ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN).substring(0,
-				(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN).length()-1)), v, "2017-10-15"};
+				(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN).length()-1)), v, "V3.1.6", "2017-10-15"};
 		tableModel.addRow(obj);
 		v = loginConfig.getVersion();//客户端版本:V2.1.6
 		obj = new Object[] {"ClientVersion", ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_PTN).substring(0,
-				(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_PTN).length()-1)), v, "2017-10-11"};
+				(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_PTN).length()-1)), v, "V3.1.6", "2017-10-11"};
 		tableModel.addRow(obj);
-		obj = new Object[] {"QueryServer", ResourceUtil.srcStr(StringKeysObj.OBJ_QUERYSERVER), "v0.2.1", "2017-01-25"};
+		obj = new Object[] {"QueryServer", ResourceUtil.srcStr(StringKeysObj.OBJ_QUERYSERVER), "V0.2.1", "", "2017-01-25"};
 		tableModel.addRow(obj);
-		obj = new Object[] {"CfgServer", ResourceUtil.srcStr(StringKeysObj.OBJ_CFGSERVER), "v0.1.1", "2017-02-11"};
+		obj = new Object[] {"CfgServer", ResourceUtil.srcStr(StringKeysObj.OBJ_CFGSERVER), "V0.1.1", "", "2017-02-11"};
 		tableModel.addRow(obj);
-		obj = new Object[] {"NeCfgService", ResourceUtil.srcStr(StringKeysObj.OBJ_NECFGSERVICE), "v0.3.1", "2017-02-22"};
+		obj = new Object[] {"NeCfgService", ResourceUtil.srcStr(StringKeysObj.OBJ_NECFGSERVICE), "V0.3.1", "", "2017-02-22"};
 		tableModel.addRow(obj);
-		obj = new Object[] {"MSMPServer", ResourceUtil.srcStr(StringKeysObj.OBJ_MSMPSERVER), "v0.3.1", "2017-04-27"};
+		obj = new Object[] {"MSMPServer", ResourceUtil.srcStr(StringKeysObj.OBJ_MSMPSERVER), "V0.3.1", "", "2017-04-27"};
 		tableModel.addRow(obj);
-		obj = new Object[] {"DtServer", ResourceUtil.srcStr(StringKeysObj.OBJ_DTSERVER), "v0.2.1", "2017-01-21"};
+		obj = new Object[] {"DtServer", ResourceUtil.srcStr(StringKeysObj.OBJ_DTSERVER), "V0.2.1", "", "2017-01-21"};
 		tableModel.addRow(obj);
-		obj = new Object[] {"DispServer", ResourceUtil.srcStr(StringKeysObj.OBJ_DISPSERVER), "v0.2.1", "2017-01-03"};
+		obj = new Object[] {"DispServer", ResourceUtil.srcStr(StringKeysObj.OBJ_DISPSERVER), "V0.2.1", "", "2017-01-03"};
 		tableModel.addRow(obj);
 		versionTable.setModel(tableModel);
 	}

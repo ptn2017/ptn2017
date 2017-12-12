@@ -431,8 +431,8 @@ public class PwInfo extends ViewDataObj {
 				this.putClientProperty("zsiteName", getShowzSiteName());
 				// this.putClientProperty("aportConfigName", getPortConfigName(getaPortConfigId()));
 				this.putClientProperty("asiteName", getShowaSiteName());
-				this.putClientProperty("direction", ResourceUtil.srcStr(StringKeysTab.TAB_TWOWAY));
 			}
+			this.putClientProperty("direction", ResourceUtil.srcStr(StringKeysTab.TAB_TWOWAY));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}

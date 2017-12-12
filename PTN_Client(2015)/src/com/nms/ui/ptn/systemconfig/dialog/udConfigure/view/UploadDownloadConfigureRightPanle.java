@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.rmi.ui.util.RmiKeys;
@@ -39,6 +41,7 @@ import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.keys.StringKeysBtn;
+import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysPanel;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
@@ -71,8 +74,9 @@ public class UploadDownloadConfigureRightPanle extends ContentView<SiteInst>{
 	private PtnButton browse;//浏览
 	private PtnButton confirm;//确定
 	private JFileChooser fileChooser;
-	private  UploadDownloadConfigureRightPanle view;
+	private UploadDownloadConfigureRightPanle view;
 	private List<Integer> integers;
+	private PtnButton convert;// 数据转换
 	public UploadDownloadConfigureRightPanle() {
 		super("siteInstTable",RootFactory.CORE_MANAGE);
 		view = this;
@@ -107,6 +111,7 @@ public class UploadDownloadConfigureRightPanle extends ContentView<SiteInst>{
 		pathText.setEnabled(false);
 		browse = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_BROWSE),false,RootFactory.DEPLOY_MANAGE);//浏览
 		confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_SAVE),true,RootFactory.DEPLOY_MANAGE);//确定
+		this.convert = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_DATA_CONVERT),true,RootFactory.DEPLOY_MANAGE);
 		tabbedPane = new JTabbedPane();
 		jPanel = new JPanel();
 		splitPane = new JSplitPane();
@@ -232,6 +237,14 @@ public class UploadDownloadConfigureRightPanle extends ContentView<SiteInst>{
 		layout.setConstraints(this.confirm, c);
 		this.jPanel.add(this.confirm);
 		
+		c.gridx = 3;
+		c.gridy = 5;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 55, 5, 5);
+		layout.setConstraints(this.convert, c);
+		this.jPanel.add(this.convert);
+		
 	}
 	
 	public void addActionListener(){
@@ -312,7 +325,39 @@ public class UploadDownloadConfigureRightPanle extends ContentView<SiteInst>{
 
 			@Override
 			public boolean checking() {
-				// TODO Auto-generated method stub
+				return true;
+			}
+		});
+		
+		convert.addActionListener(new MyActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					if("".equals(view.pathText.getText())){
+						DialogBoxUtil.errorDialog(view, ResourceUtil.srcStr(StringKeysLbl.LBL_SELECT_UPGRADEFILE));
+					}else{
+						File file = view.fileChooser.getSelectedFile();
+						if(!file.exists()){
+							DialogBoxUtil.errorDialog(view, ResourceUtil.srcStr(StringKeysTip.TiP_POSITION_FILEEXIT));
+							return;
+						}
+						String prefix = file.getName().substring(file.getName().lastIndexOf(".")+1);
+						if(!"zip".equals(prefix) && !"rar".equals(prefix)){
+							DialogBoxUtil.errorDialog(view, ResourceUtil.srcStr(StringKeysTip.TIP_ZIP_RAR));
+							return;
+						}
+						Thread.sleep(20000);
+						DialogBoxUtil.succeedDialog(view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
+					}
+				} catch (Exception e) {
+					ExceptionManage.dispose(e,this.getClass());
+				}
+			}
+
+			@Override
+			public boolean checking() {
 				return true;
 			}
 		});

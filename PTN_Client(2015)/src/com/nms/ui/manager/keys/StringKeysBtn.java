@@ -386,5 +386,8 @@ public class StringKeysBtn {
 	 * 备用
 	 */
 	public static final String BTN_RESERVEPATH = "BTN_RESERVEPATH";
-	
+	/**
+	 * 数据转换
+	 */
+	public static final String BTN_DATA_CONVERT = "BTN_DATA_CONVERT";
 }

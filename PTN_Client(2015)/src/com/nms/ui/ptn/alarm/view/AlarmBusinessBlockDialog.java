@@ -24,6 +24,7 @@ import javax.swing.tree.TreePath;
 import twaver.Element;
 import twaver.tree.ElementNode;
 
+import com.nms.db.bean.alarm.CurrentAlarmBlock;
 import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.path.Segment;
@@ -44,11 +45,13 @@ import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.path.tunnel.TunnelService_MB;
 import com.nms.model.util.Services;
+import com.nms.rmi.ui.util.RmiKeys;
 import com.nms.ui.manager.CheckingUtil;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ControlKeyValue;
 import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.DialogBoxUtil;
+import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
@@ -60,7 +63,6 @@ import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysObj;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
-import com.nms.ui.ptn.alarm.model.CurrentAlarmBlock;
 /**
  * 告警屏蔽(按中国移动标准开发)
  * 
@@ -95,6 +97,8 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 	private JComboBox cmbAlarmSrcType;
 	private JLabel  lblMonitorObj;//监控对象
 	private JComboBox cmbMonitorObj;
+	
+	private CurrentAlarmBlock block = null;
 	
 	public AlarmBusinessBlockDialog() {
 		this.setModal(true);
@@ -135,6 +139,15 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		  return null;
 	}
 	private void addListener() {
+		// 保存按钮
+		confirm.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveInfo();
+			}
+		});
+		
 		//监控对象类型
 		cmbAlarmSrcType.addActionListener(new ActionListener() {
 			
@@ -190,6 +203,22 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		});
 		
 	}
+	
+	private void saveInfo() {
+		DispatchUtil dispatch = null;
+		try {
+			if(validateParams()){
+				CurrentAlarmBlock block = this.get();
+				dispatch = new DispatchUtil(RmiKeys.RMI_ALARM);
+				String result = dispatch.alarmBlocking(block);
+				DialogBoxUtil.succeedDialog(this, result);
+				this.dispose();
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+
 	//创建监听事件
 	private void createCheckBoxActionLisener(final JCheckBox jCheckBoxObject,final JTextField jTextField,final JTextField jTextField1,final int label) {
 		
@@ -441,6 +470,7 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		this.startTimeLabel.setSelected(false);
 		this.setText(alarmHappenText);
 		this.setText(alarmHappenEndText);
+		this.block = null;
 	}
 	
 	/**
@@ -448,7 +478,7 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 	 * 性
 	 * @return
 	 */
-	public boolean validateParams(){
+	private boolean validateParams(){
 		boolean flag = false;
 		try{
 			if (!this.neTreePanel.verifySelect()) {
@@ -763,8 +793,8 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		this.add(buttonConfirCanel);
 	}
 
-	public CurrentAlarmBlock get() {
-		CurrentAlarmBlock filter = new CurrentAlarmBlock();
+	private CurrentAlarmBlock get() {
+		this.block = new CurrentAlarmBlock();
 		StringBuilder strBuilder = new StringBuilder();
 		List<Integer> levelList = new ArrayList<Integer>();
 		//添加监控对象条件
@@ -772,31 +802,31 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 			ControlKeyValue conType = (ControlKeyValue) this.cmbAlarmSrcType.getSelectedItem();
 			ControlKeyValue conObj = (ControlKeyValue) this.cmbMonitorObj.getSelectedItem();
 			int id = Integer.parseInt(conType.getId());
-			filter.setAlarmSrc(0);
+			block.setAlarmSrc(0);
 			if(id == 0){
 				// 所有
-				filter.setAlarmBusiness(null);
+				block.setAlarmBusiness(null);
 			}else{
 				// 具体某一种类型
-				filter.setAlarmSrc(id);
+				block.setAlarmSrc(id);
 				if(Integer.parseInt(conObj.getId()) == 0){
 					// 所有配置
-					filter.setAlarmBusiness(null);
+					block.setAlarmBusiness(null);
 				}else{
 					// 具体某一条配置
-					filter.setAlarmBusiness(conObj.getObject());
+					block.setAlarmBusiness(conObj.getObject());
 				}
 			}
 			
 			strBuilder.append(ResourceUtil.srcStr(StringKeysObj.OBJ_TYPE)).append("：").append(cbObjectType.getSelectedItem()).append(";");
 			if(cbObjectType.getSelectedItem().equals(ResourceUtil.srcStr(StringKeysObj.NET_BASE))){
 				// 根据网元查询当前性能值
-				filter.setSiteList(this.neTreePanel.getSelectSiteInst());
-				filter.setObjectType(EObjectType.SITEINST);
+				block.setSiteList(this.neTreePanel.getSelectSiteInst());
+				block.setObjectType(EObjectType.SITEINST);
 			}else if(cbObjectType.getSelectedItem().equals(ResourceUtil.srcStr(StringKeysObj.BOARD))){
 				strBuilder.append(ResourceUtil.srcStr(StringKeysObj.ALARM_OBJECT)).append("：");
-				filter.setSlotList(this.neTreePanel.getSelectSlotInst());
-				filter.setObjectType(EObjectType.SLOTINST);
+				block.setSlotList(this.neTreePanel.getSelectSlotInst());
+				block.setObjectType(EObjectType.SLOTINST);
 			}
 			
 			strBuilder.append(ResourceUtil.srcStr(StringKeysObj.ALARM_LEVEL)).append("：");
@@ -826,17 +856,17 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 			 
 			strBuilder.replace(strBuilder.length()-1, strBuilder.length(), ";");
 			//设置告警级别的数组
-			filter.setAlarmLevel(levelList);
+			block.setAlarmLevel(levelList);
 			//告警类型
             if(lblPerforType.isSelected()){
-            	filter.setWarningType(alarmPerforType.getSelectedIndex()+1);
+            	block.setWarningType(alarmPerforType.getSelectedIndex()+1);
 			}else{
-				filter.setWarningType(0);
+				block.setWarningType(0);
 			}
 			//发生时间
 			if(startTimeLabel.isSelected()){
-				filter.setHappenTime(alarmHappenText.getText().trim());
-				filter.setHappenEndTime(alarmHappenEndText.getText().trim());
+				block.setHappenTime(alarmHappenText.getText().trim());
+				block.setHappenEndTime(alarmHappenEndText.getText().trim());
 			}
 			this.filterInfo = strBuilder.toString();	
 		}catch (Exception e) {
@@ -844,7 +874,7 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		} finally {
 			
 		}		
-		return filter;
+		return block;
 	}
 
 	public String getFilterInfo() {

@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+
 /**
  * 告警RMI接口
  * 
@@ -44,5 +45,13 @@ public interface AlarmDispatchI extends Remote {
 	 * @throws Exception
 	 */
 	public String alarmSheild(Object object)throws RemoteException, Exception;
+
+	/**
+	 * 告警屏蔽
+	 * @param object
+	 * @throws RemoteException
+	 * @throws Exception
+	 */
+	public String alarmBlocking(Object object)throws RemoteException, Exception;
 	
 }

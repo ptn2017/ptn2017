@@ -690,7 +690,7 @@ public class CurrentAlarmController {
 									PwInfo pw = (PwInfo) alarmBusi;
 									if((pw.getASiteId() == alarm.getSiteId() && pw.getApwServiceId() == alarm.getObjectId()) ||
 											(pw.getZSiteId() == alarm.getSiteId() && pw.getZpwServiceId() == alarm.getObjectId())){
-										
+										list.add(alarm);
 									}
 								}else{
 									list.add(alarm);

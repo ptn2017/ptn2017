@@ -354,7 +354,7 @@ public class SSProfess extends ViewDataObj {
 		    	    			 aacInList1 = new ArrayList<Integer>();	
 		    	    			 zacInList1 = new ArrayList<Integer>();	  
 		    	    			 EtreeInfo etree=etreeService.selectAcIds(serviceType,name,zacInList.get(j)).get(0);
-		    	    			  if(etree.getaSiteId()==zacInList.get(j)){
+		    	    			  if(etree.getaSiteId() > 0 && etree.getaSiteId()==zacInList.get(j)){
 		 		    	    		 String []mac2=etree.getAmostAcId().split("\\, ");		    	    			
 		 		    	    		 for(int k=0;k<mac2.length;k++){
 		 		    	    			aacInList1.add(Integer.parseInt(mac2[k]));
@@ -362,7 +362,7 @@ public class SSProfess extends ViewDataObj {
 		 		    	    		 zacInList1.add(zacInList.get(j));	  
 		 		    	    		 zportName+= wh.getNeName(zacInList1)+":"+getacPortNames(aacInList1)+" ";  
 		    	    			  }
-		    	    			  if(etree.getzSiteId()==zacInList.get(j)){
+		    	    			  if(etree.getzSiteId() > 0 && etree.getzSiteId()==zacInList.get(j)){
 			 		    	    		 String []mac2=etree.getZmostAcId().split("\\, ");		    	    			
 			 		    	    		 for(int k=0;k<mac2.length;k++){
 			 		    	    			aacInList1.add(Integer.parseInt(mac2[k]));

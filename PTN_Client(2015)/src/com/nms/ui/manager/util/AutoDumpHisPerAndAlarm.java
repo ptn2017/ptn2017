@@ -48,7 +48,7 @@ public class AutoDumpHisPerAndAlarm {
         }
 		unload.setUnloadType(label);
 		unload.setFileWay(fileName);
-		autoDumpHisData = tranferService.getDataStr(unload,autoDumpCount);
+		autoDumpHisData = tranferService.getDataStr(unload,autoDumpCount,0);
 		
 		if(autoDumpHisData != null && autoDumpHisData.size()>0){
 			ids = new ArrayList<Integer>();	

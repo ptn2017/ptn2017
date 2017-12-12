@@ -81,9 +81,9 @@ import com.nms.ui.ptn.oam.Node.view.TunnelOamNodeDialog;
 				dialog.setLocation(UiUtil.getWindowWidth(dialog.getWidth()) - 200, UiUtil.getWindowHeight(dialog.getHeight()) / 2 - 8);
 				
 				if(ResourceUtil.language.equals("zh_CN")){
-					dialog.setSize(new Dimension(750, 450));
+					dialog.setSize(new Dimension(850, 450));
 				}else{
-					dialog.setSize(new Dimension(980, 450));
+					dialog.setSize(new Dimension(1100, 450));
 				}
 //				dialog.setSize(new Dimension(600, 450));
 				dialog.setVisible(true);

@@ -18,6 +18,7 @@ import com.nms.db.bean.system.UnLoading;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.model.alarm.HisAlarmService_MB;
 import com.nms.model.perform.HisPerformanceService_Mb;
+import com.nms.model.system.LogManagerService_MB;
 import com.nms.model.system.OperationLogService_MB;
 import com.nms.model.system.TranferService_Mb;
 import com.nms.model.system.loginlog.LoginLogServiece_Mb;
@@ -36,7 +37,9 @@ import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.systemManage.ReadUnloadXML;
 import com.nms.ui.ptn.systemManage.bean.TranferInfo;
 import com.nms.ui.ptn.systemManage.view.InportDialog;
+import com.nms.ui.ptn.systemManage.view.UnLoadDeleteDialog;
 import com.nms.ui.ptn.systemManage.view.UnLoadUpdateDialog;
+import com.nms.ui.ptn.systemManage.view.UnLoadingDeletePanel;
 import com.nms.ui.ptn.systemManage.view.UnLoadingPanel;
 /**
  * 主界面按钮事件处理
@@ -45,6 +48,8 @@ import com.nms.ui.ptn.systemManage.view.UnLoadingPanel;
  */
 public class UnLoadingController extends AbstractController {
 	private UnLoadingPanel view=null;
+	private UnLoadingDeletePanel view1=null;
+	private int label;
 	UnLoading unload=null;
 	List<UnLoading> unloadList=null;
 	//转储结果   的时间
@@ -52,10 +57,16 @@ public class UnLoadingController extends AbstractController {
 	//  转储  生成的 文件 名
 	private DateFormat dateFile = new SimpleDateFormat("yyyyMMddHHmmss");
 	
-	public UnLoadingController(UnLoadingPanel unloadingPanel) {
+	public UnLoadingController(UnLoadingPanel unloadingPanel ,int label) {
 		this.view = unloadingPanel;
+		this.label=label;
 	}
 
+	public UnLoadingController(UnLoadingDeletePanel unloadingDeletePanel,int label) {
+		this.view1 = unloadingDeletePanel;
+		this.label=label;
+	}
+	
 	public UnLoadingController() {
 		super();
 	}
@@ -63,10 +74,16 @@ public class UnLoadingController extends AbstractController {
 	@Override
 	public void refresh() throws Exception {
 		try {
-			unloadList = ReadUnloadXML.selectUnloadXML();
-			this.view.clear();
-			this.view.initData(unloadList);
-			this.view.updateUI();
+			unloadList = ReadUnloadXML.selectUnloadXML();	
+			if(this.label==1){
+				this.view.clear();
+				this.view.initData(unloadList);
+				this.view.updateUI();
+			}else if(this.label==2){
+				this.view1.clear();
+				this.view1.initData(unloadList);
+				this.view1.updateUI();				
+			}
 
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -76,17 +93,37 @@ public class UnLoadingController extends AbstractController {
 		}
 
 	}
+	public void refreshDelete() throws Exception {
+		try {
+			unloadList = ReadUnloadXML.selectUnloadXML();			
+			this.view1.clear();
+			this.view1.initData(unloadList);
+			this.view1.updateUI();
+
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		} finally {
+			unload=null;
+			unloadList=null;
+		}
+
+	}	
+	
 	/**
 	 * 修改按钮
 	 */
 	public void openUpdateDialog()throws Exception{
-		
-		final UnLoadUpdateDialog dialog = new UnLoadUpdateDialog(this);
-//		if(this.getView().getSelect().getUnloadType() == 3 || this.getView().getSelect().getUnloadType() == 4){
-//			UiUtil.showWindow(dialog, 380, 300);
-//		}else{
-			UiUtil.showWindow(dialog, 380, 380);
-//		}
+		if(this.label==1){
+			final UnLoadUpdateDialog dialog = new UnLoadUpdateDialog(this);
+	//		if(this.getView().getSelect().getUnloadType() == 3 || this.getView().getSelect().getUnloadType() == 4){
+	//			UiUtil.showWindow(dialog, 380, 300);
+	//		}else{
+				UiUtil.showWindow(dialog, 380, 380);
+	//		}
+		}else if(this.label==2){
+			final UnLoadDeleteDialog dialog = new UnLoadDeleteDialog(this);
+			UiUtil.showWindow(dialog, 280, 240);
+		}
 	}
 	/**
 	 * 导入
@@ -111,6 +148,7 @@ public class UnLoadingController extends AbstractController {
 		HisPerformanceService_Mb hisPerformanceService = null;
 		OperationLogService_MB operationLogService = null;
 		LoginLogServiece_Mb loginlogServiece = null;
+		LogManagerService_MB logService=null;
 		HisAlarmService_MB service = null;
 		TranferService_Mb tranferService=null;
 		List<Integer> idList=null;
@@ -144,7 +182,7 @@ public class UnLoadingController extends AbstractController {
 						operationLogService = (OperationLogService_MB) ConstantUtil.serviceFactory.newService_MB(Services.OPERATIONLOGSERVIECE);
 						loginlogServiece=(LoginLogServiece_Mb) ConstantUtil.serviceFactory.newService_MB(Services.LOGINLOGSERVIECE);
 						service = (HisAlarmService_MB) ConstantUtil.serviceFactory.newService_MB(Services.HisAlarm);
-						
+						logService = (LogManagerService_MB) ConstantUtil.serviceFactory.newService_MB(Services.LOGMANAGER);
 						
 						for(int i=unloadSize-1;i>=0;i--){
 							UnLoading unload=(UnLoading) unloadList.get(i);					
@@ -166,11 +204,11 @@ public class UnLoadingController extends AbstractController {
 												//可以转储部分溢出条目
 												if(count-unload.getHoldEntry()<=unload.getSpillEntry()){								
 													//根据溢出条目,取出历史报警记录
-													idList=this.unloadHistoryAlarm(tranferService.getDataStr(unload,count-unload.getHoldEntry()),  unload);
+													idList=this.unloadHistoryAlarm(tranferService.getDataStr(unload,count-unload.getHoldEntry(),0),  unload);
 													//将记录写入文件中																																		 																		
 												}else{
 													//数据库中条目多余溢出条目，
-													idList=this.unloadHistoryAlarm(tranferService.getDataStr(unload,unload.getSpillEntry()),  unload);																
+													idList=this.unloadHistoryAlarm(tranferService.getDataStr(unload,unload.getSpillEntry(),0),  unload);																
 												}	
 	//											 转储成功后，删除表中数据
 												service.delete(idList);
@@ -192,11 +230,11 @@ public class UnLoadingController extends AbstractController {
 										//可以转储部分溢出条目
 										if(count-unload.getHoldEntry()<=unload.getSpillEntry()){									
 											//根据溢出条目,取出历史报警记录
-											idList=this.unloadHisPerformance(tranferService.getDataStr(unload,count-unload.getHoldEntry()), unload);
+											idList=this.unloadHisPerformance(tranferService.getDataStr(unload,count-unload.getHoldEntry(),0), unload);
 											//将记录写入文件中						
 										}else{
 											//数据库中条目多余溢出条目，
-											idList=this.unloadHisPerformance(tranferService.getDataStr(unload,unload.getSpillEntry()), unload);																						
+											idList=this.unloadHisPerformance(tranferService.getDataStr(unload,unload.getSpillEntry(),0), unload);																						
 										}
 										
 										hisPerformanceService.delete(idList);
@@ -216,12 +254,16 @@ public class UnLoadingController extends AbstractController {
 									if(count>unload.getHoldEntry()){
 										//可以转储部分溢出条目
 										if(count-unload.getHoldEntry()<=unload.getSpillEntry()){								
-											//根据溢出条目,取出历史报警记录					
-											idList=this.unloadOperationLog(tranferService.getDataStr(unload,count-unload.getHoldEntry()), unload);
+											//根据溢出条目,取出历史报警记录	
+											int total=logService.selectCounts1(count-unload.getHoldEntry());
+											int maxId=logService.selectCounts(total).getTotalCount();
+											idList=this.unloadOperationLog(tranferService.getDataStr(unload,count-unload.getHoldEntry(),maxId), unload);
 											//将记录写入文件中																																		 																		
 										}else{
 											//数据库中条目多余溢出条目，
-											idList=this.unloadOperationLog(tranferService.getDataStr(unload,unload.getSpillEntry()), unload);																
+											int total=logService.selectCounts1(unload.getSpillEntry());
+											int maxId=logService.selectCounts(total).getTotalCount();
+											idList=this.unloadOperationLog(tranferService.getDataStr(unload,unload.getSpillEntry(),maxId), unload);																
 										}	
 	                                    // 转储成功后，删除表中数据
 										operationLogService.delete(idList);
@@ -241,11 +283,11 @@ public class UnLoadingController extends AbstractController {
 										//可以转储部分溢出条目   
 										if(count-unload.getHoldEntry() <= unload.getSpillEntry()){								
 											//根据溢出条目,登录日志				
-											idList=this.unloadOperationLog(tranferService.getDataStr(unload,count-unload.getHoldEntry()), unload);
+											idList=this.unloadOperationLog(tranferService.getDataStr(unload,count-unload.getHoldEntry(),0), unload);
 											//将记录写入文件中																																		 																		
 										}else{
 											//数据库中条目多余溢出条目，
-											idList=this.unloadOperationLog(tranferService.getDataStr(unload,unload.getSpillEntry()), unload);																
+											idList=this.unloadOperationLog(tranferService.getDataStr(unload,unload.getSpillEntry(),0), unload);																
 										}	
 	                                    // 转储成功后，删除表中数据
 										loginlogServiece.delete(idList);
@@ -290,6 +332,7 @@ public class UnLoadingController extends AbstractController {
 			UiUtil.closeService_MB(hisPerformanceService);
 			UiUtil.closeService_MB(operationLogService);
 			UiUtil.closeService_MB(loginlogServiece);
+			UiUtil.closeService_MB(logService);
 		}
 	}
 	
@@ -310,6 +353,14 @@ public class UnLoadingController extends AbstractController {
 	public void setView(UnLoadingPanel view) {
 		this.view = view;
 	}
+	
+	public UnLoadingDeletePanel getViews() {
+		return view1;
+	}
+
+	public void setViews(UnLoadingDeletePanel view1) {
+		this.view1 = view1;
+	}	
 	/**
 	 * 导出历史告警
 	 * @param unload

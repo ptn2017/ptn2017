@@ -72,7 +72,8 @@ public class ElanController extends AbstractController {
 				Map.Entry entry2 = (Map.Entry) iter.next();
 				infos.addAll((Collection<? extends ElanInfo>) entry2.getValue());
 			}
-			//删除serviceID重复�?重复的算一�?			elanInfo = removeRepeatedElan(infos);
+			//删除serviceID重复�?重复的算一�?			
+			elanInfo = removeRepeatedElan(infos);
 			this.getElanPanel().clear();
 			this.getElanPanel().getPwElinePanel().clear();
 			this.getElanPanel().getAcElinePanel().clear();

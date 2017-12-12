@@ -408,13 +408,13 @@ public class TunnelNodeController extends AbstractController {
 				ssList = new ArrayList<SSProfess>();		
 				if(elineList!=null && elineList.size()!=0){
 					for(ElineInfo eline : elineList){
-					ss=new SSProfess();
+						ss=new SSProfess();
 						ss.setName(eline.getName());
 						ss.setServiceType(eline.getServiceType());
 						ss.setCreateTime(eline.getCreateTime());
 						ss.setActiveStatus(eline.getActiveStatus());
 						ss.setClientName(eline.getClientName());
-					ssList.add(ss);
+						ssList.add(ss);
 					}
 					this.view.getBusinessNetworkTablePanel().clear();
 					this.view.getBusinessNetworkTablePanel().initData(ssList);

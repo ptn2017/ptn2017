@@ -91,6 +91,7 @@ import com.nms.db.dao.ptn.qos.QosRelevanceMapper;
 import com.nms.db.dao.ptn.qos.QosTemplateInfoMapper;
 import com.nms.db.dao.report.StaticsticsMapper;
 import com.nms.db.dao.system.FieldMapper;
+import com.nms.db.dao.system.LogManagerMapper;
 import com.nms.db.dao.system.NetWorkMapper;
 import com.nms.db.dao.system.OfflinesItebusiMapper;
 import com.nms.db.dao.system.OperationLogMapper;
@@ -201,6 +202,7 @@ import com.nms.model.ptn.qos.QosTemplateService_MB;
 import com.nms.model.report.StaticsticsService_MB;
 import com.nms.model.system.DataBaseService_MB;
 import com.nms.model.system.FieldService_MB;
+import com.nms.model.system.LogManagerService_MB;
 import com.nms.model.system.NetService_MB;
 import com.nms.model.system.OffLinesiteBusiService_MB;
 import com.nms.model.system.OperationLogService_MB;
@@ -924,7 +926,13 @@ public class ServiceFactory {
 			unloadServiceMB.setPtnuser(ptnuser);
 			unloadServiceMB.setSqlSession(sqlSession);
 			unloadServiceMB.setMapper(sqlSession.getMapper(UnloadMapper.class));
-			return unloadServiceMB;			
+			return unloadServiceMB;		
+		case Services.LOGMANAGER:
+			LogManagerService_MB logManagerServiceMB = new LogManagerService_MB();
+			logManagerServiceMB.setPtnuser(ptnuser);
+			logManagerServiceMB.setSqlSession(sqlSession);
+			logManagerServiceMB.setMapper(sqlSession.getMapper(LogManagerMapper.class));
+			return logManagerServiceMB;	
 		};
 		return null;
 	}

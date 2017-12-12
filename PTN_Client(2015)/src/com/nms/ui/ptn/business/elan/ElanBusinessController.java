@@ -40,6 +40,7 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
+import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.elanpath.AddElanDialog;
 import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 
@@ -554,9 +555,9 @@ public class ElanBusinessController extends AbstractController {
 	@Override
 	public void search() throws Exception {
 		try {
-//			new SearchSegmentDialog(this.view);
-			Thread.sleep(21000);
-			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
+			new SearchSegmentDialog(this.view);
+//			Thread.sleep(21000);
+//			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		} finally {
@@ -704,7 +705,6 @@ public class ElanBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("ELAN", elanEMSMap, elanNEMap, this);
-				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}

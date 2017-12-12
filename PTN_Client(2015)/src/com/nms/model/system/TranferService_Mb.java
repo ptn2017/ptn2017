@@ -2,6 +2,7 @@ package com.nms.model.system;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +13,6 @@ import com.nms.db.dao.system.TranferInfoMapper;
 import com.nms.model.util.ObjectService_Mybatis;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.LoginUtil;
-import com.nms.ui.manager.ResourceUtil;
-import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.xmlbean.LoginConfig;
 import com.nms.ui.ptn.systemManage.bean.TranferInfo;
 
@@ -71,7 +70,7 @@ public class TranferService_Mb extends ObjectService_Mybatis{
 	 * 			 sql语句的集合
 	 * @throws Exception
 	 */
-	public  List<TranferInfo> getDataStr(UnLoading unload,int count) throws Exception {
+	public  List<TranferInfo> getDataStr(UnLoading unload,int count,int total) throws Exception {
 		String tableName=null;
 		String byTime=null;
 		List<TranferInfo> tranferInfoList=null;
@@ -84,7 +83,6 @@ public class TranferService_Mb extends ObjectService_Mybatis{
 			TranferInfo t1 = new TranferInfo();
 			t1.setId(0);
 			t1.setSql("/*"+loginConfig.getVersion()+"*/\n");/*V2.1.4*/
-//			t1.setSql("/*"+ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL2_VERSIONS)+"*/\n");/*V2.1.4*/
 			TranferInfo t2 = new TranferInfo();
 			t2.setId(0);
 			t2.setSql("/*Database: ptn*/\n");/*Database: ptn*/
@@ -103,14 +101,14 @@ public class TranferService_Mb extends ObjectService_Mybatis{
 				// 操作日志
 				tableName="operation_log";
 				byTime="startTime";
-				this.getTableStr(tableName, count, tranferInfoList);
+				this.getTableStr(tableName, count, tranferInfoList);				
 				tableName="operationdatalog";
 			}else if(4 == unload.getUnloadType()){
 				// 登录日志
 				tableName="login_log";
 				byTime="startTime";
 			}
-			this.getTableStr(tableName, count, tranferInfoList);
+			this.getTableStr(tableName, total, tranferInfoList);
 		} catch (Exception e) {
 			throw e;
 		}

@@ -24,7 +24,6 @@ import com.nms.db.bean.ptn.oam.OamMepInfo;
 import com.nms.db.bean.ptn.path.protect.DualProtect;
 import com.nms.db.bean.ptn.path.pw.MsPwInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
-import com.nms.db.bean.ptn.path.tunnel.Lsp;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.ptn.qos.QosInfo;
 import com.nms.db.bean.system.code.Code;
@@ -196,9 +195,11 @@ public class PwAddDialog extends PtnDialog {
 				{
 					
 					managerButoon.setEnabled(true);
-					//入标�?					txtInlabel.setEditable(false);
+					//入标�?					
+					txtInlabel.setEditable(false);
 					txtInlabel.setText("17");
-					//出标�?					txtOutlabel.setEditable(false);
+					//出标�?					
+					txtOutlabel.setEditable(false);
 					txtOutlabel.setText("17");
 					//可选择tunnel
 					cmbTunnel.setEnabled(false);
@@ -336,8 +337,10 @@ public class PwAddDialog extends PtnDialog {
 				if(codePwServiceType.getCodeValue().equals("0"))
 				{
 					managerButoon.setEnabled(false);
-					//入标�?					txtInlabel.setEditable(true);
-					//出标�?					txtOutlabel.setEditable(true);
+					//入标�?					
+					txtInlabel.setEditable(true);
+					//出标�?					
+					txtOutlabel.setEditable(true);
 					//可选择tunnel
 					cmbTunnel.setEnabled(true);
 					txtQos.setEnabled(true);
@@ -356,9 +359,11 @@ public class PwAddDialog extends PtnDialog {
 					}
 					
 					managerButoon.setEnabled(true);
-					//入标�?					txtInlabel.setEditable(false);
+					//入标�?					
+					txtInlabel.setEditable(false);
 					txtInlabel.setText("17");
-					//出标�?					txtOutlabel.setEditable(false);
+					//出标�?					
+					txtOutlabel.setEditable(false);
 					txtOutlabel.setText("17");
 					//可选择tunnel
 					cmbTunnel.setEnabled(false);
@@ -489,7 +494,8 @@ public class PwAddDialog extends PtnDialog {
 		this.chbActivate = new JCheckBox();
 		this.txtOppositeId = new PtnTextField(false, PtnTextField.TYPE_IP, PtnTextField.IP_MAXLENGTH, this.lblMessage, this.btnSave, this);
 		this.txtOppositeId.setText("0.0.0.0");
-		//新增映射表管�?		this.lblMapping = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_MAPPING_MANAGE));
+		//新增映射表管�?		
+		this.lblMapping = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_MAPPING_MANAGE));
 		this.btnMapping = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIG));
 		this.autoNamingBtn = new JButton(ResourceUtil.srcStr(StringKeysLbl.LBL_AUTO_NAME));
 		this.payloadTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_PAYLOAD));
@@ -612,7 +618,8 @@ public class PwAddDialog extends PtnDialog {
 		this.add(this.pwTypeComboBox);
 		
 		
-		// 第三�? 负载净�?		c.gridx = 0;
+		// 第三�? 负载净�?		
+		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.payloadTxt, c);
@@ -646,7 +653,8 @@ public class PwAddDialog extends PtnDialog {
 //		componentLayout.setConstraints(this.cmbPwport, c);
 //		this.add(this.cmbPwport);
 
-		// 第五�?入标�?		c.gridx = 0;
+		// 第五�?入标�?		
+		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblInlabel, c);
@@ -657,7 +665,8 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.txtInlabel, c);
 		this.add(this.txtInlabel);
 
-		// 第六�?出标�?		c.gridx = 0;
+		// 第六�?出标�?		
+		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblOutlabel, c);
@@ -704,7 +713,8 @@ public class PwAddDialog extends PtnDialog {
 //		componentLayout.setConstraints(this.vlanEnableComboBox, c);
 //		this.add(this.vlanEnableComboBox);
 		
-		//外层vlan�?//		c.gridx = 0;
+		//外层vlan�?
+		//c.gridx = 0;
 //		c.gridy = i;
 //		c.gridwidth = 1;
 //		componentLayout.setConstraints(this.vlanValue, c);
@@ -754,7 +764,8 @@ public class PwAddDialog extends PtnDialog {
 		this.add(this.modelJComboBox);
 		
 		
-		// �?0�?激活状�?		c.gridx = 0;
+		// �?0�?激活状�?		
+		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblActivate, c);
@@ -765,7 +776,8 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.chbActivate, c);
 		this.add(this.chbActivate);
 		
-		//插入一�?映射表管�?		c.gridx = 0;
+		//插入一�?映射表管�?		
+		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblMapping, c);
@@ -779,7 +791,8 @@ public class PwAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.btnMapping, c);
 		this.add(this.btnMapping);
 		
-		//插入一�?映射表管�?		c.gridx = 0;
+		//插入一�?映射表管�?		
+		c.gridx = 0;
 		c.gridy = i;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.doubleManagerLabel, c);
@@ -1429,9 +1442,11 @@ public class PwAddDialog extends PtnDialog {
 		List<Integer> labelvalues = null;
 		try {
 			labelvalues = new ArrayList<Integer>();
-			//如过修改pw时，未修改此标签就不用验证，即可�?//			if(Integer.parseInt(this.txtInlabel.getText().trim()) != inLabel){
+			//如过修改pw时，未修改此标签就不用验证，即可�?//			
+			if(Integer.parseInt(this.txtInlabel.getText().trim()) != inLabel){
 				if(Integer.parseInt(inLabelValue) != inLabel){
-				this.setLabelValues(labelvalues, Integer.parseInt(inLabelValue));
+					this.setLabelValues(labelvalues, Integer.parseInt(inLabelValue));
+				}
 			}
 		} catch (CustomException e) {
 			throw e;
@@ -1503,7 +1518,8 @@ public class PwAddDialog extends PtnDialog {
 			curAlarmService = (CurAlarmService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CurrentAlarm);
 			tunnelServiceMB=(TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
 			siteList = tunnelServiceMB.getSiteIds(tunnel,false);
-			if(siteList != null && siteList.size()>0){//选择的tunnel包含武汉的设�?				currentAlarmInfo = new CurrentAlarmInfo();
+			if(siteList != null && siteList.size()>0){//选择的tunnel包含武汉的设�?				
+				currentAlarmInfo = new CurrentAlarmInfo();
 				currentAlarmInfo.setAlarmCode(183);
 				currentAlarmInfo.setAlarmLevel(2);
 				if(ConstantUtil.siteId == tunnel.getASiteId()){

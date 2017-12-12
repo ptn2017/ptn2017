@@ -1095,7 +1095,8 @@ public class AddEtreeDialog extends PtnDialog {
 			if (null != etreeInfo_update) {
 				this.integrateEtree(etreeInfo_update, etreeInfo_new);
 			} else {
-				// 如果为null 说明没有匹配项目，是新增操作�?				// 把创建时间和创建人修改成以前的数�?				etreeInfo_new.setCreateTime(this.etreeInfoList_update.get(0).getCreateTime());
+				// 如果为null 说明没有匹配项目，是新增操作�?				// 把创建时间和创建人修改成以前的数�?				
+				etreeInfo_new.setCreateTime(this.etreeInfoList_update.get(0).getCreateTime());
 				if(activeCheckBox.isSelected()){
 					etreeInfo_new.setActivatingTime(this.etreeInfoList_update.get(0).getActivatingTime());
 				}else{
@@ -1105,7 +1106,8 @@ public class AddEtreeDialog extends PtnDialog {
 				etreeInfo_new.setServiceId(this.etreeInfoList_update.get(0).getServiceId());
 				etreeInfo_new.setaXcId(this.etreeInfoList_update.get(0).getaXcId());
 				etreeInfo_new.setAction(2); // 把此etree记录标识为新增数�?
-				// 把此数据添加到要修改的etree集合中�?				this.etreeInfoList_update.add(etreeInfo_new);
+				// 把此数据添加到要修改的etree集合中�?				
+				this.etreeInfoList_update.add(etreeInfo_new);
 			}
 		}
 	}
@@ -1162,7 +1164,8 @@ public class AddEtreeDialog extends PtnDialog {
 				etreeInfo_update.setZmostAcId(etreeInfo_new.getZmostAcId());
 				etreeInfo_update.setAction(1);
 			}
-			// 赋其他修改参�?			etreeInfo_update.setName(etreeInfo_new.getName());
+			// 赋其他修改参�?			
+			etreeInfo_update.setName(etreeInfo_new.getName());
 			etreeInfo_update.setActiveStatus(etreeInfo_new.getActiveStatus());
 			etreeInfo_update.setClientId(etreeInfo_new.getClientId());
 			// 如果action还等�? 说明上面三个条件没有成立，此时给此属性赋0=没有改变pw、根ac、叶ac
@@ -1322,7 +1325,8 @@ public class AddEtreeDialog extends PtnDialog {
 		boolean flag = true;
 		List<Integer> siteIdList = null;
 		try {
-			// 把ac的所有网元放入集合中，做比较�?			siteIdList = new ArrayList<Integer>();
+			// 把ac的所有网元放入集合中，做比较�?			
+			siteIdList = new ArrayList<Integer>();
 			for (AcPortInfo acPortInfo : acPortInfoList) {
 				siteIdList.add(acPortInfo.getSiteId());
 			}

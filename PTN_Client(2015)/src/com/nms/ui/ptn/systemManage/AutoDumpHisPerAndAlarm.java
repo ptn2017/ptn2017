@@ -52,7 +52,7 @@ public class AutoDumpHisPerAndAlarm {
 		// 1:告警 2:性能 3:操作日志 4:登录日志
 		unload.setUnloadType(label);
 		unload.setFileWay(fileAddress);
-		autoDumpHisData = tranferService.getDataStr(unload,autoDumpCount);
+		autoDumpHisData = tranferService.getDataStr(unload,autoDumpCount,0);
 		
 		if(autoDumpHisData != null && autoDumpHisData.size()>0){
 			ids = new ArrayList<Integer>();	
@@ -81,6 +81,57 @@ public class AutoDumpHisPerAndAlarm {
 	}
 }
 
+   
+   public void autoDump(int label,int autoDumpCount,int maxId,String fileAddress){
+		 
+	TranferService_Mb tranferService = null;
+	UnLoading unload = new UnLoading();
+	List<TranferInfo> autoDumpHisData = null; 
+	HisPerformanceService_Mb hisPerformanceService = null;
+	HisAlarmService_MB hisAlarmService = null;
+	List<Integer> ids = null;
+	OperationLogService_MB operationLogService = null;
+	LoginLogServiece_Mb loginlogServiece = null;
+	try {
+		hisAlarmService = (HisAlarmService_MB) ConstantUtil.serviceFactory.newService_MB(Services.HisAlarm);
+		hisPerformanceService = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
+		tranferService = (TranferService_Mb)ConstantUtil.serviceFactory.newService_MB(Services.TRANFERSERVICE);
+		operationLogService = (OperationLogService_MB) ConstantUtil.serviceFactory.newService_MB(Services.OPERATIONLOGSERVIECE);
+		loginlogServiece = (LoginLogServiece_Mb) ConstantUtil.serviceFactory.newService_MB(Services.LOGINLOGSERVIECE);
+		// 1:告警 2:性能 3:操作日志 4:登录日志
+		unload.setUnloadType(label);
+		unload.setFileWay(fileAddress);
+		autoDumpHisData = tranferService.getDataStr(unload,autoDumpCount,maxId);
+
+		
+		if(autoDumpHisData != null && autoDumpHisData.size()>0){
+			ids = new ArrayList<Integer>();	
+			if(label == 1){
+				ids = unloadHistoryAlarm(autoDumpHisData,unload);
+				hisAlarmService.delete(ids);
+			}else if(label == 2){
+				ids = unloadHisPerformance(autoDumpHisData,unload);
+				hisPerformanceService.delete(ids);
+			}else if(label == 3){
+				ids = unloadOperationLog(autoDumpHisData,unload);
+				operationLogService.delete(ids);
+			}else{
+				ids = unloadLoginLog(autoDumpHisData,unload);
+				loginlogServiece.delete(ids);
+			}
+		}
+	 } catch (Exception e) {
+		ExceptionManage.dispose(e,this.getClass());
+	 }finally{
+		UiUtil.closeService_MB(hisAlarmService);
+		UiUtil.closeService_MB(tranferService);
+		UiUtil.closeService_MB(hisPerformanceService);
+		UiUtil.closeService_MB(operationLogService);
+		UiUtil.closeService_MB(loginlogServiece);
+	}
+}
+   
+   
 /**
 	 *历史性能 导出
 	 * @param hisList

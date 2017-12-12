@@ -181,7 +181,8 @@ public class ElineEditDialog extends PtnDialog {
 				return false;
 			}
 			
-			//验证pw和ac的qos是否匹配�?			controlKeyValue_ac = (ControlKeyValue) this.cmbAc.getSelectedItem();
+			//验证pw和ac的qos是否匹配�?			
+			controlKeyValue_ac = (ControlKeyValue) this.cmbAc.getSelectedItem();
 			controlKeyValue_pw = (ControlKeyValue) this.cmbPw.getSelectedItem();
 			pwinfo = (PwInfo) controlKeyValue_pw.getObject();
 			qosInfoServiceMB=(QosInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.QosInfo);

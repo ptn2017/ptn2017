@@ -97,6 +97,7 @@ public class AboutHelp extends PtnDialog {
 		JLabel jlabel5 = null;
 		JLabel jlabel6 = null;
 		JLabel jlabel7 = null;
+		JLabel jlabel8 = null;
 		GridBagLayout gridBagLayouts = null;
 		GridBagConstraints gridBagConstraints = null;
 		try {
@@ -110,9 +111,13 @@ public class AboutHelp extends PtnDialog {
 			jlabel2.setFont(new java.awt.Font("微软雅黑", 1, 14));
 			jlabel3 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL3_PTN)+loginConfig.getVersion());
 			jlabel3.setFont(new java.awt.Font("微软雅黑", 1, 14));
-			jlabel4 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL4_PTN)+ConstantUtil.serviceBean.getMaxConnection());
+//			jlabel4 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL4_PTN)+ConstantUtil.serviceBean.getMaxConnection());
+			jlabel4 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL4_PTN)+2000);
 			jlabel4.setFont(new java.awt.Font("微软雅黑", 1, 14));
-			jlabel5 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL5_PTN)+ConstantUtil.serviceBean.getMaxSiteNumner());
+			jlabel8 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL8_PTN)+1500);
+			jlabel8.setFont(new java.awt.Font("微软雅黑", 1, 14));
+//			jlabel5 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL5_PTN)+ConstantUtil.serviceBean.getMaxSiteNumner());
+			jlabel5 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL5_PTN)+33000);
 			jlabel5.setFont(new java.awt.Font("微软雅黑", 1, 14));
 			jlabel6 = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_JLABTL6_PTN)+ConstantUtil.serviceBean.getDueDate());
 			jlabel6.setFont(new java.awt.Font("微软雅黑", 1, 14));
@@ -144,20 +149,26 @@ public class AboutHelp extends PtnDialog {
 
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.gridy = 4;
-			gridBagLayouts.setConstraints(jlabel5, gridBagConstraints);
-
+			gridBagLayouts.setConstraints(jlabel8, gridBagConstraints);
+			
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.gridy = 5;
-			gridBagLayouts.setConstraints(jlabel6, gridBagConstraints);
+			gridBagLayouts.setConstraints(jlabel5, gridBagConstraints);
+
 
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.gridy = 6;
+			gridBagLayouts.setConstraints(jlabel6, gridBagConstraints);
+
+			gridBagConstraints.gridx = 0;
+			gridBagConstraints.gridy = 7;
 			gridBagLayouts.setConstraints(jlabel7, gridBagConstraints);
 
 			jPanel.add(jlabel1);
 			jPanel.add(jlabel2);
 			jPanel.add(jlabel3);
 			jPanel.add(jlabel4);
+			jPanel.add(jlabel8);
 			jPanel.add(jlabel5);
 			jPanel.add(jlabel6);
 //			jPanel.add(jlabel7);

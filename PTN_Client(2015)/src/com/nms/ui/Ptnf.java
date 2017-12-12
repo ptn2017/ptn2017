@@ -34,7 +34,6 @@ import twaver.TWaverUtil;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.db.bean.perform.Capability;
-import com.nms.db.bean.ptn.SsMacStudy;
 import com.nms.db.bean.system.UnLoading;
 import com.nms.db.bean.system.loginlog.LoginLog;
 import com.nms.db.bean.system.user.UserInst;
@@ -72,7 +71,6 @@ import com.nms.ui.manager.keys.StringKeysTitle;
 import com.nms.ui.manager.xmlbean.LoginConfig;
 import com.nms.ui.ptn.alarm.tca.TCAAlarmPanel;
 import com.nms.ui.ptn.alarm.view.AlarmBusinessBlockDialog;
-import com.nms.ui.ptn.alarm.view.AlarmBusinessShield;
 import com.nms.ui.ptn.alarm.view.AlarmReversalPanel;
 import com.nms.ui.ptn.alarm.view.AlarmVoiceDialog;
 import com.nms.ui.ptn.alarm.view.CircleButton;
@@ -95,6 +93,7 @@ import com.nms.ui.ptn.business.loopProtect.LoopProtectPanel;
 import com.nms.ui.ptn.business.pw.PwBusinessPanel;
 import com.nms.ui.ptn.business.serviceRepaired.NNIPortMovedDialog;
 import com.nms.ui.ptn.business.serviceRepaired.UNIPortMovedDialog;
+import com.nms.ui.ptn.business.tunnel.AutoCorrectionDialog;
 import com.nms.ui.ptn.business.tunnel.TunnelBusinessPanel;
 import com.nms.ui.ptn.client.view.ClientManagerPanel;
 import com.nms.ui.ptn.configinfo.AlarmDescPanel;
@@ -110,6 +109,7 @@ import com.nms.ui.ptn.performance.view.PathPerformCountPanel;
 import com.nms.ui.ptn.performance.view.PerformanceDescPanel;
 import com.nms.ui.ptn.performance.view.PerformanceStoragePanel;
 import com.nms.ui.ptn.performance.view.PerformanceTaskPanel;
+import com.nms.ui.ptn.safety.LogManagerPanel;
 import com.nms.ui.ptn.safety.LoginLogPanel;
 import com.nms.ui.ptn.safety.OperationLogPanel;
 import com.nms.ui.ptn.safety.UserInfoPanel;
@@ -131,7 +131,6 @@ import com.nms.ui.ptn.statistics.prot.PortInfoPanel;
 import com.nms.ui.ptn.statistics.sement.SegmentStatisticsPanel;
 import com.nms.ui.ptn.statistics.sement.SegmentStatisticsWidthPanel;
 import com.nms.ui.ptn.statistics.site.SiteCountStatisticsPanel;
-import com.nms.ui.ptn.statistics.site.SiteStatisticsPanel;
 import com.nms.ui.ptn.statistics.site.SpecificSiteStatisticsPanel;
 import com.nms.ui.ptn.statistics.slot.SlotStatisticsPanel;
 import com.nms.ui.ptn.systemManage.ReadUnloadXML;
@@ -849,6 +848,7 @@ public class Ptnf extends javax.swing.JFrame {
 		jMenuLogin= new javax.swing.JMenu();// 登陆管理
 		jMenuLoginLog = new JMenuItem();// 日志
 		jMenuImport=new JMenuItem();
+		jMenuOperation = new JMenuItem();
 		jMenuOperationLog = new javax.swing.JMenuItem();// 操作日志查询
 		jMenuRoleManage = new javax.swing.JMenuItem();// 角色管理
 		jMenuUserOnLine = new javax.swing.JMenuItem();// 在线
@@ -925,6 +925,7 @@ public class Ptnf extends javax.swing.JFrame {
 		this.telnetManage = new JMenuItem();//telnet设置
 		this.loadPatchItem = new JMenuItem();//加载补丁
 		this.unLoadPatchItem = new JMenuItem();//卸载补丁
+		this.autoCorrectionItem = new JMenuItem();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
 		this.addWindowListener(new WindowAdapter() {
@@ -1522,7 +1523,7 @@ public class Ptnf extends javax.swing.JFrame {
 		 * 添加 权限验证
 		 */
 		roleRoot.setItemEnbale(this.DualInfoItem, RootFactory.COREMODU);
-		this.DualInfoItem.setMnemonic(KeyEvent.VK_D);
+		this.DualInfoItem.setMnemonic(KeyEvent.VK_K);
 		DualInfoItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -1532,6 +1533,20 @@ public class Ptnf extends javax.swing.JFrame {
 		});
 
 		jMenu15.add(DualInfoItem);
+		
+		/**
+		 * 自动校正配置
+		 */
+		this.autoCorrectionItem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_AUTO_CORRECTION));
+		roleRoot.setItemEnbale(this.autoCorrectionItem, RootFactory.COREMODU);
+		this.autoCorrectionItem.setMnemonic(KeyEvent.VK_K);
+		this.autoCorrectionItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				autoCorrectionMenuItemActionPerformed(evt);
+			}
+		});
+		jMenu15.add(this.autoCorrectionItem);
 
 		jMenuBar2.add(jMenu15);
 		/**
@@ -1936,6 +1951,20 @@ public class Ptnf extends javax.swing.JFrame {
 				jMenuRoleManageActionPerformed(evt);
 			}
 		});
+		
+		jMenuOperation.setText(ResourceUtil.srcStr(StringKeysTab.TAB_OPERATION_MANAGERS));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.jMenuOperation, RootFactory.SATYMODU);		
+		this.jMenuOperation.setMnemonic(KeyEvent.VK_P);
+		jMenuOperation.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jMenuOperation(evt);
+			}
+		});	
+		
 		jMenu19.add(jMenuRoleManage);
 		
 		jMenu19.add(jMenuLogin);
@@ -2388,6 +2417,21 @@ public class Ptnf extends javax.swing.JFrame {
 			ExceptionManage.dispose(e, this.getClass());
 		}
 	}
+	
+	/**
+	 * 自动校正配置
+	 * @param evt
+	 */
+	protected void autoCorrectionMenuItemActionPerformed(ActionEvent evt) {
+		AutoCorrectionDialog autoCorrectionDialog = null;
+		try {
+			autoCorrectionDialog = new AutoCorrectionDialog();
+			UiUtil.showWindow(autoCorrectionDialog, 370, 270);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+	
 	/**
 	 * 转储管理
 	 */
@@ -2877,6 +2921,15 @@ public class Ptnf extends javax.swing.JFrame {
 
 	}
 	
+	private void jMenuOperation(java.awt.event.ActionEvent evt) {
+		try {
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_OPERATION_MANAGERS), new LogManagerPanel());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+
+	}
+	
 	private void clientManagerMenuItemActionPerformed(ActionEvent evt) {
 		try {
 			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_CLIENTMANAGER), new ClientManagerPanel());
@@ -3314,6 +3367,9 @@ public class Ptnf extends javax.swing.JFrame {
 	private javax.swing.JMenuItem versionInfo;//版本信息
 	private JMenuItem loadPatchItem;//加载补丁
 	private JMenuItem unLoadPatchItem;//卸载补丁
+	private JMenuItem autoCorrectionItem;// 自动校正配置
+	private JMenuItem jMenuOperation;//日志管理
+	
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;
 	}

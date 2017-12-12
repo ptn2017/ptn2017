@@ -39,6 +39,7 @@ import com.nms.ui.manager.ListingFilter;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
+import com.nms.ui.ptn.basicinfo.dialog.segment.SearchSegmentDialog;
 import com.nms.ui.ptn.business.dialog.tunnel.AddTunnelPathDialog;
 import com.nms.ui.ptn.ne.camporeData.CamporeBusinessDataDialog;
 import com.nms.ui.ptn.systemconfig.dialog.qos.ComparableSort;
@@ -629,9 +630,9 @@ public class TunnelBusinessController extends AbstractController {
 	@Override
 	public void search() {
 		try {
-//			new SearchSegmentDialog(this.view);
-			Thread.sleep(20000);
-			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
+			new SearchSegmentDialog(this.view);
+//			Thread.sleep(20000);
+//			DialogBoxUtil.succeedDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -840,7 +841,6 @@ public class TunnelBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("TUNNEL", tunnelEMSMap, tunnelNEMap, this);
-				UiUtil.showWindow(camporeDataDialog, 700, 600);
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}

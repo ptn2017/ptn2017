@@ -3,18 +3,16 @@ package com.nms.ui.ptn.systemManage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
+import com.nms.db.bean.system.LogManager;
 import com.nms.db.bean.system.UnLoading;
+import com.nms.model.system.LogManagerService_MB;
 import com.nms.model.system.UnloadService_MB;
 import com.nms.model.util.Services;
 import com.nms.ui.manager.ConstantUtil;
@@ -44,12 +42,31 @@ public class ReadUnloadXML {
 			}	
 
 		} catch (Exception e) {
-			ExceptionManage.dispose(e, ReadUnloadXML.class);
+			ExceptionManage.dispose(e, null);
 		}finally{
 			UiUtil.closeService_MB(unloadService);
 		}		
 		
 		return unloadList;
+	}
+	
+	public static List<LogManager> selectLog(){
+		List<LogManager> logManagerList=null;
+		LogManagerService_MB logManagerService = null;
+		try {
+			logManagerList = new ArrayList<LogManager>();
+			logManagerService = (LogManagerService_MB) ConstantUtil.serviceFactory.newService_MB(Services.LOGMANAGER);
+			logManagerList = logManagerService.selectAll();
+			if(logManagerList == null){
+				logManagerList = new ArrayList<LogManager>();			
+			}	
+
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, null);
+		}finally{
+			UiUtil.closeService_MB(logManagerService);
+		}				
+		return logManagerList;
 	}
 	/*
 	public static List<UnLoading> selectUnloadXML(){
@@ -140,9 +157,20 @@ public class ReadUnloadXML {
 			ExceptionManage.dispose(e, null);
 		}finally{
 			UiUtil.closeService_MB(unloadService);
-		}			   
-	   
-	   
+		}
+   }			   
+   public  void updateUnloadXML(LogManager unload) {
+	   LogManagerService_MB logService = null;
+		try {
+			logService = (LogManagerService_MB) ConstantUtil.serviceFactory.newService_MB(Services.LOGMANAGER);
+			logService.update(unload);
+
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, null);
+		}finally{
+			UiUtil.closeService_MB(logService);
+		}
+   }	   	   	   
 	   /*
 	   Document document = load(file);
 
@@ -172,6 +200,6 @@ public class ReadUnloadXML {
            ExceptionManage.dispose(e,this.getClass());
        }
      */  
-   }
+  
    
 }

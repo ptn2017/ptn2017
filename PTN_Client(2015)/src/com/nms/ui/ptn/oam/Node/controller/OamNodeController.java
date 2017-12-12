@@ -477,6 +477,11 @@ public class OamNodeController extends AbstractController {
 	
 	/**
 	 * 查询连通性检测结�?	 */
+	/**
+	 * @param type
+	 * @param oam
+	 * @return
+	 */
 	private String queryLink(EServiceType type, OamInfo oam){
 		String result = "LINK_UP";
 		CurAlarmService_MB alarmService = null;
@@ -503,7 +508,7 @@ public class OamNodeController extends AbstractController {
 								port.setSiteId(ConstantUtil.siteId);
 								List<PortInst> portList = portService.select(port);
 								if(portList != null && !portList.isEmpty()){
-									if(portList.get(0).getPortId() == oam.getOamMep().getObjId()){
+									if(portList.get(0).getNumber() == oam.getOamMep().getObjId()){
 										result = "LINK_DOWN";
 										break;
 									}
@@ -518,7 +523,7 @@ public class OamNodeController extends AbstractController {
 						if(alarm.getAlarmLevel() == 4 || alarm.getAlarmLevel() == 5){
 							if(codeList.contains(alarm.getAlarmCode())){
 								Tunnel tunnel = tunnelService.selectBySiteIdAndServiceId(ConstantUtil.siteId, alarm.getObjectId());
-								if(oam.getOamMep().getObjId() == tunnel.getTunnelId()){
+								if(oam.getOamMep().getServiceId() == tunnel.getTunnelId()){
 									result = "LINK_DOWN";
 									break;
 								}
@@ -527,7 +532,9 @@ public class OamNodeController extends AbstractController {
 					}
 				}else if(EServiceType.PW == type){
 					pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
-					PwInfo pw = pwService.selectByPwId(oam.getOamMep().getObjId());
+					PwInfo pwCon = new PwInfo();
+					pwCon.setPwId(oam.getOamMep().getServiceId());
+					PwInfo pw = pwService.selectBypwid_notjoin(pwCon);
 					codeList.add(109);codeList.add(6);codeList.add(111);codeList.add(107);codeList.add(113);codeList.add(105);
 					for(CurrentAlarmInfo alarm : alarmList){
 						if(alarm.getAlarmLevel() == 4 || alarm.getAlarmLevel() == 5){

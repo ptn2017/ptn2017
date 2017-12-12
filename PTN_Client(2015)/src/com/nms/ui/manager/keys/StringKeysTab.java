@@ -421,4 +421,8 @@ public class StringKeysTab {
 	 * 任务对象
 	 */
 	public static final String TAB_PERTASK_OBJECT = "TAB_PERTASK_OBJECT";
+	/**
+	 * 日志管理
+	 */
+	public static final String TAB_OPERATION_MANAGERS="TAB_OPERATION_MANAGERS";
 } 

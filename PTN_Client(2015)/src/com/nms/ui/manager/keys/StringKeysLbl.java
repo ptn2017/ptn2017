@@ -734,6 +734,10 @@ public class StringKeysLbl {
 	 */
 	public static final String SOFTWARE_EDITION="SOFTWARE_EDITION";
 	/**
+	 * 补丁号
+	 */
+	public static final String PATCH_EDITION="PATCH_EDITION";
+	/**
 	 * 硬件版本
 	 */
 	public static final String HARDWARE_EDITION="HARDWARE_EDITION";
@@ -989,6 +993,7 @@ public class StringKeysLbl {
 		public static final String LBL_JLABTL5_PTN="LBL_JLABTL5_PTN";
 		public static final String LBL_JLABTL6_PTN="LBL_JLABTL6_PTN";
 		public static final String LBL_JLABTL7_PTN="LBL_JLABTL7_PTN";
+		public static final String LBL_JLABTL8_PTN="LBL_JLABTL8_PTN";
 		
 		/**
 		 * 一些验证信息
@@ -2085,6 +2090,8 @@ public class StringKeysLbl {
 	public static final String LBL_THREETIME_AUTO_BACKDATA = "LBL_THREETIME_AUTO_BACKDATA";//3天
 	public static final String LBL_ONE_WEEK_TIME_AUTO_BACKDATA = "LBL_ONE_WEEK_TIME_AUTO_BACKDATA";//1周
 	public static final String LBL_ONE_MONTH_TIME_AUTO_BACKDATA = "LBL_ONE_MONTH_TIME_AUTO_BACKDATA";//1个月
+	public static final String LBL_FIFTHTEEN_TIME_AUTO_BACKDATA = "LBL_FIFTHTEEN_TIME_AUTO_BACKDATA";// 15天
+	public static final String LBL_THIRDY_TIME_AUTO_BACKDATA = "LBL_THIRDY_TIME_AUTO_BACKDATA";// 30天
 	public static final String LBL_SET_TIME_AUTO_BACKDATA = "LBL_SET_TIME_AUTO_BACKDATA";//请设置开始时间
 	public static final String LBL_ERROR_TIME_AUTO_BACKDATA = "LBL_ERROR_TIME_AUTO_BACKDATA";//开始时间小于当前时间
 	public static final String LBL_TIME_ERROR = "LBL_TIME_ERROR";//时间格式错误
@@ -2836,4 +2843,28 @@ public class StringKeysLbl {
 	public static final String LBL_ROTATETHRESHOLD = "LBL_ROTATETHRESHOLD";
 	public static final String LBL_SITE_COLOR="LBL_SITE_COLOR";
 	public static final String LBL_RESET_CLIENT="LBL_RESET_CLIENT";
+	/**
+	 * 人工校正
+	 */
+	public static final String LBL_CORRECTION_USER = "LBL_CORRECTION_USER";
+	/**
+	 * 自动校正
+	 */
+	public static final String LBL_CORRECTION_AUTO = "LBL_CORRECTION_AUTO";
+	/**
+	 * 校正准则
+	 */
+	public static final String LBL_CORRECTION_RULE = "LBL_CORRECTION_RULE";
+	/**
+	 * 以网管数据为准
+	 */
+	public static final String LBL_DATA_BASE_NMS = "LBL_DATA_BASE_NMS";
+	/**
+	 * 以设备数据为准
+	 */
+	public static final String LBL_DATA_BASE_NE = "LBL_DATA_BASE_NE";
+	
+	public static final String LBL_LOG_MAXVOLUMN="LBL_LOG_MAXVOLUMN";
+	public static final String LBL_LOG_MAXVOLUMN_M="LBL_LOG_MAXVOLUMN_M";
+	public static final String LBL_LOG_MAXVOLUMN_NUMBER="LBL_LOG_MAXVOLUMN_NUMBER";
 }

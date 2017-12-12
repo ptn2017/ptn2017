@@ -601,9 +601,9 @@
   </select>
   
   <update id="updateStatus" parameterType="Tunnel" >
-    update tunnel set tunnelStatus = #{tunnelstatus,jdbcType=INTEGER},jobStatus = #{jobstatus,jdbcType=VARCHAR},
-    sourceMac = #{sourcemac,jdbcType=VARCHAR},endMac = #{endmac,jdbcType=VARCHAR} 
-    where tunnelId = #{tunnelid,jdbcType=INTEGER}
+    update tunnel set tunnelStatus = #{tunnelStatus,jdbcType=INTEGER},jobStatus = #{jobStatus,jdbcType=VARCHAR},
+    sourceMac = #{sourceMac,jdbcType=VARCHAR},endMac = #{endMac,jdbcType=VARCHAR} 
+    where tunnelId = #{tunnelId,jdbcType=INTEGER}
   </update>
   
   <select id="nameRepetition" resultType="java.lang.Integer" parameterType="map">

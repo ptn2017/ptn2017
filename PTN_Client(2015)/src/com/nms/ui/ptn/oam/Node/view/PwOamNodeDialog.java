@@ -27,6 +27,7 @@ import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
+import com.nms.db.bean.system.code.Code;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.OamTypeEnum;
 import com.nms.drive.service.impl.CoderUtils;
@@ -124,6 +125,8 @@ public class PwOamNodeDialog extends PtnDialog {
 	private OamInfo oamInfo;
 	private List<String[]> pwAndLspId = new ArrayList<String[]>();
 	private OamMepInfo oammepInfoBefore;//记录修改前的数据，便于日志记录
+	private JLabel ltEnable;//lt使能
+	private JComboBox ltComboBox;
 	
 	public PwOamNodeDialog(OamInfo oamInfo) {
 		setModal(true);
@@ -243,6 +246,7 @@ public class PwOamNodeDialog extends PtnDialog {
 		comboBoxSelect(lspTcComboBox, "7");
 		comboBoxSelect(pwTcComboBox, "7");
 		lckCheckBox.setSelected(false);
+		super.getComboBoxDataUtil().comboBoxSelectByValue(ltComboBox,"0");
 //		comboBoxSelect(melTextField, "7");
 		if(melTextField.getText() == null || melTextField.getText().equals("")){
 			melTextField.setText("7");
@@ -348,6 +352,8 @@ public class PwOamNodeDialog extends PtnDialog {
 		dmlength = new JLabel("DM");
 		dmlengthField = new JTextField();
 		dmlengthField.setText("64");
+		ltEnable = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LTENABLE));
+		ltComboBox = new JComboBox();
 		buttonPanel = new JPanel();
 		confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),true);
 		cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
@@ -388,9 +394,9 @@ public class PwOamNodeDialog extends PtnDialog {
 		componentLayout.columnWidths = new int[] { 60, 150, 60, 150 };
 		componentLayout.columnWeights = new double[] { 1.0, 1.0 };
 		componentLayout.rowHeights = new int[] { 10, 10, 10, 10, 10, 10, 10,
-				10, 10, 10, 10, 10 };
+				10, 10, 10, 10, 10, 10 };
 		componentLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		componentPanel.setLayout(componentLayout);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -743,7 +749,7 @@ public class PwOamNodeDialog extends PtnDialog {
 		c.gridy = 11;
 		c.gridheight = 1;
 		c.gridwidth = 1;
-		c.insets = new Insets(5, 5, 5, 5);
+		c.insets = new Insets(5, 30, 5, 5);
 		componentLayout.setConstraints(dmlength, c);
 		componentPanel.add(dmlength);
 		c.gridx = 3;
@@ -753,6 +759,21 @@ public class PwOamNodeDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		componentLayout.setConstraints(dmlengthField, c);
 		componentPanel.add(dmlengthField);
+		
+		c.gridx = 0;
+		c.gridy = 12;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(ltEnable, c);
+		componentPanel.add(ltEnable);
+		c.gridx = 1;
+		c.gridy = 12;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		componentLayout.setConstraints(ltComboBox, c);
+		componentPanel.add(ltComboBox);
 	}
 
 	private void setButtonLayout() {
@@ -1037,6 +1058,7 @@ public class PwOamNodeDialog extends PtnDialog {
 		comboBoxSelect(loopOffLineTestTLVCombox, mepInfo.getOffLineTestTLV() + "");
 		loopTlvLengthField.setText(mepInfo.getRingTLVLength() + "");
 		loopTLVInfoField.setText(mepInfo.getRingTLVInfo() + "");
+		super.getComboBoxDataUtil().comboBoxSelectByValue(ltComboBox, mepInfo.getLtEnable()+"");
 		if (mepInfo.isRingEnable()) {
 			loopPeriodComboBox.setEnabled(true);
 			loopTestWayCombox.setEnabled(true);
@@ -1141,6 +1163,11 @@ public class PwOamNodeDialog extends PtnDialog {
 		intalLmAndDmCombox(dmCycleComboBox);
 		intalTcAndMel(lspTcComboBox);
 		intalTcAndMel(pwTcComboBox);
+		try {
+			super.getComboBoxDataUtil().comboBoxData(ltComboBox, "ENABLEDSTATUE");
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
 
 	}
 
@@ -1300,7 +1327,8 @@ public class PwOamNodeDialog extends PtnDialog {
 		}else{
 			oamMep.setDmCycle(0);
 		}
-		
+		ControlKeyValue key_enable = (ControlKeyValue)ltComboBox.getSelectedItem();
+		oamMep.setLtEnable(Integer.parseInt(((Code)key_enable.getObject()).getCodeValue()));
 		oamInfo.getOamMep().setSiteId(ConstantUtil.siteId);
 
 		// // -------megICC megUcc 赋值
