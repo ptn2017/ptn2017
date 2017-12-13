@@ -415,6 +415,6 @@ public class StringKeysMenu {
     public static final String MENU_DELETE_LOG ="MENU_DELETE_LOG";
     public static final String MENU_PASTE = "MENU_PASTE";
     public static final String MENU_SYSTEM_LOG = "MENU_SYSTEM_LOG";
-
+    public static final String MENU_CVS_FILE = "MENU_CVS_FILE";//excel文件
 }
 

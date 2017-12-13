@@ -1760,4 +1760,27 @@
 		<attribute id="PortUnUsed" name="PortUnUsed" visible="true" />
 		<attribute id="UsedRate" name="UsedRate" visible="true" />
 	</table>	
+	<table name="logManagerTable">
+		<attribute id="logType" name="Log Type" visible="true"></attribute>
+		<attribute id="timeLimit" name="Log Retention Time Interval (H)" visible="true"></attribute>
+		<attribute id="cellType" name="Retention Time Activation" visible="true"></attribute>
+		<attribute id="fileWay" name="Retention Time Backup Path" visible="true"></attribute>
+        <attribute id="volumeLimit" name="Occupancy Space Restriction" visible="true"></attribute>
+		<attribute id="vcellType" name="Retention Capacity Activation" visible="true"></attribute>
+		<attribute id="fileVWay" name="Reserve Capacity Backup Path" visible="true"></attribute>
+	</table>	
+	
+	<table name="unloadingDeletePanel">
+		<attribute id="unloadType" name="Dump Data Type" visible="true"></attribute>
+	    <attribute id="deleteStartTime" name="Start Time" visible="true"></attribute>
+		<attribute id="deleteTime" name="Cycle Time" visible="false"></attribute>
+		<attribute id="deleteCellyType" name="Activation State" visible="true"></attribute>
+	</table>
+	<table name="systemLogTable" layout="filter">
+		<attribute id="id" name="id" visible="false"></attribute>
+		<attribute id="operationObjName" name="Object" visible="true"></attribute>
+		<attribute id="startTime" name="Start Time" visible="true"></attribute>
+		<attribute id="operationType" name="Type" visible="true"></attribute>
+		<attribute id="operationResult" name="Result" visible="true"></attribute>
+	</table>	
 </xml-body>

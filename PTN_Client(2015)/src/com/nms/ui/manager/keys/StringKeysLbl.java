@@ -2867,4 +2867,13 @@ public class StringKeysLbl {
 	public static final String LBL_LOG_MAXVOLUMN="LBL_LOG_MAXVOLUMN";
 	public static final String LBL_LOG_MAXVOLUMN_M="LBL_LOG_MAXVOLUMN_M";
 	public static final String LBL_LOG_MAXVOLUMN_NUMBER="LBL_LOG_MAXVOLUMN_NUMBER";
+	
+	public static final String LBL_HOST_IDENTIFER = "LBL_HOST_IDENTIFER";
+	public static final String LBL_HOST_NAME = "LBL_HOST_NAME";
+	public static final String LBL_HOST_IP = "LBL_HOST_IP";
+	public static final String LBL_HOST_PASSWORD = "LBL_HOST_PASSWORD";
+	public static final String LBL_EQUIPMENT_CLASS = "LBL_EQUIPMENT_CLASS";
+	public static final String LBL_PROTECT_MODE = "LBL_PROTECT_MODE";
+	public static final String LBL_UNSURE_ALARM = "LBL_UNSURE_ALARM";
+	public static final String LBL_SHOW_DETAILS="LBL_SHOW_DETAILS";
 }

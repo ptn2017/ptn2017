@@ -133,8 +133,11 @@ import com.nms.ui.ptn.statistics.sement.SegmentStatisticsWidthPanel;
 import com.nms.ui.ptn.statistics.site.SiteCountStatisticsPanel;
 import com.nms.ui.ptn.statistics.site.SpecificSiteStatisticsPanel;
 import com.nms.ui.ptn.statistics.slot.SlotStatisticsPanel;
+import com.nms.ui.ptn.systemManage.DataAnalysis;
 import com.nms.ui.ptn.systemManage.ReadUnloadXML;
+import com.nms.ui.ptn.systemManage.SystemConfigView;
 import com.nms.ui.ptn.systemManage.monitor.SystemMontorConfigPanel;
+import com.nms.ui.ptn.systemManage.view.UnLoadingDeletePanel;
 import com.nms.ui.ptn.systemManage.view.UnLoadingPanel;
 import com.nms.ui.ptn.systemconfig.CodePanel;
 import com.nms.ui.ptn.systemconfig.NeConfigView;
@@ -926,6 +929,9 @@ public class Ptnf extends javax.swing.JFrame {
 		this.loadPatchItem = new JMenuItem();//加载补丁
 		this.unLoadPatchItem = new JMenuItem();//卸载补丁
 		this.autoCorrectionItem = new JMenuItem();
+		this.unloadDeleteItem = new JMenuItem();// 转储管理
+		this.systemConfigItem = new JMenuItem();// 系统配置管理
+		this.dataManage = new JMenuItem();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
 		this.addWindowListener(new WindowAdapter() {
@@ -1050,6 +1056,20 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		this.menuSystem.add(this.unloadItem);
+		
+		this.unloadDeleteItem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_DELETE_LOG));
+		this.unloadDeleteItem.setMnemonic(KeyEvent.VK_D);
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.unloadDeleteItem, RootFactory.SYSTEMMODU);
+		this.unloadDeleteItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				unloadDeleteActionPerformed();
+			}
+		});
+		this.menuSystem.add(this.unloadDeleteItem);	
 		//数据管理
 		//数据备份
 		this.dataBackupsItem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_BACKUP_DATA));
@@ -1104,7 +1124,16 @@ public class Ptnf extends javax.swing.JFrame {
 		});
 		this.menuSystem.add(this.telnetManage);
 		
-		
+		// 菜单条：数据分析
+		this.dataManage.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_DATA_ANALYSIS));
+		this.dataManage.setMnemonic(KeyEvent.VK_D);
+		this.dataManage.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jMenuItemDataAnalysisActionPerformed();
+			}
+		});
+		this.menuSystem.add(this.dataManage);	
 		
 		// 菜单条： 屏幕锁定
 		this.handLock.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_HONDLOCK_T));
@@ -1965,14 +1994,27 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});	
 		
+		systemConfigItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_SYSTEM_CONFIG));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.systemConfigItem, RootFactory.SATYMODU);		
+		this.systemConfigItem.setMnemonic(KeyEvent.VK_P);
+		this.systemConfigItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				systemConfigActionPerformed();
+			}
+		});	
+		
 		jMenu19.add(jMenuRoleManage);
-		
 		jMenu19.add(jMenuLogin);
-		
 		//jMenu19.add(jMenuLoginLog);
 		jMenu19.add(jMenuUserOnLine);
 		jMenu19.addSeparator();
 		jMenu19.add(jMenuOperationLog);
+		jMenu19.add(jMenuOperation);
+		jMenu19.add(systemConfigItem);
 		jMenuBar2.add(jMenu19);
 		// 统计 s
 
@@ -2441,6 +2483,14 @@ public class Ptnf extends javax.swing.JFrame {
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
+	}
+	
+	private void unloadDeleteActionPerformed() {
+		try {
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_UNLOADING_DELETE), new UnLoadingDeletePanel());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
 
 	}
 
@@ -2676,7 +2726,7 @@ public class Ptnf extends javax.swing.JFrame {
 			ExceptionManage.dispose(e, this.getClass());
 		}
 	}
-
+	
 	/**
 	 * 系统监护
 	 */
@@ -2938,6 +2988,14 @@ public class Ptnf extends javax.swing.JFrame {
 		}
 
 	}
+	
+	private void systemConfigActionPerformed() {
+		try {
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SYSTEM_CONFIG), new SystemConfigView());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
 
 	// 网元搜索
 	private void searchSiteMenuItemActionPerformed(ActionEvent evt) {
@@ -3013,6 +3071,21 @@ public class Ptnf extends javax.swing.JFrame {
 				ExceptionManage.dispose(e, this.getClass());
 			}
 		}
+		
+		private void jMenuItemDataAnalysisActionPerformed() {
+			DataAnalysis dataDialog = null;
+			try {
+				dataDialog = new DataAnalysis();
+				if(ResourceUtil.language.equals("zh_CN")){
+				    UiUtil.showWindow(dataDialog, dataDialog.getWeight(), 270);
+				}else{
+					UiUtil.showWindow(dataDialog, 800, 270);
+				}
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			}
+		}	
+		
 	// 用户锁屏的单击事件
 	private void jMenuItemHankLockActionPerformed() {
 		try {
@@ -3362,13 +3435,16 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenu serviceRepairedMenu;//业务修复
 	private JMenuItem NNIPortMovedMenuItem;//NNI端口迁移
 	private JMenuItem UNIPortMovedMenuItem;//UNI端口迁移
-	private javax.swing.JMenuItem selectNe;// 定位网元
-	private javax.swing.JMenuItem telnetManage;// telnet设置
-	private javax.swing.JMenuItem versionInfo;//版本信息
+	private JMenuItem selectNe;// 定位网元
+	private JMenuItem telnetManage;// telnet设置
+	private JMenuItem versionInfo;//版本信息
 	private JMenuItem loadPatchItem;//加载补丁
 	private JMenuItem unLoadPatchItem;//卸载补丁
 	private JMenuItem autoCorrectionItem;// 自动校正配置
 	private JMenuItem jMenuOperation;//日志管理
+	private JMenuItem unloadDeleteItem;// 备份删除管理
+	private JMenuItem systemConfigItem;// 系统配置
+	private javax.swing.JMenuItem dataManage;// 统计分析配置
 	
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;

@@ -1889,5 +1889,11 @@ public class StringKeysTip {
 	
 	public static final String TIP_UPDATE_LOGMANAGER="TIP_UPDATE_LOGMANAGER";
 	public static final String TIP_DELETE_LOG="TIP_DELETE_LOG";
+	
+	public static final String TIP_ANALYSIS_ALARM="TIP_ANALYSIS_ALARM";//
+	public static final String TIP_ANALYSIS_PERFORMANCE="TIP_ANALYSIS_PERFORMANCE";//
+	public static final String TIP_ANALYSIS_OPERATION="TIP_ANALYSIS_OPERATION";//
+	public static final String TIP_ANALYSIS_LOGIN="TIP_ANALYSIS_LOGIN";//
+	public static final String TIP_ANALYSIS_UPDATE="TIP_ANALYSIS_UPDATE";//
 }
 

@@ -425,4 +425,17 @@ public class StringKeysTab {
 	 * 日志管理
 	 */
 	public static final String TAB_OPERATION_MANAGERS="TAB_OPERATION_MANAGERS";
+	
+	public static final String TAB_UNLOADING_DELETE = "TAB_UNLOADING_DELETE";
+    public static final String TAB_SYSTEMLOG="TAB_SYSTEMLOG";
+    public static final String TAB_SYSTEM_CONFIG = "TAB_SYSTEM_CONFIG";
+    
+    public static final String SYSTEM_PARAMETER_CONFIG= "SYSTEM_PARAMETER_CONFIG";
+    public static final String OMC_PARAMETER_CONFIG= "OMC_PARAMETER_CONFIG";
+    public static final String SITE_EQUIPMENT_PTN= "SITE_EQUIPMENT_PTN";
+    public static final String SITE_EQUIPMENT_CPE= "SITE_EQUIPMENT_CPE";
+    public static final String SITE_EQUIPMENT_HUB= "SITE_EQUIPMENT_HUB";
+    public static final String PROTECT_LSP= "PROTECT_LSP";
+    public static final String TAB_UNALARM = "TAB_UNALARM";//非告警类事件上报
+    public static final String TAB_MOINTOR_LABEL_NETWORKCARD = "TAB_MOINTOR_LABEL_NETWORKCARD";// 网卡信息
 } 

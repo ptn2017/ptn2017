@@ -22,7 +22,6 @@ import com.nms.model.ptn.path.ces.CesInfoService_MB;
 import com.nms.model.ptn.path.eth.ElanInfoService_MB;
 import com.nms.model.ptn.path.eth.ElineInfoService_MB;
 import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
-import com.nms.model.ptn.path.pw.MsPwInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.path.tunnel.LspInfoService_MB;
 import com.nms.model.ptn.path.tunnel.TunnelService_MB;

@@ -24,6 +24,7 @@ import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.control.PtnDialog;
+import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
 
 public class DataInfoAllPanel extends PtnDialog{
@@ -78,6 +79,7 @@ public class DataInfoAllPanel extends PtnDialog{
 				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_CPUINFO), new CpuAndMemoryJpanel(1,servicePerformance.get(1)));
 				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_MEMORYINFO), new CpuAndMemoryJpanel(2,servicePerformance.get(2)));
 				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_DISCINFO), new CpuAndMemoryJpanel(3,servicePerformance.get(3)));
+				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTab.TAB_MOINTOR_LABEL_NETWORKCARD), new CpuAndMemoryJpanel(4,servicePerformance.get(4)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}finally{
