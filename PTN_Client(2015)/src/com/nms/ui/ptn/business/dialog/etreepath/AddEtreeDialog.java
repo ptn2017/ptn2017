@@ -475,12 +475,14 @@ public class AddEtreeDialog extends PtnDialog {
 		List<PwInfo> pwInfoList = null;
 		TNetwork network = null;
 		try {
-			// 获取pw集合并且在拓扑中画出所有pw路径及网�?			pwInfoList = this.getPwList();
+			// 获取pw集合并且在拓扑中画出所有pw路径及网�?			
+			pwInfoList = this.getPwList();
 			tunnelTopoPanel.boxDataByPws(pwInfoList);
 			// 设置拓扑的自动布局
 			network = tunnelTopoPanel.getNetWork();
 //			network.doLayout(TWaverConst.LAYOUT_CIRCULAR);
-			// 加载etree的右键菜�?			this.setMenu();
+			// 加载etree的右键菜�?			
+			this.setMenu();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		} finally {
@@ -586,7 +588,8 @@ public class AddEtreeDialog extends PtnDialog {
 					rootTextField.setText(acPortInfoList.get(0).getName());
 				}
 					
-				// 如果有同网元的端口，清除掉。添加新�?				acPortList = new ArrayList<AcPortInfo>();
+				// 如果有同网元的端口，清除掉。添加新�?				
+				acPortList = new ArrayList<AcPortInfo>();
 				for (AcPortInfo acPortInfo_table : this.branchAcTable.getAllElement()) {
 					if(!isInsertTabel(acPortInfo_table.getSiteId(),acPortInfoList))
 					{
