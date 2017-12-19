@@ -137,6 +137,7 @@
       <typeAlias alias="OSPFinfo_wh" type="com.nms.db.bean.ptn.ecn.OSPFinfo_wh"/>
       <typeAlias alias="UnLoading" type="com.nms.db.bean.system.UnLoading"/>
       <typeAlias alias="LogManager" type="com.nms.db.bean.system.LogManager"/>
+      <typeAlias alias="SystemLog" type="com.nms.db.bean.system.SystemLog"/>
  </typeAliases>
 
 	<environments default="development">
@@ -274,5 +275,6 @@
         <mapper resource="com/nms/db/dao/ptn/ecn/OSPFinfo_whMapper.xml"/> 
         <mapper resource="com/nms/db/dao/system/UnloadMapper.xml"/> 
         <mapper resource="com/nms/db/dao/system/LogManagerMapper.xml"/>
+        <mapper resource="com/nms/db/dao/system/SystemLogMapper.xml"/>
       </mappers>
 </configuration>

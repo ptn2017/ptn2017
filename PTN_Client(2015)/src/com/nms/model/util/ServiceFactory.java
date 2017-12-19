@@ -98,6 +98,7 @@ import com.nms.db.dao.system.OperationLogMapper;
 import com.nms.db.dao.system.PerformanceRamInfoMapper;
 import com.nms.db.dao.system.PtndbInstMapper;
 import com.nms.db.dao.system.SiteLockMapper;
+import com.nms.db.dao.system.SystemLogMapper;
 import com.nms.db.dao.system.TranferInfoMapper;
 import com.nms.db.dao.system.UdaAttrMapper;
 import com.nms.db.dao.system.UdaGroupMapper;
@@ -209,6 +210,7 @@ import com.nms.model.system.OperationLogService_MB;
 import com.nms.model.system.PerformanceRamService_MB;
 import com.nms.model.system.SiteLockService_MB;
 import com.nms.model.system.SubnetService_MB;
+import com.nms.model.system.SystemLogService_MB;
 import com.nms.model.system.TranferService_Mb;
 import com.nms.model.system.UdaAttrService_MB;
 import com.nms.model.system.UdaGroupService_MB;
@@ -933,6 +935,12 @@ public class ServiceFactory {
 			logManagerServiceMB.setSqlSession(sqlSession);
 			logManagerServiceMB.setMapper(sqlSession.getMapper(LogManagerMapper.class));
 			return logManagerServiceMB;	
+		case Services.SYSTEMLOG:
+			SystemLogService_MB systemLogService_MB = new SystemLogService_MB();
+			systemLogService_MB.setPtnuser(ptnuser);
+			systemLogService_MB.setSqlSession(sqlSession);
+			systemLogService_MB.setMapper(sqlSession.getMapper(SystemLogMapper.class));
+			return systemLogService_MB;
 		};
 		return null;
 	}

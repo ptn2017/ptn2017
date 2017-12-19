@@ -18,4 +18,5 @@ public class UnLoads implements Serializable {
 		public static final int CARD = 3;	//操作日志
 		public static final int FOUR = 4;//历史性能-24小时
 		public static final int LOGIN = 4;//登录日志
+		public static final int SYSTEM=5;//系统日志
 }
