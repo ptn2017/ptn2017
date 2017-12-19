@@ -5,6 +5,7 @@ import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
+import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.alarm.service.CSVUtil;
 import com.nms.ui.ptn.performance.view.CurrPerformCountFilterDialog;
@@ -35,7 +36,7 @@ public class CurrPerformCountController extends AbstractController {
 		int result = 0;
 		try {
 			CSVUtil csvUtil = new CSVUtil();
-			String path = csvUtil.showChooserWindow("save", "选择文件", s);
+			String path = csvUtil.showChooserWindow("save", ResourceUtil.srcStr(StringKeysLbl.LBL_SELECT_FILE), s);
 			if(path != null && !"".equals(path)){
 				String csvFilePath = path + ".csv";
 				if(uiUtil.isExistAlikeFileName(csvFilePath)){

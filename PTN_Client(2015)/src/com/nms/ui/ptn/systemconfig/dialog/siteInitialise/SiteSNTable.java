@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,9 +19,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
 import com.nms.db.bean.equipment.card.CardInst;
 import com.nms.db.bean.equipment.shelf.EquipInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
@@ -30,7 +33,6 @@ import com.nms.model.equipment.card.CardService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.equipment.slot.SlotService_MB;
 import com.nms.model.system.FieldService_MB;
-import com.nms.model.util.CodeConfigItem;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
 import com.nms.ui.manager.ConstantUtil;
@@ -213,7 +215,7 @@ public class SiteSNTable  extends PtnDialog  {
 				insts = siteService.selectBySn(inst.getSn());
 				String type = inst.getCellType();
 				if(insts != null && insts.size() == 0){
-					EquimentDataUtil equimentDataUtil=new EquimentDataUtil();
+					EquimentDataUtil equimentDataUtil = new EquimentDataUtil();
 					EquipmentType equipmentType = null;
 					equipmentType = equimentDataUtil.getEquipmentType(transformCellType(inst,Integer.parseInt(inst.getCellType())));
 					
@@ -247,12 +249,12 @@ public class SiteSNTable  extends PtnDialog  {
 		}else if(value == 101){
 			siInst.setCellType("710A");
 		}else if(value == 102){
-			if(CodeConfigItem.getInstance().getIconImageShowOrHide() ==4){
-				siInst.setCellType("710");
-			}else{
-				siInst.setCellType("710A");
-			}
-			
+			siInst.setCellType("ETN-5000");
+//			if(CodeConfigItem.getInstance().getIconImageShowOrHide() ==4){
+//				siInst.setCellType("710");
+//			}else{
+//				siInst.setCellType("710A");
+//			}
 		}else if(value == 200){
 			siInst.setCellType("703A");
 		}else if(value == 201){
@@ -273,6 +275,10 @@ public class SiteSNTable  extends PtnDialog  {
 			siInst.setCellType("703-4A");
 		}else if(value == 210){
 			siInst.setCellType("703-5A");
+		}else if(value == 215){
+			siInst.setCellType("ETN-200-204");
+		}else if(value == 216){
+			siInst.setCellType("ETN-200-204E");
 		}
 		return siInst.getCellType();
 	}
@@ -290,7 +296,6 @@ public class SiteSNTable  extends PtnDialog  {
 			siteInst = siteServiceMB.selectBySn(siteInst.getSn()).get(0);
 			SlotInst slotInst = new SlotInst();
 			slotInst.setSiteId(siteInst.getSite_Inst_Id());
-			ExceptionManage.infor(siteInst.getSite_Inst_Id(),this.getClass());
 			if("100".equals(type)){
 				siteInst.setCellType("710A");
 				slotInst.setBestCardName("MCU1");
@@ -301,20 +306,19 @@ public class SiteSNTable  extends PtnDialog  {
 				slotInst.setBestCardName("MCU");
 				slotInst = slotService.select(slotInst).get(0);
 				cardInst = equimentDataUtil.addCard("config/topo/card/sozb/card_710b_mcu.xml", slotInst);
-			}else if("102".equals(type)){
-				if(CodeConfigItem.getInstance().getIconImageShowOrHide() ==4){
-					siteInst.setCellType("710");
-					slotInst.setBestCardName("XCTS1");
-					slotInst = slotService.select(slotInst).get(0);
-					ExceptionManage.infor(slotInst.getSiteId()+",,,"+slotInst.getId(),this.getClass());
-					cardInst = equimentDataUtil.addCard("config/topo/card/yixun/card_710_yixun_xcts1.xml", slotInst);
-				}else{
-					siteInst.setCellType("710A");
-					slotInst.setBestCardName("MCU1");
-					slotInst = slotService.select(slotInst).get(0);
-					cardInst = equimentDataUtil.addCard("config/topo/card/soz/card_710_mc2.xml", slotInst);
-				}
-				
+//			}else if("102".equals(type)){
+//				if(CodeConfigItem.getInstance().getIconImageShowOrHide() ==4){
+//					siteInst.setCellType("710");
+//					slotInst.setBestCardName("XCTS1");
+//					slotInst = slotService.select(slotInst).get(0);
+//					ExceptionManage.infor(slotInst.getSiteId()+",,,"+slotInst.getId(),this.getClass());
+//					cardInst = equimentDataUtil.addCard("config/topo/card/yixun/card_710_yixun_xcts1.xml", slotInst);
+//				}else{
+//					siteInst.setCellType("710A");
+//					slotInst.setBestCardName("MCU1");
+//					slotInst = slotService.select(slotInst).get(0);
+//					cardInst = equimentDataUtil.addCard("config/topo/card/soz/card_710_mc2.xml", slotInst);
+//				}
 			}else if("203".equals(type)){
 				siteInst.setCellType("703-1A");
 				slotInst.setBestCardName("703-1A_CARD");
@@ -335,6 +339,21 @@ public class SiteSNTable  extends PtnDialog  {
 				slotInst.setBestCardName("703-5A_CARD");
 				slotInst = slotService.select(slotInst).get(0);
 				cardInst = equimentDataUtil.addCard("config/topo/card/szt/card_703-5A.xml", slotInst);
+			}else if("216".equals(type)){
+				siteInst.setCellType("ETN-200-204E");
+				slotInst.setBestCardName("ETN-200-204E");
+				slotInst = slotService.select(slotInst).get(0);
+				cardInst = equimentDataUtil.addCard("config/topo/card/jcszt2a/card_703-2A.xml", slotInst);
+			}else if("215".equals(type)){
+				siteInst.setCellType("ETN-200-204");
+				slotInst.setBestCardName("ETN-200-204");
+				slotInst = slotService.select(slotInst).get(0);
+				cardInst = equimentDataUtil.addCard("config/topo/card/jcszt2c/card_703-2C.xml", slotInst);
+			}else if("102".equals(type)){
+				siteInst.setCellType("ETN-5000");
+				slotInst.setBestCardName("MCU1");
+				slotInst = slotService.select(slotInst).get(0);
+				cardInst = equimentDataUtil.addCard("config/topo/card/yixun/card_710_yixun_xcts1.xml", slotInst);
 			}
 			cardService.saveOrUpdate(cardInst);
 		} catch (Exception e) {

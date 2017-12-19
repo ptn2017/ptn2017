@@ -438,4 +438,8 @@ public class StringKeysTab {
     public static final String PROTECT_LSP= "PROTECT_LSP";
     public static final String TAB_UNALARM = "TAB_UNALARM";//非告警类事件上报
     public static final String TAB_MOINTOR_LABEL_NETWORKCARD = "TAB_MOINTOR_LABEL_NETWORKCARD";// 网卡信息
+    /**
+     * 实时性能统计
+     */
+    public static final String TAB_CURRENT_PERFORMANCE_STATISTICS = "TAB_CURRENT_PERFORMANCE_STATISTICS";
 } 

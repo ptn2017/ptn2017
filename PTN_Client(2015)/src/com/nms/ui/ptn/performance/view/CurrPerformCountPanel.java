@@ -15,6 +15,8 @@ import javax.swing.JTabbedPane;
 import com.nms.db.bean.perform.CurrPerformCountInfo;
 import com.nms.ui.Ptnf;
 import com.nms.ui.frame.ContentView;
+import com.nms.ui.manager.ResourceUtil;
+import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.ptn.performance.controller.CurrPerformCountController;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
 
@@ -32,7 +34,7 @@ public class CurrPerformCountPanel extends ContentView<CurrPerformCountInfo> {
 	}
 
 	public void init() {
-		getContentPanel().setBorder(BorderFactory.createTitledBorder("实时性能统计"));
+		getContentPanel().setBorder(BorderFactory.createTitledBorder(ResourceUtil.srcStr(StringKeysTab.TAB_CURRENT_PERFORMANCE_STATISTICS)));
 		setLayout();
 	}
 

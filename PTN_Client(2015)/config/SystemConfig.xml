@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<node type="config">
+	<systemId>windows</systemId>
+	<name>windows</name>
+	<descripe>windows</descripe>
+	<ip>127.0.0.1</ip>
+	<port>23</port>
+	<userName>admin</userName>
+	<passWord>admin</passWord>
+	<status>1</status>
+	<omcsystemId>INM2001</omcsystemId>
+	<omcname>INM2001</omcname>
+	<omcdescripe>INM2001</omcdescripe>
+	<omcip>127.0.0.11</omcip>
+	<omcport>23</omcport>
+	<omcuserName>admin1</omcuserName>
+	<omcpassWord>admin</omcpassWord>
+</node>

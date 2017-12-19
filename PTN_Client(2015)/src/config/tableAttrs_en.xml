@@ -1783,4 +1783,15 @@
 		<attribute id="operationType" name="Type" visible="true"></attribute>
 		<attribute id="operationResult" name="Result" visible="true"></attribute>
 	</table>	
+	<table name="hisPerformanceTable" layout="statistics">
+		<attribute id="id" name="ID" visible="false" />
+		<attribute id="siteName" name="siteName" visible="true" />
+		<attribute id="objectName" name="objectName" visible="true" />
+		<attribute id="perforName" name="perforName" visible="true" />
+		<attribute id="perforDesc" name="perforDesc" visible="true" />
+		<attribute id="perforValue" name="perforValue" visible="true" />
+		<attribute id="perforCycleStart" name="perforCycleStart" visible="true" />
+		<attribute id="endTime" name="endTime" visible="true" />
+		<attribute id="useable" name="useable" visible="true" />
+	</table>
 </xml-body>

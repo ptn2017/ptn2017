@@ -2876,4 +2876,8 @@ public class StringKeysLbl {
 	public static final String LBL_PROTECT_MODE = "LBL_PROTECT_MODE";
 	public static final String LBL_UNSURE_ALARM = "LBL_UNSURE_ALARM";
 	public static final String LBL_SHOW_DETAILS="LBL_SHOW_DETAILS";
+	public static final String LBL_OMC_IDENTIFER = "LBL_OMC_IDENTIFER";
+	public static final String LBL_DESCRIBE = "LBL_DESCRIBE";
+	public static final String LBL_SYSTEM_STATUS = "LBL_SYSTEM_STATUS";
+	public static final String LBL_DATA_SHOW = "LBL_DATA_SHOW";
 }

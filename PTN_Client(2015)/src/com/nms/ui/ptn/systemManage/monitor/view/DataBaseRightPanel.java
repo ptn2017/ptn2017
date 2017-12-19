@@ -148,7 +148,7 @@ public class DataBaseRightPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				DataBaseService_MB dataBaseService  =  null;
+				DataBaseService_MB dataBaseService = null;
 				try 
 				{
 					dataBaseService = (DataBaseService_MB)ConstantUtil.serviceFactory.newService_MB(Services.DATABASEINFO);
@@ -577,7 +577,6 @@ public class DataBaseRightPanel extends JPanel{
     * @param object
     */
 	public void disdatchDbInfoTask(DbInfoTask dbInfoTask) {
-		
 		Map<Integer, Object> serviceValue = new HashMap<Integer, Object>();
 		DecimalFormat df = new DecimalFormat("######0.00");
 		List<Long> memoryList = null;

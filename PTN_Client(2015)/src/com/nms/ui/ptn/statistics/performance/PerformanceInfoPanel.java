@@ -20,18 +20,11 @@ import twaver.TDataBox;
 import twaver.TWaverConst;
 import twaver.chart.LineChart;
 
-import com.nms.db.bean.equipment.port.PortInst;
-import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.perform.Capability;
 import com.nms.db.bean.perform.HisPerformanceInfo;
-import com.nms.db.bean.perform.PerformanceInfo;
 import com.nms.db.enums.EMonitorCycle;
-import com.nms.model.perform.HisPerformanceService_Mb;
-import com.nms.model.util.Services;
-import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
-import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysObj;
@@ -63,6 +56,7 @@ public class PerformanceInfoPanel extends JPanel{
 	private EMonitorCycle monitorCycle ;
 	//性能類型（過濾）code 值
 	private int code;
+	private Object object;// 监控对象
 
 	public EMonitorCycle getMonitorCycle() {
 		return monitorCycle;
@@ -132,7 +126,7 @@ public class PerformanceInfoPanel extends JPanel{
 	 * @param ssPerform
 	 * @throws Exception 
 	 */
-	public void bingData(List<Element> portElement) throws Exception{
+	public void bingData(List<HisPerformanceInfo> pList) throws Exception{
 		/**
 		 * 设定  ，  节点（图表）
 		 * 		的 随机 颜色
@@ -175,46 +169,23 @@ public class PerformanceInfoPanel extends JPanel{
 		colorNode[k++]=new Color(-2364897);
 		colorNode[k++]=new Color(-2464897);
 		
-		HisPerformanceInfo hisInfo=null;
-		HisPerformanceService_Mb hisPerformanceService=null;
-		Capability capability=null;
+//		HisPerformanceInfo hisInfo=null;
+//		HisPerformanceService_Mb hisPerformanceService=null;
+		Capability capability = null;
 		try {
-			/**
-			 * 选中的 性能类型（端口）集合
-			 */
 			int index = 0;
-			hisPerformanceService = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
-			for(int j=0;j<portElement.size();j++){
-				Element element=portElement.get(j);
-				if(element instanceof Node){
-					//将  节点 转为  性能类型
-					if(element.getUserObject()!=null){						
-						//取出选中的   性能类型
-						if(element.getUserObject() instanceof Capability){
-							capability=(Capability)element.getUserObject();
-							PortInst portInst=null;
-							SiteInst siteInst=null;
-							if(element.getParent()!=null&&element.getParent().getUserObject() instanceof PortInst){
-								if(element.getParent().getParent().getParent()!=null&&element.getParent().getParent().getParent().getParent().getUserObject() instanceof SiteInst){
-									siteInst=(SiteInst)element.getParent().getParent().getParent().getParent().getUserObject();
-								}
-								portInst=(PortInst)element.getParent().getUserObject();
-							}
-							// 此节点的   父节点端口存在 ： 并且 网元（父节点的父的父）存在
-							if(siteInst!=null&&portInst!=null){
-								//创建  历史性能对象
-								hisInfo=new HisPerformanceInfo();
-								hisInfo.setSiteId(siteInst.getSite_Inst_Id());
-								hisInfo.setObjectName(portInst.getPortName());
-							}
-							//性能类型 不为空，则 创建图表的节点
-							if(capability!=null){
+			for(Element element : portElement){
+				Node n = (Node) element;
+				if (n.getUserObject() instanceof Capability) {
+					capability = (Capability) n.getUserObject();
+					for(HisPerformanceInfo p : pList){
+						Capability c = p.getCapability();
+						//性能类型 不为空，则 创建图表的节点
+						if(c != null){
+							if(c.getId() == capability.getId()){
 								//创建 节点
-								Element  node=new Node();
-								/**
-								 * 图表  中 节点 的 名称
-								 */
-								String name=siteInst.getCellId()+"/"+portInst.getPortName()+"-"+capability.getCapabilityname();
+								Element node = new Node();
+								String name = p.getSiteName()+"/"+p.getObjectName()+"-"+capability.getCapabilityname();
 								//	Font f=new Font(name,100,5);
 								node.setName(name);
 								//设置  显示 样式
@@ -224,52 +195,127 @@ public class PerformanceInfoPanel extends JPanel{
 								index++;
 								box.addElement(node);
 								/**
-								 * 选择  自定义时间
+								 * X轴 时间
 								 */
-								if(code==6){
-									if(this.getStartTime()!=null&&this.getReadEndTime()!=null){
-										//   开始与结束  非数据库数据，界面 显示做参数（hisInfo）传入 DAO
-										hisInfo.setStartTime(this.getStartTime());
-										hisInfo.setPerformanceEndTime(this.getReadEndTime());
-									}
-								}
-								hisInfo.setMonitorCycle(this.monitorCycle);
-//								hisPerformanceService=(HisPerformanceService) ConstantUtil.serviceFactory.newService(Services.HisPerformance);
-								List<HisPerformanceInfo> performanceList=hisPerformanceService.selectPerformanceValue(hisInfo, code, capability);
-								/**
-								 * 遍历 传人的参数（性能 List）
-								 */
-								if(performanceList!=null){
-									if(performanceList.size()>0){
-										//遍历   性能统计
-										for(int i=0;i<performanceList.size();i++){
-											PerformanceInfo perform=(PerformanceInfo)performanceList.get(i);
-											/**
-											 * 设置 某个  端口的  性能值
-											 */
-											if(perform.getObjectName().equals(portInst.getPortName())){
-												/**
-												 * X轴 时间
-												 */
-												lineChart.addXScaleText(" "+perform.getPerformanceTime());
-												//Y  轴  值
-												node.addChartValue(perform.getPerformanceValue());
-											}
-											else{
-												node.addChartValue(0);
-											}
-										}
-									}
-								}
+								lineChart.addXScaleText(" "+p.getPerformanceTime());
+								//Y  轴  值
+								node.addChartValue(p.getPerformanceValue());
 							}
 						}
 					}
 				}
 			}
+			
+//			for(HisPerformanceInfo p : pList){
+//				capability = p.getCapability();
+//				//性能类型 不为空，则 创建图表的节点
+//				if(capability != null){
+//					//创建 节点
+//					Element node = new Node();
+//					String name = p.getSiteName()+"/"+p.getObjectName()+"-"+capability.getCapabilityname();
+//					//	Font f=new Font(name,100,5);
+//					node.setName(name);
+//					//设置  显示 样式
+//					node.putChartInflexionStyle(TWaverConst.INFLEXION_STYLE_TRIANGLE);
+//					//随机 取出  Color数组中1-9  
+//					node.putChartColor(colorNode[index]);
+//					index++;
+//					box.addElement(node);
+//					/**
+//					 * X轴 时间
+//					 */
+//					lineChart.addXScaleText(" "+p.getPerformanceTime());
+//					//Y  轴  值
+//					node.addChartValue(p.getPerformanceValue());
+//				}
+//			}
+//			int index = 0;
+////			hisPerformanceService = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
+//			for(int j=0;j<portElement.size();j++){
+//				Element element=portElement.get(j);
+//				if(element instanceof Node){
+//					//将  节点 转为  性能类型
+//					if(element.getUserObject()!=null){						
+//						//取出选中的   性能类型
+//						if(element.getUserObject() instanceof Capability){
+//							capability=(Capability)element.getUserObject();
+//							PortInst portInst=null;
+//							SiteInst siteInst=null;
+//							if(element.getParent()!=null&&element.getParent().getUserObject() instanceof PortInst){
+//								if(element.getParent().getParent().getParent()!=null&&element.getParent().getParent().getParent().getParent().getUserObject() instanceof SiteInst){
+//									siteInst=(SiteInst)element.getParent().getParent().getParent().getParent().getUserObject();
+//								}
+//								portInst=(PortInst)element.getParent().getUserObject();
+//							}
+//							// 此节点的   父节点端口存在 ： 并且 网元（父节点的父的父）存在
+//							if(siteInst!=null&&portInst!=null){
+//								//创建  历史性能对象
+//								hisInfo=new HisPerformanceInfo();
+//								hisInfo.setSiteId(siteInst.getSite_Inst_Id());
+//								hisInfo.setObjectName(portInst.getPortName());
+//							}
+//							//性能类型 不为空，则 创建图表的节点
+//							if(capability!=null){
+//								//创建 节点
+//								Element  node=new Node();
+//								/**
+//								 * 图表  中 节点 的 名称
+//								 */
+//								String name=siteInst.getCellId()+"/"+portInst.getPortName()+"-"+capability.getCapabilityname();
+//								//	Font f=new Font(name,100,5);
+//								node.setName(name);
+//								//设置  显示 样式
+//								node.putChartInflexionStyle(TWaverConst.INFLEXION_STYLE_TRIANGLE);
+//								//随机 取出  Color数组中1-9  
+//								node.putChartColor(colorNode[index]);
+//								index++;
+//								box.addElement(node);
+//								/**
+//								 * 选择  自定义时间
+//								 */
+//								if(code==6){
+//									if(this.getStartTime()!=null&&this.getReadEndTime()!=null){
+//										//   开始与结束  非数据库数据，界面 显示做参数（hisInfo）传入 DAO
+//										hisInfo.setStartTime(this.getStartTime());
+//										hisInfo.setPerformanceEndTime(this.getReadEndTime());
+//									}
+//								}
+//								hisInfo.setMonitorCycle(this.monitorCycle);
+////								hisPerformanceService=(HisPerformanceService) ConstantUtil.serviceFactory.newService(Services.HisPerformance);
+//								List<HisPerformanceInfo> performanceList=hisPerformanceService.selectPerformanceValue(hisInfo, code, capability);
+//								/**
+//								 * 遍历 传人的参数（性能 List）
+//								 */
+//								if(performanceList!=null){
+//									if(performanceList.size()>0){
+//										//遍历   性能统计
+//										for(int i=0;i<performanceList.size();i++){
+//											PerformanceInfo perform=(PerformanceInfo)performanceList.get(i);
+//											/**
+//											 * 设置 某个  端口的  性能值
+//											 */
+//											if(perform.getObjectName().equals(portInst.getPortName())){
+//												/**
+//												 * X轴 时间
+//												 */
+//												lineChart.addXScaleText(" "+perform.getPerformanceTime());
+//												//Y  轴  值
+//												node.addChartValue(perform.getPerformanceValue());
+//											}
+//											else{
+//												node.addChartValue(0);
+//											}
+//										}
+//									}
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
 		} catch (Exception e) {
 			throw e;
 		}finally{
-			UiUtil.closeService_MB(hisPerformanceService);
 		}
 	}
 	
@@ -408,5 +454,13 @@ public class PerformanceInfoPanel extends JPanel{
 	
 	public void setCode(int code) {
 		this.code = code;
+	}
+
+	public Object getObject() {
+		return object;
+	}
+
+	public void setObject(Object object) {
+		this.object = object;
 	}
 }

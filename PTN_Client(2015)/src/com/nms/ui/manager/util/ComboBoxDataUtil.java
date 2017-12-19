@@ -60,7 +60,11 @@ public class ComboBoxDataUtil {
 			codeList = codeGroup.getCodeList();
 			defaultComboBoxModel = (DefaultComboBoxModel) jComboBox.getModel();
 			for (Code code : codeList) {
-				defaultComboBoxModel.addElement(new ControlKeyValue(code.getId() + "", code.getCodeName(), code));
+				if("zh_CN".equals(ResourceUtil.language)){
+					defaultComboBoxModel.addElement(new ControlKeyValue(code.getId() + "", code.getCodeName(), code));
+				}else{
+					defaultComboBoxModel.addElement(new ControlKeyValue(code.getId() + "", code.getCodeENName(), code));
+				}
 			}
 			jComboBox.setModel(defaultComboBoxModel);
 

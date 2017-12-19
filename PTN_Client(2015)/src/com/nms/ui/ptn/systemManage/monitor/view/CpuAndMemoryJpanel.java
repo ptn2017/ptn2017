@@ -6,35 +6,18 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import com.nms.rmi.ui.util.RmiKeys;
 import com.nms.ui.manager.DateUtil;
-import com.nms.ui.manager.DispatchUtil;
-import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.keys.StringKeysTip;
 
 /**
- * <p>文件名称:CpuAndMemoryJpanel.java</p>
- * <p>文件描述:监控数据库内存和客户机的内存情况</p>
- * <p>版权所有: 版权所有(C)2013-2015</p>
- * <p>公    司: 北京建博信通软件技术有限公司</p>
- * <p>内容摘要:</p>
- * <p>其他说明: </p>
- * <p>完成日期: 2015年2月12日</p>
- * <p>修改记录1:</p>
- * <pre>
- *    修改日期：
- *    版 本 号：
- *    修 改 人：
- *    修改内容：
- * </pre>
- * <p>修改记录2：</p>
- * @version 1.0
- * @author zhangkun
+ * 文件名称:CpuAndMemoryJpanel.java
+ * 文件描述:监控数据库内存和客户机的内存情况
+ * 
  */
-public class CpuAndMemoryJpanel  extends DataBasePanel{
-   
-	/************用来标记是CPU=1/内存=2/硬盘=3**********************/
+public class CpuAndMemoryJpanel extends DataBasePanel{
+	private static final long serialVersionUID = 6952457888210507243L;
+	/************用来标记是CPU=1/内存=2/硬盘=3/网卡=4**********************/
 	private int label;
 	private Object object;
 	
@@ -62,33 +45,62 @@ public class CpuAndMemoryJpanel  extends DataBasePanel{
 			 st3 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_CPURATE);
 			 st4 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_CPUFREE);
 			 st5 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_CPUTIME);
-		}else{
+		}else if(label == 2 || label == 3){
 			 st1 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_NAME);
 			 st2 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_TOTALMEMORY);
 			 st3 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_USERMEMORY);
 			 st4 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_USERRATE)+"(G)%";
 			 st5 = ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_FREEMEMORY);
+		}else if(label == 4){
+			// 网卡信息
+			 st1 = ResourceUtil.srcStr(StringKeysTip.COURSEINFOTABLENUMBER);
+			 st2 = ResourceUtil.srcStr(StringKeysTip.TIP_DISPLAY_NAME);
+			 st3 = ResourceUtil.srcStr(StringKeysTip.TIP_NETWORK_CARD_NAME);
+			 st4 = ResourceUtil.srcStr(StringKeysTip.TIP_NET_ADDRESS);
 		}
-		  super.table.setModel(new DefaultTableModel(new Object[][]{},new String[]{st1
-	        		,st2
-	        		,st3
-	        		,st4
-	        		,st5
-	        }){
-			@SuppressWarnings("rawtypes")
-			Class[] types = new Class[]{java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class};
-			@Override
-			public Class getColumnClass(int columnIndex){
-				return types[columnIndex];
-			}
-			@Override
-			public boolean isCellEditable(int rowIndex,int columnIndex){
-				if(rowIndex == 1){
-					return true;
+		
+		if(label == 4){
+			 super.table.setModel(new DefaultTableModel(new Object[][]{},new String[]{st1
+		        		,st2
+		        		,st3
+		        		,st4
+		        }){
+				@SuppressWarnings("rawtypes")
+				Class[] types = new Class[]{java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class};
+				@Override
+				public Class getColumnClass(int columnIndex){
+					return types[columnIndex];
 				}
-				return true;
-			}
-		});
+				@Override
+				public boolean isCellEditable(int rowIndex,int columnIndex){
+					if(rowIndex == 1){
+						return false;
+					}
+					return false;
+				}
+			});
+		}else{
+			 super.table.setModel(new DefaultTableModel(new Object[][]{},new String[]{st1
+		        		,st2
+		        		,st3
+		        		,st4
+		        		,st5
+		        }){
+				@SuppressWarnings("rawtypes")
+				Class[] types = new Class[]{java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class};
+				@Override
+				public Class getColumnClass(int columnIndex){
+					return types[columnIndex];
+				}
+				@Override
+				public boolean isCellEditable(int rowIndex,int columnIndex){
+					if(rowIndex == 1){
+						return false;
+					}
+					return false;
+				}
+			});
+		}
 	}
 	
 	public void refresh()
@@ -110,7 +122,7 @@ public class CpuAndMemoryJpanel  extends DataBasePanel{
 							      DateUtil.getDate(DateUtil.FULLTIME)
 							    };
 				((DefaultTableModel)this.table.getModel()).addRow(data);
-		 }else if(object instanceof List &&((List)object) != null && ((List)object).size() >0)
+		 }else if(object instanceof List &&((List)object) != null && ((List)object).size() >0 && label == 2)
 		 {
 			 DecimalFormat df = new DecimalFormat("######0.00"); 
 			 double totalMemorySize =  Double.parseDouble((((List)object).get(0)).toString())/1048576;
@@ -146,6 +158,18 @@ public class CpuAndMemoryJpanel  extends DataBasePanel{
 
 	            	}
 	            }  
+		 } else if(object instanceof List && label == 4) {
+			 List<String> netList = (List<String>) object;
+			 for (String str : netList) {
+				String[] infoArr = str.split("@");
+				data = new Object[] {
+					 	++rowCount,
+					 	infoArr[0],
+					 	infoArr[1],
+					 	infoArr[2]
+                };
+                ((DefaultTableModel)this.table.getModel()).addRow(data);
+			 }
 		 }
 	}
 }

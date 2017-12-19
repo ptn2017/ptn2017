@@ -1895,5 +1895,8 @@ public class StringKeysTip {
 	public static final String TIP_ANALYSIS_OPERATION="TIP_ANALYSIS_OPERATION";//
 	public static final String TIP_ANALYSIS_LOGIN="TIP_ANALYSIS_LOGIN";//
 	public static final String TIP_ANALYSIS_UPDATE="TIP_ANALYSIS_UPDATE";//
+	public static final String TIP_DISPLAY_NAME = "TIP_DISPLAY_NAME";// 显示名称
+	public static final String TIP_NETWORK_CARD_NAME = "TIP_NETWORK_CARD_NAME";// 网卡名称
+	public static final String TIP_NET_ADDRESS = "TIP_NET_ADDRESS";// 网络地址
 }
 

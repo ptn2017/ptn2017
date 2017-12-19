@@ -346,6 +346,7 @@
     <if test="code==7">
      and  performancetime between #{hisInfo.startTime} and #{hisInfo.performanceEndTime}
     </if>
+    and monitor = #{hisInfo.monitor}
     <if test="hisInfo.siteId!=0"> and siteId=#{hisInfo.siteId}</if>
     <if test="hisInfo.objectName!=null and hisInfo.objectName!='' "> and objectname=#{hisInfo.objectName}</if>
 		

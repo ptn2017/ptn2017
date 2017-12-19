@@ -7,22 +7,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+
 import twaver.table.TTable;
 import twaver.table.TTablePopupMenuFactory;
 
-import com.mchange.v2.uid.UidUtils;
 import com.nms.db.bean.equipment.shelf.SiteInst;
-import com.nms.db.enums.EOperationLogType;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
-import com.nms.service.impl.util.ResultString;
 import com.nms.ui.frame.ContentView;
-import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DispatchUtil;
 import com.nms.ui.manager.ExceptionManage;

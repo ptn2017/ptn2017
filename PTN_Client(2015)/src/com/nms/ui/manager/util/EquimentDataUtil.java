@@ -125,7 +125,6 @@ public class EquimentDataUtil {
 		return equipmentType_result;
 	}
 
-	// TODO
 	/**
 	 * 根据槽类型获取卡菜单
 	 * 

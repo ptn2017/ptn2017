@@ -1796,7 +1796,7 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		// 菜单条：实时性能统计
-		currPerformCountMenuItem.setText("实时性能统计");
+		currPerformCountMenuItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_CURRENT_PERFORMANCE_STATISTICS));
 //		/*
 //		 * 添加 权限验证
 //		 */
@@ -2762,9 +2762,12 @@ public class Ptnf extends javax.swing.JFrame {
 		}
 	}
 	
+	/**
+	 * 实时性能统计
+	 */
 	private void currPerformCountMenuItemActionPerformed(){
 		try {
-			this.mainTabPanel(ConstantUtil.jTabbedPane, "实时性能统计", new CurrPerformCountPanel());
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_CURRENT_PERFORMANCE_STATISTICS), new CurrPerformCountPanel());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -3425,7 +3428,7 @@ public class Ptnf extends javax.swing.JFrame {
 	// End of variables declaration//GEN-END:variables
 	private JMenuItem nameRuleMenuItem;//命名规则
 	private JMenuItem performanceMenuItem;
-	private javax.swing.JMenuItem systemMonitorBaseCount;//数据库运行记录
+	private javax.swing.JMenuItem systemMonitorBaseCount;//系统监护
 	private JMenuItem batchSoftwateUpdate;// 批量升级
 
 	//添加当前网元在线状态等指示
