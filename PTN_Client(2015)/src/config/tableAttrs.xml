@@ -1820,7 +1820,7 @@
 		<attribute id="deleteTime" name="时间周期" visible="true"></attribute>
 		<attribute id="deleteCellyType" name="激活状态" visible="true"></attribute>
 	</table>
-<<<<<<< HEAD
+
 	<table name="hisPerformanceTable" layout="statistics">
 		<attribute id="id" name="ID" visible="false" />
 		<attribute id="siteName" name="网元名称" visible="true" />
