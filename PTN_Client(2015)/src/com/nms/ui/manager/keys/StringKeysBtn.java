@@ -390,4 +390,5 @@ public class StringKeysBtn {
 	 * 数据转换
 	 */
 	public static final String BTN_DATA_CONVERT = "BTN_DATA_CONVERT";
+	
 }

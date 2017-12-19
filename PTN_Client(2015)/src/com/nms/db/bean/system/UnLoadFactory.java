@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.keys.StringKeysBtn;
+import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysTab;
 
 /**
@@ -30,8 +31,8 @@ public class UnLoadFactory  implements Serializable {
 		case UnLoads.LOGIN:
 //			return ResourceUtil.srcStr(StringKeysBtn.BTN_LOGIN_LOG);//登录日志记录（3）
 			return ResourceUtil.srcStr(StringKeysBtn.BTN_LOGIN_OPER_LOG);//登录日志记录（3）
-//		case UnLoads.FOUR:
-//			return ResourceUtil.srcStr(StringKeysBtn.BTN_HISTORY_DAY_PERFORMANCE);//操作日志记录（3）			
+		case UnLoads.SYSTEM:
+			return ResourceUtil.srcStr(StringKeysLbl.LBL_LOG_SYSTEM);//系统日志			
 //		
 		}
 		return null;

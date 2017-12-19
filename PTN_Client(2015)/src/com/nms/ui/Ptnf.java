@@ -112,6 +112,7 @@ import com.nms.ui.ptn.performance.view.PerformanceTaskPanel;
 import com.nms.ui.ptn.safety.LogManagerPanel;
 import com.nms.ui.ptn.safety.LoginLogPanel;
 import com.nms.ui.ptn.safety.OperationLogPanel;
+import com.nms.ui.ptn.safety.SystemLogManagerPanel;
 import com.nms.ui.ptn.safety.UserInfoPanel;
 import com.nms.ui.ptn.safety.UserOnLinePanel;
 import com.nms.ui.ptn.safety.roleManage.RoleManagePanel;
@@ -932,6 +933,7 @@ public class Ptnf extends javax.swing.JFrame {
 		this.unloadDeleteItem = new JMenuItem();// 转储管理
 		this.systemConfigItem = new JMenuItem();// 系统配置管理
 		this.dataManage = new JMenuItem();
+		this.systemLogItem = new JMenuItem();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
 		this.addWindowListener(new WindowAdapter() {
@@ -964,7 +966,6 @@ public class Ptnf extends javax.swing.JFrame {
 		menuSystem.setBackground(new java.awt.Color(191, 213, 235));
 		menuSystem.setMnemonic(KeyEvent.VK_S);
 		menuSystem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_SYSTEM_MANAGE));
-		
 		
 		// 关闭告警声音
 		this.menuItemCloseAlarm.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_ALARMSOUND_OPEN));
@@ -1012,6 +1013,7 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		this.menuSystem.add(this.menuItemCloseAlarm);
+		
 		
 		//加载补丁
 		this.loadPatchItem.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_LOAD_PATCH));
@@ -2006,16 +2008,26 @@ public class Ptnf extends javax.swing.JFrame {
 				systemConfigActionPerformed();
 			}
 		});	
+		systemLogItem.setText(ResourceUtil.srcStr(StringKeysLbl.LBL_LOG_SYSTEM));
+		systemLogItem.setMnemonic(KeyEvent.VK_Y);
+		roleRoot.setItemEnbale(this.systemLogItem, RootFactory.SYSTEMMODU);
+		this.systemLogItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				systemLogActionPerformed();
+			}
+		});
 		
 		jMenu19.add(jMenuRoleManage);
 		jMenu19.add(jMenuLogin);
-		//jMenu19.add(jMenuLoginLog);
+		jMenu19.add(systemLogItem);
 		jMenu19.add(jMenuUserOnLine);
 		jMenu19.addSeparator();
 		jMenu19.add(jMenuOperationLog);
 		jMenu19.add(jMenuOperation);
 		jMenu19.add(systemConfigItem);
 		jMenuBar2.add(jMenu19);
+//		jMenuBar2.add(systemLogItem);
 		// 统计 s
 
 		jMenu20.setBackground(new java.awt.Color(191, 213, 235));
@@ -2992,6 +3004,14 @@ public class Ptnf extends javax.swing.JFrame {
 
 	}
 	
+	private void systemLogActionPerformed() {
+		try {
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SYSTEM_CONFIG), new SystemLogManagerPanel());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+	
 	private void systemConfigActionPerformed() {
 		try {
 			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SYSTEM_CONFIG), new SystemConfigView());
@@ -3447,6 +3467,7 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenuItem jMenuOperation;//日志管理
 	private JMenuItem unloadDeleteItem;// 备份删除管理
 	private JMenuItem systemConfigItem;// 系统配置
+	private JMenuItem systemLogItem;// 系统配置
 	private javax.swing.JMenuItem dataManage;// 统计分析配置
 	
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {

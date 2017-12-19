@@ -2880,4 +2880,5 @@ public class StringKeysLbl {
 	public static final String LBL_DESCRIBE = "LBL_DESCRIBE";
 	public static final String LBL_SYSTEM_STATUS = "LBL_SYSTEM_STATUS";
 	public static final String LBL_DATA_SHOW = "LBL_DATA_SHOW";
+	public static final String LBL_LOG_SYSTEM ="LBL_LOG_SYSTEM";
 }
