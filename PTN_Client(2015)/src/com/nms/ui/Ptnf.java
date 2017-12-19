@@ -3006,7 +3006,7 @@ public class Ptnf extends javax.swing.JFrame {
 	
 	private void systemLogActionPerformed() {
 		try {
-			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SYSTEM_CONFIG), new SystemLogManagerPanel());
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysLbl.LBL_LOG_SYSTEM), new SystemLogManagerPanel());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
