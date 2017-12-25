@@ -97,6 +97,7 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 	private JComboBox cmbAlarmSrcType;
 	private JLabel  lblMonitorObj;//监控对象
 	private JComboBox cmbMonitorObj;
+	private JCheckBox chkClose;// 关闭告警屏蔽
 	
 	private CurrentAlarmBlock block = null;
 	
@@ -470,6 +471,7 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		this.startTimeLabel.setSelected(false);
 		this.setText(alarmHappenText);
 		this.setText(alarmHappenEndText);
+		this.chkClose.setSelected(false);
 		this.block = null;
 	}
 	
@@ -481,6 +483,9 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 	private boolean validateParams(){
 		boolean flag = false;
 		try{
+			if(this.chkClose.isSelected()){
+				return true;
+			}
 			if (!this.neTreePanel.verifySelect()) {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_ALARMOBJ));
 				return false;
@@ -542,6 +547,7 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),false);
 		cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
 		clear = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FILTER_CLEAR));
+		chkClose = new JCheckBox(ResourceUtil.srcStr(StringKeysLbl.LBL_CLOSE_ALARM_BLOCKING));
 		addJbutton();
 		addclear();
 		
@@ -565,6 +571,15 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 			c.insets = new Insets(5, 5, 5, 5);
 			layout.addLayoutComponent(clear, c);
 			claerJpanel.add(clear);
+			
+			c.fill = GridBagConstraints.BOTH;
+			c.gridx = 1;
+			c.gridy = 0;
+			c.gridheight = 1;
+			c.gridwidth = 1;
+			c.insets = new Insets(5, 5, 5, 5);
+			layout.addLayoutComponent(chkClose, c);
+			claerJpanel.add(chkClose);
 			
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
@@ -779,7 +794,7 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		c.gridx = 0;
 		c.gridy = 13;
 		c.gridheight = 1;
-		c.gridwidth = 1;
+		c.gridwidth = 3;
 		c.insets = new Insets(5, 5, 5, 5);
 		layout.addLayoutComponent(claerJpanel, c);
 		this.add(claerJpanel);
@@ -799,6 +814,10 @@ public class AlarmBusinessBlockDialog extends PtnDialog {
 		List<Integer> levelList = new ArrayList<Integer>();
 		//添加监控对象条件
 		try{
+			if(this.chkClose.isSelected()){
+				this.block.setClose(true);
+				return this.block;
+			}
 			ControlKeyValue conType = (ControlKeyValue) this.cmbAlarmSrcType.getSelectedItem();
 			ControlKeyValue conObj = (ControlKeyValue) this.cmbMonitorObj.getSelectedItem();
 			int id = Integer.parseInt(conType.getId());

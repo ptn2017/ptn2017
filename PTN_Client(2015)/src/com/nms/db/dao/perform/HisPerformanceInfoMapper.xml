@@ -290,6 +290,7 @@
     	<if test="filter.isCardOrSite >-1">
     		and isCardOrSite =#{filter.isCardOrSite}
     	</if>
+    	and monitor = #{monitor}
     </if>
   </select>
   
@@ -307,6 +308,7 @@
 			#{item}
 		</foreach>
     </if>
+    and monitor = #{monitor}
     <if test="filter != null" >
     	<if test="slotIdList != null ">
     		and slotId in
@@ -336,7 +338,7 @@
   		 ORDER BY id ASC LIMIT #{pageCount}
   	</if>
   </select>
-  
+  <!-- 
    <select id="queryByHisPerfromance" resultMap="BaseResultMap"  parameterType="map">
     SELECT * from history_performance where 1=1  and performancecode in
     (select CapabilityCode from capability where CapabilityName=#{capability.capabilityname} and Manufacturer=#{capability.manufacturer})
@@ -351,7 +353,20 @@
     <if test="hisInfo.objectName!=null and hisInfo.objectName!='' "> and objectname=#{hisInfo.objectName}</if>
 		
    </select>
-  
+  -->
+  <select id="queryByHisPerfromance" resultMap="BaseResultMap"  parameterType="map">
+    SELECT * from history_performance where 1=1  and performancecode = #{capabilityCode}
+    <if test="code==1 or code==2 or code==3 or code==4 or code==5 or code==6">
+     and performancetime BETWEEN #{stime} and #{etime}
+    </if>
+    <if test="code==7">
+     and  performancetime between #{hisInfo.startTime} and #{hisInfo.performanceEndTime}
+    </if>
+    and monitor = #{hisInfo.monitor}
+    <if test="hisInfo.siteId!=0"> and siteId=#{hisInfo.siteId}</if>
+    <if test="hisInfo.objectName!=null and hisInfo.objectName!='' "> and objectname=#{hisInfo.objectName}</if>
+		
+   </select>
   <select id="queryIdByGoPage" resultType="java.lang.Integer"  parameterType="map">
   select id from
   (select id from history_performance where 1=1
@@ -362,6 +377,7 @@
 			#{item}
 		</foreach>
     </if>
+    and monitor = #{monitor}
     <if test="filter != null" >
     	<if test="slotIdList != null ">
     		and slotId in

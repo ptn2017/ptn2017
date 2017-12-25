@@ -176,6 +176,14 @@ public class PerformanceInfoPanel extends JPanel{
 			int index = 0;
 			for(Element element : portElement){
 				Node n = (Node) element;
+				//创建 节点
+				Element node = new Node();
+				//设置  显示 样式
+				node.putChartInflexionStyle(TWaverConst.INFLEXION_STYLE_TRIANGLE);
+				//随机 取出  Color数组中1-9  
+				node.putChartColor(colorNode[index]);
+				index++;
+				box.addElement(node);
 				if (n.getUserObject() instanceof Capability) {
 					capability = (Capability) n.getUserObject();
 					for(HisPerformanceInfo p : pList){
@@ -183,17 +191,9 @@ public class PerformanceInfoPanel extends JPanel{
 						//性能类型 不为空，则 创建图表的节点
 						if(c != null){
 							if(c.getId() == capability.getId()){
-								//创建 节点
-								Element node = new Node();
 								String name = p.getSiteName()+"/"+p.getObjectName()+"-"+capability.getCapabilityname();
 								//	Font f=new Font(name,100,5);
 								node.setName(name);
-								//设置  显示 样式
-								node.putChartInflexionStyle(TWaverConst.INFLEXION_STYLE_TRIANGLE);
-								//随机 取出  Color数组中1-9  
-								node.putChartColor(colorNode[index]);
-								index++;
-								box.addElement(node);
 								/**
 								 * X轴 时间
 								 */

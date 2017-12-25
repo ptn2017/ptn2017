@@ -170,8 +170,8 @@ public class CreatePerforTaskDialog extends PtnDialog {
 			}else if(info.getMonitorCycle() == EMonitorCycle.MIN10){
 				rb10min.setSelected(true);
 			}
-			rb15min.setEnabled(false);
-			rb24hour.setEnabled(false);
+//			rb15min.setEnabled(false);
+//			rb24hour.setEnabled(false);
 			if (info.getRunstates() != null) {
 				if (info.getRunstates() == ERunStates.RUN) {
 					rbRun.setSelected(true);
@@ -196,6 +196,11 @@ public class CreatePerforTaskDialog extends PtnDialog {
 //				endTime.setEnabled(false);
 //				endTimeField.setEditable(false);/
 				endTimeField.setText(info.getEndTime());
+			}
+			if(info.getIsReported() == 0){
+				rbTrap.setSelected(false);
+			}else{
+				rbTrap.setSelected(true);
 			}
 		} else {
 			rb15min.setSelected(true);
@@ -462,6 +467,11 @@ public class CreatePerforTaskDialog extends PtnDialog {
 					builder.append(node.getDisplayName()).append(",");
 				}
 				task.setPerforType(builder.substring(0, builder.length() - 1).toString());
+			}
+			if(rbTrap.isSelected()){
+				task.setIsReported(1);
+			}else{
+				task.setIsReported(0);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, getClass());

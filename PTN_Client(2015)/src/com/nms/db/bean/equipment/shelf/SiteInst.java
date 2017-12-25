@@ -703,10 +703,6 @@ public class SiteInst extends ViewDataObj {
 	public void setBs(byte[] bs) {
 		this.bs = bs;
 	}
-	
-	
-	
-	
 
 
 	public String getSn() {

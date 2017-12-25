@@ -107,7 +107,6 @@ public class SearchUiUtil {
 			}
 			for(List<Tunnel> tunnels : lists){
 				tunnelServiceMB.doSearchWh(tunnels);
-				System.out.println(tunnels.size());
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());

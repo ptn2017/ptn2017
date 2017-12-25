@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.db.bean.alarm.WarningLevel;
+import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.dao.alarm.CurrentAlarmInfoMapper;
+import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.util.ObjectService_Mybatis;
 import com.nms.model.util.Services;
@@ -79,6 +82,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 				}
 				currentAlarmInfoList.addAll(currentAlarm1);
 			}
+			this.filterByAlarmReversal(currentAlarmInfoList);
 			// 查询后过滤没有权限的网元
 			listingFilter = new ListingFilter();
 			objectList = (List<Object>) listingFilter.filterList(currentAlarmInfoList);
@@ -92,6 +96,42 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			objectList = null;
 		}
 		return count;
+	}
+	
+	private void filterByAlarmReversal(List<CurrentAlarmInfo> alarmList){
+		try {
+			if(alarmList != null && !alarmList.isEmpty()){
+				PortService_MB portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT, this.sqlSession);
+				Map<Integer, List<Integer>> siteIdPortMap = portService.selectAlarmReversal();
+				if(siteIdPortMap.size() > 0){
+					List<CurrentAlarmInfo> deleteList = new ArrayList<CurrentAlarmInfo>();
+					List<Integer> codeList = new ArrayList<Integer>();
+					codeList.add(192);codeList.add(193);codeList.add(11);codeList.add(12);codeList.add(121);
+					codeList.add(122);codeList.add(123);codeList.add(190);codeList.add(191);codeList.add(16);
+					codeList.add(17);codeList.add(18);codeList.add(68);codeList.add(35);codeList.add(36);
+					codeList.add(37);codeList.add(211);codeList.add(212);codeList.add(72);
+					Set<Integer> set = siteIdPortMap.keySet();
+					for(Integer siteId : set){
+						for(CurrentAlarmInfo alarm : alarmList){
+							if(alarm.getSiteId() == siteId){
+								List<Integer> numberList = siteIdPortMap.get(siteId);
+								if(!numberList.isEmpty()){
+									for(Integer number : numberList){
+										int code = alarm.getAlarmCode();
+										if(alarm.getObjectId() == number && codeList.contains(code)){
+											deleteList.add(alarm);
+										}
+									}
+								}
+							}
+						}
+					}
+					alarmList.removeAll(deleteList);
+				}
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
 	}
 	
 	/**
@@ -182,6 +222,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 				map.put("type", 0);
 			}
 			currfoList = this.mapper.selectByPage(map);
+			this.filterByAlarmReversal(currfoList);
 			this.wrapCurAlarmInfo(currfoList);
 			this.db2Bean(currfoList);
 		} catch (Exception e) {
@@ -336,6 +377,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			conditionMap.put("currentAlarm", new CurrentAlarmInfo());
 			conditionMap.put("type", 0);
 			currentAlarmInfoList = this.mapper.query_join(conditionMap);
+			this.filterByAlarmReversal(currentAlarmInfoList);
 			this.db2Bean(currentAlarmInfoList);
 			for (CurrentAlarmInfo currentAlarmInfo : currentAlarmInfoList) {
 				if (null == map.get(currentAlarmInfo.getSiteId())) {
@@ -361,6 +403,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			List<CurrentAlarmInfo> list = this.mapper.queryCurrBySites(siteIdList);
 			if (list != null) {
 				curInfoList.addAll(list);
+				this.filterByAlarmReversal(curInfoList);
 			}
 			this.db2Bean(curInfoList);
 		} catch (Exception e) {
@@ -385,6 +428,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			map.put("alarm", currentAlarmInfo);
 			map.put("type", 0);
 			currentAlarmInfoList.addAll(this.mapper.queryByCondition(map));
+			this.filterByAlarmReversal(currentAlarmInfoList);
 			// 查询后过滤没有权限的网元
 			listingFilter = new ListingFilter();
 			objectList = (List<Object>) listingFilter.filterList(currentAlarmInfoList);
@@ -449,6 +493,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			conditionMap.put("currentAlarm", condition);
 			conditionMap.put("type", 0);
 			curInfoList = this.mapper.query_join(conditionMap);
+			this.filterByAlarmReversal(curInfoList);
 			this.db2Bean(curInfoList);
 		} catch (Exception e) {
 			throw e;
@@ -513,6 +558,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			conditionMap.put("currentAlarm", new CurrentAlarmInfo());
 			conditionMap.put("type", 0);
 			curInfoList = this.mapper.query_join(conditionMap);
+			this.filterByAlarmReversal(curInfoList);
 			this.db2Bean(curInfoList);
 		} catch (Exception e) {
 			throw e;
@@ -541,6 +587,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			currentAlarmInfoList =new ArrayList<CurrentAlarmInfo>();
 			if(objectIdList.size()>0){
 			   currentAlarmInfoList = this.mapper.query_type_id(objectType, objectIdList, siteId);
+			   this.filterByAlarmReversal(currentAlarmInfoList);
 			   wrapCurAlarmInfo(currentAlarmInfoList);
 			}
 		} catch (Exception e) {

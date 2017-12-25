@@ -26,6 +26,7 @@ import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.path.tunnel.TunnelService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
+import com.nms.service.impl.dispatch.rmi.SiteDispatchI;
 import com.nms.ui.manager.AddOperateLog;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DialogBoxUtil;
@@ -230,6 +231,10 @@ public class SearchSegmentDialog extends PtnDialog {
 //				tunnelService = (TunnelService) ConstantUtil.serviceFactory.newService(Services.Tunnel);
 //				tunnelService.doSearch(siteInstList);
 //				UiUtil.closeService(tunnelService);
+				DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_TUNNEL);
+				for(SiteInst site : siteInstList){
+					dispatch.synchro(site.getSite_Inst_Id());
+				}
 				SearchUiUtil searchUiutil = new SearchUiUtil();
 				searchUiutil.searchTunnel(siteInstList);
 				/**
@@ -239,12 +244,15 @@ public class SearchSegmentDialog extends PtnDialog {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 				tunnelBusinessPanel = (TunnelBusinessPanel) this.jPanel;
 				tunnelBusinessPanel.getController().refresh();
-
 			} else if (this.jPanel instanceof PwBusinessPanel) {
 				// System.out.println("search pw.......");
 //				pwInfoService = (PwInfoService) ConstantUtil.serviceFactory.newService(Services.PwInfo);
 //				pwInfoService.exeSearchPW(siteInstList);
 //				UiUtil.closeService(pwInfoService);
+				DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_PW);
+				for(SiteInst site : siteInstList){
+					dispatch.synchro(site.getSite_Inst_Id());
+				}
 				SearchUiUtil searchUiutil = new SearchUiUtil();
 				searchUiutil.searchPw(siteInstList);
 				/**
@@ -254,11 +262,14 @@ public class SearchSegmentDialog extends PtnDialog {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 				pwBusinessPanel = (PwBusinessPanel) this.jPanel;
 				pwBusinessPanel.getController().refresh();
-
 			} else if (this.jPanel instanceof ElineBusinessPanel) {
 				// System.out.println("search eline.......");
 //				elineService = (ElineService) ConstantUtil.serviceFactory.newService(Services.Eline);
 //				elineService.searchActive(siteInstList);
+				DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_ELINE);
+				for(SiteInst site : siteInstList){
+					dispatch.synchro(site.getSite_Inst_Id());
+				}
 				SearchUiUtil searchUiutil = new SearchUiUtil();
 				searchUiutil.searchEline(siteInstList);
 				/**
@@ -268,8 +279,11 @@ public class SearchSegmentDialog extends PtnDialog {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 				elineBusinessPanel = (ElineBusinessPanel) this.jPanel;
 				elineBusinessPanel.getController().refresh();
-
 			} else if (this.jPanel instanceof EtreeBusinessPanel) { // etree搜索
+				DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_ETREE);
+				for(SiteInst site : siteInstList){
+					dispatch.synchro(site.getSite_Inst_Id());
+				}
 				etreeService = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);
 				etreeService.search(siteInstList);
 				/**
@@ -279,8 +293,11 @@ public class SearchSegmentDialog extends PtnDialog {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 				etreeBusinessPanel = (EtreeBusinessPanel) this.jPanel;
 				etreeBusinessPanel.getController().refresh();
-
 			} else if (this.jPanel instanceof ElanBusinessPanel) {// elan搜索
+				DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_ELAN);
+				for(SiteInst site : siteInstList){
+					dispatch.synchro(site.getSite_Inst_Id());
+				}
 				elanInfoService = (ElanInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.ElanInfo);
 				elanInfoService.search(siteInstList);
 				/**
@@ -290,7 +307,6 @@ public class SearchSegmentDialog extends PtnDialog {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 				elanBusinessPanel = (ElanBusinessPanel) this.jPanel;
 				elanBusinessPanel.getController().refresh();
-
 			} else if (this.jPanel instanceof CesBusinessPanel) {
 				// System.out.println("search ces.......");
 				SearchUiUtil searchUiutil = new SearchUiUtil();
@@ -302,7 +318,6 @@ public class SearchSegmentDialog extends PtnDialog {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 				cesBusinessPanel = (CesBusinessPanel) this.jPanel;
 				cesBusinessPanel.getController().refresh();
-
 			} else if (this.jPanel instanceof LoopProtectPanel) { // 环搜索
 				if (siteInstList.size() < 3) {
 					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_NOTLOOP));
@@ -317,7 +332,6 @@ public class SearchSegmentDialog extends PtnDialog {
 				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
 				loopProtectPanel = (LoopProtectPanel) this.jPanel;
 				loopProtectPanel.getController().refresh();
-
 			}
 
 			this.dispose();

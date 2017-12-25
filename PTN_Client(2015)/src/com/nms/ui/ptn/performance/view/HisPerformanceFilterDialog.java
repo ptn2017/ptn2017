@@ -74,6 +74,8 @@ public class HisPerformanceFilterDialog extends PtnDialog {
 	private JLabel lblCycle;
 	private JRadioButton rb15min;
 	private JRadioButton rb24hour;
+	private JRadioButton rb50m;
+	private JRadioButton rb10min;
 	private ButtonGroup group;
 	private String filterInfo;
 	private JLabel lblObjectType;
@@ -165,7 +167,7 @@ public class HisPerformanceFilterDialog extends PtnDialog {
 			DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PERFORMANCE_TYPE));
 			return false;
 		}
-		if (!rb15min.isSelected() && !rb24hour.isSelected()) {
+		if (!rb15min.isSelected() && !rb24hour.isSelected() && !rb10min.isSelected() && !rb50m.isSelected()) {
 			JOptionPane.showMessageDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_MONITORING_PERIOD));
 			return false;
 		}
@@ -224,6 +226,10 @@ public class HisPerformanceFilterDialog extends PtnDialog {
 			filter.setMonitorCycle(EMonitorCycle.HOUR24);
 		} else if (rb15min.isSelected()) {
 			filter.setMonitorCycle(EMonitorCycle.MIN15);
+		} else if(rb50m.isSelected()){
+			filter.setMonitorCycle(EMonitorCycle.M50);
+		} else if(rb10min.isSelected()){
+			filter.setMonitorCycle(EMonitorCycle.MIN10);
 		} else {
 			filter.setMonitorCycle(null);
 		}
@@ -577,8 +583,12 @@ public class HisPerformanceFilterDialog extends PtnDialog {
 		group = new ButtonGroup();
 		rb15min = new JRadioButton("15" + ResourceUtil.srcStr(StringKeysObj.MINUTES));
 		rb24hour = new JRadioButton("24" + ResourceUtil.srcStr(StringKeysObj.HOURS));
+		rb50m = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_50_M));
+		rb10min = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_10_MINUTES));
 		group.add(rb15min);
 		group.add(rb24hour);
+		group.add(rb50m);
+		group.add(rb10min);
 		confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM), true);
 		cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
 		clear = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FILTER_CLEAR));
@@ -738,6 +748,21 @@ public class HisPerformanceFilterDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 5);
 		layout.addLayoutComponent(rb24hour, c);
 		this.add(rb24hour);
+		c.gridx = 3;
+		c.gridy = 10;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		layout.addLayoutComponent(rb50m, c);
+		this.add(rb50m);
+		c.gridx = 4;
+		c.gridy = 10;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		layout.addLayoutComponent(rb10min, c);
+		this.add(rb10min);
+		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 11;

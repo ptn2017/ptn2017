@@ -228,8 +228,8 @@ public class DataBaseRightPanel extends JPanel{
 			});	
 		}
 	}
+	
 	public void setLayout(JPanel main ,JPanel dataBaseJpanel){
-		
 		GridBagLayout	gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[]{50,80};
 		gridBagLayout.rowWeights = new double[]{50,80};
@@ -261,9 +261,7 @@ public class DataBaseRightPanel extends JPanel{
 		main.add(dataBaseJpanel);
 	}
 
-	
 	public void setLayout(){
-       
 		GridBagLayout	gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[]{50,50,80};
 		gridBagLayout.rowWeights = new double[]{100};
@@ -303,8 +301,8 @@ public class DataBaseRightPanel extends JPanel{
 		this.add(dataBaseInfo);
 		
 	}
+	
 	private void initBorderLayout(JPanel dataBaseInfoJpJPanel) {
-		
 		JLabel jlabel1 = null;
 		JLabel jlabel2 = null;
 		JLabel jlabel3 = null;
@@ -374,7 +372,6 @@ public class DataBaseRightPanel extends JPanel{
 	}
 	
     private void initBorderLayoutJpanel(JPanel dataBaseInfoJpJPanel) {
-		
 		GridBagLayout gridBagLayouts = null;
 		GridBagConstraints gridBagConstraints = null;
 		String textArea1 = null;
@@ -427,7 +424,6 @@ public class DataBaseRightPanel extends JPanel{
 	}
 
 	private void initMoinLayoutJpanel(JPanel dataBaseInfoJpJPanel) {
-		
 		GridBagLayout gridBagLayouts = null;
 		GridBagConstraints gridBagConstraints = null;
 		String textArea1 = null;
@@ -502,12 +498,12 @@ public class DataBaseRightPanel extends JPanel{
 			textArea2 = null;
 		}
     }
-    /**
+  
+	/**
      * 
      * @return String[] 标签值
      */
-    private String[] setJlbelValues()
-    {
+    private String[] setJlbelValues() {
     	DataBaseService_MB dataBaseService  =  null;
 		DataBaseInfo dataBaseInfo = null;
 		DispatchUtil serviceDispatch = null;

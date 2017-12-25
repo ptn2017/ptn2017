@@ -2881,4 +2881,22 @@ public class StringKeysLbl {
 	public static final String LBL_SYSTEM_STATUS = "LBL_SYSTEM_STATUS";
 	public static final String LBL_DATA_SHOW = "LBL_DATA_SHOW";
 	public static final String LBL_LOG_SYSTEM ="LBL_LOG_SYSTEM";
+	/**
+	 * 关闭告警屏蔽
+	 */
+	public static final String LBL_CLOSE_ALARM_BLOCKING = "LBL_CLOSE_ALARM_BLOCKING";
+	public static final String LBL_NORTH_SERVER="LBL_NORTH_SERVER";
+	public static final String LBL_START_NORTH_SERVER="LBL_START_NORTH_SERVER";
+	public static final String LBL_END_NORTH_SERVER="LBL_END_NORTH_SERVER";	
+	public static final String LBL_RMI_PROCESS_CONFIG="LBL_RMI_PROCESS_CONFIG";
+	public static final String LBL_MYSQL5_SERVER="LBL_MYSQL5_SERVER";
+	public static final String LBL_START_MYSQL_SERVER="LBL_START_MYSQL_SERVER";
+	public static final String LBL_END_MYSQL_SERVER="LBL_END_MYSQL_SERVER";
+	public static final String LBL_NOR_PROVINCES="LBL_NOR_PROVINCES";
+	public static final String LBL_NOR_MANUFACTURER="LBL_NOR_MANUFACTURER";
+	public static final String LBL_NOR_MAJORS="LBL_NOR_MAJORS";
+	public static final String LBL_NOR_NUMBERING="LBL_NOR_NUMBERING";
+	public static final String LBL_NOR_OBJECTTYPE="LBL_NOR_OBJECTTYPE";
+	public static final String LBL_NOR_OBJECTNUM="LBL_NOR_OBJECTNUM";
+	public static final String LBL_NOR_RMUIDERROR="LBL_NOR_RMUIDERROR";
 }

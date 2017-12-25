@@ -19,6 +19,7 @@
 		<attribute id="perforValue" name="Value" visible="true" />
 		<attribute id="perforCycleStart" name="Start Time" visible="true" />
 		<attribute id="endTime" name="End Time" visible="true" />
+		<attribute id="cycle" name="cycle" visible="true" />
 		<attribute id="useable" name="Is Valid" visible="true" />
 	</table>
 	<table name="perTaskTable" layout="filter">

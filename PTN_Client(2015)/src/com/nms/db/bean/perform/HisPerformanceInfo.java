@@ -195,8 +195,8 @@ public class HisPerformanceInfo extends PerformanceInfo {
 			if (this.getPerformanceEndTime()!=null && !"".equals(this.getPerformanceEndTime())) {
 					super.getClientProperties().put("endTime",updateTime(this.getPerformanceEndTime()));
 				}
-			
-			
+			// 检测周期
+			super.getClientProperties().put("cycle", EMonitorCycle.forms(this.getMonitor()).toString());
 			// 是否有效
 			if (getUseAble() == 1) {
 				super.getClientProperties().put("useable", Boolean.FALSE);

@@ -169,12 +169,13 @@ public class ElanInfoService_MB extends ObjectService_Mybatis{
 				map = this.getMapBySite(siteInst.getSite_Inst_Id());
 				// 遍历每一组elan 找出与此elan相匹配的elan
 				for (int serviceId : map.keySet()) {
-					// 如果此serviceId不在要创建的map中，才去验证。防止重�?//					if(map.get(serviceId).size()>1){
+					// 如果此serviceId不在要创建的map中，才去验证。防止重�?//					
+					if(map.get(serviceId).size()>1){
 						if (!this.serviceIdIsExist(map_create, serviceId)) {
 							this.putCreateMap(map_create, createKey, map.get(serviceId), siteIdList);
 							createKey++;
 						}
-//					}
+					}
 				}
 			}
 			// 如果map中有值，就循环创建每一组elan�?			

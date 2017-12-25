@@ -80,6 +80,8 @@ public class DataInfoAllPanel extends PtnDialog{
 				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_MEMORYINFO), new CpuAndMemoryJpanel(2,servicePerformance.get(2)));
 				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_DISCINFO), new CpuAndMemoryJpanel(3,servicePerformance.get(3)));
 				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTab.TAB_MOINTOR_LABEL_NETWORKCARD), new CpuAndMemoryJpanel(4,servicePerformance.get(4)));
+				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTab.TAB_PROCESS_INFO), new CpuAndMemoryJpanel(5,servicePerformance.get(5)));// 系统进程信息
+				tabbedPanl.add(ResourceUtil.srcStr(StringKeysTab.TAB_OTHER_INFO), new CpuAndMemoryJpanel(6,servicePerformance.get(6)));// 其他信息
 			} catch (Exception e) {
 				e.printStackTrace();
 			}finally{

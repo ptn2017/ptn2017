@@ -477,4 +477,29 @@ public class PortService_MB extends ObjectService_Mybatis {
        this.sqlSession.commit();
 	}
 	
+	/**
+	 * 查询告警反转使能的端口
+	 * @throws Exception
+	 */
+	public Map<Integer, List<Integer>> selectAlarmReversal() throws Exception {
+		Map<Integer, List<Integer>> siteIdPortMap = null;
+		List<PortInst> portinstList = null;
+		try {
+			siteIdPortMap  = new HashMap<Integer, List<Integer>>();
+			portinstList = this.mapper.selectAlarmReversal();
+			for (int i = 0; i < portinstList.size(); i++) {
+				int siteId = portinstList.get(i).getSiteId();
+				if(siteIdPortMap.containsKey(siteId)){
+					siteIdPortMap.get(siteId).add(portinstList.get(i).getNumber());
+				}else{
+					List<Integer> numberList = new ArrayList<Integer>();
+					numberList.add(portinstList.get(i).getNumber());
+					siteIdPortMap.put(siteId, numberList);
+				}
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+		return siteIdPortMap;
+	}
 }

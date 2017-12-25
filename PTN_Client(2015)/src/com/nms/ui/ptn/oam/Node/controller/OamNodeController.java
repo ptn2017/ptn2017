@@ -509,7 +509,7 @@ public class OamNodeController extends AbstractController {
 								port.setSiteId(ConstantUtil.siteId);
 								List<PortInst> portList = portService.select(port);
 								if(portList != null && !portList.isEmpty()){
-									if(portList.get(0).getNumber() == oam.getOamMep().getObjId()){
+									if(portList.get(0).getPortId() == oam.getOamMep().getObjId()){
 										result = "LINK_DOWN";
 										break;
 									}

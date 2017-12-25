@@ -785,7 +785,7 @@ public class PerformanceFileDialog extends PtnDialog {
 					condition.setPerformanceEndTime(view.getReadEndTime());
 					condition.setSiteId(filter.getSiteInsts().get(0));
 					condition.setMonitor(filter.getMonitorCycle().getValue());
-					List<HisPerformanceInfo> list = this.filterPerformance(service.selectPerformanceValue(condition, view.getCode(), cap));
+					List<HisPerformanceInfo> list = this.filterPerformance(service.selectPerformanceValue(condition, view.getCode(), cap.getCapabilitycode()));
 					if(list != null){
 						pList.addAll(list);
 					}

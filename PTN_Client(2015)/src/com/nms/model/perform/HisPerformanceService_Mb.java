@@ -231,6 +231,7 @@ public class HisPerformanceService_Mb extends ObjectService_Mybatis {
 		if(filter != null && filter.getPerformanceCodeList() != null && filter.getPerformanceCodeList().size()>0){
 			map.put("performanceCodeList", filter.getPerformanceCodeList());
 		}
+		map.put("monitor", filter.getMonitorCycle().getValue());
 		return this.historyPerformanceMapper.selectCount(map);
 	}
 
@@ -248,6 +249,7 @@ public class HisPerformanceService_Mb extends ObjectService_Mybatis {
 			}else{
 				map.put("slotIdList", null);
 			}
+			map.put("monitor", filter.getMonitorCycle().getValue());
 			hisInfoList = this.historyPerformanceMapper.selectByPage(map);
 			this.wrapHisPerformanceInfo(hisInfoList);
 		} catch (Exception e) {
@@ -303,7 +305,7 @@ public class HisPerformanceService_Mb extends ObjectService_Mybatis {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HisPerformanceInfo> selectPerformanceValue(HisPerformanceInfo hisInfo,int code,Capability capability)throws Exception{
+	public List<HisPerformanceInfo> selectPerformanceValue(HisPerformanceInfo hisInfo,int code, int capabilityCode)throws Exception{
 		List<HisPerformanceInfo> hisList =null;
 		long startTime =0;//开始时间
 		long endTime = 0;//结束时间
@@ -323,40 +325,40 @@ public class HisPerformanceService_Mb extends ObjectService_Mybatis {
 				endTime = nowTime;
 				stime=sdf.format(new Date(startTime));
 				etime=sdf.format(new Date(endTime));	
-				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capability,stime,etime);
+				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capabilityCode,stime,etime);
 				break;
 			case 2:
 				startTime = nowTime - 12* 60 * 60 * 1000;
 				endTime = nowTime;
 				stime=sdf.format(new Date(startTime));
 				etime=sdf.format(new Date(endTime));
-				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capability,stime,etime);				
+				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capabilityCode,stime,etime);				
 				break;
 			case 3:
 				startTime = nowTime - 24* 60 * 60 * 1000;
 				endTime = nowTime;
 				stime=sdf.format(new Date(startTime));
 				etime=sdf.format(new Date(endTime));	
-				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capability,stime,etime);
+				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capabilityCode,stime,etime);
 				break;
 			case 4://近   7  天
 				startTime = nowTime - 7*24* 60 * 60 * 1000;
 				endTime = nowTime;
 				stime=sdf.format(new Date(startTime));
 				etime=sdf.format(new Date(endTime));
-				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capability,stime,etime);
+				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capabilityCode,stime,etime);
 				break;
 			case 5:
 				startTime = nowTime - 30L * 24 * 60 * 60 * 1000;
 				endTime = nowTime;
 				stime=sdf.format(new Date(startTime));
 				etime=sdf.format(new Date(endTime));
-				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capability,stime,etime);
+				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capabilityCode,stime,etime);
 				break;
 			case 7:// 自定義    ，，  時間選擇 為完成
-				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capability,stime,etime);
+				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capabilityCode,stime,etime);
 			default:
-				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capability,stime,etime);
+				hisList=this.historyPerformanceMapper.queryByHisPerfromance(hisInfo,code, capabilityCode,stime,etime);
 				break;
 			}
 			

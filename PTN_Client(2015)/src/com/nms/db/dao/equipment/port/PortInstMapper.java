@@ -65,5 +65,7 @@ public interface PortInstMapper {
 	void updateOccupyByIdList(@Param("pdhportList")List<Integer> pdhportList, @Param("isused")int isused);
 	
 	public int update_synchro(PortInst portinst);
+
+	List<PortInst> selectAlarmReversal();
 	
 }

@@ -135,13 +135,29 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 		//TUNNEL列表
 		for(Integer siteId : tunnelIdMap.keySet()){
 			for(Integer id : tunnelIdMap.get(siteId)){
-				createTunnelElement(emsTunnelHashMap.get(siteId).get(id), neTunnelHashMap.get(siteId).get(id), id, siteId);
+				Tunnel emsTunnel = null;
+				Tunnel neTunnel = null;
+				if(emsTunnelHashMap.get(siteId) != null && emsTunnelHashMap.get(siteId).get(id) != null){
+					emsTunnel = emsTunnelHashMap.get(siteId).get(id);
+				}
+				if(neTunnelHashMap.get(siteId) != null && neTunnelHashMap.get(siteId).get(id) != null){
+					neTunnel = neTunnelHashMap.get(siteId).get(id);
+				}
+				createTunnelElement(emsTunnel, neTunnel, id, siteId);
 			}
 		}
 		//保护列表
 		for(Integer siteId : protectIdMap.keySet()){
 			for(Integer id : protectIdMap.get(siteId)){
-				createProtectTunnelElement(emsProtectHashMap.get(siteId).get(id), neProtectHashMap.get(siteId).get(id));
+				Tunnel emsTunnel = null;
+				Tunnel neTunnel = null;
+				if(emsProtectHashMap.get(siteId) != null && emsProtectHashMap.get(siteId).get(id) != null){
+					emsTunnel = emsProtectHashMap.get(siteId).get(id);
+				}
+				if(neProtectHashMap.get(siteId) != null && neProtectHashMap.get(siteId).get(id) != null){
+					neTunnel = neProtectHashMap.get(siteId).get(id);
+				}
+				createProtectTunnelElement(emsTunnel, neTunnel);
 			}
 		}
 	}
@@ -158,8 +174,6 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 		HashMap<Integer, HashMap<Integer, PwInfo>> nePwHashMap = new HashMap<Integer, HashMap<Integer, PwInfo>>();
 //		HashMap<Integer, PwInfo> emsMsPwHashMap = new HashMap<Integer, PwInfo>();
 //		HashMap<Integer, PwInfo> neMsPwHashMap = new HashMap<Integer, PwInfo>();
-		PwInfo emsInfo = null;
-		PwInfo neInfo = null;
 		try {
 			this.getHashMapPw(pwEMSMap, emsPwHashMap, pwInfoIdMap);
 			this.getHashMapPw(pwNEMap, nePwHashMap, pwInfoIdMap);
@@ -167,10 +181,12 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 			for(Integer siteId : pwInfoIdMap.keySet()){
 				for(Integer id : pwInfoIdMap.get(siteId)){
 					try {
-						if(emsPwHashMap != null){
+						PwInfo emsInfo = null;
+						PwInfo neInfo = null;
+						if(emsPwHashMap.get(siteId) != null && emsPwHashMap.get(siteId).get(id) != null){
 							emsInfo = emsPwHashMap.get(siteId).get(id);
 						}
-						if(nePwHashMap != null){
+						if(nePwHashMap.get(siteId) != null && nePwHashMap.get(siteId).get(id) != null){
 							neInfo = nePwHashMap.get(siteId).get(id);
 						}
 						createPwElement(emsInfo, neInfo, siteId);
@@ -1296,7 +1312,15 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 		
 		for(Integer siteId : serviceIdMap.keySet()){
 			for(Integer id : serviceIdMap.get(siteId)){
-				this.createServiceElement(emsMap.get(siteId).get(id), neMap.get(siteId).get(id), type, siteId);
+				ServiceInfo emsInfo = null;
+				ServiceInfo neInfo = null;
+				if(emsMap.get(siteId) != null && emsMap.get(siteId).get(id) != null){
+					emsInfo = emsMap.get(siteId).get(id);
+				}
+				if(neMap.get(siteId) != null && neMap.get(siteId).get(id) != null){
+					neInfo = neMap.get(siteId).get(id);
+				}
+				this.createServiceElement(emsInfo, neInfo, type, siteId);
 			}
 		}
 	}

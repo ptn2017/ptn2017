@@ -354,7 +354,8 @@ public class EtreeInfoService_MB extends ObjectService_Mybatis{
 			etreeInfoList_create = new ArrayList<EtreeInfo>();
 			for (EtreeInfo etreeInfo : etreeInfoList) {
 				if (etreeInfo.getRootSite() > 0) {
-					// 取叶子节�?					branchEtree = this.getBranch(etreeInfo, etreeInfoList);
+					// 取叶子节�?					
+					branchEtree = this.getBranch(etreeInfo, etreeInfoList);
 					// 根据根节点和叶节点组成一个etree对象
 					if(branchEtree != null){
 						etreeInfoList_create.add(this.combination(etreeInfo, branchEtree));

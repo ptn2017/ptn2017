@@ -308,8 +308,8 @@ public class AddCesDialog extends PtnDialog {
 		jscrollPane_portTable_a.setViewportView(portTable_a);
 		jscrollPane_portTable_z.setViewportView(portTable_z);
 
-		leftBtn = new JButton("<<");
-		rightBtn = new JButton(">>");
+		leftBtn = new JButton("▲");
+		rightBtn = new JButton("▼");
 		client = new javax.swing.JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CLIENT_NAME));
 		clientComboBox = new javax.swing.JComboBox();
 		autoNamingButton = new JButton(ResourceUtil.srcStr(StringKeysLbl.LBL_AUTO_NAME));
@@ -655,7 +655,8 @@ public class AddCesDialog extends PtnDialog {
 		c.fill = GridBagConstraints.BOTH;
 		layout.setConstraints(this.pwListJSP, c);
 		this.leftPanel.add(this.pwListJSP);
-		// �?�?		c.gridx = 1;
+		// �?�?		
+		c.gridx = 1;
 		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -672,7 +673,8 @@ public class AddCesDialog extends PtnDialog {
 		c.anchor = GridBagConstraints.WEST;
 		layout.setConstraints(this.rightBtn, c);
 		this.leftPanel.add(this.rightBtn);
-		// �?�?		c.gridx = 0;
+		// �?�?		
+		c.gridx = 0;
 		c.gridy = 9;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -689,7 +691,8 @@ public class AddCesDialog extends PtnDialog {
 		layout.setConstraints(this.selPwListJSP, c);
 		this.leftPanel.add(this.selPwListJSP);
 
-		// �?0�?		c.gridx = 2;
+		// �?0�?		
+		c.gridx = 2;
 		c.gridy = 11;
 		c.gridheight = 1;
 		c.gridwidth = 1;

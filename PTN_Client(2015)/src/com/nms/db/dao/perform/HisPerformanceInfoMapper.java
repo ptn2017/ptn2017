@@ -43,7 +43,7 @@ public interface HisPerformanceInfoMapper {
 
 	List<HisPerformanceInfo> selectByPage(Map<String, Object> map);
 		
-	public List<HisPerformanceInfo> queryByHisPerfromance(@Param("hisInfo")HisPerformanceInfo hisInfo,@Param("code")int code,@Param("capability")Capability capability,@Param("stime")String stime,@Param("etime")String etime);
+	public List<HisPerformanceInfo> queryByHisPerfromance(@Param("hisInfo")HisPerformanceInfo hisInfo,@Param("code")int code,@Param("capabilityCode")int capabilityCode,@Param("stime")String stime,@Param("etime")String etime);
 
 	public int queryIdByGoPage(Map<String, Object> map);
 }

@@ -571,4 +571,7 @@
 	servicePort =#{servicePort} ,priority=#{priority} where portid=#{portId}
   </update>
   
+  <select id="selectAlarmReversal" resultMap="BaseResultMap" >
+  	select siteId, number from port_inst where alarmReversalEnabled = 1
+  </select>
 </mapper>

@@ -442,4 +442,89 @@ public class StringKeysTab {
      * 实时性能统计
      */
     public static final String TAB_CURRENT_PERFORMANCE_STATISTICS = "TAB_CURRENT_PERFORMANCE_STATISTICS";
+    /**
+     * 系统进程信息
+     */
+    public static final String TAB_PROCESS_INFO = "TAB_PROCESS_INFO";
+    /**
+     * 其他信息
+     */
+    public static final String TAB_OTHER_INFO = "TAB_OTHER_INFO";
+    /**
+     * 进程名
+     */
+    public static final String TAB_PROCESS_NAME = "TAB_PROCESS_NAME";
+    /**
+     * 进程描述
+     */
+    public static final String TAB_PROCESS_DESCRIPTION = "TAB_PROCESS_DESCRIPTION";
+    /**
+     * 运行状态
+     */
+    public static final String TAB_RUN_STATE = "TAB_RUN_STATE";
+    /**
+     * 开始时间
+     */
+    public static final String TAB_START_TIME = "TAB_START_TIME";
+    /**
+     * 停止时间
+     */
+    public static final String TAB_END_TIME = "TAB_END_TIME";
+    /**
+     * 运行主机
+     */
+    public static final String TAB_HOST_NAME = "TAB_HOST_NAME";
+    /**
+     * 进程类型
+     */
+    public static final String TAB_PROCESS_TYPE = "TAB_PROCESS_TYPE";
+    /**
+     * 监控指标
+     */
+    public static final String TAB_MONITOR_OBJECT = "TAB_MONITOR_OBJECT";
+    /**
+     * OMC系统服务状态
+     */
+    public static final String TAB_OMC_STATE = "TAB_OMC_STATE";
+    /**
+     * 性能数据处理时延
+     */
+    public static final String TAB_PERFORMANCE_DELAY = "TAB_PERFORMANCE_DELAY";
+    /**
+     * 硬盘读取速率
+     */
+    public static final String TAB_HARD_DISK_SPEED = "TAB_HARD_DISK_SPEED";
+    /**
+     * 性能测量任务数量
+     */
+    public static final String TAB_PERFORMANCE_TASK_COUNT = "TAB_PERFORMANCE_TASK_COUNT";
+    /**
+     * 同时在线用户数
+     */
+    public static final String TAB_USER_ON_LINE_COUNT = "TAB_USER_ON_LINE_COUNT";
+    /**
+     * 最大在线用户数
+     */
+    public static final String TAB_USER_MAX_ON_LINE_COUNT = "TAB_USER_MAX_ON_LINE_COUNT";
+    /**
+     * 应用进程数
+     */
+    public static final String TAB_PROCESS_COUNT = "TAB_PROCESS_COUNT";
+    /**
+     * 登录日志数量
+     */
+    public static final String TAB_LOGINLOG_COUNT = "TAB_LOGINLOG_COUNT";
+    /**
+     * 登录日志容量
+     */
+    public static final String TAB_LOGINLOG_LIMIT = "TAB_LOGINLOG_LIMIT";
+    /**
+     * 操作日志数量
+     */
+    public static final String TAB_OPERATIONLOG_COUNT = "TAB_OPERATIONLOG_COUNT";
+    /**
+     * 操作日志容量
+     */
+    public static final String TAB_OPERATIONLOG_LIMIT = "TAB_OPERATIONLOG_LIMIT";
+    
 } 

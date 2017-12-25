@@ -134,7 +134,6 @@ import com.nms.ui.ptn.statistics.sement.SegmentStatisticsWidthPanel;
 import com.nms.ui.ptn.statistics.site.SiteCountStatisticsPanel;
 import com.nms.ui.ptn.statistics.site.SpecificSiteStatisticsPanel;
 import com.nms.ui.ptn.statistics.slot.SlotStatisticsPanel;
-import com.nms.ui.ptn.systemManage.DataAnalysis;
 import com.nms.ui.ptn.systemManage.ReadUnloadXML;
 import com.nms.ui.ptn.systemManage.SystemConfigView;
 import com.nms.ui.ptn.systemManage.monitor.SystemMontorConfigPanel;
@@ -932,7 +931,6 @@ public class Ptnf extends javax.swing.JFrame {
 		this.autoCorrectionItem = new JMenuItem();
 		this.unloadDeleteItem = new JMenuItem();// 转储管理
 		this.systemConfigItem = new JMenuItem();// 系统配置管理
-		this.dataManage = new JMenuItem();
 		this.systemLogItem = new JMenuItem();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
@@ -1125,17 +1123,6 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		this.menuSystem.add(this.telnetManage);
-		
-		// 菜单条：数据分析
-		this.dataManage.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_DATA_ANALYSIS));
-		this.dataManage.setMnemonic(KeyEvent.VK_D);
-		this.dataManage.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jMenuItemDataAnalysisActionPerformed();
-			}
-		});
-		this.menuSystem.add(this.dataManage);	
 		
 		// 菜单条： 屏幕锁定
 		this.handLock.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_HONDLOCK_T));
@@ -3095,20 +3082,6 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		}
 		
-		private void jMenuItemDataAnalysisActionPerformed() {
-			DataAnalysis dataDialog = null;
-			try {
-				dataDialog = new DataAnalysis();
-				if(ResourceUtil.language.equals("zh_CN")){
-				    UiUtil.showWindow(dataDialog, dataDialog.getWeight(), 270);
-				}else{
-					UiUtil.showWindow(dataDialog, 800, 270);
-				}
-			} catch (Exception e) {
-				ExceptionManage.dispose(e, this.getClass());
-			}
-		}	
-		
 	// 用户锁屏的单击事件
 	private void jMenuItemHankLockActionPerformed() {
 		try {
@@ -3468,7 +3441,6 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenuItem unloadDeleteItem;// 备份删除管理
 	private JMenuItem systemConfigItem;// 系统配置
 	private JMenuItem systemLogItem;// 系统配置
-	private javax.swing.JMenuItem dataManage;// 统计分析配置
 	
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;

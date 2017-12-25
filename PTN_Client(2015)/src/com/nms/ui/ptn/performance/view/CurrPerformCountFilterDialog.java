@@ -661,7 +661,7 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 					}
 				}
 			}
-		}else if(index == 4){
+		}else if(index == 4 || index == 5){
 			PwInfo pw = null;
 			if(pwInfo == null){
 				//pw
