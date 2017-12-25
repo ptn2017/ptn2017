@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.perform.CurrentPerforInfo;
@@ -77,6 +78,9 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 	private JButton clear;
 	private PathPerformCountPanel view;
 	private CurrentPerformanceFilter filter;
+	private JLabel trapLabel;
+	private JRadioButton rbTrap;
+	
 	public PathPerformCountFilterDialog(PathPerformCountPanel view) {
 		this.setModal(true);
 		this.view = view;
@@ -125,6 +129,8 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		this.buttonPanel=new JPanel();
 		this.buttonPanel.add(confirm);
 		this.buttonPanel.add(cancel);
+		trapLabel = new JLabel("是否自动上报");
+		rbTrap = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_YES));
 	}
 	
 	private void setLayout() {
@@ -191,6 +197,24 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		c.insets = new Insets(5, 5, 5, 10);
 		layout.addLayoutComponent(rb24jpanl, c);
 		this.add(rb24jpanl);
+		
+		
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(trapLabel, c);
+		this.add(trapLabel);
+		
+		c.gridx = 1;
+		c.gridheight = 1;
+		c.gridwidth = 2;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(rbTrap, c);
+		this.add(rbTrap);
+		
 		
 		c.gridx = 0;
 		c.gridy = 7;
