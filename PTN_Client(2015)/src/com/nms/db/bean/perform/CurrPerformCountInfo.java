@@ -105,9 +105,14 @@ public class CurrPerformCountInfo extends ViewDataObj implements Serializable {
 		this.getClientProperties().put("siteName", this.getSiteName());
 		this.getClientProperties().put("time", this.getTime());
 		this.getClientProperties().put("objectName", this.getObjectName());
-		this.getClientProperties().put("receiveByte", this.getReceiveByte());
-		this.getClientProperties().put("sendByte", this.getSendByte());
+		this.getClientProperties().put("receiveByte", this.getMBit(Float.parseFloat(this.getReceiveByte()), Float.parseFloat(this.getSendByte())));
+//		this.getClientProperties().put("sendByte", this.getMBit(Float.parseFloat(this.getReceiveByte()), Float.parseFloat(this.getSendByte())));
 		this.getClientProperties().put("inBandwidthUtil", this.getInBandWidthUtil());
-		this.getClientProperties().put("outBandwidthUtil", this.getOutBandWidthUtil());
+//		this.getClientProperties().put("outBandwidthUtil", this.getOutBandWidthUtil());
+	}
+	
+	private String getMBit(float rx, float sx){
+		double total = rx + sx;
+		return total*1000/1048576+"";
 	}
 }

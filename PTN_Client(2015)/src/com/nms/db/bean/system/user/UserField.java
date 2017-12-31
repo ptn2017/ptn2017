@@ -7,6 +7,15 @@ public class UserField implements Serializable {
 	public int id;
 	public int user_id;
 	public int field_id;
+	private int subId;
+
+	public int getSubId() {
+		return subId;
+	}
+
+	public void setSubId(int subId) {
+		this.subId = subId;
+	}
 
 	public int getId() {
 		return id;

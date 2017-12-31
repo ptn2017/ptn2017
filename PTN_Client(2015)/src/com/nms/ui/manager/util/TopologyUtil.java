@@ -57,15 +57,13 @@ public class TopologyUtil {
 		Icon menuIconPlace = new ImageIcon(new UiUtil().getClass().getResource(imageSrc));
 		JButton buttonPlance = toolBar.add(action);
 		buttonPlance.setIcon(menuIconPlace);
-		RoleRoot roleRoot=new RoleRoot();
-		if (title.equals(ResourceUtil.srcStr(StringKeysObj.AUTO_MATCHING))) {
-			roleRoot.setItemEnbale(buttonPlance, RootFactory.TOPOLOGY_MANAGE);
-		} else if (title.equals(ResourceUtil.srcStr(StringKeysBtn.BTN_SAVE_PLACE))) {
-			roleRoot.setItemEnbale(buttonPlance, RootFactory.TOPOLOGY_MANAGE);
-		} else {
-			buttonPlance.setEnabled(true);
-		}
-
+//		if (title.equals(ResourceUtil.srcStr(StringKeysObj.AUTO_MATCHING))) {
+//			roleRoot.setItemEnbale(buttonPlance, RootFactory.TOPOLOGY_MANAGE);
+//		} else if (title.equals(ResourceUtil.srcStr(StringKeysBtn.BTN_SAVE_PLACE))) {
+//			roleRoot.setItemEnbale(buttonPlance, RootFactory.TOPOLOGY_MANAGE);
+//		} else {
+//			buttonPlance.setEnabled(true);
+//		}
 		buttonPlance.setToolTipText(title);
 
 	}

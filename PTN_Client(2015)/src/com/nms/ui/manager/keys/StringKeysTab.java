@@ -526,5 +526,64 @@ public class StringKeysTab {
      * 操作日志容量
      */
     public static final String TAB_OPERATIONLOG_LIMIT = "TAB_OPERATIONLOG_LIMIT";
-    
+    /**
+     * 网元事件日志
+     */
+    public static final String TAB_SITE_EVENT = "TAB_SITE_EVENT";
+    /**
+     * 日志统计
+     */
+    public static final String TAB_LOG_MENU = "TAB_LOG_MENU";
+    /**
+     * 操作日志统计
+     */
+    public static final String OPERATION_LOG_MENU = "OPERATION_LOG_MENU";
+    /**
+     *  配置信息统计
+     */
+    public static final String TAB_CONFIG_COUNT = "TAB_CONFIG_COUNT";
+    /**
+     *  tunnel信息统计
+     */
+    public static final String TAB_TUNNEL_COUNT = "TAB_TUNNEL_COUNT";
+    /**
+     *  pw信息统计
+     */
+    public static final String TAB_PW_COUNT = "TAB_PW_COUNT";
+    /**
+     *  eline信息统计
+     */
+    public static final String TAB_ELINE_COUNT = "TAB_ELINE_COUNT";
+    /**
+     *  etree信息统计
+     */
+    public static final String TAB_ETREE_COUNT = "TAB_ETREE_COUNT";
+    /**
+     *  elan信息统计
+     */
+    public static final String TAB_ELAN_COUNT = "TAB_ELAN_COUNT";
+    /**
+     *  ces信息统计
+     */
+    public static final String TAB_CES_COUNT = "TAB_CES_COUNT";
+    /**
+     * 告警报表
+     */
+    public static final String TAB_ALARM_REPORT = "TAB_ALARM_REPORT";
+    /**
+     * 性能报表
+     */
+    public static final String TAB_PERFORMANCE_REPORT = "TAB_PERFORMANCE_REPORT";
+    /**
+     * 业务配置报表
+     */
+    public static final String TAB_SERVICE_REPORT = "TAB_SERVICE_REPORT";
+    /**
+     * 单板统计报表
+     */
+    public static final String TAB_CARD_REPORT = "TAB_CARD_REPORT";
+    /**
+     * 端口统计报表
+     */
+    public static final String TAB_PORT_REPORT = "TAB_PORT_REPORT";
 } 

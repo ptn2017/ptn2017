@@ -6,6 +6,7 @@ import java.util.List;
 import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.equipment.slot.SlotInst;
+import com.nms.db.bean.event.OamEventInfo;
 import com.nms.db.bean.path.Segment;
 import com.nms.db.bean.report.PathStatisticsWidthRate;
 import com.nms.db.bean.report.SSAlarm;
@@ -16,6 +17,7 @@ import com.nms.db.bean.report.SSPort;
 import com.nms.db.bean.report.SSProfess;
 import com.nms.db.bean.report.SSSiteInst;
 import com.nms.db.bean.system.OperationLog;
+import com.nms.db.bean.system.SystemLog;
 import com.nms.db.bean.system.loginlog.LoginLog;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
@@ -291,6 +293,35 @@ public class ListString {
 						beanData[7]=operationLog.getIP();
 						beanList.add(beanData);
 					}				
+				}else if(object instanceof SystemLog){
+					for(int i=list.size()-1;i>=0;i--){
+						beanData=new String[4];
+						SystemLog loginLog=(SystemLog) list.get(i);
+						beanData[0]=loginLog.getOperationType();
+						beanData[1]=loginLog.getOperationObjName();
+						String resultName="";
+						if(1==loginLog.getOperationResult()){
+							resultName=ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT_ISUCCESS);
+							
+						}else if(2==loginLog.getOperationResult()){
+							resultName=ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT_FALSE);
+						}
+						beanData[2]=resultName;
+						beanData[3]=loginLog.getStartTime();
+						beanList.add(beanData);
+					}	
+				}else if(object instanceof OamEventInfo){
+					for(int i=list.size()-1;i>=0;i--){
+						beanData=new String[5];
+						OamEventInfo loginLog=(OamEventInfo) list.get(i);
+						beanData[0]=loginLog.getSiteName();
+						beanData[1]=loginLog.getSource();
+						beanData[2]=loginLog.getEventName();
+						String result = loginLog.getEventStatus()==1?ResourceUtil.srcStr(StringKeysLbl.LBL_CREATE):ResourceUtil.srcStr(StringKeysLbl.LBL_DISAPPEAR);
+						beanData[3]=result;
+						beanData[4]=loginLog.getTime();
+						beanList.add(beanData);
+					}	
 				}else if(object instanceof SSPath){    //导出端到端和单网元路径数量统计
 					for(int i=list.size()-1;i>=0;i--){
 						if (tableName.equals("PathNumStatisticsPanel")) {

@@ -45,8 +45,17 @@ public class AlarmController {
 			condition.setWarningLevel_temp(aramLenvel);
 			currentAlarmInfoList.addAll(service.select(condition));
 			currentAlarmInfoList.addAll(service.alarmByAlarmLevel(aramLenvel));
+			List<CurrentAlarmInfo> alarmList = new ArrayList<CurrentAlarmInfo>();
+			// 过滤掉已经确认的告警
+			if(currentAlarmInfoList != null){
+				for(CurrentAlarmInfo c : currentAlarmInfoList){
+					if(c.getConfirmtime() == null){
+						alarmList.add(c);
+					}
+				}
+			}
 //			currInfos = (List<CurrentAlarmInfo>) listingFilter.filterList(service.queryCurByAlarmlevel(aramLenvel));
-			currInfos = (List<CurrentAlarmInfo>) listingFilter.filterList(currentAlarmInfoList);
+			currInfos = (List<CurrentAlarmInfo>) listingFilter.filterList(alarmList);
 			
 			this.view.getBox().clear();
 			this.view.initData(currInfos);

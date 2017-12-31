@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.nms.db.bean.system.SystemLog;
+import com.nms.db.bean.system.loginlog.LoginLog;
 import com.nms.db.dao.system.SystemLogMapper;
 import com.nms.model.util.ObjectService_Mybatis;
 import com.nms.ui.manager.DateUtil;
@@ -81,4 +82,35 @@ public class SystemLogService_MB extends ObjectService_Mybatis{
 		return systemLogList;
 	}
 	
+	
+	/**
+	 * 根据 -- 操作日志记录表--主键集合，批量删除
+	 * 
+	 * @param idList
+	 * @return
+	 * @throws Exception
+	 */
+	public int delete(List<Integer> idList) throws Exception {
+		int result = 0;
+		try {
+			if (idList == null || idList.size() == 0) {
+				return 0;
+			}
+			result = this.mapper.deleteByIds(idList);
+			 this.sqlSession.commit();
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
+		return result;
+	}
+
+	public List<SystemLog> selectByIdList(List<Integer> idList) {
+		List<SystemLog> operationLogList = null;		
+		try {	
+			operationLogList = this.mapper.selectByIdList(idList);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
+		return operationLogList;
+	}
 }

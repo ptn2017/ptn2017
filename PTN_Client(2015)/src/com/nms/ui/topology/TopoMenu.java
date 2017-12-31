@@ -4,11 +4,18 @@
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JMenuItem;
+import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import twaver.TWaverConst;
+
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.path.Segment;
 import com.nms.db.bean.ptn.CommonBean;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.NetWork;
 import com.nms.db.enums.EOperationLogType;
@@ -30,6 +37,7 @@ import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.TelnetUtil;
 import com.nms.ui.manager.UiUtil;
+import com.nms.ui.manager.control.PtnFileChooser;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysMenu;
 import com.nms.ui.manager.keys.StringKeysTab;
@@ -53,6 +61,8 @@ import com.nms.ui.ptn.safety.roleManage.RoleRoot;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
 import com.nms.ui.ptn.statistics.site.SiteStatisticsPanel;
 import com.nms.ui.topology.routebusiness.view.PingCmdDialog;
+import com.nms.ui.topology.routebusiness.view.QueryPwOnTunnelDialog;
+import com.nms.ui.topology.routebusiness.view.QueryServiceOnPwDialog;
 import com.nms.ui.topology.routebusiness.view.QuerySfpPowDialog;
 import com.nms.ui.topology.routebusiness.view.RouteBusinessDialog;
 
@@ -91,8 +101,7 @@ class TopoMenu {
 				||key.equals(StringKeysMenu.MENU_COPYSITE)
 				){
 			roleRoot.setItemEnbale(menuItem, RootFactory.DEPLOY_MANAGE);
-		}
-		else if(  key.equals(StringKeysTitle.TIT_CREATE_FIELD)
+		}else if(  key.equals(StringKeysTitle.TIT_CREATE_FIELD)
 				||key.equals(StringKeysBtn.BTN_DELETE)
 				||key.equals(StringKeysTitle.TIT_CREATE_SUBNET)
 				||key.equals(StringKeysMenu.MENU_DELETESUBNET)
@@ -100,8 +109,10 @@ class TopoMenu {
 				||key.equals(StringKeysTitle.TIT_UPDATE_FIELD)
 				||key.equals(StringKeysTitle.TIT_TOPO_FOUND)
 				||key.equals(StringKeysMenu.MENU_FIELDALLINFO)
-				||key.equals(StringKeysMenu.MENU_SITEINFO)
-		){
+				||key.equals(StringKeysMenu.MENU_SITEINFO))
+		{
+			roleRoot.setItemEnbale(menuItem, RootFactory.TOPOLOGY_MANAGE);
+		}else{
 			roleRoot.setItemEnbale(menuItem, RootFactory.TOPOLOGY_MANAGE);
 		}
 		roleRoot=null;
@@ -295,6 +306,18 @@ class TopoMenu {
 							p.waitFor();
 							p.destroy();
 						
+						}else if(key.equals(StringKeysTitle.TIT_PW_ON_TUNNEL)){// 查询隧道承载的伪线 
+							Tunnel tunnel = (Tunnel) NetworkElementPanel.getNetworkElementPanel().getSelectElement().getUserObject();		
+							new QueryPwOnTunnelDialog(tunnel);
+						}else if(key.equals(StringKeysTitle.TIT_SERVICE_ON_PW)){// 查询伪线承载的业务
+							PwInfo pw = (PwInfo) NetworkElementPanel.getNetworkElementPanel().getSelectElement().getUserObject();		
+							new QueryServiceOnPwDialog(pw);
+						}else if(key.equals(StringKeysMenu.MENU_TOPO_BACKGROUD)){// 设置拓扑背景
+							setBackGround(true);
+							NetworkElementPanel.getNetworkElementPanel().showTopo(true);
+						}else if(key.equals(StringKeysMenu.MENU_RESET_TOPO_BACKGROUD)){// 还原拓扑背景
+							setBackGround(false);
+							NetworkElementPanel.getNetworkElementPanel().showTopo(true);
 						}
 					} catch (Exception e) {
 						ExceptionManage.dispose(e, this.getClass());
@@ -331,11 +354,37 @@ class TopoMenu {
 		return menuItem;
 	}
 	
-	
+	/**
+	 * 设置拓扑背景
+	 * @param network
+	 */
+	protected static void setBackGround(boolean flag) {
+		String path = null;
+		if(flag){
+			JTextField textField = new JTextField();
+			new PtnFileChooser(PtnFileChooser.TYPE_FILE, textField, new FileNameExtensionFilter("图片", "jpg","JPEG","gif","png"));
+			if(textField.getText().trim() != null && !"".equals(textField.getText().trim())){
+				path = "file:"+textField.getText().trim();// file:/C:/Users/Administrator/Desktop/22.png
+			}
+		}
+		NetService_MB service = null;
+		try {
+			NetWork network = new NetWork();
+			network.setNetWorkId(ConstantUtil.fieldId);
+			service = (NetService_MB) ConstantUtil.serviceFactory.newService_MB(Services.NETWORKSERVICE);
+			List<NetWork> list = service.select(network);
+			if(list != null){
+				network = list.get(0);
+				network.setBackgroundPath(path);
+				service.saveOrUpdate(network);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, TopoMenu.class);
+		} finally {
+			UiUtil.closeService_MB(service);
+		}
+	}
 
-
-	
-	
 	/**
 	 * 删除域
 	 * 

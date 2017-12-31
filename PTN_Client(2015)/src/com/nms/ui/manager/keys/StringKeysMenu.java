@@ -416,5 +416,25 @@ public class StringKeysMenu {
     public static final String MENU_PASTE = "MENU_PASTE";
     public static final String MENU_SYSTEM_LOG = "MENU_SYSTEM_LOG";
     public static final String MENU_CVS_FILE = "MENU_CVS_FILE";//excel文件
+    /**
+     * 设置拓扑背景
+     */
+    public static final String MENU_TOPO_BACKGROUD = "MENU_TOPO_BACKGROUD";
+    /**
+     * 还原拓扑背景
+     */
+    public static final String MENU_RESET_TOPO_BACKGROUD = "MENU_RESET_TOPO_BACKGROUD";
+    /**
+     * 报表管理
+     */
+    public static final String MENU_REPORT = "MENU_REPORT";
+    /**
+     * 创建1:1PW
+     */
+    public static final String MENU_ADD_PW_PROTECT = "MENU_ADD_PW_PROTECT";
+    /**
+     * 删除1:1PW
+     */
+    public static final String MENU_DELETE_PW_PROTECT = "MENU_DELETE_PW_PROTECT";
 }
 

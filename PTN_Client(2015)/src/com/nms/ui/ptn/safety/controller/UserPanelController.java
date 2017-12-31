@@ -49,7 +49,15 @@ public class UserPanelController extends AbstractController {
 			userlockServiece = (UserLockServiece_MB) ConstantUtil.serviceFactory.newService_MB(Services.USERLOCKSERVIECE);
 
 			userInsts = userInstServiece.select();
-			Iterator<UserInst> i = userInsts.iterator();
+			List<UserInst> userList = new ArrayList<UserInst>();
+			for(UserInst user : userInsts){
+				if(ConstantUtil.user.getUser_Id() == user.getUser_Id()){
+					userList.add(user);
+				}else if(ConstantUtil.user.getUser_Id() == user.getManagerId()){
+					userList.add(user);
+				}
+			}
+			Iterator<UserInst> i = userList.iterator();
 			while (i.hasNext()) {
 				UserInst userinst = (UserInst) i.next();
 				UserLock userlock = new UserLock();
@@ -61,7 +69,7 @@ public class UserPanelController extends AbstractController {
 			}
 
 			this.userinfopanel.clear();
-			this.userinfopanel.initData(userInsts);
+			this.userinfopanel.initData(userList);
 			this.userinfopanel.updateUI();
 
 		} catch (Exception e) {
@@ -78,23 +86,25 @@ public class UserPanelController extends AbstractController {
 //		if ("admin".equals(userInst.getUser_Name())) {// 缺省账户，不允许次操作
 //			DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_DEFAULTUSER));
 //		} else {
-			if(ConstantUtil.user.getUser_Name().equals("admin")){
-				new AddUserDialog(userInst, userinfopanel);
-			}else{
-				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_POWER));
-			}
+		if(UiUtil.isAdmin()){
+			new AddUserDialog(userInst, userinfopanel);
+		}else{
+			DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_POWER));
+		}
 //		}
 	}
+	
 	//新建
 	@Override
 	public void openCreateDialog() {
 		UserInst userInst = new UserInst();
-		if(ConstantUtil.user.getUser_Name().equals("admin")){
+		if(UiUtil.isAdmin()){
 			new AddUserDialog(userInst, userinfopanel);
 		}else{
 			DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_POWER));
 		}
 	}
+	
 	//删除
 	@Override
 	public void delete() throws Exception {
@@ -111,7 +121,7 @@ public class UserPanelController extends AbstractController {
 				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_IS_ONLINE));
 				return;
 			}
-			if(!ConstantUtil.user.getUser_Name().equals("admin")){
+			if(UiUtil.isNotAdmin()){
 				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_POWER));
 			}
 			userInstServiece = (UserInstServiece_Mb) ConstantUtil.serviceFactory.newService_MB(Services.UserInst);
@@ -139,11 +149,12 @@ public class UserPanelController extends AbstractController {
 		boolean flag = false;
 		try {
 			UserInst userInst = this.userinfopanel.getSelect();
-			if ("admin".equals(userInst.getUser_Name())) {// 缺省账户，不允许次操作
+			String uName = userInst.getUser_Name();
+			if("admin".equals(uName) || "admin1".equals(uName) || "admin2".equals(uName)){// 缺省账户，不允许次操作
 				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_DEFAULTUSER));
 				return false;
 			} else {
-				if (!"admin".equals(ConstantUtil.user.getUser_Name())) {
+				if(UiUtil.isNotAdmin()){
 					DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_POWER));
 					return  false;
 				}
@@ -165,12 +176,13 @@ public class UserPanelController extends AbstractController {
 		UserInst userinst = this.userinfopanel.getSelect();
 		UserLockServiece_MB userlockServiece = null;
 		try {
-			if ("admin".equals(userinst.getUser_Name())) {// 缺省账户，不允许次操作
+			String uName = userinst.getUser_Name();
+			if("admin".equals(uName) || "admin1".equals(uName) || "admin2".equals(uName)){// 缺省账户，不允许次操作
 				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_DEFAULTUSER));
 				operate= ResultString.CONFIG_FAILED;
 				return ;
 			}
-			else if ("admin".equals(ConstantUtil.user.getUser_Name())) {
+			if(UiUtil.isAdmin()){
 				// LoginLogServiece loginLogServiece = (LoginLogServiece)
 				// ConstantUtil.serviceFactory.newService(Services.LOGINLOGSERVIECE);
 				userinst.setUser_Name(ConstantUtil.user.getUser_Name());
@@ -229,10 +241,12 @@ public class UserPanelController extends AbstractController {
 			//判断操作是否成功
 			//null  成功，fail  失败
 			String operate=ResultString.CONFIG_SUCCESS;
-			if ("admin".equals(userinst.getUser_Name())) {// 缺省账户，不允许次操作
+			String uName = userinst.getUser_Name();
+			if("admin".equals(uName) || "admin1".equals(uName) || "admin2".equals(uName)){// 缺省账户，不允许次操作
 				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_DEFAULTUSER));
 				operate=ResultString.CONFIG_FAILED;
-			} else if ("admin".equals(ConstantUtil.user.getUser_Name())) {
+			} 
+			if(UiUtil.isAdmin()){
 				UserInst userInst = new UserInst();
 				userInst.setUser_Name(ConstantUtil.user.getUser_Name());
 				userlockServiece = (UserLockServiece_MB) ConstantUtil.serviceFactory.newService_MB(Services.USERLOCKSERVIECE);

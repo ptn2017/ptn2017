@@ -3,14 +3,14 @@
 <xml-boby>
 
 <card cardName="ETN-200-204E" cardType="" imagePath="/com/nms/ui/images/topo/jcszt2a/card.png" x="72" y="56" >
-    <port portName="NMS"  seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="390" y="64" number="" ></port>
-	<port portName="ge"  seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_g.png" x="445" y="65" number="1" ></port>
-	<port portName="ge"  seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_g.png" x="483" y="65" number="2" ></port>
-    <port portName="fe"  seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="580" y="63" number="5" ></port>		
-    <port portName="fe"  seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="544" y="63" number="6" ></port>
-	<port portName="e1"  seq="1" portType="e1" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port.png" x="634" y="34" number="7" ></port>
-	<port portName="e1"  seq="2" portType="e1" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="634" y="63" number="8" ></port>
-	<port portName="CLK"  seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="688" y="63" number="" ></port>
+    <port portName="NMS"  seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="390" y="64" number="" module="e"></port>
+	<port portName="ge"  seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_g.png" x="445" y="65" number="1" module="o"></port>
+	<port portName="ge"  seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_g.png" x="483" y="65" number="2" module="o"></port>
+    <port portName="fe"  seq="1" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="580" y="63" number="5" module="e"></port>		
+    <port portName="fe"  seq="2" portType="NONE" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="544" y="63" number="6" module="e"></port>
+	<port portName="e1"  seq="1" portType="e1" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port.png" x="634" y="34" number="7" module="e"></port>
+	<port portName="e1"  seq="2" portType="e1" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="634" y="63" number="8" module="e"></port>
+	<port portName="CLK"  seq="" portType="system" bandWidth="" imagePath="/com/nms/ui/images/topo/jcszt2a/port_down.png" x="688" y="63" number="" module="e"></port>
 	
 </card>
 </xml-boby>

@@ -208,7 +208,7 @@
      rootIP,alarmReversalModel,isAlarmReversal,isDelayAlarmTrap,delayTime ,
      rack,shelf ,rebootTime from  site_inst s group by s.CellType
    </select>
-   
+   <!-- 
     <select id="queryRootSiteByUserId" resultMap="BaseResultMap" parameterType="UserInst">   
      select
        <include refid="Base_Column_List" />
@@ -217,6 +217,16 @@
        where FieldID in(select id from field where netWorkId in(select field_id FROM user_field where user_id =#{userInst.User_Id}))
        </if>
    </select>
+   -->
+   <select id="queryRootSiteByUserId" resultMap="BaseResultMap" parameterType="UserInst">   
+     select
+       <include refid="Base_Column_List" />
+       from site_inst
+       <if test="userInst.isAll ==0 ">
+       where FieldID in(select subId FROM user_field where user_id = #{userInst.User_Id})
+       </if>
+   </select>
+   
    <delete id="delete" parameterType="java.lang.Integer" >
     delete from site_inst
     where site_inst_id = #{siteId,jdbcType=INTEGER}

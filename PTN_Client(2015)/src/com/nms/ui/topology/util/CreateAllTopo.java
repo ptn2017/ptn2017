@@ -93,11 +93,11 @@ public class CreateAllTopo {
 				for (int i = 0; i < netWorks.size(); i++) {
 					//勾选了查看所有域	
 					if(userInstList.get(0).getIsAll() == 1){
-					     this.createGroupContent(netWorks.get(i), isShowSubnet,isShowCardName);	
+					     this.createGroupContent(netWorks.get(i), isShowSubnet,isShowCardName, null);	
 					}else{
 						//没有勾选所有域时
-						if(checkRoot(userFieldList,netWorks.get(i).getNetWorkId())){
-							this.createGroupContent(netWorks.get(i), isShowSubnet,isShowCardName);
+						if(checkRoot(userFieldList, netWorks.get(i).getNetWorkId())){
+							this.createGroupContent(netWorks.get(i), isShowSubnet,isShowCardName, userFieldList);
 						}
 					}
 				}
@@ -111,7 +111,6 @@ public class CreateAllTopo {
 	}
 
 	//检查用户是否查看域的权限
-	
 	private boolean checkRoot(List<UserField> userFieldList,int fieldId) {
 		boolean flag = false;
 		try {
@@ -129,13 +128,33 @@ public class CreateAllTopo {
 		}
 		return flag;
 	}
+	
+	//检查用户是否查看组的权限
+	private boolean checkFieldRoot(List<UserField> userFieldList, int fieldId) {
+		boolean flag = false;
+		try {
+			if(userFieldList != null && userFieldList.size() > 0){
+				for(UserField userField : userFieldList){
+					if(fieldId == userField.getSubId()){						
+						return true;
+					}
+				}
+			}else{
+				flag = true;
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, getClass());
+		}
+		return flag;
+	}
 
 	/**
 	 * 创建组对象和子网对象
+	 * @param userFieldList 
 	 * 
 	 * @param field
 	 */
-	private void createGroupContent(NetWork netWork, boolean isShowSubnet,boolean isShowCardName) {
+	private void createGroupContent(NetWork netWork, boolean isShowSubnet,boolean isShowCardName, List<UserField> userFieldList) {
 		SubNetwork subNetwork = null;
 		FieldService_MB fieldService = null;
 		SubnetService_MB subnetService = null;
@@ -157,30 +176,32 @@ public class CreateAllTopo {
 				siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 				groups = fieldService.queryByNetWorkid(netWork.getNetWorkId());
 				for (int i = 0; i < groups.size(); i++) {
-					Dummy dummy = new Dummy();
-					dummy.setUserObject(groups.get(i));
-					dummy.setName(groups.get(i).getFieldName());
-					dummy.setParent(subNetwork);
-					this.tDataBox.addElement(dummy);
-					fieldList_subnet = subnetService.querySiteByCondition(groups.get(i));
-					siteInst = new SiteInst();
-					siteInsts = siteService.queryByFiledId(groups.get(i).getId());
-					if (null != fieldList_subnet && fieldList_subnet.size() > 0) {//遍历子网
-						// 遍历子网。添加到拓扑中
-						for (Field field_subnet : fieldList_subnet) {
-							// 创建子网对象
-							if (isShowSubnet) {
-								group = this.createElementUtil.createGroup(field_subnet, dummy);
-								this.tDataBox.addElement(group);
-								this.createNode(field_subnet.getSiteInstList(), group,isShowCardName);
-							} else {
-								this.createNode(field_subnet.getSiteInstList(), dummy,isShowCardName);
+					if(this.checkFieldRoot(userFieldList, groups.get(i).getId())){
+						// 检查有没有查看组的权限
+						Dummy dummy = new Dummy();
+						dummy.setUserObject(groups.get(i));
+						dummy.setName(groups.get(i).getFieldName());
+						dummy.setParent(subNetwork);
+						this.tDataBox.addElement(dummy);
+						fieldList_subnet = subnetService.querySiteByCondition(groups.get(i));
+						siteInst = new SiteInst();
+						siteInsts = siteService.queryByFiledId(groups.get(i).getId());
+						if (null != fieldList_subnet && fieldList_subnet.size() > 0) {//遍历子网
+							// 遍历子网。添加到拓扑中
+							for (Field field_subnet : fieldList_subnet) {
+								// 创建子网对象
+								if (isShowSubnet) {
+									group = this.createElementUtil.createGroup(field_subnet, dummy);
+									this.tDataBox.addElement(group);
+									this.createNode(field_subnet.getSiteInstList(), group,isShowCardName);
+								} else {
+									this.createNode(field_subnet.getSiteInstList(), dummy,isShowCardName);
+								}
 							}
 						}
+						//显示非子网下的网元
+						this.createNode(siteInsts, dummy, isShowCardName);
 					}
-					//显示非子网下的网元
-					this.createNode(siteInsts, dummy,isShowCardName);
-					
 				}
 			}
 

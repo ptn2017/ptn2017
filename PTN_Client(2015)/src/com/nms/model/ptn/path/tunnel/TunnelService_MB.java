@@ -83,7 +83,7 @@ public class TunnelService_MB extends ObjectService_Mybatis {
 		List<Tunnel> tunnelList = null;
 		try {
 			tunnelList = this.tunnelMapper.filterSelect(tunnelFilter);
-//			this.setTunnelLsp(tunnelList, false);
+			this.setTunnelLsp(tunnelList, false);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -602,6 +602,11 @@ public class TunnelService_MB extends ObjectService_Mybatis {
 	 */
 	public List<Tunnel> selectAllNotProtect(){
 		List<Tunnel> tunnels = tunnelMapper.selectAllNotProtect();
+		try {
+			this.setTunnelLsp(tunnels, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return tunnels;
 	}
 	/**
@@ -2095,6 +2100,7 @@ public class TunnelService_MB extends ObjectService_Mybatis {
 		List<Tunnel> tunnels = null;
 		try {
 			tunnels = this.tunnelMapper.queryTunnelBySiteId(siteId);
+			this.setTunnelLsp(tunnels, false);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}

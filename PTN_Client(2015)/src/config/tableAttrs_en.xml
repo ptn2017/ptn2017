@@ -167,6 +167,7 @@
 		<attribute id="isWithSegment" name="Is Connected To Segment" visible="true" />
 		<attribute id="belongCard" name="Belonged Card" visible="true" />
 		<attribute id="mac" name="MAC Addr" visible="true" />
+		<attribute id="OorE" name="OpticalOrElectrical" visible="true" />
 	</table>
 	
 	<table name="lspPathTable">
@@ -210,6 +211,7 @@
 		<attribute id="activeStates" name="Activation" visible="true" />
 		<attribute id="serviceType" name="Tunnel Name" visible="true" />
 		<attribute id="type" name="Type" visible="true" />
+		<attribute id="proType" name="proType" visible="true" />
 		<attribute id="inLabelValue" name="Ingress Label" visible="true" />
 		<attribute id="outLabelValue" name="Engress Label" visible="true" />
 		<attribute id="asiteName" name="Source NE" visible="true" />
@@ -1461,10 +1463,8 @@
 		<attribute id="siteName" name="siteName" visible="true" />
 		<attribute id="time" name="time" visible="true" />
 		<attribute id="objectName" name="objectName" visible="true" />
-		<attribute id="receiveByte" name="receiveByte(KB)" visible="true" />
-		<attribute id="sendByte" name="sendByte(KB)" visible="true" />
+		<attribute id="receiveByte" name="flowCount(Mbit)" visible="true" />
 		<attribute id="inBandwidthUtil" name="inBandwidthUtil" visible="true" />
-		<attribute id="outBandwidthUtil" name="outBandwidthUtil" visible="true" />
 	</table>
 	<table name="ethService">
 		<attribute id="id" name="id" visible="false" />
@@ -1778,7 +1778,7 @@
 		<attribute id="deleteCellyType" name="Activation State" visible="true"></attribute>
 	</table>
 	<table name="systemLogTable" layout="filter">
-		<attribute id="id" name="id" visible="false"></attribute>
+		<attribute id="id" name="ID" visible="false"></attribute>
 		<attribute id="operationObjName" name="Object" visible="true"></attribute>
 		<attribute id="startTime" name="Start Time" visible="true"></attribute>
 		<attribute id="operationType" name="Type" visible="true"></attribute>

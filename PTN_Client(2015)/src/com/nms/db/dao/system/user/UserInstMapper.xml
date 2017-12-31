@@ -15,10 +15,11 @@
     <result column="roleEnName" property="user_GroupEn" jdbcType="VARCHAR" />
     <result column="roleInfo_id" property="roleInfo_id" jdbcType="INTEGER" />
     <result column="isAll" property="isAll" jdbcType="INTEGER" />
+    <result column="managerId" property="managerId" jdbcType="INTEGER" />
   </resultMap>
 
  <sql id="Base_Column_List" >
-    User_Id , User_Name, User_Pass, roleInfo_id, isAll, user_inface, pswExpires ,beforeRemind,deadTime, startip, endip
+    User_Id , User_Name, User_Pass, roleInfo_id, isAll, user_inface, pswExpires ,beforeRemind,deadTime, startip, endip,managerId
   </sql>      
    <select id="selectUserList" parameterType="UserInst" resultType="UserInst">
        select 
@@ -42,7 +43,7 @@
     
    <select id="querByroleId" parameterType="UserInst" resultMap="BaseResultMap">
    		select u.user_id , u.user_name, u.user_pass,u.isAll,u.user_inface, u.roleInfo_id ,u.pswExpires,u.beforeRemind,u.startip,u.endip,i.roleName,
-   		i.roleEnName  from user_inst u ,roleinfo i where 1=1 and i.id=u.roleInfo_id
+   		i.roleEnName, u.managerId  from user_inst u ,roleinfo i where 1=1 and i.id=u.roleInfo_id
    		<if test="User_Id >0">
    			and u.user_id= #{User_Id}
    		</if>
@@ -57,7 +58,7 @@
   </delete>
   
    <select id="queryByuserid" parameterType="UserInst" resultType="UserInst">
-   		select User_Id , User_Name, User_Pass, roleInfo_id ,pswExpires, beforeRemind,startip,endip from user_inst where 1=1
+   		select User_Id , User_Name, User_Pass, roleInfo_id ,pswExpires, beforeRemind,startip,endip,managerId from user_inst where 1=1
    		<if test="User_Id >0">
    			and User_Id != #{User_Id}
    		</if>
@@ -70,12 +71,12 @@
    		</if>
    </select>
    
-   <insert id="insert" parameterType="UserInst" useGeneratedKeys="true" keyProperty="User_id">
+   <insert id="insert" parameterType="UserInst" useGeneratedKeys="true" keyProperty="User_Id">
    insert into user_inst
    (User_Name,User_Pass,roleInfo_id , isAll,user_inface, pswExpires,
-   deadTime, beforeRemind,startip,endip) 
+   deadTime, beforeRemind,startip,endip,managerId) 
    values(#{User_Name},#{User_Pass},#{roleInfo_id},#{isAll},#{User_Inface},#{pswExpires},
-   #{deadTime},#{beforeRemind},#{startIp},#{endIp})
+   #{deadTime},#{beforeRemind},#{startIp},#{endIp},#{managerId})
   </insert>
   
    <update id="update" parameterType="UserInst" >
@@ -83,6 +84,6 @@
    set 
    User_Name=#{User_Name},User_Pass=#{User_Pass},roleInfo_id=#{roleInfo_id},isAll= #{isAll},
    user_inface=#{User_Inface} ,pswExpires=#{pswExpires} ,deadTime=#{deadTime} ,
-   beforeRemind=#{beforeRemind} ,startip=#{startIp}, endip=#{endIp} where User_Id=#{User_Id}
+   beforeRemind=#{beforeRemind} ,startip=#{startIp}, endip=#{endIp} where user_id=#{User_Id}
   </update>
 </mapper>

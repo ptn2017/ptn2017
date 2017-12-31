@@ -27,6 +27,7 @@ import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
 import com.nms.ui.ptn.safety.OperationLogPanel;
 import com.nms.ui.ptn.safety.dialog.LogChooseTime;
+import com.nms.ui.ptn.safety.dialog.LogExportDialog;
 import com.nms.ui.ptn.safety.dialog.OperationLogFilterDialog;
 /**
  * 处理操作日志
@@ -42,6 +43,7 @@ public class OperationLogPanelController extends AbstractController{
 	private int total;
 	private int now = 1;
 	private List<OperationLog> infos = null;
+	private String fileType = null;
 	
 	public OperationLogPanelController(OperationLogPanel operationLagPanel) {
 		this.view = operationLagPanel;
@@ -206,14 +208,22 @@ public class OperationLogPanelController extends AbstractController{
 		ExportExcel export=null;
 		// 得到页面信息
 		try {
-			infos =  this.view.getTable().getAllElement();
-			export=new ExportExcel();
-			//得到bean的集合转为  String[]的List
-			List<String[]> beanData=export.tranListString(infos,"operationLogTable");
-			//导出页面的信息-Excel
-			result=export.exportExcel(beanData, "operationLogTable");
-			//添加操作日志记录
-			this.insertOpeLog(EOperationLogType.EXPORTOPERATELOG.getValue(),result, null, null);	
+			infos = this.view.getTable().getAllElement();
+			if(infos != null && infos.size() > 0){
+				new LogExportDialog(this);// 选择要保存的文件类型
+				if(this.fileType != null){
+					export=new ExportExcel();
+					//得到bean的集合转为  String[]的List
+					List<String[]> beanData=export.tranListString(infos,"operationLogTable");
+					//导出页面的信息-Excel
+					result=export.exportExcel(beanData, "operationLogTable", this.fileType);
+					//添加操作日志记录
+					this.insertOpeLog(EOperationLogType.EXPORTOPERATELOG.getValue(),result, null, null);
+				}
+			}else{
+				DialogBoxUtil.errorDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_NO_DATA));
+				return;
+			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		} finally {
@@ -339,4 +349,7 @@ public class OperationLogPanelController extends AbstractController{
 		flipRefresh();
 	}
 	
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
 }

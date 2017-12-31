@@ -48,7 +48,7 @@ public class ListingFilter {
 		List<SiteInst> siteInstList = null;
 		try {
 			this.siteIdListAll = new ArrayList<Integer>();
-
+			this.siteIdListAll.add(0);
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			siteInstList = siteService.selectRootSite(ConstantUtil.user);
 			if (null != siteInstList && siteInstList.size() > 0) {

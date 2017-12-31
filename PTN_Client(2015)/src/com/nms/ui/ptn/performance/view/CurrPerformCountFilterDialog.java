@@ -712,12 +712,20 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 		String rate_temp = "";
 		if (totalByte > 0) {
 			Format format = new DecimalFormat("0.00");
-			rate_temp = format.format((double) (totalByte - usedByte) / totalByte);
+			if(totalByte >= usedByte){
+				rate_temp = format.format((double) (totalByte - usedByte) / totalByte);
+			}else{
+				rate_temp = format.format((double) (usedByte - totalByte) / totalByte);
+			}
 			rate = (Double.parseDouble(rate_temp)) * 100;
 		} else {
 			rate = 0.0d;
 		}
-		return (totalByte - usedByte) + "/" + totalByte + " (" + rate + "%)";
+		if(totalByte >= usedByte){
+			return (totalByte - usedByte) + "/" + totalByte + " (" + rate + "%)";
+		}else{
+			return (usedByte - totalByte) + "/" + totalByte + " (" + rate + "%)";
+		}
 	}
 
 	/**

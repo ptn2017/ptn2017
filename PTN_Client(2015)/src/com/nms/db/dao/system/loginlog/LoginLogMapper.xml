@@ -138,4 +138,11 @@
         #{item}
      </foreach>     
    </delete>
+   
+    <select id="selectByIdList" resultType="LoginLog" parameterType="java.util.List" >
+    select * from login_log where id in 
+     <foreach item="item" index="index" collection="idList" open="(" separator= ", " close=" )">
+        #{item}
+       </foreach>  
+  </select>
 </mapper>

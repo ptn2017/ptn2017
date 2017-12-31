@@ -1898,5 +1898,25 @@ public class StringKeysTip {
 	public static final String TIP_DISPLAY_NAME = "TIP_DISPLAY_NAME";// 显示名称
 	public static final String TIP_NETWORK_CARD_NAME = "TIP_NETWORK_CARD_NAME";// 网卡名称
 	public static final String TIP_NET_ADDRESS = "TIP_NET_ADDRESS";// 网络地址
+	/**
+	 * 省级安全管理员
+	 */
+	public static final String TIP_PROVINCIAL_ADMIN="TIP_PROVINCIAL_ADMIN";
+	/**
+	 * 市级安全管理员
+	 */
+	public static final String TIP_MUNICIPAL_ADMIN="TIP_MUNICIPAL_ADMIN";
+	/**
+	 * 县级安全管理员
+	 */
+	public static final String TIP_COUNTY_ADMIN="TIP_COUNTY_ADMIN";
+	/**
+	 * 市级安全管理员只能授权一个域
+	 */
+	public static final String TIP_ONLY_ONE_NETWORK="TIP_ONLY_ONE_NETWORK";
+	/**
+	 * 县级安全管理员只能授权一个子网或者组
+	 */
+	public static final String TIP_ONLY_ONE_FIELD="TIP_ONLY_ONE_FIELD";
 }
 

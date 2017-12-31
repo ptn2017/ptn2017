@@ -511,6 +511,8 @@ public class ShelfTopology extends javax.swing.JPanel {
 		topoloyUtil.createTopoButton("/com/nms/ui/images/topo/matching.png", new MatchingAction(this), toolBar, ResourceUtil.srcStr(StringKeysObj.AUTO_MATCHING));
 		// UiUtil.createTopoButton("/com/nms/ui/images/topo/matching.png", new MatchingAction(this), toolBar, ResourceUtil.srcStr(StringKeysObj.AUTO_MATCHING));
 		network.setToolbar(toolBar);
+		RoleRoot roleRoot = new RoleRoot();
+		roleRoot.setItemEnbale(toolBar, RootFactory.DEPLOY_MANAGE);
 	}
 
 	public TDataBox getTDataBox() {

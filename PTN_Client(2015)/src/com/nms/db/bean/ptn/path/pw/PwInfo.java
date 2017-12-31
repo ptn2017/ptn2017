@@ -433,6 +433,7 @@ public class PwInfo extends ViewDataObj {
 				this.putClientProperty("asiteName", getShowaSiteName());
 			}
 			this.putClientProperty("direction", ResourceUtil.srcStr(StringKeysTab.TAB_TWOWAY));
+			this.putClientProperty("proType", this.getDirection());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}

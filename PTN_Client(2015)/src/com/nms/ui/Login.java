@@ -439,17 +439,17 @@ public class Login extends javax.swing.JFrame {
 					// 密码错误，更新锁时间
 					//插入一条日志记录
 					//产生告警
-					if(!userInst.getUser_Name().equals("admin")){
-					loginlog.setState(0);
-					loginlog.setLoginState(1);
-					loginLogServiece.insertSuccessLoginLog(loginlog);
+					if(UiUtil.isNotAdmin()){
+						loginlog.setState(0);
+						loginlog.setLoginState(1);
+						loginLogServiece.insertSuccessLoginLog(loginlog);
 				    }
 					int label = userlockServiece.updateLockTime(userlock, userInst);
 					//当用用户密码输入小于4次时都将会产生密码错误告警;当大于4次时且用户名不是admin时将产生用户被锁告警
 					if(label < 4){
 						DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_USER_PASSWORK_ERROR));
 //						alarmTools.produceAlarmToLogin(userInst,1,1);
-					 }else if(label >3 && !userInst.getUser_Name().equals("admin")){
+					 }else if(label >3 && UiUtil.isNotAdmin()){
 						 DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_USER_SYSTEMLOCK)); 
 //						 alarmTools.produceAlarmToLogin(userInst,3,1);
 					  }else{
@@ -481,7 +481,8 @@ public class Login extends javax.swing.JFrame {
 	private boolean isDeadtime(UserInst user)
 	{
 		boolean flag = false;
-		if(user.getUser_Name().equals("admin"))
+		String currName = user.getUser_Name();
+		if("admin".equals(currName) || "admin1".equals(currName) || "admin2".equals(currName))
 		{
 			return flag;
 		}
@@ -500,7 +501,8 @@ public class Login extends javax.swing.JFrame {
 	private boolean isIpIn(UserInst user)
 	{
 		boolean flag = false;
-		if(user.getUser_Name().equals("admin"))
+		String currName = user.getUser_Name();
+		if("admin".equals(currName) || "admin1".equals(currName) || "admin2".equals(currName))
 		{
 			return true;
 		}
@@ -606,7 +608,8 @@ public class Login extends javax.swing.JFrame {
 	private boolean isRemindtime(UserInst user)
 	{
 		boolean flag = false;
-		if(user.getUser_Name().equals("admin"))
+		String currName = user.getUser_Name();
+		if("admin".equals(currName) || "admin1".equals(currName) || "admin2".equals(currName))
 		{
 			return flag;
 		}

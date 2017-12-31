@@ -522,7 +522,7 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		List<CurrentPerforInfo> currPerformList = new ArrayList<CurrentPerforInfo>();
 		List<CurrentPerforInfo> infoList = this.queryPerforByFilter(this.filter);
 		this.setFilterCurrentPerformance(infoList, currPerformList, this.filter);
-		infoList = this.queryPerforByFilter(this.filter);
+//		infoList = this.queryPerforByFilter(this.filter);
 		ControlKeyValue conType = (ControlKeyValue) this.cmbPerformType.getSelectedItem();
 		ControlKeyValue conObj = (ControlKeyValue) this.cmbMonitorObj.getSelectedItem();
 		int index = Integer.parseInt(conType.getId());
@@ -645,10 +645,10 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 			int code4, int code5, int code6) {
 		if(c.getPerformanceCode() == code1){
 			//lm近端丢包率
-			count.setPacklosr_near(c.getPerformanceValue()+"");
+			count.setPacklosr_near(c.getPerformanceValue()/100+"%");
 		}else if(c.getPerformanceCode() == code2){
 			//lm远端丢包率
-			count.setPacklosr_far(c.getPerformanceValue()+"");
+			count.setPacklosr_far(c.getPerformanceValue()/100+"%");
 		}else if(c.getPerformanceCode() == code3){
 			//时延秒
 			count.setPmpackdelay_s(c.getPerformanceValue()+"");

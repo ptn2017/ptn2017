@@ -7,9 +7,10 @@
     <result column="netY" property="netY" jdbcType="INTEGER" />
     <result column="isDeleteTopo" property="isDeleteTopo" jdbcType="INTEGER" />
     <result column="netWorkName" property="netWorkName" jdbcType="VARCHAR" />
+    <result column="backgroundPath" property="backgroundPath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    netWorkId, netX, netY, isDeleteTopo, netWorkName
+    netWorkId, netX, netY, isDeleteTopo, netWorkName,backgroundPath
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -22,9 +23,9 @@
     where netWorkId = #{networkid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="NetWork"  useGeneratedKeys="true" keyProperty="netWorkId">
-   insert into netWork(netX,netY,isDeleteTopo,netWorkName)
+   insert into netWork(netX,netY,isDeleteTopo,netWorkName,backgroundPath)
     values
-   (#{netX},#{netY},#{isDeleteTopo},#{netWorkName})
+   (#{netX},#{netY},#{isDeleteTopo},#{netWorkName},#{backgroundPath})
   </insert>
   <insert id="insertSelective" parameterType="NetWork" >
     insert into network
@@ -86,7 +87,8 @@
     set netX = #{netx,jdbcType=INTEGER},
       netY = #{nety,jdbcType=INTEGER},
       isDeleteTopo = #{isdeletetopo,jdbcType=INTEGER},
-      netWorkName = #{networkname,jdbcType=VARCHAR}
+      netWorkName = #{networkname,jdbcType=VARCHAR},
+      backgroundPath = #{backgroundPath,jdbcType=VARCHAR}
     where netWorkId = #{networkid,jdbcType=INTEGER}
   </update>
   
@@ -96,15 +98,15 @@
        from netWork  
   </select>
   
-  <select id="queryByUserIdField" resultType="NetWork" parameterType="UserInst">
+  <select id="queryByUserIdField" resultType="NetWork" parameterType="java.lang.Integer">
        select * from netWork 
-       <if test="isAll = 0">
-       		where netWorkId in (select field_id from user_field where user_id=#{User_Id} )
+       <if test="isAll == 0">
+       		where netWorkId in (select field_id from user_field where user_id=#{user_Id} )
        </if>
   </select>
   
    <update id="update" parameterType="NetWork" >
-    update netWork set netX=#{netX},netY=#{netY},isDeleteTopo=#{isDeleteTopo} ,netWorkName=#{netWorkName}  where netWorkId=#{netWorkId}
+    update netWork set netX=#{netX},netY=#{netY},isDeleteTopo=#{isDeleteTopo} ,netWorkName=#{netWorkName}, backgroundPath=#{backgroundPath} where netWorkId=#{netWorkId}
   </update>
   
    <select id="selectByNetWorkId" resultType="NetWork" parameterType="NetWork">

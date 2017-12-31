@@ -60,7 +60,7 @@
  
    <select id="selectCount" parameterType="java.lang.Integer" resultMap="Map1" >
     <if test="label == 3">select count(*) as totalCount,max(id) as maxId from operation_log</if>
-    <if test="label == 4">select count(*)as totalCount,max(id) as from login_log</if>
+    <if test="label == 4">select count(*)as totalCount,max(id) as maxId from login_log</if>
   </select>
   
  <select id="selectCounts" parameterType="java.lang.Integer" resultMap="Map1" >
@@ -72,5 +72,13 @@
  <select id="selectMaxId" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
     select id from operation_log ORDER BY ID ASC LIMIT #{label},#{label}
 
+  </select>
+  
+  <select id="selectLoginCount" parameterType="java.lang.Integer" resultMap="Map1" >
+    select count(*)as totalCount,max(id) as maxId from login_log
+  </select>
+  
+  <select id="selectSystemCount" parameterType="java.lang.Integer" resultMap="Map1" >
+    select count(*)as totalCount,max(id) as maxId from systemlog
   </select>
 </mapper>

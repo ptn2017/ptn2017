@@ -64,7 +64,7 @@ public abstract class ContentView<T extends ViewDataObj> extends JPanel {
 	private PtnButton searchButton;
 	private JButton filterButton;
 	private JButton clearFilterButton;
-	private PtnButton exportButton;
+	protected PtnButton exportButton;
 	private PtnButton inportButton;
 	private JLabel filterText;
 	private ViewDataTable<T> table;

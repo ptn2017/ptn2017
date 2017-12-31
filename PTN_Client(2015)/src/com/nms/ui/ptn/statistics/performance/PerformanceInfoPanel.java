@@ -116,6 +116,7 @@ public class PerformanceInfoPanel extends JPanel{
 	public void setLineChart(LineChart lineChart) {
 		this.lineChart = lineChart;
 	}
+	
 	/**
 	 * 传人  统计图  （数据）
 	 * 		通过  设置 其他 条件
@@ -205,7 +206,6 @@ public class PerformanceInfoPanel extends JPanel{
 					}
 				}
 			}
-			
 //			for(HisPerformanceInfo p : pList){
 //				capability = p.getCapability();
 //				//性能类型 不为空，则 创建图表的节点

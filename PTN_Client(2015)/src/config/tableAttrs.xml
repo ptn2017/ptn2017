@@ -169,6 +169,7 @@
 		<attribute id="isWithSegment" name="是否连接段" visible="true" />
 		<attribute id="belongCard" name="所属板卡" visible="true" />
 		<attribute id="mac" name="MAC地址" visible="true" />
+		<attribute id="OorE" name="光电类型" visible="true" />
 	</table>
 
 	<table name="lspPathTable">
@@ -213,6 +214,7 @@
 		<attribute id="activeStates" name="激活状态" visible="true" />
 		<attribute id="serviceType" name="业务类型" visible="true" />
 		<attribute id="type" name="类型" visible="true" />
+		<attribute id="proType" name="主备类型" visible="true" />
 		<attribute id="inLabelValue" name="A端标签" visible="true" />
 		<attribute id="outLabelValue" name="Z端标签" visible="true" />
 		<attribute id="asiteName" name="A端网元名称" visible="true" />
@@ -1514,10 +1516,8 @@
 		<attribute id="siteName" name="网元名称" visible="true" />
 		<attribute id="time" name="时间" visible="true" />
 		<attribute id="objectName" name="监控对象" visible="true" />
-		<attribute id="receiveByte" name="收字节(KB)" visible="true" />
-		<attribute id="sendByte" name="发字节(KB)" visible="true" />
-		<attribute id="inBandwidthUtil" name="入带宽利用率(%)" visible="true" />
-		<attribute id="outBandwidthUtil" name="出带宽利用率(%)" visible="true" />
+		<attribute id="receiveByte" name="流量统计(Mbit)" visible="true" />
+		<attribute id="inBandwidthUtil" name="带宽利用率(%)" visible="true" />
 	</table>
 	<table name="ethService">
 		<attribute id="id" name="id" visible="false" />
@@ -1834,7 +1834,7 @@
 		<attribute id="useable" name="是否有效" visible="true" />
 	</table>
 		<table name="systemLogTable" layout="filter">
-		<attribute id="id" name="id" visible="false"></attribute>
+		<attribute id="id" name="ID" visible="false"></attribute>
 		<attribute id="operationType" name="操作类型" visible="true"></attribute>
 	    <attribute id="operationObjName" name="操作名称" visible="true"></attribute>
 		<attribute id="operationResult" name="操作结果" visible="true"></attribute>

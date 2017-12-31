@@ -2,7 +2,6 @@
 
 import java.util.List;
 
-import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.db.bean.equipment.card.CardInst;
 import com.nms.db.bean.path.Segment;
 import com.nms.db.bean.ptn.CommonBean;
@@ -426,6 +425,7 @@ public class PortInst extends ViewDataObj {
 			this.getClientProperties().put("surplusCirCount",this.getCirCount()-this.getUseCirBandwidth());
 		}
 		this.getClientProperties().put("mac", "00-85-DE-"+this.getMac(this.getNumber())+"-EF-"+this.getMac(this.getNumber()));
+		this.getClientProperties().put("OorE", "e".equals(getModuleType()) ? ResourceUtil.srcStr(StringKeysObj.OBJ_ELECTRICAL_PORT):ResourceUtil.srcStr(StringKeysObj.OBJ_OPTICAL_PORT));// 光电类型
 	}
 	
 	private String getMac(int num){

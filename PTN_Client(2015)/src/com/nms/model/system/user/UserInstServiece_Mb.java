@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.NetWork;
 import com.nms.db.bean.system.roleManage.RoleInfo;
 import com.nms.db.bean.system.user.UserField;
@@ -116,14 +117,14 @@ public class UserInstServiece_Mb extends ObjectService_Mybatis {
 		}
 
 		int result = 0;
-		NetWork field=null;
+		NetWork netWork=null;
 		UserField userField=null;
 		UserFieldMapper userFieldMapper=null;
         RoleInfoMapper roleInfoMapper = null;
 		List<RoleInfo> roleInfoList=null;
 		RoleInfo roleInfo=null;
 		try {
-			this.sqlSession.getConnection().setAutoCommit(false);
+			this.sqlSession.commit(false);
 			userFieldMapper=this.sqlSession.getMapper(UserFieldMapper.class);
 			/**
 			 * 通过   ：用户   角色标签（级  角色名）
@@ -156,18 +157,23 @@ public class UserInstServiece_Mb extends ObjectService_Mybatis {
 				if(0==userInst.getIsAll()){
 					if(null!=userInst.getFieldList()){
 						for(int i=0;i<userInst.getFieldList().size();i++){
-							field=userInst.getFieldList().get(i);
-							userField=new UserField();
-							userField.setUser_id(result);
-							userField.setField_id(field.getNetWorkId());
-							//  循环内直接添加，即  批量添加
-							userFieldMapper.insert(userField);
-							
+							netWork=userInst.getFieldList().get(i);
+							List<Field> fieldList = netWork.getFieldList();
+							if(fieldList != null){
+								for(Field field : fieldList){
+									userField=new UserField();
+									userField.setUser_id(result);
+									userField.setField_id(netWork.getNetWorkId());
+									userField.setSubId(field.getId());
+									//  循环内直接添加，即  批量添加
+									userFieldMapper.insert(userField);
+								}
+							}
 						}
 					}
 				}
 			} else {
-				
+				result = userInst.getUser_Id();
 				if(userInst.getPswExpires()!=null && !userInst.getPswExpires().equals(""))
 				{
 					int days = Integer.parseInt(userInst.getPswExpires());
@@ -188,12 +194,18 @@ public class UserInstServiece_Mb extends ObjectService_Mybatis {
 				if(0==userInst.getIsAll()){
 					if(null!=userInst.getFieldList()&&userInst.getFieldList().size()>0){
 						for(int j=0;j<userInst.getFieldList().size();j++){
-							field=userInst.getFieldList().get(j);
-							userField=new UserField();
-							userField.setUser_id(userInst.getUser_Id());
-							userField.setField_id(field.getNetWorkId());
-							//  循环内直接添加，即  批量添加
-							userFieldMapper.insert(userField);
+							netWork=userInst.getFieldList().get(j);
+							List<Field> fieldList = netWork.getFieldList();
+							if(fieldList != null){
+								for(Field field : fieldList){
+									userField=new UserField();
+									userField.setUser_id(result);
+									userField.setField_id(netWork.getNetWorkId());
+									userField.setSubId(field.getId());
+									//  循环内直接添加，即  批量添加
+									userFieldMapper.insert(userField);
+								}
+							}
 						}
 					}
 				}
@@ -207,7 +219,7 @@ public class UserInstServiece_Mb extends ObjectService_Mybatis {
 			this.sqlSession.getConnection().rollback();
 			ExceptionManage.dispose(e,this.getClass());
 		}finally{
-			this.sqlSession.getConnection().setAutoCommit(true);
+			this.sqlSession.commit(true);
 		}
 		return result;
 	}
@@ -237,7 +249,7 @@ public class UserInstServiece_Mb extends ObjectService_Mybatis {
 				for(int i=0;i<userinstList.size();i++){
 					userinst=userinstList.get(i);
 					userFieldList = new ArrayList<NetWork>();
-					userFieldList=netWorkMapper.queryByUserIdField(userinst);
+					userFieldList=netWorkMapper.queryByUserIdField(userinst.getIsAll(), userinst.getUser_Id());
 					userinst.setFieldList(userFieldList);
 					
 				}

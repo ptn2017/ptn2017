@@ -9,14 +9,17 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import twaver.Dummy;
 import twaver.Element;
 import twaver.Node;
 import twaver.SubNetwork;
 import twaver.TDataBox;
 import twaver.tree.TTree;
 
+import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.NetWork;
 import com.nms.db.bean.system.user.UserInst;
+import com.nms.model.system.FieldService_MB;
 import com.nms.model.system.NetService_MB;
 import com.nms.model.util.Services;
 import com.nms.ui.manager.ConstantUtil;
@@ -24,6 +27,7 @@ import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysLbl;
+import com.nms.ui.topology.util.CreateElementUtil;
 
 /**
  * 域 显示（树）
@@ -39,6 +43,7 @@ public class UserFieldPanel extends JPanel {
 	private TDataBox box = null;// 数据容器
 	private TTree tree = null;// 树 对象
 	private JScrollPane scrollPane = null; // 带滚动条的panel
+	private CreateElementUtil createElementUtil = null;
 
 	public UserFieldPanel() {
 		this.initComponent();
@@ -50,7 +55,9 @@ public class UserFieldPanel extends JPanel {
 		this.tree = new TTree(this.box);
 		this.tree.setDataBoxIconURL(null);
 		this.scrollPane = new JScrollPane(this.tree);
+		this.createElementUtil = new CreateElementUtil();
 	}
+	
 	/**
 	 * 设置布局
 	 */
@@ -70,13 +77,13 @@ public class UserFieldPanel extends JPanel {
 		layout.addLayoutComponent(this.scrollPane, c);
 		this.add(scrollPane);
 	}
+	
 	/**
 	 * 初始化界面
 	 *            域集合
 	 * @throws Exception
 	 */
 	public void initData()  {
-		SubNetwork subNetwork = null;
 		NetService_MB userNetworkService = null;
 		List<NetWork> userFieldList = null;
 		try {
@@ -85,11 +92,7 @@ public class UserFieldPanel extends JPanel {
 			
 			if (null != userFieldList && userFieldList.size() > 0) {
 				// 遍历域集合
-				for (NetWork netWork : userFieldList) {
-					// 创建node
-					subNetwork = this.createNode(netWork);
-					this.box.addElement(subNetwork);
-				}
+				this.createTopo(userFieldList);
 				this.tree.expandAll();
 			}
 		} catch (Exception e) {
@@ -98,20 +101,7 @@ public class UserFieldPanel extends JPanel {
 			UiUtil.closeService_MB(userNetworkService);
 		}
 	}
-	/**
-	 * 创建节点
-	 * 
-	 * @param userField
-	 *            权限对象
-	 * @param parentNode
-	 *            父节点
-	 */
-	private SubNetwork createNode(NetWork netWork) throws Exception {
-		SubNetwork subNetwork = new SubNetwork();
-		subNetwork.setName(netWork.getNetWorkName());
-		subNetwork.setUserObject(netWork);
-		return subNetwork;
-	}
+	
 	/**
 	 * 获取所有选中的菜单
 	 * 
@@ -129,10 +119,25 @@ public class UserFieldPanel extends JPanel {
 			for (Element element : elementList) {
 				// 如果元素为Node
 				if (element instanceof Node) {
-
 					// 如果是选中的，就放入结果集中。
-					if (element.isSelected()) {
-						roleManageList.add((NetWork) element.getUserObject());
+					if (element.isSelected() && element.getUserObject() instanceof NetWork) {
+						NetWork netWork = (NetWork) element.getUserObject();
+						roleManageList.add(netWork);
+						List<Element> nodeList = element.getChildren();
+						if(nodeList != null){
+							List<Field> fieldList = new ArrayList<Field>();
+							for (Element e : nodeList) {
+								// 如果元素为Node
+								if (e instanceof Node && e.getUserObject() instanceof Field) {
+									if(e.isSelected()){
+										fieldList.add((Field)e.getUserObject());
+									}
+								}
+							}
+							if(fieldList.size() > 0){
+								netWork.setFieldList(fieldList);
+							}
+						}
 					}
 				}
 			}
@@ -143,6 +148,7 @@ public class UserFieldPanel extends JPanel {
 		}
 		return roleManageList;
 	}
+	
 	/**
 	 * 选中数据
 	 * 
@@ -150,11 +156,11 @@ public class UserFieldPanel extends JPanel {
 	 *            要选中的域集合
 	 * @throws Exception
 	 */
-	public void checkData(List<NetWork> userFieldList) throws Exception {
+	public void checkData(List<NetWork> userFieldList, List<Integer> fieldList) throws Exception {
 		try {
 			if (userFieldList.size() > 0) {
 				for (NetWork roleManage : userFieldList) {
-					this.checkNode(roleManage);
+					this.checkNode(roleManage, fieldList);
 				}
 			}
 		} catch (Exception e) {
@@ -170,8 +176,7 @@ public class UserFieldPanel extends JPanel {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	private void checkNode(NetWork userField) throws Exception {
-
+	private void checkNode(NetWork userField, List<Integer> fieldList) throws Exception {
 		List<Element> elementList = null;
 		NetWork userFieldNode = null;
 		try {
@@ -186,7 +191,20 @@ public class UserFieldPanel extends JPanel {
 						// 如果此node的Field对象和入参的主键相同。 把此node设为选中 并且跳出循环
 						if (userFieldNode.getNetWorkId() == userField.getNetWorkId()) {
 							element.setSelected(true);
-							break;
+						}
+						List<Element> eList = element.getChildren();
+						if(eList != null){
+							for(Element e : eList){
+								if(null != e.getUserObject() && e.getUserObject() instanceof Field){
+									for(Integer fId : fieldList){
+										Field field = (Field) e.getUserObject();
+										if(fId == field.getId()){
+											e.setSelected(true);
+											break;
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -262,4 +280,38 @@ public class UserFieldPanel extends JPanel {
 		this.tree = tree;
 	}
 
+	private void createTopo(List<NetWork> netWorks) {
+		try {
+			this.box.clear();
+			for (int i = 0; i < netWorks.size(); i++) {
+				this.createGroupContent(netWorks.get(i));	
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+	
+	private void createGroupContent(NetWork netWork) {
+		SubNetwork subNetwork = null;
+		FieldService_MB fieldService = null;
+		List<Field> groups = null;
+		try {
+			// 创建域对象
+			subNetwork = this.createElementUtil.createSubNetwork(netWork);
+			this.box.addElement(subNetwork);
+			fieldService = (FieldService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Field);
+			groups = fieldService.queryByNetWorkid(netWork.getNetWorkId());
+			for (int i = 0; i < groups.size(); i++) {
+				Dummy dummy = new Dummy();
+				dummy.setUserObject(groups.get(i));
+				dummy.setName(groups.get(i).getFieldName());
+				dummy.setParent(subNetwork);
+				this.box.addElement(dummy);
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(fieldService);
+		}
+	}
 }

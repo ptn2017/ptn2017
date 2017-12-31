@@ -82,6 +82,8 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 	private PtnMenuItem activateMenu;//激活
 	private PtnMenuItem unActivateMenu;//去激活
 	private LspNetworkTablePanel lspNetworkTablePanel;//lsp信息
+	private JMenuItem addPwProItem;
+	private JMenuItem deletePwProItem;
 	private BusinessNetworkTablePanel businessNetworkTablePanel;
 	public PwBusinessPanel() {
 		super("pwBusinessTable",RootFactory.CORE_MANAGE);
@@ -237,6 +239,62 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 				return true;
 			}
 		});
+		
+		//新建1:1pw
+		addPwProItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				List<PwInfo> pwList = null;
+				PwInfoService_MB service = null;
+				try {
+					pwList = getAllSelect();
+					if(pwList.size() == 2){
+						pwList.get(0).setDirection("主用");
+						pwList.get(1).setDirection("备用");
+						service = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+						service.update(pwList.get(0));
+						service.update(pwList.get(1));
+						DialogBoxUtil.succeedDialog(PwBusinessPanel.this, ResultString.CONFIG_SUCCESS);
+					}
+					controller.refresh();
+				} catch (Exception e) {
+					ExceptionManage.dispose(e,this.getClass());
+				} finally {
+					UiUtil.closeService_MB(service);
+					pwList = null;
+				}
+			}
+
+		});
+		
+		//删除1:1pw
+		deletePwProItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				List<PwInfo> pwList = null;
+				PwInfoService_MB service = null;
+				try {
+					pwList = getAllSelect();
+					if(pwList.size() == 2){
+						pwList.get(0).setDirection("");
+						pwList.get(1).setDirection("");
+						service = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+						service.update(pwList.get(0));
+						service.update(pwList.get(1));
+						DialogBoxUtil.succeedDialog(PwBusinessPanel.this, ResultString.CONFIG_SUCCESS);
+					}
+					controller.refresh();
+				} catch (Exception e) {
+					ExceptionManage.dispose(e,this.getClass());
+				} finally {
+					UiUtil.closeService_MB(service);
+					pwList = null;
+				}
+			}
+
+		});
 	}
 	
 	private PwInfo selectPwInfo(){
@@ -378,6 +436,8 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 		activateMenu = new PtnMenuItem(ResourceUtil.srcStr(StringKeysMenu.MENU_ACTIVATION), true);
 		unActivateMenu = new PtnMenuItem(ResourceUtil.srcStr(StringKeysMenu.MENU_GO_ACTIVATION), true);
 		pwXcTablePanel = new PwXcTablePanel();
+		addPwProItem = new JMenuItem(ResourceUtil.srcStr(StringKeysMenu.MENU_ADD_PW_PROTECT));
+		deletePwProItem = new JMenuItem(ResourceUtil.srcStr(StringKeysMenu.MENU_DELETE_PW_PROTECT));
 	}
 
 	public void setTabbedPaneLayout() {
@@ -427,6 +487,11 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 							checkRoot(miUpdateTestOam, RootFactory.CORE_MANAGE);
 							checkRoot(miDeleteTestOam, RootFactory.CORE_MANAGE);
 							checkRoot(miUpdateQos, RootFactory.CORE_MANAGE);
+						}else if(count == 2){
+							menu.add(addPwProItem);
+							menu.add(deletePwProItem);
+							checkRoot(addPwProItem, RootFactory.CORE_MANAGE);
+							checkRoot(deletePwProItem, RootFactory.CORE_MANAGE);
 						}
 						menu.show(evt.getComponent(), evt.getX(), evt.getY());
 						return menu;

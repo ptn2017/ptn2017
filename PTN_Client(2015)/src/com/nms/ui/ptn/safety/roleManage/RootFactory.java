@@ -29,5 +29,6 @@ public class RootFactory {
 	public static final int COUNT_SELECT=21;//統計查看    :注 ：导出功能属于查看
 	public static final int SATY_MANAGE=22;//安全管理 ;只有默认角色可以操作此模块  Administrator,Operator
 	public static final int SATY_SELECT=23;//安全查看
-	public static final int SATY_SELECTOTHRER=24;//安全查看
+	public static final int REPORT_SELECT=24;// 报表查看
+	public static final int SATY_SELECTOTHRER=25;// 安全查看
 }

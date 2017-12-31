@@ -33,7 +33,8 @@ public class UnLoadFactory  implements Serializable {
 			return ResourceUtil.srcStr(StringKeysBtn.BTN_LOGIN_OPER_LOG);//登录日志记录（3）
 		case UnLoads.SYSTEM:
 			return ResourceUtil.srcStr(StringKeysLbl.LBL_LOG_SYSTEM);//系统日志			
-//		
+		case UnLoads.SITEEVENT:
+			return ResourceUtil.srcStr(StringKeysTab.TAB_SITE_EVENT);// 网元事件日志
 		}
 		return null;
 	}

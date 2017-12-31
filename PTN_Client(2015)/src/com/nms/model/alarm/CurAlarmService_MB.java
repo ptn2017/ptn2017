@@ -428,6 +428,7 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			map.put("alarm", currentAlarmInfo);
 			map.put("type", 0);
 			currentAlarmInfoList.addAll(this.mapper.queryByCondition(map));
+			this.filterByAck(currentAlarmInfoList);
 			this.filterByAlarmReversal(currentAlarmInfoList);
 			// 查询后过滤没有权限的网元
 			listingFilter = new ListingFilter();
@@ -443,7 +444,24 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 		}
 		return count;
 	}
-		
+	
+	/**
+	 * 过滤掉已经确认的告警
+	 * @param currentAlarmInfoList
+	 */
+	private void filterByAck(List<CurrentAlarmInfo> currentAlarmInfoList) {
+		List<CurrentAlarmInfo> alarmList = new ArrayList<CurrentAlarmInfo>();
+		if(currentAlarmInfoList != null){
+			for(CurrentAlarmInfo c : currentAlarmInfoList){
+				if(c.getConfirmtime() == null){
+					alarmList.add(c);
+				}
+			}
+			currentAlarmInfoList.clear();
+			currentAlarmInfoList.addAll(alarmList);
+		}
+	}
+
 	/**
 	 * 查询非设备的告警
 	 * @return

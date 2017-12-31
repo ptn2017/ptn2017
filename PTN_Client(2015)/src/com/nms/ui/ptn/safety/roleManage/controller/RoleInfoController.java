@@ -121,14 +121,20 @@ public class RoleInfoController extends AbstractController {
 					return false;
 				}
 				else if(roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_MANAGE))
-						||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_MAINTAIN)) 		
-						||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_OPERATE)) 		
-						||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_MONITOR)) 
-						||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SUSPER_USER))
-						||roleInfo.getRoleEnName().equals("System Administrator") 		
-						||roleInfo.getRoleEnName().equals("System Maintenance") 		
-						||roleInfo.getRoleEnName().equals("System Operator") 
-						||roleInfo.getRoleEnName().equals("System Monitor")){
+						 ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_MAINTAIN)) 		
+				         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_OPERATE)) 		
+				         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_MONITOR))
+				         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SUSPER_USER))
+				         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_PROVINCIAL_ADMIN))
+				         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_MUNICIPAL_ADMIN))
+				         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_COUNTY_ADMIN))
+				         ||roleInfo.getRoleEnName().equals("System Administrator") 		
+						 ||roleInfo.getRoleEnName().equals("System Maintenance") 		
+						 ||roleInfo.getRoleEnName().equals("System Operator") 
+						 ||roleInfo.getRoleEnName().equals("System Monitor")         
+						 ||roleInfo.getRoleEnName().equals("Provincial security administrator") 
+						 ||roleInfo.getRoleEnName().equals("Municipal security administrator") 
+						 ||roleInfo.getRoleEnName().equals("County security administrator")){
 				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_DEFAULTUSER));
 				return false;
 			}
@@ -155,11 +161,16 @@ public class RoleInfoController extends AbstractController {
 		         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_OPERATE)) 		
 		         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SYSTEM_MONITOR))
 		         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_SUSPER_USER))
+		         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_PROVINCIAL_ADMIN))
+		         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_MUNICIPAL_ADMIN))
+		         ||roleInfo.getRoleName().equals(ResourceUtil.srcStr(StringKeysTip.TIP_COUNTY_ADMIN))
 		         ||roleInfo.getRoleEnName().equals("System Administrator") 		
 				 ||roleInfo.getRoleEnName().equals("System Maintenance") 		
 				 ||roleInfo.getRoleEnName().equals("System Operator") 
 				 ||roleInfo.getRoleEnName().equals("System Monitor")         
-		
+				 ||roleInfo.getRoleEnName().equals("Provincial security administrator") 
+				 ||roleInfo.getRoleEnName().equals("Municipal security administrator") 
+				 ||roleInfo.getRoleEnName().equals("County security administrator") 
 		)
 		   {
 			DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_DEFAULTUSER));

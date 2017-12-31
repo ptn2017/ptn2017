@@ -36,6 +36,16 @@ public class UserInst extends ViewDataObj{
 	 */
 	private List<NetWork> FieldList;
 	
+	private int managerId;// 安全管理员主键Id
+	
+	public int getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(int managerId) {
+		this.managerId = managerId;
+	}
+
 	public int getRoleInfo_id() {
 		return roleInfo_id;
 	}

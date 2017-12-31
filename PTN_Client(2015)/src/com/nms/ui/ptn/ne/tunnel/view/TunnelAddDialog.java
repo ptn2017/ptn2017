@@ -31,7 +31,6 @@ import com.nms.db.enums.EManufacturer;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EQosDirection;
 import com.nms.db.enums.EServiceType;
-import com.nms.db.enums.QosCosLevelEnum;
 import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.ptn.LabelInfoService_MB;
@@ -318,15 +317,25 @@ public class TunnelAddDialog extends PtnDialog {
 			this.cmbType.setEnabled(false);
 			this.inBandwidthControlCheckBox.setSelected(this.tunnelInfo.getInBandwidthControl() ==0 ?false:true);
 			this.outBandwidthControlCheckBox.setSelected(this.tunnelInfo.getOutBandwidthControl() ==0 ?false:true);
+			
+			this.cmbRotateWay.setSelectedItem(this.tunnelInfo.getRotateWay());
+			this.cmbRotateMode.setSelectedItem(this.tunnelInfo.getRotateMode());
+			this.spinnerRotateThreshold.getTxt().setText(this.tunnelInfo.getRotateThreshold()+"");
 			// this.chkAps.setEnabled(false);
 			if (UiUtil.getCodeById(Integer.parseInt(tunnelInfo.getTunnelType())).getCodeName().toString().trim().equals("1:1")) {
 				txtWaitTime.setEnabled(true);
 				txtDelayTime.setEnabled(true);
 				protectBack.setEnabled(true);
+				cmbRotateWay.setEnabled(true);
+				cmbRotateMode.setEnabled(true);
+				spinnerRotateThreshold.setEnabled(true);
 			} else {
 				txtWaitTime.setEnabled(false);
 				txtDelayTime.setEnabled(false);
 				protectBack.setEnabled(false);
+				cmbRotateWay.setEnabled(false);
+				cmbRotateMode.setEnabled(false);
+				spinnerRotateThreshold.setEnabled(false);
 			}
 		} catch (Exception e) {
 			throw e;
@@ -480,6 +489,40 @@ public class TunnelAddDialog extends PtnDialog {
 		vlanLabel_after = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_OUT_VLAN_BACKUP));
 		vlanButton_after = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIG));
 		this.vlanButton_after.setEnabled(false);
+		
+		this.lblRotateWay = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATEWAY));
+		this.cmbRotateWay = new JComboBox();
+		List<String> itemList = new ArrayList<String>();
+		itemList.add("SD");
+		itemList.add("SF");
+		this.setCmbItem(this.cmbRotateWay, itemList);
+		
+		this.lblRotateMode = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATEMODE));
+		this.cmbRotateMode = new JComboBox();
+		itemList.clear();
+		itemList.add("MANUAL");
+		itemList.add("AUTO");
+		this.setCmbItem(this.cmbRotateMode, itemList);
+		
+		this.lblRotateThreshold = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATETHRESHOLD));
+		this.spinnerRotateThreshold = new PtnSpinner(100, 1, 1, ResourceUtil.srcStr(StringKeysLbl.LBL_ROTATETHRESHOLD));
+		this.spinnerRotateThreshold.getTxt().setText("1");
+		this.cmbRotateWay.setEnabled(false);
+		this.cmbRotateMode.setEnabled(false);
+		this.spinnerRotateThreshold.setEnabled(false);
+	}
+	
+	private void setCmbItem(JComboBox cmb, List<String> itemList) {
+		DefaultComboBoxModel defaultComboBoxModel = null;
+		try {
+			defaultComboBoxModel = new DefaultComboBoxModel();
+			for(String value: itemList){
+				defaultComboBoxModel.addElement(value);
+			}
+			cmb.setModel(defaultComboBoxModel);
+		}catch(Exception e){
+			ExceptionManage.dispose(e, this.getClass());
+		}
 	}
 
 	private void setLayout() {
@@ -542,24 +585,24 @@ public class TunnelAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.lblType, c);
 		this.panelTunnel.add(this.lblType);
 		c.gridx = 1;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		componentLayout.setConstraints(this.cmbType, c);
 		this.panelTunnel.add(this.cmbType);
 
 		// tunnel角色
-		c.gridx = 0;
-		c.gridy = 3;
+		c.gridx = 2;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblRole, c);
 		this.panelTunnel.add(this.lblRole);
-		c.gridx = 1;
-		c.gridwidth = 3;
+		c.gridx = 3;
+		c.gridwidth = 1;
 		componentLayout.setConstraints(this.cmbRole, c);
 		this.panelTunnel.add(this.cmbRole);
 
 		// qos
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 3;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblQos, c);
 		this.panelTunnel.add(this.lblQos);
@@ -573,27 +616,26 @@ public class TunnelAddDialog extends PtnDialog {
 
 		/** 第八�?等待恢复时间 */
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 4;
 		componentLayout.setConstraints(this.lblwaitTime, c);
 		this.panelTunnel.add(this.lblwaitTime);
 		c.gridx = 1;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		componentLayout.addLayoutComponent(this.txtWaitTime, c);
 		this.panelTunnel.add(this.txtWaitTime);
 		/** 第九�?拖延时间 */
-		c.gridx = 0;
-		c.gridy = 6;
+		c.gridx = 2;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lbldelayTime, c);
 		this.panelTunnel.add(this.lbldelayTime);
-		c.gridx = 1;
-		c.gridwidth = 3;
+		c.gridx = 3;
+		c.gridwidth = 1;
 		componentLayout.addLayoutComponent(this.txtDelayTime, c);
 		this.panelTunnel.add(this.txtDelayTime);
 
 		/** 第十�?aps使能 */
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 5;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.lblAps, c);
 		this.panelTunnel.add(this.lblAps);
@@ -610,7 +652,7 @@ public class TunnelAddDialog extends PtnDialog {
 		this.panelTunnel.add(this.protectBack);
 
 		c.gridx = 0;
-		c.gridy = 8;
+		c.gridy = 6;
 		c.gridwidth = 1;
 		componentLayout.setConstraints(this.inBandwidthControl, c);
 		this.panelTunnel.add(this.inBandwidthControl);
@@ -627,7 +669,7 @@ public class TunnelAddDialog extends PtnDialog {
 		
 		//新增主用vlan配置
 		c.gridx = 0;
-		c.gridy = 9;
+		c.gridy = 7;
 		componentLayout.setConstraints(this.vlanLabel, c);
 		this.panelTunnel.add(this.vlanLabel);
 		c.gridx = 1;
@@ -642,21 +684,44 @@ public class TunnelAddDialog extends PtnDialog {
 		componentLayout.setConstraints(this.vlanButton_after, c);
 		this.panelTunnel.add(this.vlanButton_after);
 		
-		// 是否激活
+		// 新增保护模式，倒换准则，倒换阈值
 		c.gridx = 0;
-		c.gridy = 10;
+		c.gridy = 8;
+		componentLayout.setConstraints(this.lblRotateWay, c);
+		this.panelTunnel.add(this.lblRotateWay);
+		c.gridx = 1;
+		componentLayout.setConstraints(this.cmbRotateWay, c);
+		this.panelTunnel.add(this.cmbRotateWay);
+		
+		c.gridx = 2;
+		componentLayout.setConstraints(this.lblRotateMode, c);
+		this.panelTunnel.add(this.lblRotateMode);
+		c.gridx = 3;
+		componentLayout.setConstraints(this.cmbRotateMode, c);
+		this.panelTunnel.add(this.cmbRotateMode);
+		
+		c.gridx = 0;
+		c.gridy = 9;
+		componentLayout.setConstraints(lblRotateThreshold, c);
+		this.panelTunnel.add(lblRotateThreshold);
+		c.gridx = 1;
+		componentLayout.setConstraints(this.spinnerRotateThreshold, c);
+		this.panelTunnel.add(this.spinnerRotateThreshold);
+		
+		// 是否激活
+		c.gridx = 2;
 		componentLayout.setConstraints(lblStatus, c);
 		this.panelTunnel.add(lblStatus);
-		c.gridx = 1;
+		c.gridx = 3;
 		componentLayout.setConstraints(this.activeCheckBox, c);
 		this.panelTunnel.add(this.activeCheckBox);
 		
 		// 创建数量
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridy = 10;
 		componentLayout.setConstraints(lblNumber, c);
 		this.panelTunnel.add(lblNumber);
-		c.gridx = 3;
+		c.gridx = 1;
 		componentLayout.setConstraints(this.ptnSpinnerNumber, c);
 		this.panelTunnel.add(this.ptnSpinnerNumber);
 	}
@@ -1005,7 +1070,7 @@ public class TunnelAddDialog extends PtnDialog {
 		this.btnBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				panelContent.setBorder(BorderFactory.createTitledBorder(ResourceUtil.srcStr(StringKeysPanel.PANEL_TUNNEL_SECOND)));
+				panelContent.setBorder(BorderFactory.createTitledBorder(ResourceUtil.srcStr(StringKeysPanel.PANEL_TUNNEL_FIRST)));
 				panelTunnel.setVisible(true);
 				panelLsp.setVisible(false);
 				btnBack.setVisible(false);
@@ -1057,6 +1122,10 @@ public class TunnelAddDialog extends PtnDialog {
 					try {
 						Code code = (Code) ((ControlKeyValue) evt.getItem()).getObject();
 						if ("1".equals(code.getCodeValue())) {
+							cmbRotateWay.setEnabled(false);
+							cmbRotateMode.setEnabled(false);
+							spinnerRotateThreshold.setEnabled(false);
+							
 							txtWaitTime.getTxt().setText("");
 							txtWaitTime.setEnabled(false);
 
@@ -1074,6 +1143,10 @@ public class TunnelAddDialog extends PtnDialog {
 							protectBack.setEnabled(false);
 							vlanButton_after.setEnabled(false);
 						} else {
+							cmbRotateWay.setEnabled(true);
+							cmbRotateMode.setEnabled(true);
+							spinnerRotateThreshold.setEnabled(true);
+							
 							txtWaitTime.getTxt().setText("5");
 							txtWaitTime.setEnabled(true);
 
@@ -1333,7 +1406,10 @@ public class TunnelAddDialog extends PtnDialog {
 			if (this.txtDelayTime.getTxtData().trim().length() > 0) {
 				this.tunnelInfo.setDelaytime(Integer.parseInt(this.txtDelayTime.getTxtData()));
 			}
-
+			this.tunnelInfo.setRotateWay(this.cmbRotateWay.getSelectedItem().toString());
+			this.tunnelInfo.setRotateMode(this.cmbRotateMode.getSelectedItem().toString());
+			this.tunnelInfo.setRotateThreshold(Integer.parseInt(this.spinnerRotateThreshold.getTxtData()));
+			
 			this.tunnelInfo.setApsenable(this.chkAps.isSelected() == true ? 1 : 0);
 			this.tunnelInfo.setTunnelType(((ControlKeyValue) cmbType.getSelectedItem()).getId());
 			this.tunnelInfo.setProtectBack(this.protectBack.isSelected() ? 0 : 1);
@@ -1435,8 +1511,10 @@ public class TunnelAddDialog extends PtnDialog {
 	/**
 	 * 批量创建tunnel
 	 * @param tunnelrole 
+	 * @throws Exception 
+	 * @throws NumberFormatException 
 	 */
-	private void createTunnelOnCopy(List<Tunnel> tunnelList, int num, String tunnelrole) {
+	private void createTunnelOnCopy(List<Tunnel> tunnelList, int num, String tunnelrole) throws NumberFormatException, Exception {
 		List<QosInfo> qosList = new ArrayList<QosInfo>();
 		qosList.add(this.createQos(EQosDirection.FORWARD.getValue() + ""));
 		qosList.add(this.createQos(EQosDirection.BACKWARD.getValue() + ""));
@@ -1586,10 +1664,12 @@ public class TunnelAddDialog extends PtnDialog {
 	 * @param
 	 * 
 	 * @return
+	 * @throws Exception 
+	 * @throws NumberFormatException 
 	 * 
 	 * @Exception 异常对象
 	 */
-	private void getProtectTunnel(Tunnel tunnelInfo, String tunnelrole) {
+	private void getProtectTunnel(Tunnel tunnelInfo, String tunnelrole) throws NumberFormatException, Exception {
 		Tunnel protectTunnel = null;
 		if (tunnelInfo.getProtectTunnelId() == 0) {
 			if(tunnelInfo.getProtectTunnel() == null){
@@ -1606,6 +1686,9 @@ public class TunnelAddDialog extends PtnDialog {
 			protectTunnel.setPosition(0);
 			protectTunnel.setSourceMac(this.sourceMacField_after.getText().trim());
 			protectTunnel.setEndMac(this.targetMacField_after.getText().trim());
+			protectTunnel.setRotateWay(this.cmbRotateWay.getSelectedItem().toString());
+			protectTunnel.setRotateMode(this.cmbRotateMode.getSelectedItem().toString());
+			protectTunnel.setRotateThreshold(Integer.parseInt(this.spinnerRotateThreshold.getTxtData()));
 			if(protectTunnel.getaOutVlanValue() == 0){
 				protectTunnel.setaOutVlanValue(2);
 			}
@@ -2268,4 +2351,10 @@ public class TunnelAddDialog extends PtnDialog {
 	private JButton vlanButton_after;
 	private JLabel lblNumber;
 	private PtnSpinner ptnSpinnerNumber;
+	private JLabel lblRotateWay;
+	private JComboBox cmbRotateWay;// 倒换准则 SD/SF
+	private JLabel lblRotateMode;
+	private JComboBox cmbRotateMode;// 倒换模式 人工倒换/自动倒换
+	private JLabel lblRotateThreshold;
+	private PtnSpinner spinnerRotateThreshold;// 自动倒换阈值(%) 1-100
 }

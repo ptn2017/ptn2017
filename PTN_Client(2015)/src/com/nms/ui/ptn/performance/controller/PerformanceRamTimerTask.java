@@ -7,9 +7,11 @@ import java.util.TimerTask;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.db.bean.alarm.WarningLevel;
+import com.nms.db.bean.system.LogManager;
 import com.nms.db.bean.system.UnLoading;
 import com.nms.db.enums.EObjectType;
 import com.nms.model.alarm.CurAlarmService_MB;
+import com.nms.model.system.LogManagerService_MB;
 import com.nms.model.system.PerformanceRamService_MB;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.ServerConstant;
@@ -30,12 +32,12 @@ public class PerformanceRamTimerTask extends TimerTask{
 	}
 	
 	private void dispathPerformRam(){
-		
 	  PerformanceRamService_MB performanceRamServiceMB = null;
 	  PerformanceRAMInfo performanceRAMInfo = null;
       String filePath = getFilePath();
       File file = new File(filePath);
       long time = 0l;
+      LogManagerService_MB logManagerService = null;
 		try {
 			performanceRamServiceMB = (PerformanceRamService_MB)ConstantUtil.serviceFactory.newService_MB(Services.PERFORMANCERAM);
 			performanceRAMInfo = performanceRamServiceMB.select(ConstantUtil.user.getUser_Name());
@@ -53,10 +55,30 @@ public class PerformanceRamTimerTask extends TimerTask{
 				if(Double.parseDouble(performanceRAMInfo.getRamValue())< getDirSize(file) )
 				alarmPerformance(1001,ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCERAM),"PERFORMANCERAMERROR",206);
 			}
+			// 查看操作日志等是否超出容量限制
+			logManagerService = (LogManagerService_MB) ConstantUtil.serviceFactory.newService_MB(Services.LOGMANAGER);
+			List<LogManager> logList = logManagerService.selectAll();
+			if(logList != null){
+				for(LogManager log : logList){
+					File f = new File(log.getFileVWay());
+					if(Double.valueOf(log.getVolumeLimit()) < getDirSize(f)){
+						if(log.getLogType() == 3){// 操作日志
+							alarmPerformance(1069, ResourceUtil.srcStr(StringKeysLbl.LBL_OPERATION_LOG_RAM), "OPERATION_VOLUMNE_CIRCALE", 221);
+						}else if(log.getLogType() == 5){// 登录日志
+							alarmPerformance(1070, ResourceUtil.srcStr(StringKeysLbl.LBL_LOGIN_LOG_RAM), "LOGIN_VOLUMNE_CIRCALE", 222);
+						}else if(log.getLogType() == 6){// 系统日志
+							alarmPerformance(1071, ResourceUtil.srcStr(StringKeysLbl.LBL_SYSTEM_LOG_RAM), "SYSTEMLOG_VOLUMNE_CIRCALE", 228);
+						}else if(log.getLogType() == 7){// 网元事件日志
+							alarmPerformance(1072, ResourceUtil.srcStr(StringKeysLbl.LBL_SITE_EVENT_LOG_RAM), "SITE_EVENT_VOLUMNE_CIRCALE", 229);
+						}
+					}
+				}
+			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}finally{
 			UiUtil.closeService_MB(performanceRamServiceMB);
+			UiUtil.closeService_MB(logManagerService);
 		}
 		
 	}
@@ -124,13 +146,28 @@ public class PerformanceRamTimerTask extends TimerTask{
 				if (file.isDirectory()) {
 					File[] children = file.listFiles(); 
 					if(children.length >0){
-						for(File f : children){
-							fileName = f.getName();
-							if(fileName.contains("_")){
-								times = DateUtil.updateTimeToLong(fileName.split("_")[1].split("\\.")[0],"yyyyMMddHHmmss");
-								break;
-							}
+						long l1 = 0L;
+						fileName = children[children.length-1].getName();
+						if(fileName.contains("_")){
+							l1 = DateUtil.updateTimeToLong(fileName.split("_")[1].split("\\.")[0],"yyyyMMddHHmmss");
 						}
+						long l2 = 0L;
+						String fileName1 = children[0].getName();
+						if(fileName1.contains("_")){
+							l2 = DateUtil.updateTimeToLong(fileName1.split("_")[1].split("\\.")[0],"yyyyMMddHHmmss");
+						}
+						if(l1 >= l2){
+							times = l1;
+						}else{
+							times = l2;
+						}
+//						for(File f : children){
+//							fileName = f.getName();
+//							if(fileName.contains("_")){
+//								times = DateUtil.updateTimeToLong(fileName.split("_")[1].split("\\.")[0],"yyyyMMddHHmmss");
+//								break;
+//							}
+//						}
 					}
 				}     
 			} 
@@ -169,7 +206,12 @@ public class PerformanceRamTimerTask extends TimerTask{
 			level.setWarningnote(alarmDesc);
 			losAlarm.setWarningLevel(level);
 			losAlarm.setRaisedTime(new Date());
-			alarmServiceMB.saveOrUpdate(losAlarm);
+			List<CurrentAlarmInfo> existList = alarmServiceMB.select(losAlarm);
+			System.out.println(existList);
+			if(existList == null || existList.size() == 0){
+				// 只产生一次，如果有，就不在放入数据库
+				alarmServiceMB.saveOrUpdate(losAlarm);
+			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}finally{

@@ -109,6 +109,11 @@ import com.nms.ui.ptn.performance.view.PathPerformCountPanel;
 import com.nms.ui.ptn.performance.view.PerformanceDescPanel;
 import com.nms.ui.ptn.performance.view.PerformanceStoragePanel;
 import com.nms.ui.ptn.performance.view.PerformanceTaskPanel;
+import com.nms.ui.ptn.report.alarm.HisAlarmReportPanel;
+import com.nms.ui.ptn.report.card.CardInfoReportPanel;
+import com.nms.ui.ptn.report.performance.HisPerformanceReportPanel;
+import com.nms.ui.ptn.report.port.PortInfoReportPanel;
+import com.nms.ui.ptn.report.service.ProfessReportPanel;
 import com.nms.ui.ptn.safety.LogManagerPanel;
 import com.nms.ui.ptn.safety.LoginLogPanel;
 import com.nms.ui.ptn.safety.OperationLogPanel;
@@ -121,8 +126,15 @@ import com.nms.ui.ptn.safety.roleManage.RootFactory;
 import com.nms.ui.ptn.statistics.alarm.AlarmInfoPanel;
 import com.nms.ui.ptn.statistics.business.ProfessPanel;
 import com.nms.ui.ptn.statistics.card.CardInfoPanel;
+import com.nms.ui.ptn.statistics.config.ces.CesBusinessCountPanel;
+import com.nms.ui.ptn.statistics.config.elan.ElanBusinessCountPanel;
+import com.nms.ui.ptn.statistics.config.eline.ElineBusinessCountPanel;
+import com.nms.ui.ptn.statistics.config.etree.EtreeBusinessCountPanel;
+import com.nms.ui.ptn.statistics.config.pw.PwBusinessCountPanel;
+import com.nms.ui.ptn.statistics.config.tunnel.TunnelBusinessCountPanel;
 import com.nms.ui.ptn.statistics.lable.LableInfoPanel;
 import com.nms.ui.ptn.statistics.layerRate.LayerRateCountPanel;
+import com.nms.ui.ptn.statistics.log.OperationLogCountPanel;
 import com.nms.ui.ptn.statistics.nepathstatics.NePathNumStatisticsPanel;
 import com.nms.ui.ptn.statistics.path.PathStatisticsWidthPanel;
 import com.nms.ui.ptn.statistics.pathstatics.PathNumStatisticsPanel;
@@ -270,7 +282,7 @@ public class Ptnf extends javax.swing.JFrame {
 			new Thread(this.alarmColorThread).start(); 
 				
 			//用户是否设置了性能文件的监控
-//			createMonitorPerformanceRam();
+			createMonitorPerformanceRam();
 			// 定时刷新拓扑告警
 			new Thread(new RefreshTopoAlarmThread(this)).start();
 			
@@ -364,6 +376,7 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 	}
+	
     /**
      * 设置性能和告警的自动转储
      */
@@ -447,7 +460,6 @@ public class Ptnf extends javax.swing.JFrame {
 	}
 
 	public static Ptnf getPtnf() {
-
 		if (null == ptnf) {
 			synchronized (Ptnf.class) {
 				if (ptnf == null) {
@@ -932,6 +944,22 @@ public class Ptnf extends javax.swing.JFrame {
 		this.unloadDeleteItem = new JMenuItem();// 转储管理
 		this.systemConfigItem = new JMenuItem();// 系统配置管理
 		this.systemLogItem = new JMenuItem();
+		this.logMenu = new JMenu();// 日志统计
+		this.operationLogItem = new JMenuItem();// 操作日志统计
+		this.configMenu = new JMenu();// 配置信息统计
+		this.tunnelConfigItem = new JMenuItem();
+		this.pwConfigItem = new JMenuItem();
+		this.elineConfigItem = new JMenuItem();
+		this.etreeConfigItem = new JMenuItem();
+		this.elanConfigItem = new JMenuItem();
+		this.cesConfigItem = new JMenuItem();
+		this.reportMenu = new JMenu();
+		this.alarmReportItem = new JMenuItem();
+		this.performanceReportItem = new JMenuItem();
+		this.serviceReportItem = new JMenuItem();
+		this.cardReportItem = new JMenuItem();
+		this.portReportItem = new JMenuItem();
+		
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
 		this.addWindowListener(new WindowAdapter() {
@@ -968,6 +996,7 @@ public class Ptnf extends javax.swing.JFrame {
 		// 关闭告警声音
 		this.menuItemCloseAlarm.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_ALARMSOUND_OPEN));
 		this.menuItemCloseAlarm.setMnemonic(KeyEvent.VK_M);
+		roleRoot.setItemEnbale(this.menuItemCloseAlarm, RootFactory.SYSTEMMODU);
 		this.menuItemCloseAlarm.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1116,6 +1145,7 @@ public class Ptnf extends javax.swing.JFrame {
         // 菜单条：telnet设置
 		this.telnetManage.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_TELNETMANAGE_T));
 		this.telnetManage.setMnemonic(KeyEvent.VK_N);
+		roleRoot.setItemEnbale(this.telnetManage, RootFactory.SYSTEMMODU);
 		this.telnetManage.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1732,15 +1762,15 @@ public class Ptnf extends javax.swing.JFrame {
 		/**
 		 * 性能数据存储设置
 		 */ 
-//		performanceMenuItem.setText(ResourceUtil.srcStr(StringKeysTab.PERFORMANCEDATAMENGAE_JMENU));
-//		roleRoot.setItemEnbale(this.performanceMenuItem, RootFactory.PROFORMANCEMODU);
-//	    this.performanceMenuItem.setMnemonic(KeyEvent.VK_S);
-//	    performanceMenuItem.addActionListener(new java.awt.event.ActionListener() {
-//			@Override
-//			public void actionPerformed(java.awt.event.ActionEvent evt) {
-//				performanceSetActionPerformed(evt);
-//			}
-//		});
+		performanceMenuItem.setText(ResourceUtil.srcStr(StringKeysTab.PERFORMANCEDATAMENGAE_JMENU));
+		roleRoot.setItemEnbale(this.performanceMenuItem, RootFactory.PROFORMANCEMODU);
+	    this.performanceMenuItem.setMnemonic(KeyEvent.VK_S);
+	    performanceMenuItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				performanceSetActionPerformed(evt);
+			}
+		});
 		
 		// 菜单条： 当前性能
 		currPerMenuItem.setText(ResourceUtil.srcStr(StringKeysMenu.TAB_CURRPERFOR_T));
@@ -1825,7 +1855,7 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		jMenu17.add(jMenuItem2);
-//		jMenu17.add(performanceMenuItem);
+		jMenu17.add(performanceMenuItem);
 		jMenu17.add(currPerMenuItem);
 		jMenu17.add(hisPerMenuItem);
 		jMenu17.add(perTaskMenuItem);
@@ -1852,10 +1882,10 @@ public class Ptnf extends javax.swing.JFrame {
 		 * 添加 权限验证
 		 * 用户管理
 		 */
-		if(ConstantUtil.user.getUser_Name().equals("admin")){
+		if(UiUtil.isAdmin()){
 			roleRoot.setItemEnbale(this.jMenuItem5, RootFactory.SATYMODU);
-		}else{
-			roleRoot.setItemEnbale(this.jMenuItem5, RootFactory.SATY_SELECTOTHRER);
+//		}else{
+//			roleRoot.setItemEnbale(this.jMenuItem5, RootFactory.SATY_SELECTOTHRER);
 		}
 		
 		this.jMenuItem5.setMnemonic(KeyEvent.VK_U);
@@ -1887,11 +1917,11 @@ public class Ptnf extends javax.swing.JFrame {
 		 * 添加 权限验证
 		 */
 //		roleRoot.setItemEnbale(this.jMenuLoginLog, RootFactory.SATYMODU);
-		if(ConstantUtil.user.getUser_Name().equals("admin")){
+//		if(UiUtil.isAdmin()){
 			roleRoot.setItemEnbale(this.jMenuLoginLog, RootFactory.SATYMODU);
-		}else{
-			roleRoot.setItemEnbale(this.jMenuLoginLog, RootFactory.SATY_SELECTOTHRER);
-		}
+//		}else{
+//			roleRoot.setItemEnbale(this.jMenuLoginLog, RootFactory.SATY_SELECTOTHRER);
+//		}
 		
 		this.jMenuLoginLog.setMnemonic(KeyEvent.VK_L);
 		jMenuLoginLog.addActionListener(new java.awt.event.ActionListener() {
@@ -1904,11 +1934,11 @@ public class Ptnf extends javax.swing.JFrame {
 		 * 添加 权限验证
 		 */
 //		roleRoot.setItemEnbale(this.jMenuImport, RootFactory.SATYMODU);
-		if(ConstantUtil.user.getUser_Name().equals("admin")){
+//		if(UiUtil.isAdmin()){
 			roleRoot.setItemEnbale(this.jMenuUserOnLine, RootFactory.SATYMODU);
-		}else{
-			roleRoot.setItemEnbale(this.jMenuUserOnLine, RootFactory.SATY_SELECTOTHRER);
-		}
+//		}else{
+//			roleRoot.setItemEnbale(this.jMenuUserOnLine, RootFactory.SATY_SELECTOTHRER);
+//		}
 		
 		jMenuLogin.add(jMenuLoginLog);
 //		jMenuLogin.add(jMenuImport);
@@ -1937,11 +1967,11 @@ public class Ptnf extends javax.swing.JFrame {
 		/*
 		 * 添加 权限验证
 		 */
-		if(ConstantUtil.user.getUser_Name().equals("admin")){
+//		if(UiUtil.isAdmin()){
 			roleRoot.setItemEnbale(this.jMenuOperationLog, RootFactory.SATYMODU);
-		}else{
-			roleRoot.setItemEnbale(this.jMenuOperationLog, RootFactory.SATY_SELECTOTHRER);
-		}
+//		}else{
+//			roleRoot.setItemEnbale(this.jMenuOperationLog, RootFactory.SATY_SELECTOTHRER);
+//		}
 //		roleRoot.setItemEnbale(this.jMenuOperationLog, RootFactory.SATYMODU);
 		this.jMenuOperationLog.setMnemonic(KeyEvent.VK_N);
 		jMenuOperationLog.addActionListener(new java.awt.event.ActionListener() {
@@ -1957,11 +1987,11 @@ public class Ptnf extends javax.swing.JFrame {
 		 * 添加 权限验证
 		 */
 //		roleRoot.setItemEnbale(this.jMenuRoleManage, RootFactory.SATYMODU);
-		if(ConstantUtil.user.getUser_Name().equals("admin")){
+//		if(UiUtil.isAdmin()){
 			roleRoot.setItemEnbale(this.jMenuRoleManage, RootFactory.SATYMODU);
-		}else{
-			roleRoot.setItemEnbale(this.jMenuRoleManage, RootFactory.SATY_SELECTOTHRER);
-		}
+//		}else{
+//			roleRoot.setItemEnbale(this.jMenuRoleManage, RootFactory.SATY_SELECTOTHRER);
+//		}
 		this.jMenuRoleManage.setMnemonic(KeyEvent.VK_R);
 		jMenuRoleManage.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -1997,7 +2027,7 @@ public class Ptnf extends javax.swing.JFrame {
 		});	
 		systemLogItem.setText(ResourceUtil.srcStr(StringKeysLbl.LBL_LOG_SYSTEM));
 		systemLogItem.setMnemonic(KeyEvent.VK_Y);
-		roleRoot.setItemEnbale(this.systemLogItem, RootFactory.SYSTEMMODU);
+		roleRoot.setItemEnbale(this.systemLogItem, RootFactory.SATYMODU);
 		this.systemLogItem.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2256,6 +2286,107 @@ public class Ptnf extends javax.swing.JFrame {
 		jMenu22.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_HELP));
 		jMenu22.setMnemonic(KeyEvent.VK_H);
 		
+		// 日志统计
+		logMenu.setText(ResourceUtil.srcStr(StringKeysTab.TAB_LOG_MENU));
+		jMenu20.add(logMenu);
+		
+		// 操作日志统计
+		logMenu.add(this.operationLogItem);
+		operationLogItem.setText(ResourceUtil.srcStr(StringKeysTab.OPERATION_LOG_MENU));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.operationLogItem, RootFactory.COUNTMODU);
+		operationLogItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				operationLogActionPerformed();
+			}
+		});
+		
+		// 配置信息统计
+		this.configMenu.setText(ResourceUtil.srcStr(StringKeysTab.TAB_CONFIG_COUNT));
+		jMenu20.add(configMenu);
+		
+		// tunnel信息统计
+		configMenu.add(this.tunnelConfigItem);
+		tunnelConfigItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_TUNNEL_COUNT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.tunnelConfigItem, RootFactory.COUNTMODU);
+		tunnelConfigItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				configCountActionPerformed(1);
+			}
+		});
+		// pw信息统计
+		configMenu.add(this.pwConfigItem);
+		pwConfigItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_PW_COUNT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.pwConfigItem, RootFactory.COUNTMODU);
+		pwConfigItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				configCountActionPerformed(2);
+			}
+		});
+		// eline信息统计
+		configMenu.add(this.elineConfigItem);
+		elineConfigItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_ELINE_COUNT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.elineConfigItem, RootFactory.COUNTMODU);
+		elineConfigItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				configCountActionPerformed(3);
+			}
+		});
+		// etree信息统计
+		configMenu.add(this.etreeConfigItem);
+		etreeConfigItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_ETREE_COUNT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.etreeConfigItem, RootFactory.COUNTMODU);
+		etreeConfigItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				configCountActionPerformed(4);
+			}
+		});
+		// elan信息统计
+		configMenu.add(this.elanConfigItem);
+		elanConfigItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_ELAN_COUNT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.elanConfigItem, RootFactory.COUNTMODU);
+		elanConfigItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				configCountActionPerformed(5);
+			}
+		});
+		// ces信息统计
+		configMenu.add(this.cesConfigItem);
+		cesConfigItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_CES_COUNT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.cesConfigItem, RootFactory.COUNTMODU);
+		cesConfigItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				configCountActionPerformed(6);
+			}
+		});
+		
 		//
 //		jMenu20.add(this.layerRateMenuItem);
 //		this.layerRateMenuItem.setText("层速率统计");
@@ -2266,6 +2397,76 @@ public class Ptnf extends javax.swing.JFrame {
 //				layerRateActionPerformed();
 //			}
 //		});
+		
+		// 报表管理
+		reportMenu.setBackground(new java.awt.Color(191, 213, 235));
+		reportMenu.setText(ResourceUtil.srcStr(StringKeysMenu.MENU_REPORT));
+		jMenuBar2.add(reportMenu);
+		// 告警报表
+		reportMenu.add(this.alarmReportItem);
+		alarmReportItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_ALARM_REPORT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.alarmReportItem, RootFactory.COUNTMODU);
+		alarmReportItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				reportActionPerformed(1);
+			}
+		});
+		// 性能报表
+		reportMenu.add(this.performanceReportItem);
+		performanceReportItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_PERFORMANCE_REPORT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.performanceReportItem, RootFactory.COUNTMODU);
+		performanceReportItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				reportActionPerformed(2);
+			}
+		});
+		// 业务配置报表
+		reportMenu.add(this.serviceReportItem);
+		serviceReportItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_SERVICE_REPORT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.serviceReportItem, RootFactory.COUNTMODU);
+		serviceReportItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override 
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				reportActionPerformed(3);
+			}
+		});
+		// 单板统计报表
+		reportMenu.add(this.cardReportItem);
+		cardReportItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_CARD_REPORT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.cardReportItem, RootFactory.COUNTMODU);
+		cardReportItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override 
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				reportActionPerformed(4);
+			}
+		});
+		// 端口统计报表
+		reportMenu.add(this.portReportItem);
+		portReportItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_PORT_REPORT));
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.portReportItem, RootFactory.COUNTMODU);
+		portReportItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override 
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				reportActionPerformed(5);
+			}
+		});
 		
 		CodeConfigItem	codeConfigItem = CodeConfigItem.getInstance();
 //		if(codeConfigItem.getValueByKey("IconImageShowOrHide").equals("1")){
@@ -2324,6 +2525,55 @@ public class Ptnf extends javax.swing.JFrame {
 		
 	}
 	
+	protected void reportActionPerformed(int flag) {
+		try {
+			if(flag == 1){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_ALARM_REPORT), new HisAlarmReportPanel());
+			}else if(flag == 2){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_PERFORMANCE_REPORT), new HisPerformanceReportPanel());
+			}else if(flag == 3){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_SERVICE_REPORT), new ProfessReportPanel());
+			}else if(flag == 4){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_CARD_REPORT), new CardInfoReportPanel());
+			}else if(flag == 5){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_PORT_REPORT), new PortInfoReportPanel());
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+
+	protected void configCountActionPerformed(int flag) {
+		try {
+			if(flag == 1){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_TUNNEL_COUNT), new TunnelBusinessCountPanel());
+			}else if(flag == 2){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_PW_COUNT), new PwBusinessCountPanel());
+			}else if(flag == 3){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_ELINE_COUNT), new ElineBusinessCountPanel());
+			}else if(flag == 4){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_ETREE_COUNT), new EtreeBusinessCountPanel());
+			}else if(flag == 5){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_ELAN_COUNT), new ElanBusinessCountPanel());
+			}else if(flag == 6){
+				this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_CES_COUNT), new CesBusinessCountPanel());
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+
+	/**
+	 * 操作日志统计
+	 */
+	private void operationLogActionPerformed() {
+		try {
+			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.OPERATION_LOG_MENU), new OperationLogCountPanel());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+
 	/**
 	 * 网管版本信息
 	 */
@@ -3441,6 +3691,21 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenuItem unloadDeleteItem;// 备份删除管理
 	private JMenuItem systemConfigItem;// 系统配置
 	private JMenuItem systemLogItem;// 系统配置
+	private JMenu logMenu;// 日志统计
+	private JMenuItem operationLogItem;// 操作日志统计
+	private JMenu configMenu;// 配置信息统计
+	private JMenuItem tunnelConfigItem;
+	private JMenuItem pwConfigItem;
+	private JMenuItem elineConfigItem;
+	private JMenuItem etreeConfigItem;
+	private JMenuItem elanConfigItem;
+	private JMenuItem cesConfigItem;
+	private JMenu reportMenu;// 报表管理
+	private JMenuItem alarmReportItem;
+	private JMenuItem performanceReportItem;
+	private JMenuItem serviceReportItem;
+	private JMenuItem cardReportItem;
+	private JMenuItem portReportItem;
 	
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;

@@ -157,16 +157,23 @@ public class LogManagerDialog extends PtnDialog {
 		}
 	}	
 	private void initComponents() throws Exception {
-		
 		LogManager unload=this.unloadController.getView().getSelect();
 		if(unload.getLogType()==3 && unload.getFileWay().equals("")){
 			unload.setFileWay(ServerConstant.AUTODATABACKOPERATION_LOGTIMEFILE);
 		}else if(unload.getLogType()==3 && unload.getFileVWay().equals("")){
 			unload.setFileVWay(ServerConstant.AUTODATABACKOPERATION_LOGVOLUMNEFILE);
-		}else if(unload.getLogType()==4 && unload.getFileWay().equals("")) {
+		}else if(unload.getLogType()==5 && unload.getFileWay().equals("")) {
 			unload.setFileWay(ServerConstant.AUTODATABACKLOGIN_LOGTIMEFILE);
-		}else if(unload.getLogType()==4 && unload.getFileVWay().equals("")){
+		}else if(unload.getLogType()==5 && unload.getFileVWay().equals("")){
 			unload.setFileVWay(ServerConstant.AUTODATABACKLOGIN_LOGVOLUMNEFILE);
+		}else if(unload.getLogType()==6 && unload.getFileWay().equals("")) {
+			unload.setFileWay(ServerConstant.AUTODATABACKSYSTEM_LOGTIMEFILE);
+		}else if(unload.getLogType()==6 && unload.getFileVWay().equals("")){
+			unload.setFileVWay(ServerConstant.AUTODATABACKSYSTEM_LOGVOLUMNEFILE);
+		}else if(unload.getLogType()==7 && unload.getFileWay().equals("")) {
+			unload.setFileWay(ServerConstant.AUTODATABACKEVENT_LOGTIMEFILE);
+		}else if(unload.getLogType()==7 && unload.getFileVWay().equals("")){
+			unload.setFileVWay(ServerConstant.AUTODATABACKEVENT_LOGVOLUMNEFILE);
 		}
 		fileType = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_FILE_ROUTE));
 		fileFiled=new javax.swing.JTextField(unload.getFileWay());

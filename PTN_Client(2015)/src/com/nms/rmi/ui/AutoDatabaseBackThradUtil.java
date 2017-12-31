@@ -37,8 +37,8 @@ public class AutoDatabaseBackThradUtil {
 			   ((PerformanceRAMThread)threadMap.get(thread.getName())).stop();
 		    	 threadMap.remove(thread.getName());
 			   }
-			 } 
 			thread.start();
+			} 
 			threadMap.put(threadName, performanceRAMThread);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());

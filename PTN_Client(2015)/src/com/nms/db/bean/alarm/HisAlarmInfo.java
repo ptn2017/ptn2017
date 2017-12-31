@@ -1,5 +1,7 @@
 package com.nms.db.bean.alarm;
 
+import com.nms.ui.manager.ResourceUtil;
+import com.nms.ui.manager.keys.StringKeysObj;
 import com.nms.ui.ptn.alarm.AlarmTools;
 import com.nms.ui.ptn.alarm.model.AlarmInfo;
 
@@ -134,5 +136,17 @@ public class HisAlarmInfo extends AlarmInfo{
 			this.putClientProperty("warningNotes", this.getWarningLevel().getWarningname());
 		}
 		this.putClientProperty("clearedTime", this.getClearedTime());
+		this.putClientProperty("alarmState", this.getAlarmState());
+	}
+	
+	private String getAlarmState() {
+		if(this.getConfirmtime() == null && this.getCleanTime() != null){
+			// 未确认历史告警
+			return ResourceUtil.srcStr(StringKeysObj.OBJ_UNACK_HISALARM);
+		}else if(this.getConfirmtime() != null && this.getCleanTime() != null){
+			// 已确认历史告警
+			return ResourceUtil.srcStr(StringKeysObj.OBJ_ACK_HISALARM);
+		}
+		return "";
 	}
 }

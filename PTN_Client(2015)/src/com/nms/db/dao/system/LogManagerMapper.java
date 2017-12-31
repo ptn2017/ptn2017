@@ -18,4 +18,8 @@ public interface LogManagerMapper {
 	public LogManager selectCounts(@Param("label")Integer label);
 	
 	public int selectMaxId(@Param("label")Integer label);
+
+	public LogManager selectLoginCount(@Param("label")Integer label);
+
+	public LogManager selectSystemCount(@Param("label")Integer label);
 }

@@ -1088,4 +1088,22 @@ public class UiUtil {
 		}
 		return result;
 	}
+	
+	public static boolean isAdmin(){
+		String currName = ConstantUtil.user.getUser_Name();
+		if("admin".equals(currName) || "admin1".equals(currName) || "admin2".equals(currName)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public static boolean isNotAdmin(){
+		String currName = ConstantUtil.user.getUser_Name();
+		if(!"admin".equals(currName) && !"admin1".equals(currName) && !"admin2".equals(currName)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

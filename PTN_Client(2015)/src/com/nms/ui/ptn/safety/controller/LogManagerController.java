@@ -52,7 +52,6 @@ public class LogManagerController extends AbstractController {
 	 * 修改按钮
 	 */
 	public void openUpdateDialog()throws Exception{
-		
 		final LogManagerDialog dialog = new LogManagerDialog(this);
 		UiUtil.showWindow(dialog, 380, 340);
 

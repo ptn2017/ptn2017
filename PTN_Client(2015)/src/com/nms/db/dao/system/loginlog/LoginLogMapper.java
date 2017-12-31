@@ -67,4 +67,6 @@ public interface LoginLogMapper {
 	 * @throws Exception
 	 */
 	public int deleteByIds(@Param("idList")List<Integer> idList);
+
+	public List<LoginLog> selectByIdList(@Param("idList")List<Integer> idList);
 }

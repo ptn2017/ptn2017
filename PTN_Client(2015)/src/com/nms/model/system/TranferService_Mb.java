@@ -107,6 +107,14 @@ public class TranferService_Mb extends ObjectService_Mybatis{
 				// 登录日志
 				tableName="login_log";
 				byTime="startTime";
+			}else if(5 == unload.getUnloadType()){
+				// 登录日志
+				tableName="login_log";
+				byTime="startTime";
+			}else if(6 == unload.getUnloadType()){
+				// 系统日志
+				tableName="systemlog";
+				byTime="startTime";
 			}
 			this.getTableStr(tableName, total, tranferInfoList);
 		} catch (Exception e) {

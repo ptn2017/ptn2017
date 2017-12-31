@@ -36,5 +36,17 @@
      order by startTime desc
   </select>
   
- 
+ <delete id="deleteByIds" parameterType="java.util.List" >
+   delete from systemLog where id in
+   <foreach item="item" index="index" collection="idList" open="(" separator= ", " close=" )">
+        #{item}
+     </foreach>     
+   </delete>
+   
+   <select id="selectByIdList" parameterType="java.util.List" resultMap="SystemLogMap">
+    select * from systemLog where id in 
+     <foreach item="item" index="index" collection="idList" open="(" separator= ", " close=" )">
+        #{item}
+       </foreach>  
+  </select>
 </mapper>

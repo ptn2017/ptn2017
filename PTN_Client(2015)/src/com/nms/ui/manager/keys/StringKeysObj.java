@@ -515,4 +515,36 @@ public class StringKeysObj {
 	 * 数据分发组件,完成数据处理结果的分发
 	 */
 	public static final String OBJ_DISPSERVER="OBJ_DISPSERVER";
+	/**
+	 * 光电类型
+	 */
+	public static final String OBJ_MODULE_PORT="OBJ_MODULE_PORT";
+	/**
+	 * ELECTRICAL 电接口
+	 */
+	public static final String OBJ_ELECTRICAL_PORT="OBJ_ELECTRICAL_PORT";
+	/**
+	 * OPTICAL 光接口
+	 */
+	public static final String OBJ_OPTICAL_PORT="OBJ_OPTICAL_PORT";
+	/**
+	 * 未确认当前告警
+	 */
+	public static final String OBJ_UNACK_CURRALARM = "OBJ_UNACK_CURRALARM";
+	/**
+	 * 已确认当前告警
+	 */
+	public static final String OBJ_ACK_CURRALARM = "OBJ_ACK_CURRALARM";
+	/**
+	 * 未确认历史告警
+	 */
+	public static final String OBJ_UNACK_HISALARM = "OBJ_UNACK_HISALARM";
+	/**
+	 * 已确认历史告警
+	 */
+	public static final String OBJ_ACK_HISALARM = "OBJ_ACK_HISALARM";
+	/**
+	 * 锁定告警
+	 */
+	public static final String OBJ_LOCK_ALARM = "OBJ_LOCK_ALARM";
 }

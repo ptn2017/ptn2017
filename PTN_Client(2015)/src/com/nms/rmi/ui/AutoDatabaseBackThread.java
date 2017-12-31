@@ -10,7 +10,7 @@ import com.nms.ui.ptn.systemManage.AutoDumpHisPerAndAlarm;
 public class AutoDatabaseBackThread implements Runnable{
  private long cycleTime;
  private long startTime;
- private int label;//标签用来确定是自动转储的 1:告警 2:性能 3:操作日志 4:登录日志
+ private int label;//标签用来确定是自动转储的 1:告警 2:性能 3:操作日志 5:登录日志
  private int count;//转储的数目
  private String fileAddress ;//文件目录地址
  private boolean flag = true;

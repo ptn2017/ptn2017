@@ -14,7 +14,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.ptn.systemManage.AutoDumpHisPerAndAlarm;
 
 public class AutoDatabaseTimeBackThread extends TimerTask{
- private int label;//标签用来确定是自动转储的 1:告警 2:性能 3:操作日志 4:登录日志
+ private int label;//标签用来确定是自动转储的 1:告警 2:性能 3:操作日志5:登录日志 6:系统日志 7:网元事件日志
  private int count;//转储的数目
  private String fileAddress ;//文件目录地址
 
@@ -44,13 +44,17 @@ public class AutoDatabaseTimeBackThread extends TimerTask{
 				int maxId=log.getMaxId();
 				maxId=logService.selectCounts(maxId).getTotalCount();
 				autoDumpHisPerAndAlarm.autoDump(label, count,maxId,fileAddress);				
-			}else{
-				autoDumpHisPerAndAlarm.autoDump(label, count,0,fileAddress);				
+			}else if(label == 5){
+				LogManager log=logService.selectLoginCount(label);
+				count=log.getTotalCount();
+				int maxId=log.getMaxId();
+				autoDumpHisPerAndAlarm.autoDump(label, count, maxId, fileAddress);	
+			}else if(label == 6){
+				LogManager log=logService.selectSystemCount(label);
+				count=log.getTotalCount();
+				int maxId=log.getMaxId();
+				autoDumpHisPerAndAlarm.autoDump(label, count, maxId, fileAddress);	
 			}
-			
-			
-				
-			
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, getClass());
 		}finally

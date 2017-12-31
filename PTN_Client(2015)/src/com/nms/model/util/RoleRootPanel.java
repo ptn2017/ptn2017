@@ -204,15 +204,16 @@ public class RoleRootPanel extends JPanel {
 			 * 只有在查看界面，且角色为默认角色  Admainistrator 时，安全管理才可显示：  即创建
 			 * 其他： 新建和修改界面   -都不可显示  ：  创建
 			 */
-			if(null!=roleManage){
-				if(null!=roleManage.getRoleName()&&roleManage.getRoleName().equals("Administrator")){
-					node = this.createNode(roleManage, parentNode);
-					this.box.addElement(node);
-				}else if(null==roleManage.getRoleName()&&roleManage.getId()!=RootFactory.SATY_MANAGE&&roleManage.getId()!=RootFactory.SATYMODU&&roleManage.getId()!=RootFactory.SATY_SELECT){
-					node = this.createNode(roleManage, parentNode);
-					this.box.addElement(node);
-				}
-			}else{
+			if(null != roleManage){
+//				if(null != roleManage.getRoleName() && roleManage.getRoleName().equals("Administrator")){
+//					node = this.createNode(roleManage, parentNode);
+//					this.box.addElement(node);
+//				}else if(null == roleManage.getRoleName() && roleManage.getId() != RootFactory.SATY_MANAGE && 
+//						roleManage.getId() != RootFactory.SATYMODU && roleManage.getId() != RootFactory.SATY_SELECT){
+//					node = this.createNode(roleManage, parentNode);
+//					this.box.addElement(node);
+//				}
+//			}else{
 				node = this.createNode(roleManage, parentNode);
 				this.box.addElement(node);
 			}

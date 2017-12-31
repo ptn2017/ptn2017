@@ -187,9 +187,10 @@ public class HisAlarmService_MB extends ObjectService_Mybatis {
 			Map<Integer, String> siteIdAndNameMap = this.getsiteIdAndNameMap(siteService);
 			for (HisAlarmInfo hisInfo : hisInfoList) {
 				// 封装网元信息
-				String siteNameAndManuf = siteIdAndNameMap.get(hisInfo.getSiteId());
-				int manufacturer = Integer.parseInt(siteNameAndManuf.split("/", 2)[0]);
-				String siteName = siteNameAndManuf.split("/", 2)[1];
+//				String siteNameAndManuf = siteIdAndNameMap.get(hisInfo.getSiteId());
+//				int manufacturer = Integer.parseInt(siteNameAndManuf.split("/", 2)[0]);
+//				String siteName = siteNameAndManuf.split("/", 2)[1];
+				String siteName = siteIdAndNameMap.get(hisInfo.getSiteId());
 				if(siteName != null && !"".equals(siteName)){
 					hisInfo.setSiteName(siteName);
 				}else{
@@ -199,11 +200,11 @@ public class HisAlarmService_MB extends ObjectService_Mybatis {
 				WarningLevel condition = new WarningLevel();
 				condition.setWarningcode(hisInfo.getAlarmCode());
 				condition.setWarninglevel(hisInfo.getAlarmLevel());
-				if(manufacturer == EManufacturer.WUHAN.getValue()){
+//				if(manufacturer == EManufacturer.WUHAN.getValue()){
 					condition.setManufacturer(1);  //1表示武汉
-				}else {
-					condition.setManufacturer(2);  //2表示晨晓
-				}
+//				}else {
+//					condition.setManufacturer(2);  //2表示晨晓
+//				}
 				warnList = warningLevelService.select(condition);
 				WarningLevel warningLevel = new WarningLevel();
 				if (warnList != null && warnList.size() > 0) {
@@ -247,8 +248,9 @@ public class HisAlarmService_MB extends ObjectService_Mybatis {
 			List<SiteInst> siteList = siteService.select();
 			if(siteList != null){
 				for (SiteInst site : siteList) {
-					siteIdAndNameMap.put(site.getSite_Inst_Id(), site.getManufacturer()+"/"+
-							site.getCellId());
+//					siteIdAndNameMap.put(site.getSite_Inst_Id(), site.getManufacturer()+"/"+
+//							site.getCellId());
+					siteIdAndNameMap.put(site.getSite_Inst_Id(), site.getCellId());
 				}
 			}
 		} catch (Exception e) {

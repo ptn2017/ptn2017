@@ -2,8 +2,9 @@ package com.nms.db.dao.system;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.nms.db.bean.system.NetWork;
-import com.nms.db.bean.system.user.UserInst;
 
 
 public interface NetWorkMapper {
@@ -21,7 +22,7 @@ public interface NetWorkMapper {
     
     public List<NetWork> select();
 
-	List<NetWork> queryByUserIdField(UserInst userinst);
+	List<NetWork> queryByUserIdField(@Param("isAll")int isAll, @Param("user_Id")int user_Id);
 	
 	/**
 	 * 更新

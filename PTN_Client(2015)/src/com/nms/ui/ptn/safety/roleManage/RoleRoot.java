@@ -1,11 +1,16 @@
 ﻿package com.nms.ui.ptn.safety.roleManage;
 
 
+import java.awt.Component;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ActionMap;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
 
 import com.nms.db.bean.system.roleManage.RoleRelevance;
 import com.nms.model.system.roleManage.RoleRelevanceService_MB;
@@ -60,7 +65,7 @@ public class RoleRoot {
 	 * @param menuItem    菜单条   
 	 * @param label		权限标签 		
 	 */
-	public  Boolean setItemEnbale(Object object,int label){
+	public Boolean setItemEnbale(Object object,int label){
 		List<RoleRelevance> roleRelevanceList=ConstantUtil.roleRelevanceList;
 		boolean flag=false;
 		if(roleRelevanceList!=null){
@@ -78,14 +83,23 @@ public class RoleRoot {
 		if(object instanceof JMenuItem){
 			JMenuItem menuItem=(JMenuItem)object;
 			menuItem.setEnabled(flag);
-		}
-		else if(object instanceof JLabel){    //（图标）——
+		}else if(object instanceof JLabel){    //（图标）——
 			JLabel lbl=(JLabel)object;
 			lbl.setVisible(true);
-			
 		}else if(object instanceof JButton){
 			JButton bt=(JButton)object;
 			bt.setEnabled(flag);
+		}else if(object instanceof JToolBar){
+			JToolBar jtb = (JToolBar)object;
+			Component[] cArr = jtb.getComponents();
+			for(Component c : cArr){
+				c.setEnabled(flag);
+//				if(c instanceof JButton){
+//					((JButton)c).setEnabled(flag);
+//				}else if(c instanceof JComboBox){
+//					((JComboBox)c).setEnabled(flag);
+//				}
+			}
 		}
 		return flag;
 	}

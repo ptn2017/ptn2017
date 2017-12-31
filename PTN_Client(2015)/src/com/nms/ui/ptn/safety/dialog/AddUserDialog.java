@@ -12,7 +12,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -22,11 +24,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.NetWork;
 import com.nms.db.bean.system.roleManage.RoleInfo;
+import com.nms.db.bean.system.user.UserField;
 import com.nms.db.bean.system.user.UserInst;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.model.system.roleManage.RoleInfoService_MB;
+import com.nms.model.system.user.UserFieldService_MB;
 import com.nms.model.system.user.UserInstServiece_Mb;
 import com.nms.model.util.Services;
 import com.nms.service.impl.util.ResultString;
@@ -66,7 +72,7 @@ public class AddUserDialog extends PtnDialog {
 	private JPanel btnPanel;
 	private JLabel roleLabel;
 	private JComboBox roleBox;
-	private UserFieldPanel userFieldPanel;
+	private UserFieldPanel userFieldPanel;// 域列表
 	private JScrollPane allField;
 	private JScrollPane  scrolUserInface;
 	// 用户详细信息
@@ -80,6 +86,8 @@ public class AddUserDialog extends PtnDialog {
 	private JLabel endipLabel; // 终止IPlabel
 	private JTextField startipField; // 起始IP文本框
 	private JTextField endipField; // 终止IP文本框
+	private JLabel levelLbl;// 级别
+	private JLabel levelTxt;
 	
 	
 	public AddUserDialog(UserInst userInst, UserInfoPanel panel) {
@@ -123,7 +131,22 @@ public class AddUserDialog extends PtnDialog {
 				this.userFieldPanel.getBox().selectAll();
 				this.userFieldPanel.getTree().disable();
 			}else{
-			    this.userFieldPanel.checkData(this.userInst.getFieldList());
+				List<Integer> fieldList = new ArrayList<Integer>();
+				UserFieldService_MB service = null;
+				try {
+					service = (UserFieldService_MB) ConstantUtil.serviceFactory.newService_MB(Services.USERFIELD);
+					List<UserField> userFieldList = service.query(this.userInst.getUser_Id());
+					if(userFieldList != null){
+						for(UserField uField : userFieldList){
+							fieldList.add(uField.getSubId());
+						}
+					}
+				} catch (Exception e) {
+					ExceptionManage.dispose(e, this.getClass());
+				} finally {
+					UiUtil.closeService_MB(service);
+				}
+			    this.userFieldPanel.checkData(this.userInst.getFieldList(), fieldList);
 			}
 		}
 	}
@@ -179,22 +202,54 @@ public class AddUserDialog extends PtnDialog {
 			lblRemind = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_PSW_REMIND));
 			txtRemind = new JTextField();
 			txtRemind.setText("5");
+			this.levelLbl = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LEVEL));
+			String uName = ConstantUtil.user.getUser_Name();// 当前用户名
+			String currName = this.userInst.getUser_Name();// 当前被修改的用户名
+			if(currName != null && !"".equals(currName) && ("admin".equals(currName) || "admin1".equals(currName) || "admin2".equals(currName))){
+				if("admin".equals(currName)){
+					this.levelTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LEVEL1));
+				}else if("admin1".equals(currName)){
+					this.levelTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LEVEL2));
+				}else if("admin2".equals(currName)){
+					this.levelTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LEVEL3));
+				}
+			}else{
+				if("admin".equals(uName)){
+					this.levelTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LEVEL1));
+				}else if("admin1".equals(uName)){
+					this.levelTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LEVEL2));
+				}else if("admin2".equals(uName)){
+					this.levelTxt = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_LEVEL3));
+				}
+			}
 			List<RoleInfo> roleInfoList = infoService.select(new RoleInfo());
 			if(roleInfoList != null && roleInfoList.size()>0){
+				uName = this.userInst.getUser_Name();
 				for(int i=0;i< roleInfoList.size();i++){
 					RoleInfo info = roleInfoList.get(i);
-					if(ResourceUtil.language.equals("zh_CN")){
-//						roleBox.addItem(info.getRoleName());
-						roleBox.addItem(new ControlKeyValue(info.getId() + "", info.getRoleName(), info));
+					String roleName = info.getRoleName();
+					if("admin".equals(uName) || "admin1".equals(uName) || "admin2".equals(uName)){
+						if(ResourceUtil.language.equals("zh_CN")){
+							roleBox.addItem(new ControlKeyValue(info.getId() + "", info.getRoleName(), info));
+						}else{
+							roleBox.addItem(new ControlKeyValue(info.getId() + "", info.getRoleEnName(), info));
+						}
 					}else{
-//						roleBox.addItem(info.getRoleEnName());
-						roleBox.addItem(new ControlKeyValue(info.getId() + "", info.getRoleEnName(), info));
+						if(!ResourceUtil.srcStr(StringKeysTip.TIP_PROVINCIAL_ADMIN).equals(roleName) && 
+								!ResourceUtil.srcStr(StringKeysTip.TIP_MUNICIPAL_ADMIN).equals(roleName)&&
+								!ResourceUtil.srcStr(StringKeysTip.TIP_COUNTY_ADMIN).equals(roleName)){
+							if(ResourceUtil.language.equals("zh_CN")){
+								roleBox.addItem(new ControlKeyValue(info.getId() + "", info.getRoleName(), info));
+							}else{
+								roleBox.addItem(new ControlKeyValue(info.getId() + "", info.getRoleEnName(), info));
+							}
+						}
 					}
 				}
 			}
 			
 			//缺省用户只允许修改密码
-			if ("admin".equals(userInst.getUser_Name())){
+			if ("admin".equals(userInst.getUser_Name()) || "admin1".equals(userInst.getUser_Name()) || "admin2".equals(userInst.getUser_Name())){
 				usernametext.setEditable(false);
 				startipField.setEditable(false);
 				endipField.setEditable(false);
@@ -207,6 +262,12 @@ public class AddUserDialog extends PtnDialog {
 				userpasswordtext = new PtnPasswordField(true,this.lblMessage,this.btnSave,this,5);
 				userpasswordtextage = new PtnPasswordField(true,this.lblMessage,this.btnSave,this,5);
 			}else{
+				uName = ConstantUtil.user.getUser_Name();// 当前用户名
+				if("admin".equals(uName)){
+					jCheckBox.setEnabled(true);
+				}else{
+					jCheckBox.setEnabled(false);
+				}
 				userpasswordtext = new PtnPasswordField(true,this.lblMessage,this.btnSave,this);
 				userpasswordtextage = new PtnPasswordField(true,this.lblMessage,this.btnSave,this);
 			}
@@ -239,15 +300,15 @@ public class AddUserDialog extends PtnDialog {
 	}
 	private void setLayout() {
 		this.setBtnLayout();
-		Dimension dimension = new Dimension(400,600);
+		Dimension dimension = new Dimension(400, 630);
 		this.setPreferredSize(dimension);
 		this.setMinimumSize(dimension);
 
 		GridBagLayout layout = new GridBagLayout();
 		layout.columnWidths = new int[] { 50, 150 };
 		layout.columnWeights = new double[] { 0, 0.1 };
-		layout.rowHeights = new int[] { 25,35,35,35,35,35, 35 ,35 ,35,80,35,80,35};
-		layout.rowWeights = new double[] { 0, 0,0, 0,0, 0, 0, 0, 0, 0, 0,0,0,0.1};
+		layout.rowHeights = new int[] { 25,35,35,35,35,35, 35 ,35, 35,35,35,80,80,35};
+		layout.rowWeights = new double[] { 0, 0,0, 0,0, 0, 0, 0, 0, 0, 0,0,0.3,0,0.3};
 		setLayout(layout);
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -362,11 +423,25 @@ public class AddUserDialog extends PtnDialog {
 		c.gridwidth = 2;
 		layout.addLayoutComponent(this.roleBox, c);
 		add(roleBox);
+		
+		/**
+		 * 插入权限级别
+		 */
+		c.gridx = 0;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		layout.setConstraints(levelLbl, c);
+		add(levelLbl);
+		c.gridx = 1;
+		c.gridwidth = 2;
+		layout.addLayoutComponent(this.levelTxt, c);
+		add(levelTxt);
+		
 		/**
 		 * 添加  用户 详细信息
 		 */
 		c.gridx = 0;
-		c.gridy = 9;
+		c.gridy = 10;
 		c.gridwidth = 1;
 		layout.setConstraints(this.lblUserInterface, c);
 		add(lblUserInterface);
@@ -376,26 +451,25 @@ public class AddUserDialog extends PtnDialog {
 			
 		/** 第5行 是否显示所有域*/
 		c.gridx = 0;
-		c.gridy = 10;
+		c.gridy = 11;
 		c.gridwidth = 1;
 		layout.setConstraints(isAll, c);
 		add(isAll);
 		c.gridx = 1;
-		c.gridy = 10;
 		c.gridwidth = 2;
 		layout.addLayoutComponent(jCheckBox, c);
 		add(jCheckBox);
 
 		/** 第五行 树 */
 		c.gridx = 0;
-		c.gridy = 11;
+		c.gridy = 12;
 		c.gridwidth = 3;
 		layout.setConstraints(allField, c);
 		add(allField);
 
 		/** 第七行 确定按钮空出一行 */
 		c.gridx = 0;
-		c.gridy = 12;
+		c.gridy = 13;
 		c.gridwidth = 2;
 		c.gridheight=1;
 		layout.setConstraints(this.btnPanel, c);
@@ -453,7 +527,6 @@ public class AddUserDialog extends PtnDialog {
 		List<NetWork> userFieldList=null;
 		try {
 			userFieldList = this.userFieldPanel.getSelectUserField();
-			
 			if (this.userpasswordtext.getText().trim().length() == 0 || this.userpasswordtextage.getText().trim().length() == 0) {
 				DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_PASSWORDERROR));
 				return;
@@ -495,6 +568,32 @@ public class AddUserDialog extends PtnDialog {
 			this.userInst.setEndIp(endipField.getText());
 			this.userInst.setPswExpires(txtPswExpires.getText());
 			this.userInst.setBeforeRemind(Integer.parseInt(txtRemind.getText()));
+			this.userInst.setManagerId(ConstantUtil.user.getUser_Id());
+			/*
+			 *  如果当前用户是admin1(市级管理员),被改用户是其他，则只能选择一个域
+			 *  如果当前用户是admin2(县级管理员),被改用户是其他，则只能选择一个域下的一个组
+			 */
+			String currName = ConstantUtil.user.getUser_Name();
+			String uName = this.userInst.getUser_Name();
+			if("admin1".equals(currName) && !"admin1".equals(uName)){
+				if(userFieldList.size() > 1){
+					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_ONLY_ONE_NETWORK));
+					return;
+				}
+			}
+			if("admin2".equals(currName) && !"admin2".equals(uName)){
+				if(userFieldList.size() > 1){
+					DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_ONLY_ONE_FIELD));
+					return;
+				}
+				if(userFieldList.size() == 1){
+					List<Field> fieldList = userFieldList.get(0).getFieldList();
+					if(fieldList != null && fieldList.size() > 1){
+						DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_ONLY_ONE_FIELD));
+						return;
+					}
+				}
+			}
 			
 			RoleInfo roleInfo = (RoleInfo)((ControlKeyValue)this.roleBox.getSelectedItem()).getObject();
 			

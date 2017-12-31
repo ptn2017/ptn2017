@@ -2899,4 +2899,44 @@ public class StringKeysLbl {
 	public static final String LBL_NOR_OBJECTTYPE="LBL_NOR_OBJECTTYPE";
 	public static final String LBL_NOR_OBJECTNUM="LBL_NOR_OBJECTNUM";
 	public static final String LBL_NOR_RMUIDERROR="LBL_NOR_RMUIDERROR";
+	/**
+	 * 保存文件类型
+	 */
+	public static final String LBL_SAVE_FILE_TYPE="LBL_SAVE_FILE_TYPE";
+	/**
+	 * 操作日志文件存储内存溢出错误
+	 */
+	public static final String LBL_OPERATION_LOG_RAM = "LBL_OPERATION_LOG_RAM";
+	/**
+	 * 登录日志文件存储内存溢出错误
+	 */
+	public static final String LBL_LOGIN_LOG_RAM = "LBL_LOGIN_LOG_RAM";
+	/**
+	 * 系统日志文件存储内存溢出错误
+	 */
+	public static final String LBL_SYSTEM_LOG_RAM = "LBL_SYSTEM_LOG_RAM";
+	/**
+	 * 网元事件日志文件存储内存溢出错误
+	 */
+	public static final String LBL_SITE_EVENT_LOG_RAM = "LBL_SITE_EVENT_LOG_RAM";
+	/**
+	 * 告警状态
+	 */
+	public static final String LBL_ALARM_STATE = "LBL_ALARM_STATE";
+	/**
+	 * 级别
+	 */
+	public static final String LBL_LEVEL = "LBL_LEVEL";
+	/**
+	 * 省级
+	 */
+	public static final String LBL_LEVEL1 = "LBL_LEVEL1";
+	/**
+	 * 市级
+	 */
+	public static final String LBL_LEVEL2 = "LBL_LEVEL2";
+	/**
+	 * 县级
+	 */
+	public static final String LBL_LEVEL3 = "LBL_LEVEL3";
 }

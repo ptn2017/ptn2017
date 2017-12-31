@@ -79,5 +79,10 @@
   <select id="selectByTime" parameterType="java.lang.String" resultType="java.lang.Integer">
   select id from operation_log where startTime &lt; #{0}
   </select>
-  	
+  	 <select id="selectByIdList" parameterType="java.util.List" >
+    select * from operation_log where id in 
+     <foreach item="item" index="index" collection="idList" open="(" separator= ", " close=" )">
+        #{item}
+       </foreach>  
+  </select>
 </mapper>

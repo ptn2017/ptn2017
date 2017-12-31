@@ -88,7 +88,6 @@ public class PerformanceStoragePanel extends PtnDialog{
 			time.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
 					if(time.isSelected()){
 						timeField.setEditable(true);
 					}else{

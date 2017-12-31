@@ -362,7 +362,6 @@ public class CurrentAlarmPanel extends JPanel {
 
 	/**
 	 * 已确认的清除告警放到历史告警中，未确认的清除告警还是放在当前告警里面
-	 * 
 	 * @throws Exception
 	 */
 	public void clearAlarm() throws Exception {

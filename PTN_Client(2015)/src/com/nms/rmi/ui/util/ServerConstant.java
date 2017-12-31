@@ -50,8 +50,12 @@ public class ServerConstant {
 	public static final String AUTODATABACKLOGING_FILE = System.getProperty("user.dir")+File.separator+"databaseBackloginLog";//登录日志转储的目录地址
 	public static final String AUTODATABACKOPERATION_LOGTIMEFILE = System.getProperty("user.dir")+File.separator+"databaseBackTimeoperationLog";//操作日志转储的目录地址	
 	public static final String AUTODATABACKOPERATION_LOGVOLUMNEFILE = System.getProperty("user.dir")+File.separator+"databaseBackVolumneoperationLog";//操作日志转储的目录地址	
-	public static final String AUTODATABACKLOGIN_LOGTIMEFILE = System.getProperty("user.dir")+File.separator+"databaseBackTimeloginLog";//操作日志转储的目录地址	
-	public static final String AUTODATABACKLOGIN_LOGVOLUMNEFILE = System.getProperty("user.dir")+File.separator+"databaseBackVolumneloginLog";//操作日志转储的目录地址		
+	public static final String AUTODATABACKSYSTEM_LOGTIMEFILE = System.getProperty("user.dir")+File.separator+"databaseBackTimeSystemLog";//系统日志转储的目录地址	
+	public static final String AUTODATABACKSYSTEM_LOGVOLUMNEFILE = System.getProperty("user.dir")+File.separator+"databaseBackVolumneSystemLog";//系统日志转储的目录地址		
+	public static final String AUTODATABACKLOGIN_LOGTIMEFILE = System.getProperty("user.dir")+File.separator+"databaseBackTimeloginLog";//登录日志转储的目录地址	
+	public static final String AUTODATABACKLOGIN_LOGVOLUMNEFILE = System.getProperty("user.dir")+File.separator+"databaseBackVolumneloginLog";//登录日志转储的目录地址	
+	public static final String AUTODATABACKEVENT_LOGTIMEFILE = System.getProperty("user.dir")+File.separator+"databaseBackTimeEventLog";//网元事件日志转储的目录地址	
+	public static final String AUTODATABACKEVENT_LOGVOLUMNEFILE = System.getProperty("user.dir")+File.separator+"databaseBackVolumneEventLog";//网元事件日志转储的目录地址	
 	public static final String AUTODATAEXPORT_ALARM = System.getProperty("user.dir")+File.separator+"exportAlarm";
 	public static final String AUTODATAEXPORT_PM = System.getProperty("user.dir")+File.separator+"exportPM";
 	public static final String AUTODATAEXPORT_OPERATION = System.getProperty("user.dir")+File.separator+"exportOperation";

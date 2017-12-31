@@ -40,6 +40,7 @@ public class PerformanceRamService_MB extends ObjectService_Mybatis{
 			}else{
 				mapper.insert(performanceRAMInfo);
 			}
+			this.sqlSession.commit();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}finally{

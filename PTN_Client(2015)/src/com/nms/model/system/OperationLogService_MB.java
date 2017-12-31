@@ -181,4 +181,14 @@ public class OperationLogService_MB extends ObjectService_Mybatis{
 		}
 		return result;
 	}
+	
+	public List<OperationLog> selectByIdList(List<Integer> idList){
+		List<OperationLog> operationLogList = null;		
+		try {	
+			operationLogList = this.mapper.selectByIdList(idList);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
+		return operationLogList;
+	}
 }

@@ -54,4 +54,6 @@ public interface OperationLogMapper {
 	 * @return
 	 */
 	public List<Integer> selectByTime(String removeTime);
+
+	public List<OperationLog> selectByIdList(@Param("idList")List<Integer> idList);
 }

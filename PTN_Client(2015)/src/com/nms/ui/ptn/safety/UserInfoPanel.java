@@ -20,15 +20,12 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import com.nms.db.bean.system.user.UserInst;
-import com.nms.db.enums.EOperationLogType;
-import com.nms.service.impl.util.ResultString;
 import com.nms.ui.frame.ContentView;
-import com.nms.ui.manager.AddOperateLog;
-import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.MyActionListener;
 import com.nms.ui.manager.ResourceUtil;
+import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysTab;
@@ -137,7 +134,7 @@ public class UserInfoPanel extends ContentView<UserInst> {
 					return;
 				} else {
 					try {
-						if(!ConstantUtil.user.getUser_Name().equals("admin")){
+						if(UiUtil.isNotAdmin()){
 							DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_POWER));												
 						}else{
 						int result = DialogBoxUtil.confirmDialog(contentPanel, ResourceUtil.srcStr(StringKeysTip.TIP_IS_CLEAR));
@@ -170,7 +167,7 @@ public class UserInfoPanel extends ContentView<UserInst> {
 					return;
 				} else {
 					try {
-						if(!ConstantUtil.user.getUser_Name().equals("admin")){
+						if(UiUtil.isNotAdmin()){
 							DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_USER_POWER));
 						}else{
 							// 确实锁定吗

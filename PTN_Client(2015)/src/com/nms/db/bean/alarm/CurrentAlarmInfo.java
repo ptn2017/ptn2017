@@ -181,10 +181,26 @@ public class CurrentAlarmInfo extends AlarmInfo {
 			this.putClientProperty("warningTypes",alarmTools.getAlarmType(getWarningLevel().getWarningtype()));
 			this.putClientProperty("warningNotes", this.getWarningLevel().getWarningname());
 		}
+		this.putClientProperty("alarmState", this.getAlarmState());
 	}
 	
+	private String getAlarmState() {
+		if(this.getConfirmtime() == null && this.getCleanTime() == null){
+			// 未确认当前告警
+			return ResourceUtil.srcStr(StringKeysObj.OBJ_UNACK_CURRALARM);
+		}else if(this.getConfirmtime() != null && this.getCleanTime() == null){
+			// 已确认未清除当前告警
+			return ResourceUtil.srcStr(StringKeysObj.OBJ_ACK_CURRALARM);
+		}else if(this.getConfirmtime() == null && this.getCleanTime() != null){
+			// 已清除未确认当前告警
+			return ResourceUtil.srcStr(StringKeysObj.OBJ_UNACK_HISALARM);
+		}
+		return "";
+	}
+
 	public AlarmSeverity getAlarmSeverity(int value) {
 		AlarmSeverity.WARNING.setDisplayName(ResourceUtil.srcStr(StringKeysObj.ALARMSEVERITY_WARNING));
+		AlarmSeverity.CLEARED.setDisplayName(ResourceUtil.srcStr(StringKeysObj.OBJ_LOCK_ALARM));
 		AlarmSeverity type = null;
 		switch (value) {
 		case 0:

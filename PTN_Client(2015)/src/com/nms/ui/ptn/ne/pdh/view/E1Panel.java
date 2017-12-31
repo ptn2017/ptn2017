@@ -172,13 +172,20 @@ public class E1Panel extends PtnPanel {
 		legTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		legTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-		}, new String[] { "  ", ResourceUtil.srcStr(StringKeysObj.ORDER_NUM), ResourceUtil.srcStr(StringKeysObj.LINE_NAME), ResourceUtil.srcStr(StringKeysObj.SPUR_TRACK_SHIELD), ResourceUtil.srcStr(StringKeysObj.SPUR_TRACK_ENABLE), ResourceUtil.srcStr(StringKeysObj.CACHE_TIME_ENABLE), ResourceUtil.srcStr(StringKeysObj.CACHE_TIME), ResourceUtil.srcStr(StringKeysObj.PACKAGING_NUM), ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_REVERSAL) }) {
+		}, new String[] { "  ", ResourceUtil.srcStr(StringKeysObj.ORDER_NUM), ResourceUtil.srcStr(StringKeysObj.LINE_NAME), 
+				ResourceUtil.srcStr(StringKeysObj.SPUR_TRACK_SHIELD), ResourceUtil.srcStr(StringKeysObj.SPUR_TRACK_ENABLE), 
+				ResourceUtil.srcStr(StringKeysObj.CACHE_TIME_ENABLE), ResourceUtil.srcStr(StringKeysObj.CACHE_TIME), 
+				ResourceUtil.srcStr(StringKeysObj.PACKAGING_NUM), ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_REVERSAL),
+				ResourceUtil.srcStr(StringKeysObj.OBJ_MODULE_PORT)}) {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = -1583249404349686087L;
 			@SuppressWarnings("rawtypes")
-			Class[] types = new Class[] { java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class ,java.lang.String.class};
+			Class[] types = new Class[] { java.lang.Object.class, java.lang.Object.class, 
+										  java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class, 
+										  java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, 
+										  java.lang.Object.class, java.lang.Object.class};
 
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
@@ -188,7 +195,7 @@ public class E1Panel extends PtnPanel {
 
 			@Override
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				if(columnIndex == 1 || columnIndex == 2){
+				if(columnIndex == 1 || columnIndex == 2 || columnIndex == 9){
 					return false;
 				}
 				return true;
@@ -518,7 +525,8 @@ public class E1Panel extends PtnPanel {
 						e1InfoList.get(i).getPrestoreTimeEnable() == 0 ? Boolean.FALSE : Boolean.TRUE, 
 						setPrestoreTime(e1InfoList.get(i)),
 						e1InfoList.get(i).getPinCount(),
-						e1InfoList.get(i).getIsAlarmRevesal() == 1?ResourceUtil.srcStr(StringKeysObj.ALLCONFIG_FID_ENABLED_NO):ResourceUtil.srcStr(StringKeysObj.ALLCONFIG_FID_ENABLED)
+						e1InfoList.get(i).getIsAlarmRevesal() == 1?ResourceUtil.srcStr(StringKeysObj.ALLCONFIG_FID_ENABLED_NO):ResourceUtil.srcStr(StringKeysObj.ALLCONFIG_FID_ENABLED),
+								ResourceUtil.srcStr(StringKeysObj.OBJ_ELECTRICAL_PORT)
 				};
 				defaultTableModel.addRow(obj);    
 				if(integers.contains(e1InfoList.get(i).getPortId())){
@@ -551,7 +559,7 @@ public class E1Panel extends PtnPanel {
 		defaultTableModel.fireTableDataChanged();
 		Object[] obj = null;
 		for (int i = 1; i <= E1LEGCONSTANT; i++) {
-			obj = new Object[] { null, i, ResourceUtil.srcStr(StringKeysObj.LINE) + i, new Boolean(false), new Boolean(false), new Boolean(false), 0, 4, 0,ResourceUtil.srcStr(StringKeysObj.ALLCONFIG_FID_ENABLED_NO)};
+			obj = new Object[] { null, i, ResourceUtil.srcStr(StringKeysObj.LINE) + i, new Boolean(false), new Boolean(false), new Boolean(false), 0, 4, 0,ResourceUtil.srcStr(StringKeysObj.ALLCONFIG_FID_ENABLED_NO),ResourceUtil.srcStr(StringKeysObj.OBJ_ELECTRICAL_PORT)};
 			defaultTableModel.addRow(obj);
 		}
 		legTable.setModel(defaultTableModel);
@@ -645,7 +653,6 @@ public class E1Panel extends PtnPanel {
 
 			@Override
 			public boolean checking() {
-				// TODO Auto-generated method stub
 				return true;
 			}
 		});

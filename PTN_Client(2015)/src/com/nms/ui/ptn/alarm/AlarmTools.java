@@ -115,6 +115,8 @@ public class AlarmTools {
 				createColumn("clearedTime", ResourceUtil.srcStr(StringKeysObj.CLEAR_TIME), 120, true),
 				//备注
 				createColumn("remarks", ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_REMARK), 120, true),
+				// 告警状态
+				createColumn("alarmState", ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_STATE), 80, true),
 			};
 	}
 

@@ -98,7 +98,7 @@
     update performanceraminfo
     set timeSelect = #{timeSelect,jdbcType=VARCHAR},
       timeValue = #{timeValue,jdbcType=VARCHAR},
-      ramPerformanceSelect = #{ramperformanceSelect,jdbcType=VARCHAR},
+      ramPerformanceSelect = #{ramPerformanceSelect,jdbcType=VARCHAR},
       ramValue = #{ramValue,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

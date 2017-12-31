@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
+
 import twaver.Dummy;
 import twaver.Element;
 import twaver.Group;
@@ -48,8 +50,10 @@ import twaver.network.NetworkToolBarFactory;
 import twaver.network.TNetwork;
 import twaver.network.background.Background;
 import twaver.network.background.ColorBackground;
+import twaver.network.background.ImageBackground;
 import twaver.tree.ElementNode;
 import twaver.tree.TTree;
+
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.path.Segment;
 import com.nms.db.bean.ptn.path.ces.CesInfo;
@@ -75,7 +79,6 @@ import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
 import com.nms.model.ptn.path.protect.WrappingProtectService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.ptn.path.tunnel.TunnelService_MB;
-
 import com.nms.model.system.FieldService_MB;
 import com.nms.model.util.Services;
 import com.nms.ui.Ptnf;
@@ -177,7 +180,7 @@ public class NetworkElementPanel extends PtnPanel {
 		tree.setEnsureVisibleOnSelected(true);
 		network.setEnsureVisibleOnSelected(true);
 		box.setBackground(background);
-
+		
 		// 设置布局，并且把主控件加载进去
 		this.setLayout(new BorderLayout());
 		this.add(mainUI, BorderLayout.CENTER);
@@ -330,6 +333,10 @@ public class NetworkElementPanel extends PtnPanel {
 		// 双击的如果为域。记录域主键
 		if (element instanceof SubNetwork) {
 			NetWork netWork = (NetWork) element.getUserObject();
+			if(netWork.getBackgroundPath() != null){
+				SubNetwork sbNetwork= (SubNetwork) element;
+				sbNetwork.setBackground(new ImageBackground(netWork.getBackgroundPath()));
+			}
 			ConstantUtil.fieldId = netWork.getNetWorkId();
 		} else if (element instanceof Group) {
 
@@ -349,7 +356,7 @@ public class NetworkElementPanel extends PtnPanel {
 	
 	/**
 	 * 
-	 * 主拓扑双击事件
+	 * 主拓扑单击事件
 	 */
 	private void netWorkSingClick()
 	{
@@ -409,6 +416,8 @@ public class NetworkElementPanel extends PtnPanel {
 			// 添加拓扑类型按钮下拉菜单
 			toolBar.add(this.getTopoType());
 			network.setToolbar(toolBar);
+			RoleRoot roleRoot = new RoleRoot();
+			roleRoot.setItemEnbale(toolBar, RootFactory.TOPOLOGY_MANAGE);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -526,6 +535,9 @@ public class NetworkElementPanel extends PtnPanel {
 					NetWork field_select = (NetWork) subNetwork_select.getUserObject();
 					if (netWork.getNetWorkId() == field_select.getNetWorkId()) {
 						this.network.setCurrentSubNetwork(subNetwork_select);
+						if(field_select.getBackgroundPath() != null){
+							subNetwork_select.setBackground(new ImageBackground(field_select.getBackgroundPath()));
+						}
 						break;
 					}
 				}
@@ -1366,8 +1378,10 @@ public class NetworkElementPanel extends PtnPanel {
 				menu.add(TopoMenu.createMenu(StringKeysMenu.MENU_AUTOLAYOUT));
 				//查询所有域网元的信息
 				menu.add(TopoMenu.createMenu(StringKeysMenu.MENU_FIELDALLINFO));//StringKeysMenu.MENU_FIELDALLINFO
-				
-				
+				// 设置拓扑背景
+				menu.add(TopoMenu.createMenu(StringKeysMenu.MENU_TOPO_BACKGROUD));
+				// 还原拓扑背景
+				menu.add(TopoMenu.createMenu(StringKeysMenu.MENU_RESET_TOPO_BACKGROUD));
 			}
 		} else {
 			final Element element = tview.getDataBox().getLastSelectedElement();
@@ -1438,9 +1452,18 @@ public class NetworkElementPanel extends PtnPanel {
 					}
 				}else if (element instanceof Link) {
 					Object userObj = element.getUserObject();
-					if (null != userObj && (userObj instanceof Segment)) {
-						//查询光功率
-						menu.add(TopoMenu.createMenu(StringKeysTitle.TIT_QUERY_SFPPOW));
+					if (null != userObj){ 
+						if((userObj instanceof Segment)) {
+							//查询光功率
+							menu.add(TopoMenu.createMenu(StringKeysTitle.TIT_QUERY_SFPPOW));
+						}else if(userObj instanceof Tunnel){
+							// 查询隧道承载的伪线
+							menu.add(TopoMenu.createMenu(StringKeysTitle.TIT_PW_ON_TUNNEL));
+						}else if(userObj instanceof PwInfo){
+							// 查询伪线承载的业务
+							menu.add(TopoMenu.createMenu(StringKeysTitle.TIT_SERVICE_ON_PW));
+						}
+						
 					}
 				}
 			}

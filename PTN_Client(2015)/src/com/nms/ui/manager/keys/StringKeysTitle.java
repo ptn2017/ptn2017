@@ -382,4 +382,12 @@ public class StringKeysTitle {
 	 * ARP状态查询
 	 */
 	public static final String TIT_SELECT_ARP = "TIT_SELECT_ARP";
+	/**
+	 * 查询隧道承载的伪线
+	 */
+	public static final String TIT_PW_ON_TUNNEL = "TIT_PW_ON_TUNNEL";
+	/**
+	 * 查询伪线承载的业务
+	 */
+	public static final String TIT_SERVICE_ON_PW = "TIT_SERVICE_ON_PW";
 }

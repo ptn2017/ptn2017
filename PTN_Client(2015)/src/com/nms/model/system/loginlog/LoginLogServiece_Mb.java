@@ -6,9 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
+
 import com.nms.db.bean.system.loginlog.LoginLog;
+import com.nms.db.bean.system.user.UserInst;
 import com.nms.db.dao.system.loginlog.LoginLogMapper;
+import com.nms.db.dao.system.user.UserInstMapper;
 import com.nms.model.util.ObjectService_Mybatis;
 import com.nms.model.util.ServiceFactory;
 import com.nms.model.util.Services;
@@ -366,5 +370,27 @@ public class LoginLogServiece_Mb extends ObjectService_Mybatis{
 			} finally {
 				System.exit(0);
 			}
+		}
+
+		public List<LoginLog> selectByIdList(List<Integer> idList){
+			List<LoginLog> operationLogList = null;	
+			UserInstMapper userMapper = (UserInstMapper)this.sqlSession.getMapper(UserInstMapper.class);
+			try {	
+				operationLogList = this.loginLogMapper.selectByIdList(idList);
+				List<UserInst> userList = userMapper.selectUserList(new UserInst());
+				if(operationLogList != null){
+					for(LoginLog log : operationLogList){
+						for(UserInst user : userList){
+							if(log.getUser_id() == user.getUser_Id()){
+								log.setUser_name(user.getUser_Name());
+								break;
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				ExceptionManage.dispose(e,this.getClass());
+			}
+			return operationLogList;
 		}
 }

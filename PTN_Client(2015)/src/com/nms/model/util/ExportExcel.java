@@ -3,6 +3,7 @@ package com.nms.model.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +12,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import com.nms.ui.manager.DialogBoxUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
@@ -172,6 +176,105 @@ public class ExportExcel {
 		return result;
 	}
 	
+	public String exportExcel(String filePath, List<String[]> list,String name)throws Exception{
+		File file=null;
+		FileOutputStream fileOut=null;
+		String result="fail";
+		Workbook workbook=null;
+		List<String> headName = null;;//表头
+		try{
+			file = new File(filePath);
+			if(file != null){
+				String filepath = file.toString();
+				if(!file.exists()){
+					filepath=file.getAbsoluteFile()+".xls";
+				}
+				fileOut=new FileOutputStream(filepath);
+				headName = ReadXml(name);
+				workbook= exportData(list, headName);
+				if(workbook!=null){
+					workbook.write(fileOut);
+					result=null;//导出成功
+				}
+			}	
+			
+		}catch(Exception e){
+		}finally{
+			 file=null;
+			 fileOut.close();
+			 fileOut = null;
+			 workbook=null;
+		}
+		return result;
+	}
+	
+	public String exportExcel(List<String[]> list, String name, String fileType)throws Exception{
+		JFileChooser fileChooser=null;
+		File file=null;
+		FileOutputStream fileOut=null;
+		String result="fail";
+		HSSFWorkbook workbook=null;
+		UiUtil uiUtil = new UiUtil();
+		int reult = 0;
+		List<String> headName = null;;//表头
+		try{
+			fileChooser=new JFileChooser();
+			FileNameExtensionFilter filter=new FileNameExtensionFilter(fileType, "Excel".equals(fileType) ? "xls":"txt");
+			fileChooser.setFileFilter(filter);
+			fileChooser.showSaveDialog(null);
+			file = fileChooser.getSelectedFile();
+			if(file!=null){
+				String filepath = file.toString();
+				if(!file.exists()){
+					filepath = file.getAbsoluteFile()+"."+("Excel".equals(fileType) ? "xls":"txt");
+				}
+				
+				//是 0: 否 1 
+				if(uiUtil.isExistAlikeFileName(filepath)){
+				  reult = DialogBoxUtil.confirmDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_FILEPATHHASEXIT));
+				  if(reult == 1){
+ 					  return "fail";
+				  }
+				}
+				fileOut = new FileOutputStream(filepath);
+//				if(fileOut.getChannel().tryLock()==null){
+//					System.out.println("文件已经被打开");
+				
+				headName = ReadXml(name);
+				
+				workbook = exportData(list, headName);
+				if(workbook != null){
+					if("Excel".equals(fileType)){
+						workbook.write(fileOut);
+					}else{
+						convertXlsToTxt(null, filepath, workbook);
+					}
+					result = null;//导出成功
+				}
+			}else{
+				//选择路径为空
+//				DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_FILEPATH));
+			}	
+			
+		}catch(Exception e){
+			DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_FILE_USERED));
+		}finally{
+			if(result!=null){
+				//导出失败
+				//DialogBoxUtil.errorDialog(null, ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT)+ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT_FALSE));
+			}else{
+				//导出成功
+				DialogBoxUtil.succeedDialog(null, ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT)+ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT_ISUCCESS));
+			}
+			 fileChooser=null;
+			 file=null;
+			 fileOut.close();
+			 fileOut = null;
+			 workbook=null;
+		}
+		return result;
+	}
+	
 	/**
 	 * 
 	 * 根据表名和数据导出
@@ -238,6 +341,48 @@ public class ExportExcel {
 		return result;
 	}
 	
+	private void convertXlsToTxt(String readinFile, String outputFile, HSSFWorkbook readWorkbook) {
+		  int i = 0;
+		  int j = 0;
+		  FileWriter fw = null;
+		  try {
+		   //源文件
+//		   HSSFWorkbook readWorkbook = new HSSFWorkbook(new FileInputStream(readinFile));
+		   HSSFSheet sourceSheet = readWorkbook.getSheetAt(0);
+		   HSSFRow sourceRow = null;
+		   HSSFCell sourceCell = null;
+		   fw = new FileWriter(outputFile);
+		   //读取行和列
+		   for (i = 0; i <= sourceSheet.getLastRowNum(); i++) {
+		    String content = "";
+		    sourceRow = sourceSheet.getRow(i);
+		    for (j = 0; j < sourceRow.getLastCellNum(); j++) {
+		     sourceCell = sourceRow.getCell(j);
+		     if (j == sourceRow.getLastCellNum()-1) {  //若是最后一列
+		    	if(sourceCell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){
+		    		content += sourceCell.toString().split("\\.")[0]+" ";
+		     	}else{
+		     		content += sourceCell.getRichStringCellValue();
+		     	}
+		     } else {
+		    	if(sourceCell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){
+		    		content += sourceCell.toString().split("\\.")[0]+" ";
+		     	}else{
+		     		content += sourceCell.getRichStringCellValue() + ",  ";
+		     	}
+		     }     
+		    }
+		    content += "\r\n";  //换行
+		    fw.write(content);  //写入文件
+		    fw.flush();
+		   }
+		   if(fw != null) {  //关闭文件流
+		    fw.close();
+		   }
+		  } catch (Exception e) {
+			  ExceptionManage.dispose(e, this.getClass());
+		  }
+		 }
 	
 	/**
 	 * 将 页面数据转为 Excel 表中
@@ -245,15 +390,15 @@ public class ExportExcel {
 	 * @return
 	 * @throws Exception
 	 */
-	private Workbook exportData(List<String[]> list,List<String> headName) throws Exception{
-		Workbook workbook=null;
-		Sheet sheet_1=null;
-		Row row_0=null;
+	private HSSFWorkbook exportData(List<String[]> list,List<String> headName) throws Exception{
+		HSSFWorkbook workbook = null;
+		HSSFSheet sheet_1 = null;
+		HSSFRow row_0 = null;
 //		List<String> headName
 		try{
-			workbook=new HSSFWorkbook();
-			sheet_1=workbook.createSheet();
-			row_0=sheet_1.createRow(0);
+			workbook = new HSSFWorkbook();
+			sheet_1 = workbook.createSheet();
+			row_0 = sheet_1.createRow(0);
 //			headName = ReadXml(name);
 			if(headName != null && headName.size()>0){
 				for(int i=0;i<headName.size();i++){
@@ -263,7 +408,7 @@ public class ExportExcel {
 				if(list != null && list.size()>0 ){		
 					//循环，有多少组数据
 					for(int i = 0; i<list.size(); i++){
-						Row row = sheet_1.createRow(i+1);
+						HSSFRow row = sheet_1.createRow(i+1);
 						row.createCell(0).setCellValue(i+1);
 						String[] beanLine = list.get(i);
 						/**
@@ -272,9 +417,11 @@ public class ExportExcel {
 						 */
 						for(int j = 0; j<beanLine.length; j++){							
 							if(beanLine[j]!=null&&!beanLine[j].equals("")&&!beanLine[j].equals("null")){
-								row.createCell(j+1).setCellValue(beanLine[j].toString());
+								HSSFRichTextString hrts = new HSSFRichTextString(beanLine[j].toString());
+								row.createCell(j+1).setCellValue(hrts);
 							}else{
-								row.createCell(j+1).setCellValue("");
+								HSSFRichTextString hrts = new HSSFRichTextString("");
+								row.createCell(j+1).setCellValue(hrts);
 							}	
 						}
 						beanLine = null;

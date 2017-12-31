@@ -3,7 +3,9 @@ package com.nms.model.system;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
+
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.WorkIps;
@@ -16,6 +18,7 @@ import com.nms.db.dao.system.user.UserFieldMapper;
 import com.nms.model.util.ObjectService_Mybatis;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.manager.UiUtil;
 
 
 public class FieldService_MB extends ObjectService_Mybatis {
@@ -59,25 +62,25 @@ public class FieldService_MB extends ObjectService_Mybatis {
 		try {
 			userFieldMapper=this.sqlSession.getMapper(UserFieldMapper.class);
 			if (field.getId() == 0) {
-				result = this.mapper.insertField(field);
+				this.mapper.insertField(field);
+				result = field.getId();
 				/**
 				 * 若此次新建域的操作用户不是系统默认账户（admin）
 				 * 	 查看 isAll属性
 				 * 		0，添加到用户，域的关联表中，1 不做处理
 				 */
-				userInst=ConstantUtil.user;
-				if(!"admin".equals(userInst.getUser_Name())){
-					//已选择  显示 所有域
-					if(0==userInst.getIsAll()){
-						//向  用户—域关联表中添加数据
-						userField=new UserField();
-						userField.setUser_id(userInst.getUser_Id());
-						userField.setField_id(result);
-						userFieldMapper.insert(userField);
-					}
-				}
-				
-					
+//				userInst=ConstantUtil.user;
+//				if(UiUtil.isNotAdmin()){
+//					//已选择  显示 所有域
+//					if(1 == userInst.getIsAll()){
+//						//向  用户—域关联表中添加数据
+//						userField=new UserField();
+//						userField.setUser_id(userInst.getUser_Id());
+//						userField.setField_id(field.getNetWorkId());
+//						userField.setSubId(result);
+//						userFieldMapper.insert(userField);
+//					}
+//				}
 			} else {
 				result = this.mapper.updateField(field);
 			}

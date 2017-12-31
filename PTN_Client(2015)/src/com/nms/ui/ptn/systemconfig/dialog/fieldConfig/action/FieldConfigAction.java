@@ -59,7 +59,7 @@ public class FieldConfigAction {
 		UserFieldService_MB userFieldService = null;
 		FieldService_MB fieldService = null;
 		List<Field> fieldList = null;
-		List<UserField> fields = null;
+		List<UserField> userFieldList = null;
 		List<Integer> ids = null;
 		List<NetWork> netWorks = null;
 		NetService_MB netService = null;
@@ -67,28 +67,58 @@ public class FieldConfigAction {
 			fieldService = (FieldService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Field);
 			userFieldService = (UserFieldService_MB) ConstantUtil.serviceFactory.newService_MB(Services.USERFIELD);
 			netService = (NetService_MB) ConstantUtil.serviceFactory.newService_MB(Services.NETWORKSERVICE);
-			fields = userFieldService.query(ConstantUtil.user.getUser_Id());//
+			userFieldList = userFieldService.query(ConstantUtil.user.getUser_Id());
 			netWorks = netService.select();
-			if (fields.size() == 0 || fields == null) {
+			if (userFieldList.size() == 0 || userFieldList == null) {
 				fieldList = fieldService.select();
 			} else {
 				ids = new ArrayList<Integer>();
-				for (int i = 0; i < fields.size(); i++) {
-					ids.add(fields.get(i).getField_id());
+				for (int i = 0; i < userFieldList.size(); i++) {
+					ids.add(userFieldList.get(i).getSubId());
 				}
 				fieldList = fieldService.selectfieldidByid(ids);
+				List<Field> fList = new ArrayList<Field>();
+				for(UserField uf : userFieldList){
+					for(Field f : fieldList){
+						if(uf.getSubId() == f.getId()){
+							fList.add(f);
+							break;
+						}
+					}
+				}
+				fieldList.clear();
+				fieldList.addAll(fList);
 			}
 			
 				for(NetWork netWork :netWorks){
-					SubNetwork subNetwork = new SubNetwork();
-					subNetwork.setName(netWork.getNetWorkName());
-					subNetwork.setLocation(netWork.getNetX(), netWork.getNetY());
-					subNetwork.setUserObject(netWork);
-					subNetwork.setColorBackground(new Color(153, 204, 255));
-					view.getLeftPane().getBox().addElement(subNetwork);
-					for(Field field :fieldList){
-						if(field.getNetWorkId() == netWork.getNetWorkId()){
-							refreshTreeBox(view.getLeftPane().getBox(), field,subNetwork);
+					if(userFieldList != null){
+						for(UserField uField : userFieldList){
+							if(netWork.getNetWorkId() == uField.getField_id()){
+								SubNetwork subNetwork = new SubNetwork();
+								subNetwork.setName(netWork.getNetWorkName());
+								subNetwork.setLocation(netWork.getNetX(), netWork.getNetY());
+								subNetwork.setUserObject(netWork);
+								subNetwork.setColorBackground(new Color(153, 204, 255));
+								view.getLeftPane().getBox().addElement(subNetwork);
+								for(Field field :fieldList){
+									if(field.getNetWorkId() == netWork.getNetWorkId()){
+										refreshTreeBox(view.getLeftPane().getBox(), field,subNetwork);
+									}
+								}
+								break;
+							}
+						}
+					}else{
+						SubNetwork subNetwork = new SubNetwork();
+						subNetwork.setName(netWork.getNetWorkName());
+						subNetwork.setLocation(netWork.getNetX(), netWork.getNetY());
+						subNetwork.setUserObject(netWork);
+						subNetwork.setColorBackground(new Color(153, 204, 255));
+						view.getLeftPane().getBox().addElement(subNetwork);
+						for(Field field :fieldList){
+							if(field.getNetWorkId() == netWork.getNetWorkId()){
+								refreshTreeBox(view.getLeftPane().getBox(), field,subNetwork);
+							}
 						}
 					}
 				}

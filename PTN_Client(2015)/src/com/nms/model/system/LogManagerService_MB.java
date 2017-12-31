@@ -1,10 +1,10 @@
 package com.nms.model.system;
 
 import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.nms.db.bean.system.LogManager;
-import com.nms.db.bean.system.UnLoading;
 import com.nms.db.dao.system.LogManagerMapper;
 import com.nms.model.util.ObjectService_Mybatis;
 import com.nms.ui.manager.ExceptionManage;
@@ -99,5 +99,24 @@ public class LogManagerService_MB extends ObjectService_Mybatis {
 		}
 		return log;
 	}
-	
+
+	public LogManager selectLoginCount(int a) {
+		LogManager log=null;		
+		try {
+			log = this.mapper.selectLoginCount(a);			
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
+		return log;
+	}
+
+	public LogManager selectSystemCount(int a) {
+		LogManager log=null;		
+		try {
+			log = this.mapper.selectSystemCount(a);			
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
+		return log;
+	}
 }
