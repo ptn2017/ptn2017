@@ -94,15 +94,19 @@ public class UnLoadDeleteDialog extends PtnDialog {
 			timeJCom.addItem(ResourceUtil.srcStr(StringKeysLbl.LBL_ONE_WEEK_TIME_AUTO_BACKDATA));//7
 			timeJCom.addItem(ResourceUtil.srcStr(StringKeysLbl.LBL_FIFTHTEEN_TIME_AUTO_BACKDATA));//15
 			timeJCom.addItem(ResourceUtil.srcStr(StringKeysLbl.LBL_THIRDY_TIME_AUTO_BACKDATA));//30
+//			timeJCom.addItem("1min"); //1
+//			timeJCom.addItem("7min");//7
+//			timeJCom.addItem("15min");//15
+//			timeJCom.addItem("30min");//30
 			if(unload.getDeleteTime()!=0){
 				if(unload.getDeleteTime()==1){
-					timeJCom.setSelectedItem(StringKeysLbl.LBL_ONETIME_AUTO_BACKDATA);
+					timeJCom.setSelectedItem("1min");
 				}else if(unload.getDeleteTime()==7){
-					timeJCom.setSelectedItem(StringKeysLbl.LBL_ONE_WEEK_TIME_AUTO_BACKDATA);
+					timeJCom.setSelectedItem("7min");
 				}else if(unload.getDeleteTime()==15){
-					timeJCom.setSelectedItem(StringKeysLbl.LBL_FIFTHTEEN_TIME_AUTO_BACKDATA);
+					timeJCom.setSelectedItem("15min");
 				}else if(unload.getDeleteTime()==30){
-					timeJCom.setSelectedItem(StringKeysLbl.LBL_THIRDY_TIME_AUTO_BACKDATA);
+					timeJCom.setSelectedItem("30min");
 				}
 			}
 			cellType = new JLabel(ResourceUtil.srcStr(StringKeysMenu.MENU_ACTIVATION));//
@@ -210,6 +214,7 @@ public class UnLoadDeleteDialog extends PtnDialog {
 		             long startTime = df.parse(unLoad.getDeleteStartTime()).getTime();       
 					 task = new AutoDatabaseTimeDeleteThread(startTime, unLoad);
 				   	 long cycleTime=unLoad.getDeleteTime()*24*60*60*1000;
+//				   	long cycleTime=unLoad.getDeleteTime()*60*1000;
 					 autoDatabaseBackThread = new AutoDatabaseBackAllThread(task, startTime, cycleTime);
 					 String threadNames = "task_Delete_Time";
 					 Thread threads = new Thread(autoDatabaseBackThread,threadNames);				

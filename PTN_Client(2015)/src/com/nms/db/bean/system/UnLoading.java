@@ -179,7 +179,7 @@ public class UnLoading extends ViewDataObj {
 			}else if(this.getUnloadType()==2){
 				getClientProperties().put("unloadType",UnLoadFactory.trans(2));
 			}else if(this.getUnloadType()==4){
-				getClientProperties().put("unloadType",UnLoadFactory.trans(4));
+				getClientProperties().put("unloadType",UnLoadFactory.trans(5));
 			}else if(this.getUnloadType()==3){
 				getClientProperties().put("unloadType",UnLoadFactory.trans(3));
 			}

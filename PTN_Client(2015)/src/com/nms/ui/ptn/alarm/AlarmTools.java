@@ -119,6 +119,42 @@ public class AlarmTools {
 				createColumn("alarmState", ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_STATE), 80, true),
 			};
 	}
+	
+	public TTableColumn[] createColumns() {
+		TTableColumn objColumn = createColumn("obj", ResourceUtil.srcStr(StringKeysObj.ORDER_NUM), 0, false);
+		TTableColumn indexColumn = createColumn("index", ResourceUtil.srcStr(StringKeysObj.ORDER_NUM), 40, true);
+		indexColumn.setRenderer(new RowIDRenderer());
+
+		return new TTableColumn[] { objColumn, indexColumn,
+		        // 告警级别
+				createColumn("alarmSeverity", ResourceUtil.srcStr(StringKeysObj.ALARM_LEVEL), 100, true),
+				// 网元编号
+				createColumn("siteName", ResourceUtil.srcStr(StringKeysObj.STRING_SITE_NAME), 80, true), 
+				createColumn("alarmSource", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_SOURCE), 80, true), 
+				// 告警名称
+				createColumn("warningNotes", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_DETAIL), 120, true),
+				// 告警描述
+				createColumn("alarmDesc", ResourceUtil.srcStr(StringKeysTab.TAB_ALARM), 120, true), 
+				// 告警类型
+				createColumn("warningTypes", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_TYPE), 80, true),
+				// 告警定位
+				createColumn("alarmAnalyze", "告警定位", 80, true),
+				// createColumn(Alarm.PROPERTY_ALARMTYPE, 60, true),
+				createColumn("ackUser", ResourceUtil.srcStr(StringKeysObj.STRING_CONFIRM_USER), 80, true),
+				// 发生时间
+				createColumn("raisedTime", ResourceUtil.srcStr(StringKeysObj.HAPPENED_TIME), 120, true),
+				// 确认时间
+				createColumn("ackTime", ResourceUtil.srcStr(StringKeysObj.CONFIRM_TIME), 120, true),
+				//是否清除
+				createColumn("isCleared", ResourceUtil.srcStr(StringKeysObj.IS_CLEARED), 120, true),
+				// 清除时间
+				createColumn("clearedTime", ResourceUtil.srcStr(StringKeysObj.CLEAR_TIME), 120, true),
+				//备注
+				createColumn("remarks", ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_REMARK), 120, true),
+				// 告警状态
+				createColumn("alarmState", ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_STATE), 80, true),
+			};
+	}
 
 	private TTableColumn createColumn(String name, String display, int width, boolean visible) {
 		return new TTableColumn(name, display, width).setVisible(visible);

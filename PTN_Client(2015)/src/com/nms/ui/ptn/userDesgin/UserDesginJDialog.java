@@ -45,6 +45,8 @@ public class UserDesginJDialog extends PtnDialog {
 	private GridBagLayout gridBagLayout = null;
     private JLabel  lblMessage;
     private UserDesginInfo userDesginfo = null;
+//    private JCheckBox closeJcheckBox;// 时间单选按钮
+//	private JTextField closeTField;// 时间填写框
     
 	public UserDesginJDialog() {
 		init();
@@ -68,6 +70,9 @@ public class UserDesginJDialog extends PtnDialog {
 			buttonJPanel.add(cancel);
 			time = new  JTextField();
 			time.setEditable(false);
+//			this.closeJcheckBox = new JCheckBox("网管自动注销时间(min)");
+//			closeTField = new JTextField();
+//			closeTField.setEditable(false);
 			setCompentLayout();
 			userDesginfo = new UserDesginInfo();
 			this.add(lblMessage);
@@ -75,6 +80,8 @@ public class UserDesginJDialog extends PtnDialog {
 			this.add(time);
 			this.add(confirm);
 			this.add(cancel);
+//			this.add(closeJcheckBox);
+//			this.add(closeTField);
 			addKeyListenerForTextfield();
 			addFocusListenerForTextfield();/*textfield聚焦事件监听，当离开此textfield判断值是否在指定范围内*/
 			//this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -117,6 +124,18 @@ public class UserDesginJDialog extends PtnDialog {
 				}
 			});
 
+//			closeJcheckBox.addActionListener(new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					if (closeJcheckBox.isSelected()) {
+//						closeTField.setEditable(true);
+//					}else{
+////						time.setText("1");
+//						closeTField.setEditable(false);
+//					}
+//				}
+//			});
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -134,10 +153,13 @@ public class UserDesginJDialog extends PtnDialog {
 	private void addKeyListenerForTextfield()throws Exception{
 		
 		TextFiledKeyListener textFIledKeyListener=null;
+		TextFiledKeyListener textFIledKeyListener1=null;
 		try{
 			/* 为1：只接受数字 **/
 			textFIledKeyListener = new TextFiledKeyListener(1);
 			this.time.addKeyListener(textFIledKeyListener);
+			textFIledKeyListener1 = new TextFiledKeyListener(1);
+//			this.closeTField.addKeyListener(textFIledKeyListener1);
 		}catch(Exception e){
 			throw e;
 		}
@@ -151,11 +173,14 @@ public class UserDesginJDialog extends PtnDialog {
 	private void addFocusListenerForTextfield()throws Exception{
 		
 		TextfieldFocusListener textfieldFocusListener=null;
+		TextfieldFocusListener textfieldFocusListener1=null;
 		String whichTextTield=null;
 		try{
 			whichTextTield=ResourceUtil.srcStr(StringKeysLbl.LBL_LOCKSCRESS);
 			textfieldFocusListener = new TextfieldFocusListener(whichTextTield,20,this.time);
 			this.time.addFocusListener(textfieldFocusListener);
+//			textfieldFocusListener1 = new TextfieldFocusListener(whichTextTield,20,this.closeTField);
+//			this.closeTField.addFocusListener(textfieldFocusListener1);
 			
 		}catch(Exception e){
 			
@@ -174,6 +199,12 @@ public class UserDesginJDialog extends PtnDialog {
 				userDesginfo.setIsSelect(0);
 			}
 			userDesginfo.setMinute(time.getText().trim());
+//			if(closeJcheckBox.isSelected()){
+//				userDesginfo.setCloseSelect(1);
+//			}else{
+//				userDesginfo.setCloseSelect(0);
+//			}
+//			userDesginfo.setCloseTime(closeTField.getText().trim());
 			userDesginfo.setUserName(ConstantUtil.user.getUser_Name());
 			serevices.save(userDesginfo);
 			this.insertOpeLog(EOperationLogType.SELFMANAGE.getValue(), ResultString.CONFIG_SUCCESS, null, null);	
@@ -201,7 +232,11 @@ public class UserDesginJDialog extends PtnDialog {
 				time.setEditable(true);
 			}
 			time.setText(userDesginfo.getMinute());
-			
+//			if(userDesginfo.getCloseSelect() == 1){
+//				closeJcheckBox.setSelected(true);
+//				closeTField.setEditable(true);
+//			}
+//			closeTField.setText(userDesginfo.getCloseTime());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		} finally {
@@ -213,34 +248,45 @@ public class UserDesginJDialog extends PtnDialog {
 		try {
 			gridBagLayout.columnWidths = new int[] {70,10};
 			gridBagLayout.columnWeights = new double[] { 0, 0, 0 };
-			gridBagLayout.rowHeights = new int[] {20,30,20};
-			gridBagLayout.rowWeights = new double[] { 0, 0 };
+			gridBagLayout.rowHeights = new int[] {20,20,20,30};
+			gridBagLayout.rowWeights = new double[] { 0, 0, 0, 0 };
 			gridBagConstraints.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints.fill = GridBagConstraints.BOTH;
 			gridBagConstraints.insets = new Insets(5, 5, 5, 20);
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.gridy = 0;
 			gridBagLayout.setConstraints(lblMessage, gridBagConstraints);
+			
+//			gridBagConstraints.fill = GridBagConstraints.NONE;
+//			gridBagConstraints.insets = new Insets(5, 5, 5, 5);
+//			gridBagConstraints.gridx = 0;
+//			gridBagConstraints.gridy = 1;
+//			gridBagLayout.setConstraints(closeJcheckBox, gridBagConstraints);
+//			
+//			gridBagConstraints.insets = new Insets(5, 5, 5, 5);
+//			gridBagConstraints.gridx = 1;
+//			gridBagConstraints.gridy = 1;
+//			gridBagLayout.setConstraints(closeTField, gridBagConstraints);
 
 			gridBagConstraints.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints.gridx = 0;
-			gridBagConstraints.gridy = 1;
+			gridBagConstraints.gridy = 2;
 			gridBagLayout.setConstraints(timeJcheckBox, gridBagConstraints);
 			
 			gridBagConstraints.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints.gridx = 1;
-			gridBagConstraints.gridy = 1;
+			gridBagConstraints.gridy = 2;
 			gridBagLayout.setConstraints(time, gridBagConstraints);
 			
 			gridBagConstraints.fill = GridBagConstraints.NONE;
 			gridBagConstraints.insets = new Insets(20, 5, 5, 5);
 			gridBagConstraints.gridx = 0;
-			gridBagConstraints.gridy = 2;
+			gridBagConstraints.gridy = 3;
 			gridBagLayout.setConstraints(confirm, gridBagConstraints);
 
 			gridBagConstraints.insets = new Insets(20, 5, 5, 5);
 			gridBagConstraints.gridx = 1;
-			gridBagConstraints.gridy = 2;
+			gridBagConstraints.gridy = 3;
 			gridBagLayout.setConstraints(cancel, gridBagConstraints);
 			this.setLayout(gridBagLayout);
 		} catch (Exception e) {

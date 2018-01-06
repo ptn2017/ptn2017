@@ -433,11 +433,22 @@ public class PwInfo extends ViewDataObj {
 				this.putClientProperty("asiteName", getShowaSiteName());
 			}
 			this.putClientProperty("direction", ResourceUtil.srcStr(StringKeysTab.TAB_TWOWAY));
-			this.putClientProperty("proType", this.getDirection());
+			this.putClientProperty("proType", this.getProType());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}
-
+	}
+	
+	private String getProType(){
+		if(this.direction != null && !"".equals(this.direction)){
+			if(this.direction.contains("@")){
+				return this.direction.split("@")[0];
+			}else{
+				return this.direction;
+			}
+		}else{
+			return "";
+		}
 	}
 
 	public int getBefore_activity() {

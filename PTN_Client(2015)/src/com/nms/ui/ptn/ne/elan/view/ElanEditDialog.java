@@ -421,11 +421,15 @@ public class ElanEditDialog extends PtnDialog {
 				}
 				for(int i = 0; i < num; i++){
 					elanInfoList = new ArrayList<ElanInfo>();
+					String batchName = this.txtname.getText().trim();
+					if(i > 0){
+						batchName += "copy_"+i;
+					}
 					for(int j = 0; j < 2; j++){
 						pwinfo = (PwInfo) ((ControlKeyValue) defaultListModel.getElementAt(2*i+j)).getObject();
 						elanInfoAction = new ElanInfo();
 						//匹配pw和 原elan数据
-						elanInfoAction.setName(this.txtname.getText().trim());
+						elanInfoAction.setName(batchName);
 						elanInfoAction.setServiceType(EServiceType.ELAN.getValue());
 						elanInfoAction.setActiveStatus(this.chkactivate.isSelected() ? EActiveStatus.ACTIVITY.getValue() : EActiveStatus.UNACTIVITY.getValue());
 						elanInfoAction.setIsSingle(1);

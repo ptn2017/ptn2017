@@ -308,7 +308,10 @@ public class SearchSegmentDialog extends PtnDialog {
 				elanBusinessPanel = (ElanBusinessPanel) this.jPanel;
 				elanBusinessPanel.getController().refresh();
 			} else if (this.jPanel instanceof CesBusinessPanel) {
-				// System.out.println("search ces.......");
+				DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_CES);
+				for(SiteInst site : siteInstList){
+					dispatch.synchro(site.getSite_Inst_Id());
+				}
 				SearchUiUtil searchUiutil = new SearchUiUtil();
 				searchUiutil.searchCES(siteInstList);
 				/**

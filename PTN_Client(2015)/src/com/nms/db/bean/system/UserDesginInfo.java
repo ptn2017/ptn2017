@@ -5,6 +5,25 @@ public class UserDesginInfo {
 	private int isSelect;// 用户自定义是否勾选 1：勾选，0：未勾选
 	private String minute;// 自定义锁屏的时间
 	private String userName;//用户名
+	private int closeSelect;// 是否自动注销1：勾选，0：未勾选
+	private String closeTime;// 自动注销时间
+	
+
+	public int getCloseSelect() {
+		return closeSelect;
+	}
+
+	public void setCloseSelect(int closeSelect) {
+		this.closeSelect = closeSelect;
+	}
+
+	public String getCloseTime() {
+		return closeTime;
+	}
+
+	public void setCloseTime(String closeTime) {
+		this.closeTime = closeTime;
+	}
 
 	public int getIsSelect() {
 		return isSelect;

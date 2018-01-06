@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +17,9 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -27,7 +30,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import twaver.PopupMenuGenerator;
 import twaver.TDataBox;
+import twaver.TView;
 import twaver.table.TAlarmTable;
 import twaver.table.TTablePopupMenuFactory;
 
@@ -194,7 +199,27 @@ public class CurrentAlarmPanel extends JPanel {
 				alarmAnalyseShow();
 			}
 		});
-
+		
+		JPopupMenu analyzeMenu = new JPopupMenu();
+		JMenuItem analyzeItem = new JMenuItem("告警解析");
+		analyzeItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (alarmTable.getAllSelectedAlarms().size() == 1) {
+					try {
+						CurrentAlarmInfo currentAlarmInfo = (CurrentAlarmInfo) alarmTable.getAllSelectedAlarms().get(0);
+						UiUtil.showWindow(new AnalyzeAlamTable(currentAlarmInfo), 950, 520);
+					} catch(Exception e1){
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		analyzeMenu.add(analyzeItem);
+		alarmTable.setInheritsPopupMenu(true);
+		alarmTable.setComponentPopupMenu(analyzeMenu);
+		
 		btnAffirm.addActionListener(new ActionListener() {
 
 			@Override

@@ -705,6 +705,9 @@ public class ElanBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("ELAN", elanEMSMap, elanNEMap, this);
+				if(elan != null){
+					AddElanDialog addpwdialog = new AddElanDialog(this.view, true, 0, elan); 
+				}
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}
@@ -714,6 +717,12 @@ public class ElanBusinessController extends AbstractController {
 			UiUtil.closeService_MB(siteService);
 			UiUtil.closeService_MB(elanService);
 		}
+	}
+	
+	private ElanInfo elan;
+
+	public void setElan(ElanInfo elan) {
+		this.elan = elan;
 	}
 
 	private List<ElanInfo> getEmsList(Map<Integer, List<ElanInfo>> emsMap, int siteId) {

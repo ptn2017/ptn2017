@@ -312,7 +312,7 @@ public class SystemConfigView extends JPanel {
 			statusText = new JTextField();
 
 //			syncButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),true,RootFactory.CORE_MANAGE);
-			OKButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),true,RootFactory.CORE_MANAGE);
+			OKButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),true,RootFactory.SATYMODU);
 			buttonPanel = new JPanel();
 //			buttonPanel1 = new JPanel();
 		} catch (Exception e) {

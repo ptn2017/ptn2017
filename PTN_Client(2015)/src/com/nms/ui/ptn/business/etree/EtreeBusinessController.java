@@ -696,6 +696,17 @@ public class EtreeBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("ETREE", etreeEMSMap, etreeNEMap, this);
+				if(etree != null){
+					List<EtreeInfo> etreeInfoList = null;
+					try {
+						// 根据选中的一条etree数据的组ID 在map中找到此etree包含的所有数据。
+						etreeInfoList = new ArrayList<EtreeInfo>();
+						etreeInfoList.addAll(this.etreeMap.get(etree.getServiceId()));
+					} catch (Exception e) {
+						throw e;
+					}
+					AddEtreeDialog addEtreeBusiness = new AddEtreeDialog(this.view, true, etreeInfoList);
+				}
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}
@@ -705,6 +716,12 @@ public class EtreeBusinessController extends AbstractController {
 			UiUtil.closeService_MB(siteService);
 			UiUtil.closeService_MB(etreeService);
 		}
+	}
+	
+	private EtreeInfo etree;
+
+	public void setEtree(EtreeInfo etree) {
+		this.etree = etree;
 	}
 
 	private List<EtreeInfo> getEmsList(Map<String, List<EtreeInfo>> emsMap, int siteId) {

@@ -841,6 +841,10 @@ public class TunnelBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("TUNNEL", tunnelEMSMap, tunnelNEMap, this);
+				if(tunnel != null){
+					AddTunnelPathDialog addTunnelPathDialog = new AddTunnelPathDialog(this.view, true, this.tunnel);
+					UiUtil.showWindow(addTunnelPathDialog, UiUtil.getWindowWidth(addTunnelPathDialog.getWidth()), UiUtil.getWindowHeight(addTunnelPathDialog.getHeight()));
+				}
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}
@@ -850,5 +854,11 @@ public class TunnelBusinessController extends AbstractController {
 			UiUtil.closeService_MB(siteService);
 			UiUtil.closeService_MB(tunnelServiceMB);
 		}
+	}
+	
+	private Tunnel tunnel;
+	
+	public void setTunnel(Tunnel tunnel) {
+		this.tunnel = tunnel;
 	}
 }

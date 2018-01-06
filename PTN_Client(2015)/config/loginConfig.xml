@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <node type="login">
 	<serviceIp>127.0.0.1</serviceIp>
-	<username>admin11</username>
+	<username>admin2345</username>
 	<version>V2.1.6</version>
 </node>

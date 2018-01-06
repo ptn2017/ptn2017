@@ -180,13 +180,15 @@ public class CpuAndMemoryJpanel extends DataBasePanel{
 		 }else if(object instanceof List &&((List)object) != null && ((List)object).size() >0 && label == 2)
 		 {
 			 DecimalFormat df = new DecimalFormat("######0.00"); 
-			 double totalMemorySize =  Double.parseDouble((((List)object).get(0)).toString())/1048576;
-			 double usedMemory =  Double.parseDouble((((List)object).get(1)).toString())/1048576;
-			 double fireMemory =  Double.parseDouble((((List)object).get(2)).toString())/1048576;
+			 System.out.println(Double.parseDouble((((List)object).get(0)).toString())/(1048576D));
+			 double totalMemorySize =  Double.parseDouble((((List)object).get(0)).toString())/1048576D;
+			 double usedMemory =  Double.parseDouble((((List)object).get(1)).toString())/1048576D;
+			 double fireMemory =  Double.parseDouble((((List)object).get(2)).toString())/1048576D;
 			 
 			 data = new Object[] {
 					  ResourceUtil.srcStr(StringKeysTip.MOINTOR_LABEL_MEMORY), 
-					  Math.rint(totalMemorySize), 
+//					  Math.rint(totalMemorySize), 
+					  df.format(totalMemorySize),
 					  df.format(usedMemory),
 		              df.format((usedMemory/totalMemorySize)*100)+"%",
 		              df.format(fireMemory)

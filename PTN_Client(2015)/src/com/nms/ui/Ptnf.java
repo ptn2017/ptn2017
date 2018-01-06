@@ -69,6 +69,7 @@ import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
 import com.nms.ui.manager.xmlbean.LoginConfig;
+import com.nms.ui.ptn.alarm.AlarmMonitorDialog;
 import com.nms.ui.ptn.alarm.tca.TCAAlarmPanel;
 import com.nms.ui.ptn.alarm.view.AlarmBusinessBlockDialog;
 import com.nms.ui.ptn.alarm.view.AlarmReversalPanel;
@@ -903,6 +904,7 @@ public class Ptnf extends javax.swing.JFrame {
 		this.alarmReversal = new JMenuItem();//告警反转
 		this.loginLabel = new JLabel();
 		this.neCountLable = new JLabel();
+		this.alarmMonitorItem = new JMenuItem();
 		this.oamEventMenuItem = new JMenuItem();// oam事件
 		this.tcaAlarmMenuIten = new JMenuItem(); // tca告警
 		modelManagerMenuItem = new javax.swing.JMenu(); // 模板管理
@@ -1692,6 +1694,22 @@ public class Ptnf extends javax.swing.JFrame {
 			}
 		});
 		jMenu16.add(siteAlarmShieldItem);
+		
+		// 告警阈值设置
+		alarmMonitorItem.setText("硬件告警阈值设置");
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.alarmMonitorItem, RootFactory.ALARMMODU);
+		this.alarmMonitorItem.setMnemonic(KeyEvent.VK_O);
+		alarmMonitorItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				alarmMonitorActionPerformed();
+			}
+		});
+		jMenu16.add(alarmMonitorItem);
+		
 		//菜单条： OAM事件
 		oamEventMenuItem.setText(ResourceUtil.srcStr(StringKeysTab.TAB_OAM_EVENT));
 		/*
@@ -3064,6 +3082,16 @@ public class Ptnf extends javax.swing.JFrame {
 			ExceptionManage.dispose(e, this.getClass());
 		}
 	}
+	
+	private void alarmMonitorActionPerformed() {
+		AlarmMonitorDialog alarmMonitorDialog = null;
+		try {
+			alarmMonitorDialog = new AlarmMonitorDialog();
+			UiUtil.showWindow(alarmMonitorDialog, alarmMonitorDialog.getWeight(), 250);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
 
 	/**
 	 * tca告警菜单点击事件
@@ -3706,6 +3734,7 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenuItem serviceReportItem;
 	private JMenuItem cardReportItem;
 	private JMenuItem portReportItem;
+	private JMenuItem alarmMonitorItem;// 告警阈值设置
 	
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;

@@ -220,39 +220,39 @@
   <select id="queryByCondition" resultType="HisPerformanceInfo" parameterType="HisPerformanceInfo" >
     SELECT * from history_performance where 1=1 
   	<if test="id > 0">
-  		id = #{id}
+  		and id = #{id}
   	</if>
   	<if test="siteId > 0">
-  		siteId = #{siteId}
+  		and siteId = #{siteId}
   	</if>
   	<if test="slotId > 0">
-  		slotId = #{slotId}
+  		and slotId = #{slotId}
   	</if>
   	<if test="objectType!= null and objectType !='' ">
-  		objectType = #{objectType}
+  		and objectType = #{objectType}
   	</if>
   	<if test="objectName != null and objectName !='' ">
-  		objectName = #{objectName}
+  		and objectName = #{objectName}
   	</if>
   	<if test="performanceCode != 0">
-  		performanceCode = #{performanceCode}
+  		and performanceCode = #{performanceCode}
   	</if>
   	<if test="performanceValue != 0">
-  		performanceValue = #{performanceValue}
+  		and performanceValue = #{performanceValue}
   	</if>
   	<if test="performanceTime != null">
-  		performanceTime = #{performanceTime}
+  		and performanceTime = #{performanceTime}
   	</if>
-  	<if test="performanceEndtime != null">
-  		performanceEndtime = #{performanceEndtime}
+  	<if test="performanceEndTime != null">
+  		and performanceEndtime = #{performanceEndTime}
   	</if>
   	<if test="startTime != null">
-  		startTime = #{startTime}
+  		and startTime = #{startTime}
   	</if>
   	<if test="taskId != 0">
-  		taskId = #{taskId}
+  		and taskId = #{taskId}
   	</if><if test="isCardOrSite != 0">
-  		isCardOrSite = #{isCardOrSite}
+  		and isCardOrSite = #{isCardOrSite}
   	</if>
   </select>
   

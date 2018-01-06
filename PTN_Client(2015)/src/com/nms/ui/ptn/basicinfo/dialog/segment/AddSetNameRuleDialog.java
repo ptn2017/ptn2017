@@ -153,6 +153,8 @@ public class AddSetNameRuleDialog extends PtnDialog {
 			try {
 				defaultComboBoxModel = (DefaultComboBoxModel) SourceComboBox.getModel();
 				defaultComboBoxModel.addElement(new ControlKeyValue("0", "SEGMENT"));
+				defaultComboBoxModel.addElement(new ControlKeyValue("1", "TUNNEL"));
+				defaultComboBoxModel.addElement(new ControlKeyValue("2", "PW"));
 				SourceComboBox.setModel(defaultComboBoxModel);
 			} catch (Exception e) {
 				ExceptionManage.dispose(e, UiUtil.class);

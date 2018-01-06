@@ -1,7 +1,9 @@
 package com.nms.rmi.ui;
 
 import java.io.File;
+import java.util.List;
 import java.util.TimerTask;
+
 import com.nms.db.bean.system.LogManager;
 import com.nms.db.bean.system.UnLoading;
 import com.nms.model.system.LogManagerService_MB;
@@ -29,10 +31,17 @@ public class AutoDatabaseTimeDeleteThread extends TimerTask{
 			try {
 				logService = (LogManagerService_MB) ConstantUtil.serviceFactory.newService_MB(Services.LOGMANAGER);
 				delAllFile(this.fileAddress);
-				if(label==3|| label==4){
-					LogManager log=logService.selectCount(label);
-					delAllFile(log.getFileVWay());
-					delAllFile(log.getFileWay());
+				if(label==3|| label==5){
+//					LogManager log=logService.selectCount(label);
+					List<LogManager> list = logService.selectAll();
+					if(list != null){
+						for(LogManager log : list){
+							if(log.getLogType() == label){
+								delAllFile(log.getFileVWay());
+								delAllFile(log.getFileWay());
+							}
+						}
+					}
 				}
 				
 			} catch (Exception e) {

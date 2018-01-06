@@ -400,6 +400,25 @@ public class PtnSpinner extends JSpinner {
 			chb.setSelected(true);
 		}
 	}
+	
+	public void setTxtData1(String initData) throws Exception {
+		if ("-1".equals(initData) || "0".equals(initData)) {
+			if (this.defaultData == 60) {
+				txt.setText(initData);
+			} else {
+				txt.setText(ResourceUtil.srcStr(StringKeysLbl.LBL_PORT_EXPORT_SPEED_NO_LIMIT));
+			}
+			// txt.setEditable(false);
+			this.setEnabled(false);
+		} else if ("".equals(initData) || null == initData) {
+			// 赋默认值
+			txt.setText(defaultData + "");
+			txt.setEditable(true);
+		} else {
+			txt.setText(initData);
+			txt.setEditable(true);
+		}
+	}
 
 	/**
 	 * 从界面上收集用户输入的数据

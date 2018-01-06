@@ -69,6 +69,14 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 		this.box = box;
 		camporeData(isDifferent, emsMap, neMap);
 	}
+	
+	public Object getSelect() {
+		if (getBox().getLastSelectedElement() == null) {
+			return null;
+		} else {
+			return (Object) getBox().getLastSelectedElement();
+		}
+	}
 
 	public void camporeData(boolean isEqual,Object emsMap, Object neMap){
 		this.isDifferent = isEqual;
@@ -323,6 +331,7 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 		int label =1;
 		try {
 			Node elements = new Node();
+			elements.setBusinessObject(emsPwInfo1);
 			box.addElement(elements);
 			if(emsPwInfo1 == null &&  nePwInfo1 != null){
 				emsPwInfo = nePwInfo1;
@@ -604,6 +613,7 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 			box.addElement(backTypeNode);
 			box.addElement(delayNode);
 		}
+		node.setBusinessObject(tunnelEMS);
 		box.addElement(node);
 	}
 	
@@ -1179,7 +1189,7 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 			box.addElement(farIDNode);
 			box.addElement(lmNode);
 		}
-		
+		node.setBusinessObject(tunnelEMS);
 		box.addElement(node);
 		
 	}
@@ -1727,27 +1737,28 @@ public class CamporeBusinessInfoLoader implements LazyLoader {
 		}
 		/*nni端口的流信息**********************/
 		if(type!=52){
-		Node pwElement = new Node();
-		pwElement.setName(ResourceUtil.srcStr(StringKeysTip.TIP_NNIBUFFLIST));
-		pwElement.setParent(element);
-		box.addElement(pwElement);
-		List<PwNniInfo> pwNniList = serviceEms == null ? null:serviceEms.getPwNniList();
-		List<PwNniInfo> pwNniListNE = serviceNe == null ? null:serviceNe.getPwNniList();
-		if(pwNniList != null){
-			for (int i = 0; i < pwNniList.size(); i++) {
-				PwNniInfo pwNniNE = null;
-				if(pwNniListNE != null && i < pwNniListNE.size()){
-					pwNniNE = pwNniListNE.get(i);
+			Node pwElement = new Node();
+			pwElement.setName(ResourceUtil.srcStr(StringKeysTip.TIP_NNIBUFFLIST));
+			pwElement.setParent(element);
+			box.addElement(pwElement);
+			List<PwNniInfo> pwNniList = serviceEms == null ? null:serviceEms.getPwNniList();
+			List<PwNniInfo> pwNniListNE = serviceNe == null ? null:serviceNe.getPwNniList();
+			if(pwNniList != null){
+				for (int i = 0; i < pwNniList.size(); i++) {
+					PwNniInfo pwNniNE = null;
+					if(pwNniListNE != null && i < pwNniListNE.size()){
+						pwNniNE = pwNniListNE.get(i);
+					}
+					this.createPwNniElement(pwNniList.get(i), pwNniNE, i, pwElement, serviceEms, serviceNe, type);
 				}
-				this.createPwNniElement(pwNniList.get(i), pwNniNE, i, pwElement, serviceEms, serviceNe, type);
+			}else if(pwNniListNE != null){
+				for (int i = 0; i < pwNniListNE.size(); i++) {
+					this.createPwNniElement(null, pwNniListNE.get(i), i, pwElement, serviceEms, serviceNe, type);
+				}
 			}
-		}else if(pwNniListNE != null){
-			for (int i = 0; i < pwNniListNE.size(); i++) {
-				this.createPwNniElement(null, pwNniListNE.get(i), i, pwElement, serviceEms, serviceNe, type);
-			}
-		}
 		}
 		element.setUserObject(serviceEms);
+		element.setBusinessObject(serviceEms);
 		box.addElement(element);
 	}
 

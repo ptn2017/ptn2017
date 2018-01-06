@@ -178,24 +178,60 @@ public class AutoNamingUtil {
 	 */
 	private String pwAction(Object businessType, PortInst portInst_a,PortInst portInst_z, String time) throws Exception {
 		
-		String result = null;
+		String result = "";
 		String aSiteName = null;
 		String zSiteName = null;
 		SiteService_MB siteService  = null;
+		NameRuleService_MB nameRuleService = null;
+		List<SetNameRule> setNameRules = null;
 		try {
-			PwInfo pwInfo =  (PwInfo) businessType;
 			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
-			aSiteName = ((SiteInst) siteService.select(pwInfo.getASiteId())).getCellId();
-			if(0== pwInfo.getIsSingle()){
-				zSiteName = ((SiteInst) siteService.select(pwInfo.getZSiteId())).getCellId();
-				result = pwInfo.getType().toString()+"/"+aSiteName +"-"+zSiteName+ "_"+time;
+			nameRuleService = (NameRuleService_MB) ConstantUtil.serviceFactory.newService_MB(Services.NAMERULESERVICE);
+			SetNameRule setNameRule = new SetNameRule();
+			setNameRule.setSourcename("PW");
+			setNameRule.setIsUsed(1);
+			setNameRules = nameRuleService.select(setNameRule);
+			if(setNameRules.size()>0){//存在段的命名规则
+				setNameRule = setNameRules.get(0);
+				String[] strs = setNameRule.getNamerule().split(" ");
+				for (int i = 0; i < strs.length; i++) {
+					String str = strs[i];
+					if(str.split(":")[0].equals("常量")){
+						result += str.split(":")[1];
+					}else if(str.split(":")[0].equals("变量")){
+						if(str.split(":")[1].equals("层速率")){
+							result += "PW";
+						}else if(str.split(":")[1].equals("A端")){
+							aSiteName = siteService.select(portInst_a.getSiteId()).getCellId();
+							result += aSiteName;
+						}else if(str.split(":")[1].equals("Z端")){
+							zSiteName = siteService.select(portInst_z.getSiteId()).getCellId();
+							result += zSiteName;
+//						}else if(str.split(":")[1].equals("A端端口")){
+//							result += portInst_a.getPortName();
+//						}else if(str.split(":")[1].equals("Z端端口")){
+//							result += portInst_z.getPortName();
+						}
+					}else if(str.split(":")[0].equals("连接符")){
+						result += str.split(":")[1];
+					}
+				}
 			}else{
-				result = "PW"+pwInfo.getType().toString()+"/"+aSiteName + "_"+time;
+				PwInfo pwInfo =  (PwInfo) businessType;
+				siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+				aSiteName = ((SiteInst) siteService.select(pwInfo.getASiteId())).getCellId();
+				if(0== pwInfo.getIsSingle()){
+					zSiteName = ((SiteInst) siteService.select(pwInfo.getZSiteId())).getCellId();
+					result = pwInfo.getType().toString()+"/"+aSiteName +"-"+zSiteName+ "_"+time;
+				}else{
+					result = "PW"+pwInfo.getType().toString()+"/"+aSiteName + "_"+time;
+				}
 			}
 		} catch (Exception e) {
 			throw e;
 		}finally{
 			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(nameRuleService);
 		}
 		return result;
 	}
@@ -209,24 +245,60 @@ public class AutoNamingUtil {
 	 * @throws Exception
 	 */
 	private String tunnelAction(Object businessType,PortInst portInst_a, PortInst portInst_z, String time) throws Exception {
-		String result = null;
+		String result = "";
 		String aSiteName = null;
 		String zSiteName = null;
 		SiteService_MB siteService  = null;
+		NameRuleService_MB nameRuleService = null;
+		List<SetNameRule> setNameRules = null;
 		try {
-			Tunnel tunnel = (Tunnel) businessType;
-			siteService  = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
-			aSiteName = ((SiteInst) siteService.select(tunnel.getASiteId())).getCellId();
-			if(0== tunnel.getIsSingle()){
-				zSiteName = ((SiteInst) siteService.select(tunnel.getZSiteId())).getCellId();
-				result = "TUNNEL/"+aSiteName +"-"+zSiteName+ "_"+time;
+			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+			nameRuleService = (NameRuleService_MB) ConstantUtil.serviceFactory.newService_MB(Services.NAMERULESERVICE);
+			SetNameRule setNameRule = new SetNameRule();
+			setNameRule.setSourcename("TUNNEL");
+			setNameRule.setIsUsed(1);
+			setNameRules = nameRuleService.select(setNameRule);
+			if(setNameRules.size()>0){//存在段的命名规则
+				setNameRule = setNameRules.get(0);
+				String[] strs = setNameRule.getNamerule().split(" ");
+				for (int i = 0; i < strs.length; i++) {
+					String str = strs[i];
+					if(str.split(":")[0].equals("常量")){
+						result += str.split(":")[1];
+					}else if(str.split(":")[0].equals("变量")){
+						if(str.split(":")[1].equals("层速率")){
+							result += "TUNNEL";
+						}else if(str.split(":")[1].equals("A端")){
+							aSiteName = siteService.select(portInst_a.getSiteId()).getCellId();
+							result += aSiteName;
+						}else if(str.split(":")[1].equals("Z端")){
+							zSiteName = siteService.select(portInst_z.getSiteId()).getCellId();
+							result += zSiteName;
+						}else if(str.split(":")[1].equals("A端端口")){
+							result += portInst_a.getPortName();
+						}else if(str.split(":")[1].equals("Z端端口")){
+							result += portInst_z.getPortName();
+						}
+					}else if(str.split(":")[0].equals("连接符")){
+						result += str.split(":")[1];
+					}
+				}
 			}else{
-				result = "TUNNEL/"+aSiteName+"_"+time;
+				Tunnel tunnel = (Tunnel) businessType;
+				siteService  = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+				aSiteName = ((SiteInst) siteService.select(tunnel.getASiteId())).getCellId();
+				if(0== tunnel.getIsSingle()){
+					zSiteName = ((SiteInst) siteService.select(tunnel.getZSiteId())).getCellId();
+					result = "TUNNEL/"+aSiteName +"-"+zSiteName+ "_"+time;
+				}else{
+					result = "TUNNEL/"+aSiteName+"_"+time;
+				}
 			}
 		} catch (Exception e) {
 			throw e;
 		}finally{
 			UiUtil.closeService_MB(siteService);
+			UiUtil.closeService_MB(nameRuleService);
 		}
 		return result;
 	}
@@ -274,7 +346,7 @@ public class AutoNamingUtil {
 						}else if(str.split(":")[1].equals("A端端口")){
 							result += portInst_a.getPortName();
 						}else if(str.split(":")[1].equals("Z端端口")){
-							result += portInst_a.getPortName();
+							result += portInst_z.getPortName();
 						}
 					}else if(str.split(":")[0].equals("连接符")){
 						result += str.split(":")[1];

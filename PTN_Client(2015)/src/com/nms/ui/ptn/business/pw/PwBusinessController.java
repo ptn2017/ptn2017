@@ -259,6 +259,7 @@ public class PwBusinessController extends AbstractController {
 			this.initLspPanel();
 			this.initSchematizePanel();
 			this.initBusinessPanel();
+			this.initPwProtectPanel();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}finally{
@@ -266,6 +267,10 @@ public class PwBusinessController extends AbstractController {
 		}
 	}
 	
+	private void initPwProtectPanel() {
+		
+	}
+
 	private void initBusinessPanel() {
 		ElineInfoService_MB elineInfoServiceMB = null;
 		EtreeInfoService_MB etreeInfoServiceMB = null;
@@ -954,6 +959,12 @@ public class PwBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("PW", pwEMSMap, pwNEMap, this);
+				if(pw != null){
+					pw = pwinfoService.selectByPwId(pw.getPwId());
+					AddPDialog addpwdialog = new AddPDialog(this.view, true, pw);
+					addpwdialog.setLocation(UiUtil.getWindowWidth(addpwdialog.getWidth()), UiUtil.getWindowHeight(addpwdialog.getHeight()));
+					addpwdialog.setVisible(true);
+				}
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}
@@ -964,4 +975,11 @@ public class PwBusinessController extends AbstractController {
 			UiUtil.closeService_MB(pwinfoService);
 		}
 	}
+	
+	private PwInfo pw;
+
+	public void setPw(PwInfo pw) {
+		this.pw = pw;
+	}
+	
 }

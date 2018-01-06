@@ -27,6 +27,7 @@ import twaver.table.TTablePopupMenuFactory;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.path.pw.MsPwInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EServiceType;
@@ -48,6 +49,7 @@ import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.control.PtnMenuItem;
+import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysMenu;
 import com.nms.ui.manager.keys.StringKeysPanel;
 import com.nms.ui.manager.keys.StringKeysTab;
@@ -56,6 +58,7 @@ import com.nms.ui.ptn.business.testoam.TestOamBusinessController;
 import com.nms.ui.ptn.business.topo.TopoPanel;
 import com.nms.ui.ptn.business.tunnel.LspNetworkTablePanel;
 import com.nms.ui.ptn.ne.pwnni.PwVlanMainDialog;
+import com.nms.ui.ptn.ne.tunnel.view.TunnelRoteDialog;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
 import com.nms.ui.ptn.systemconfig.dialog.qos.controller.QosConfigController;
 import com.nms.ui.topology.Schematize;
@@ -85,6 +88,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 	private JMenuItem addPwProItem;
 	private JMenuItem deletePwProItem;
 	private BusinessNetworkTablePanel businessNetworkTablePanel;
+	private PwProtectPanel pwProtectPanel;
 	public PwBusinessPanel() {
 		super("pwBusinessTable",RootFactory.CORE_MANAGE);
 		init();
@@ -120,6 +124,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 					lspNetworkTablePanel.clear();
 					schematize_panel.clear();
 					businessNetworkTablePanel.clear();
+					pwProtectPanel.clear();
 					return;
 				} else {
 					getController().initDetailInfo();
@@ -250,12 +255,15 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 				try {
 					pwList = getAllSelect();
 					if(pwList.size() == 2){
-						pwList.get(0).setDirection("主用");
-						pwList.get(1).setDirection("备用");
-						service = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
-						service.update(pwList.get(0));
-						service.update(pwList.get(1));
-						DialogBoxUtil.succeedDialog(PwBusinessPanel.this, ResultString.CONFIG_SUCCESS);
+						if(!pwList.get(0).getDirection().contains("@")){
+							pwList.get(0).setDirection("主用");
+							pwList.get(1).setDirection("备用");
+							service = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+							service.update(pwList.get(0));
+							service.update(pwList.get(1));
+						}
+//						DialogBoxUtil.succeedDialog(PwBusinessPanel.this, ResultString.CONFIG_SUCCESS);
+						new PwProtectDialog(pwList.get(0), controller);
 					}
 					controller.refresh();
 				} catch (Exception e) {
@@ -418,6 +426,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 		splitPane.setBottomComponent(tabbedPane);
 		lspNetworkTablePanel=new LspNetworkTablePanel();
 		businessNetworkTablePanel = new BusinessNetworkTablePanel(); 
+		pwProtectPanel = new PwProtectPanel();
 		qosPanel = new PwQosQueuePanel();
 		oamTable = new ViewDataTable<OamInfo>("pwBusinessOAMTable");
 		oamTable.getTableHeader().setResizingAllowed(true);
@@ -448,6 +457,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_PW_XC), pwXcTablePanel);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_SCHEMATIZE), this.schematize_panel);
 		tabbedPane.add(ResourceUtil.srcStr(StringKeysPanel.PANEL_BUSINESS_INFORMATION), this.businessNetworkTablePanel);
+		tabbedPane.add("PW保护状态信息", this.pwProtectPanel);
 	}
 
 	public void setLayout() {
@@ -540,7 +550,50 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 		needRemoveButtons.add(jButton);
 		needRemoveButtons.add(getSearchButton());
 		needRemoveButtons.add(this.getConsistenceButton());
+		needRemoveButtons.add(this.getRotateButton());
 		return needRemoveButtons;
+	}
+	
+	/**
+	 * 设置倒换按钮
+	 * 
+	 * @author kk
+	 * 
+	 * @param
+	 * 
+	 * @return
+	 * 
+	 * @Exception 异常对象
+	 */
+	private JButton getRotateButton() {
+		JButton jButton = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_ROTATE),RootFactory.CORE_MANAGE);
+
+		// 新建按钮事件
+		jButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					rotateButtonListener();
+				} catch (Exception e) {
+					ExceptionManage.dispose(e,this.getClass());
+				}
+			}
+		});
+
+		return jButton;
+	}
+
+	private void rotateButtonListener() throws NumberFormatException, Exception {
+
+		if (this.getAllSelect().size() != 1) {
+			DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_DATA_ONE));
+			return;
+		}
+
+		PwInfo pw = this.getSelect();
+
+		new PwRoteDialog(true, pw);
 	}
 	
 	@Override
@@ -583,4 +636,9 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 	public BusinessNetworkTablePanel getBusinessNetworkTablePanel() {
 		return businessNetworkTablePanel;
 	}
+
+	public PwProtectPanel getPwProtectPanel() {
+		return pwProtectPanel;
+	}
+	
 }

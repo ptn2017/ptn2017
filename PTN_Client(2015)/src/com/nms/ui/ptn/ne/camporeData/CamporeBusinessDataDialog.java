@@ -67,6 +67,12 @@ import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysObj;
 import com.nms.ui.manager.keys.StringKeysTip;
+import com.nms.ui.ptn.business.ces.CesBusinessController;
+import com.nms.ui.ptn.business.elan.ElanBusinessController;
+import com.nms.ui.ptn.business.eline.ElineBusinessController;
+import com.nms.ui.ptn.business.etree.EtreeBusinessController;
+import com.nms.ui.ptn.business.pw.PwBusinessController;
+import com.nms.ui.ptn.business.tunnel.TunnelBusinessController;
 
 public class CamporeBusinessDataDialog extends PtnDialog{
 	/**
@@ -76,7 +82,8 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 	
 	private TDataBox box = new TDataBox();
 	private TTreeTable table = new CamporeTable(box);
-	private PtnButton button ;
+	private PtnButton btn;
+	private PtnButton autoBtn;
 	private JButton cancelButton;
 	private JPanel buttonPanel;
 	private JRadioButton emsDataJRadioButton;
@@ -91,6 +98,7 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 	private JButton exportButton;
 	private int type;
 	private AbstractController controller;
+	private Object object;
 	public CamporeBusinessDataDialog(String title,Object EMSobject,Object nEObject, AbstractController controller){
 		camporeDataDialog = this;
 		this.setTitle(ResourceUtil.srcStr(StringKeysLbl.LBL_CAMPORE_DATA));
@@ -113,7 +121,7 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 				// 以设备数据为准
 				this.neDataJRadioButton.setSelected(true);
 			}
-			this.button.doClick();
+			this.autoBtn.doClick();
 		}
 	}
 	
@@ -132,10 +140,14 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		table.setTreeColumnDisplayName(title);
 		TableColumn tableCellEditor = table.getColumnModel().getColumn(1);
 		tableCellEditor.setCellEditor(new DefaultCellEditor(new JTextField()));
-		button = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_SAVE),true);
+		btn = new PtnButton("人工校正",true);
+		autoBtn = new PtnButton("自动校正",true);
 		Dimension dimension = new Dimension();
 		dimension.setSize(50, 50);
-		button.setSize(dimension);
+		btn.setSize(dimension);
+		Dimension dimension1 = new Dimension();
+		dimension1.setSize(50, 50);
+		autoBtn.setSize(dimension1);
 		cancelButton = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
 		emsDataJRadioButton = new JRadioButton(ResourceUtil.srcStr(StringKeysLbl.LBL_SAVE_EMS));
 		neDataJRadioButton = new JRadioButton(ResourceUtil.srcStr(StringKeysLbl.LBL_SAVE_NE));
@@ -155,7 +167,8 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 		buttonPanel.add(jCheckBox);
 		buttonPanel.add(emsDataJRadioButton);
 		buttonPanel.add(neDataJRadioButton);
-		buttonPanel.add(button);
+		buttonPanel.add(btn);
+		buttonPanel.add(autoBtn);
 		buttonPanel.add(cancelButton);
 	}
 	
@@ -164,7 +177,8 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				camporeDataDialog.dispose();
+				
+				camporeDataDialog.close();
 			}
 		});
 		jCheckBox.addActionListener(new ActionListener() {
@@ -181,7 +195,20 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 			}
 		});
 		
-		button.addActionListener(new MyActionListener() {
+		btn.addActionListener(new MyActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnActionPerformed();
+			}
+			
+			@Override
+			public boolean checking() {
+				return true;
+			}
+		});
+		
+		autoBtn.addActionListener(new MyActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -204,10 +231,64 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 	}
 
 	/**
+	 * 人工校正
+	 */
+	protected void btnActionPerformed() {
+		Object obj = ((Node)this.loader.getSelect()).getBusinessObject();
+		if(obj != null){
+			if(obj instanceof Tunnel){
+				((TunnelBusinessController)controller).setTunnel((Tunnel)obj);
+			}else if(obj instanceof PwInfo){
+				((PwBusinessController)controller).setPw((PwInfo)obj);;
+			}else if(obj instanceof ElineInfo){
+				((ElineBusinessController)controller).setEline((ElineInfo)obj);;
+			}else if(obj instanceof EtreeInfo){
+				((EtreeBusinessController)controller).setEtree((EtreeInfo)obj);;
+			}else if(obj instanceof ElanInfo){
+				((ElanBusinessController)controller).setElan((ElanInfo)obj);;
+			}else if(obj instanceof CesInfo){
+				((CesBusinessController)controller).setCes((CesInfo)obj);;
+			}
+			this.dispose();
+		}
+	}
+	
+	private void close(){
+		if(controller instanceof TunnelBusinessController){
+			((TunnelBusinessController)controller).setTunnel(null);
+		}else if(controller instanceof PwBusinessController){
+			((PwBusinessController)controller).setPw(null);
+		}else if(controller instanceof ElineBusinessController){
+			((ElineBusinessController)controller).setEline(null);
+		}else if(controller instanceof EtreeBusinessController){
+			((EtreeBusinessController)controller).setEtree(null);
+		}else if(controller instanceof ElanBusinessController){
+			((ElanBusinessController)controller).setElan(null);
+		}else if(controller instanceof CesBusinessController){
+			((CesBusinessController)controller).setCes(null);
+		}
+		this.dispose();
+	}
+
+	/**
 	 * 保存数据
 	 */
 	@SuppressWarnings("unchecked")
 	private void butonActionPerformed(){
+		if(controller instanceof TunnelBusinessController){
+			((TunnelBusinessController)controller).setTunnel(null);
+		}else if(controller instanceof PwBusinessController){
+			((PwBusinessController)controller).setPw(null);
+		}else if(controller instanceof ElineBusinessController){
+			((ElineBusinessController)controller).setEline(null);
+		}else if(controller instanceof EtreeBusinessController){
+			((EtreeBusinessController)controller).setEtree(null);
+		}else if(controller instanceof ElanBusinessController){
+			((ElanBusinessController)controller).setElan(null);
+		}else if(controller instanceof CesBusinessController){
+			((CesBusinessController)controller).setCes(null);
+		}
+		
 		String result = ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS);
 		if(emsDataJRadioButton.isSelected()){//网管数据为准
 			if(EMSobject != null){

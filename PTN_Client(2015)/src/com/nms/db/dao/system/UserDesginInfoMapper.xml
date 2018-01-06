@@ -4,12 +4,12 @@
 <mapper namespace="com.nms.db.dao.system.UserDesginInfoMapper" >
 
  <sql id="Base_Column_List" >
-    id, isLockSelect, timeValue, user_name
+    id, isLockSelect, timeValue, user_name,closeSelect,closeTime
   </sql>   
    <insert id="insert" parameterType="UserDesginInfo" useGeneratedKeys="true" keyProperty="id">
-    insert into userdesgin ( isLockSelect, timeValue, user_name)
+    insert into userdesgin ( isLockSelect, timeValue, user_name,closeSelect,closeTime)
     values ( #{isSelect,jdbcType=INTEGER}, #{minute,jdbcType=VARCHAR}, 
-      #{userName,jdbcType=VARCHAR})
+      #{userName,jdbcType=VARCHAR},#{closeSelect,jdbcType=INTEGER}, #{closeTime,jdbcType=VARCHAR})
   </insert>
    
     <update id="update" parameterType="UserDesginInfo" >
@@ -17,7 +17,9 @@
     <set >    
         isLockSelect = #{isSelect,jdbcType=INTEGER},
         timeValue = #{minute,jdbcType=VARCHAR},
-        user_name = #{userName,jdbcType=VARCHAR}
+        user_name = #{userName,jdbcType=VARCHAR},
+        closeSelect = #{closeSelect,jdbcType=INTEGER},
+        closeTime = #{closeTime,jdbcType=VARCHAR}
     </set>   
       where id = #{id}    
   </update>
@@ -33,6 +35,8 @@
     <result column="isLockSelect" property="isSelect" jdbcType="INTEGER" />
     <result column="timeValue" property="minute" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="closeSelect" property="closeSelect" jdbcType="INTEGER" />
+    <result column="closeTime" property="closeTime" jdbcType="VARCHAR" />
   </resultMap>
       
 </mapper>

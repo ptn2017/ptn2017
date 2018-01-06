@@ -32,7 +32,16 @@ public class CurrentAlarmInfo extends AlarmInfo {
 	private String capabilityIdentity;	//性能标识，标识是15分钟或24小时的 上限或下限 
 	private int labelAlarmStatus ; //用来标记 设备上报的告警是 主动告警 还是报的告警消失 1:代表主动告警  0:道标被动告警
 	private String isCleared;    //标记是否已经清除
+	private String analyze;
 	
+	public String getAnalyze() {
+		return analyze;
+	}
+
+	public void setAnalyze(String analyze) {
+		this.analyze = analyze;
+	}
+
 	public String getIsCleared()
 	{
 		return isCleared;
@@ -182,6 +191,7 @@ public class CurrentAlarmInfo extends AlarmInfo {
 			this.putClientProperty("warningNotes", this.getWarningLevel().getWarningname());
 		}
 		this.putClientProperty("alarmState", this.getAlarmState());
+		this.putClientProperty("alarmAnalyze", this.getAnalyze());
 	}
 	
 	private String getAlarmState() {
@@ -200,7 +210,7 @@ public class CurrentAlarmInfo extends AlarmInfo {
 
 	public AlarmSeverity getAlarmSeverity(int value) {
 		AlarmSeverity.WARNING.setDisplayName(ResourceUtil.srcStr(StringKeysObj.ALARMSEVERITY_WARNING));
-		AlarmSeverity.CLEARED.setDisplayName(ResourceUtil.srcStr(StringKeysObj.OBJ_LOCK_ALARM));
+//		AlarmSeverity.CLEARED.setDisplayName(ResourceUtil.srcStr(StringKeysObj.OBJ_LOCK_ALARM));
 		AlarmSeverity type = null;
 		switch (value) {
 		case 0:

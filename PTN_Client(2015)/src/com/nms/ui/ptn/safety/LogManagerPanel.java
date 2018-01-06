@@ -16,7 +16,6 @@ import com.nms.ui.frame.ContentView;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
-import com.nms.ui.manager.keys.StringKeysMenu;
 import com.nms.ui.manager.keys.StringKeysOperaType;
 import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.ptn.safety.controller.LogManagerController;
@@ -39,7 +38,7 @@ public class LogManagerPanel extends ContentView<LogManager> {
 
 
 	public LogManagerPanel() {
-		super("logManagerTable",RootFactory.SYSTEM_MANAGE);
+		super("logManagerTable",RootFactory.SATYMODU);
 		init();		
 	}
 	public void init(){	
@@ -56,7 +55,8 @@ public class LogManagerPanel extends ContentView<LogManager> {
 	private void initComponents() {
 		this.getInportButton().setText(ResourceUtil.srcStr(StringKeysOperaType.BTN_UNLOAD_INPORT));
 		this.getExportButton().setText(ResourceUtil.srcStr(StringKeysOperaType.BTN_UNLOAD_EXPORT));
-		super.checkRoot(this.getExportButton(), RootFactory.SYSTEM_MANAGE);
+		super.checkRoot(this.getExportButton(), RootFactory.SATYMODU);
+		super.checkRoot(this.getUpdateButton(), RootFactory.SATYMODU);
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setTopComponent(this.getContentPanel());

@@ -91,7 +91,7 @@ public class FieldConfigAction {
 			}
 			
 				for(NetWork netWork :netWorks){
-					if(userFieldList != null){
+					if(userFieldList != null && userFieldList.size() > 0){
 						for(UserField uField : userFieldList){
 							if(netWork.getNetWorkId() == uField.getField_id()){
 								SubNetwork subNetwork = new SubNetwork();

@@ -37,6 +37,7 @@ import javax.swing.table.TableColumn;
 
 import twaver.TWaverUtil;
 
+import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
@@ -1034,10 +1035,15 @@ public class AddPDialog extends PtnDialog {
 			pwInfo.setZSiteId(zSiteId);
 			pwInfo.setType((EPwType) pwTypeValue.getObject());
 			AutoNamingUtil autoNamingUtil=new AutoNamingUtil();
-			String autoNaming = (String) autoNamingUtil.autoNaming(pwInfo, null, null);
+			PortInst pA = new PortInst();
+			pA.setSiteId(aSiteId);
+			PortInst pZ = new PortInst();
+			pZ.setSiteId(zSiteId);
+			String autoNaming = (String) autoNamingUtil.autoNaming(pwInfo, pA, pZ);
 			nametext.setText(autoNaming);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
+		} finally {
 		}
 
 	}	

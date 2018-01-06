@@ -1,6 +1,7 @@
 package com.nms.db.bean.ptn;
 
 import com.nms.db.bean.ptn.path.eth.DualInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.ui.frame.ViewDataObj;
 
@@ -26,6 +27,8 @@ public class SiteRoate extends ViewDataObj {
 	 * 选中的tunnel对象。 倒换时，以便获取设备上tunnel的 名称
 	 */
 	private Tunnel tunnel;
+	private PwInfo pw;
+	
 	
 //	private PwProtect pwProtect;
 //	
@@ -36,6 +39,14 @@ public class SiteRoate extends ViewDataObj {
 //	public void setPwProtect(PwProtect pwProtect) {
 //		this.pwProtect = pwProtect;
 //	}
+
+	public PwInfo getPw() {
+		return pw;
+	}
+
+	public void setPw(PwInfo pw) {
+		this.pw = pw;
+	}
 
 	private DualInfo dualInfo;
 	public DualInfo getDualInfo() {

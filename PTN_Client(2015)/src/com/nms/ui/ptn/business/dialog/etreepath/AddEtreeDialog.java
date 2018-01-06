@@ -395,7 +395,8 @@ public class AddEtreeDialog extends PtnDialog {
 					}
 				}
 			} else {
-				// 修改操作，加载此根下的所有pw�?				this.getRootPw(pwinfoList_result);
+				// 修改操作，加载此根下的所有pw�?				
+				this.getRootPw(pwinfoList_result);
 			}
 		} catch (Exception e) {
 			throw e;

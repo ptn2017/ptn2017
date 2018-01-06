@@ -7,6 +7,7 @@
 package com.nms.ui.topology;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -90,7 +91,7 @@ public class ShelfTopology extends javax.swing.JPanel {
 			this.toolbarButton();
 			this.createTopo();
 			this.refreshAlarm();
-
+			refreshColor();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -181,6 +182,33 @@ public class ShelfTopology extends javax.swing.JPanel {
 			}
 
 		});
+	}
+	
+	private void refreshColor() throws Exception {
+		List<Element> elements = null;
+		PortInst portInst = null;
+		try {
+			elements = this.box.getAllElements();
+			// 遍历所有元素
+			for (Element element : elements) {
+				// 如果是端口，查询端口的告警。
+				if (element instanceof Port) {
+					portInst = (PortInst) element.getUserObject();
+					if(portInst.getPortType().equals("NNI")){
+						element.putBorderColor(Color.GREEN);
+					}else if(portInst.getPortType().equals("UNI")){
+						element.putBorderColor(Color.BLUE);
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			elements = null;
+			portInst = null;
+		}
+
 	}
 
 	/**

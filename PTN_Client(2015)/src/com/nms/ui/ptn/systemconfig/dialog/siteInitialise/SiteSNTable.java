@@ -202,8 +202,10 @@ public class SiteSNTable  extends PtnDialog  {
 			List<SiteInst> siteInstList = siteService.selectByFileId(fields.get(0).getId());
 			List<Integer> has = new ArrayList<Integer>();
 			List<Integer> canuse = new ArrayList<Integer>();
-			for (int i = 0; i < siteInstList.size(); i++) {
-				has.add(Integer.parseInt(siteInstList.get(i).getSite_Hum_Id()));
+			if(siteInstList != null){
+				for (int i = 0; i < siteInstList.size(); i++) {
+					has.add(Integer.parseInt(siteInstList.get(i).getSite_Hum_Id()));
+				}
 			}
 			for (int i = 1; i < 254; i++) {
 				if(!has.contains(i)){

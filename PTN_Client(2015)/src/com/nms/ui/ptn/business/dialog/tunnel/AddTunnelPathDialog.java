@@ -834,6 +834,10 @@ public class AddTunnelPathDialog extends PtnDialog {
 				DialogBoxUtil.errorDialog(this,ResourceUtil.srcStr(StringKeysTip.TIP_PORTNULL));
 				return;
 			}
+//			portInst_a = portService.selectPortybyid(this.equipmentTopology.getAPortId());
+//			portInst_z = portService.selectPortybyid(this.equipmentTopology.getZPortId());
+			portInst_a = (PortInst)((ControlKeyValue)this.cmbAport.getSelectedItem()).getObject();
+			portInst_z = (PortInst)((ControlKeyValue)this.cmbZport.getSelectedItem()).getObject();
 			tunnel.setASiteId(equipmentTopology.getSiteA().getSite_Inst_Id());
 			tunnel.setZSiteId(equipmentTopology.getSiteZ().getSite_Inst_Id());
 			AutoNamingUtil autoNamingUtil=new AutoNamingUtil();
@@ -841,6 +845,7 @@ public class AddTunnelPathDialog extends PtnDialog {
 			jTextField1.setText(autoNaming);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
+		} finally {
 		}
 
 	}

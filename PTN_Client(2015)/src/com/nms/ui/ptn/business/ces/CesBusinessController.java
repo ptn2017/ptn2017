@@ -696,6 +696,16 @@ public class CesBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("CES", cesEMSMap, cesNEMap, this);
+				if(ces != null){
+					AddCesDialog updateCesdialog = new AddCesDialog(this.view, true, ces);
+					CesHandlerController updateCesController = new CesHandlerController(updateCesdialog);
+					updateCesdialog.setSize(1200, 700);
+					updateCesdialog.setMinimumSize(new Dimension(1200, 700));
+
+					updateCesdialog.setLocation(UiUtil.getWindowWidth(updateCesdialog.getWidth()), UiUtil.getWindowHeight(updateCesdialog.getHeight()));
+					updateCesdialog.setVisible(true);
+					updateCesController.refresh();
+				}
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}
@@ -708,6 +718,12 @@ public class CesBusinessController extends AbstractController {
 		}
 	}
 	
+	private CesInfo ces;
+	
+	public void setCes(CesInfo ces) {
+		this.ces = ces;
+	}
+
 	/**
 	 * 过滤出eline业务
 	 */

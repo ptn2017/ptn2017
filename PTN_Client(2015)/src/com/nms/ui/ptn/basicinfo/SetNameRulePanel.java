@@ -26,7 +26,7 @@ public class SetNameRulePanel extends ContentView<SetNameRule>{
 
 	private static final long serialVersionUID = -4401494086417559560L;
 	public SetNameRulePanel(){
-		super("SetNameRuleTable",RootFactory.SATYMODU);
+		super("SetNameRuleTable",RootFactory.DEPLOY_MANAGE);
 		init();
 		
 	}

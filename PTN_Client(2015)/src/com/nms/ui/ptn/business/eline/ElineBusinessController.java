@@ -657,6 +657,11 @@ public class ElineBusinessController extends AbstractController {
 					}
 				}
 				CamporeBusinessDataDialog camporeDataDialog = new CamporeBusinessDataDialog("ELINE", elineEMSMap, elineNEMap, this);
+				if(eline != null){
+					AddElineDialog addelinedialog = new AddElineDialog(this.view, true, eline);
+					addelinedialog.setLocation(UiUtil.getWindowWidth(addelinedialog.getWidth()), UiUtil.getWindowHeight(addelinedialog.getHeight()));
+					addelinedialog.setVisible(true);
+				}
 			}else{
 				DialogBoxUtil.errorDialog(this.view, ResultString.QUERY_FAILED);
 			}
@@ -680,4 +685,11 @@ public class ElineBusinessController extends AbstractController {
 		}
 		return elineList;
 	}
+	
+	private ElineInfo eline;
+
+	public void setEline(ElineInfo eline) {
+		this.eline = eline;
+	}
+	
 }

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import com.nms.db.bean.system.OperationDataLog;
 import com.nms.db.bean.system.OperationLog;
 import com.nms.db.bean.system.code.Code;
 import com.nms.db.bean.system.code.CodeGroup;
+import com.nms.db.bean.system.user.UserInst;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EActiveStatusUnLoad;
 import com.nms.db.enums.EActiveStatusUnLoadType;
@@ -49,11 +51,14 @@ import com.nms.db.enums.QosCosLevelEnum;
 import com.nms.model.system.OperationLogService_MB;
 import com.nms.model.system.code.CodeGroupService_MB;
 import com.nms.model.system.code.CodeService_MB;
+import com.nms.model.system.user.UserInstServiece_Mb;
 import com.nms.model.util.CodeConfigItem;
 import com.nms.model.util.ObjectService_Mybatis;
+import com.nms.model.util.ServiceFactory;
 import com.nms.model.util.Services;
 import com.nms.service.impl.util.ResultString;
 import com.nms.ui.frame.ViewDataObj;
+import com.nms.util.Mybatis_DBManager;
 
 public class UiUtil {
 
@@ -1105,5 +1110,29 @@ public class UiUtil {
 		}else{
 			return false;
 		}
+	}
+	
+	public static void main(String[] args) throws SQLException, Exception {
+		// 2000个用户脚本`
+//		UserInstServiece_Mb service = null;
+//		try {
+//			Mybatis_DBManager.init("127.0.0.1");
+//			ConstantUtil.serviceFactory = new ServiceFactory();
+//			service = (UserInstServiece_Mb) ConstantUtil.serviceFactory.newService_MB(Services.UserInst);
+//			for(int i = 1000; i < 3000; i++){
+//				UserInst uInst = new UserInst();
+//				uInst.setUser_Name("admin"+i);
+//				uInst.setUser_Pass("admin"+i);
+//				uInst.setRoleInfo_id(1);
+//				uInst.setIsAll(1);
+//				uInst.setStartIp("0.0.0.0");
+//				uInst.setEndIp("255.255.255.254");
+//				uInst.setManagerId(1);
+//				service.saveOrUpdate(uInst);
+//			}
+//		} catch (Exception e) {
+//		} finally {
+//			UiUtil.closeService_MB(service);
+//		}
 	}
 }

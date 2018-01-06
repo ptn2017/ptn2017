@@ -241,7 +241,7 @@ public class AlarmReversalPanel extends PtnDialog{
 				alarmDelay.setSelected(true);
 				delayText.setEditable(true);
 				if(siteInfo.getDelayTime().contains("-")){
-					delayText.setText(siteInfo.getDelayTime().split("-")[1]);
+					delayText.setText(Long.parseLong(siteInfo.getDelayTime().split("-")[1])/1000+"");
 				}
 			}else{
 				alarmDelay.setSelected(false);
@@ -313,7 +313,7 @@ public class AlarmReversalPanel extends PtnDialog{
         }
         if(alarmDelay.isSelected()){
         	siteInfo.setIsDelayAlarmTrap(1);
-        	siteInfo.setDelayTime(System.currentTimeMillis()+"-"+Long.parseLong(delayText.getText().trim())+"");
+        	siteInfo.setDelayTime(System.currentTimeMillis()+"-"+Long.parseLong(delayText.getText().trim())*1000+"");
         }else{
         	siteInfo.setIsDelayAlarmTrap(0);
         }

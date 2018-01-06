@@ -59,7 +59,7 @@ public class DataDownLoadDialog extends PtnDialog{
 	private JLabel line;
 	private String action;//操作方法
 	/**
-	 * 构造方法
+	 * 构造方法,
 	 * @param fieldConfigRightPanel
 	 * 							主面板
 	 * @param modal
@@ -535,74 +535,74 @@ public class DataDownLoadDialog extends PtnDialog{
 			}
 			siteService=(SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
 			for (SiteInst siteInst : actionList) {
-				if(siteService.getManufacturer(siteInst.getSite_Inst_Id()) == EManufacturer.CHENXIAO.getValue()){
-					if(modelSelected[0]==1){
-						this.synchroCard(siteInst); // 同步板卡
-						ospfInfoDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ospf
-						ospfAreaDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步area
-						redistributeDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步重分发
-						mcnDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步MCN
-	//					ccnDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ccn
-						ospfInterfaceDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ospf接口
-					}
-					if(modelSelected[1]==1){
-						expMappingPhbDispatch.synchro(siteInst.getSite_Inst_Id()); //EXP映射
+//				if(siteService.getManufacturer(siteInst.getSite_Inst_Id()) == EManufacturer.CHENXIAO.getValue()){
+//					if(modelSelected[0]==1){
+//						this.synchroCard(siteInst); // 同步板卡
+//						ospfInfoDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ospf
+//						ospfAreaDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步area
+//						redistributeDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步重分发
+//						mcnDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步MCN
+//	//					ccnDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ccn
+//						ospfInterfaceDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ospf接口
+//					}
+//					if(modelSelected[1]==1){
+//						expMappingPhbDispatch.synchro(siteInst.getSite_Inst_Id()); //EXP映射
+//						portDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步eth端口
+//						portLagDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步LAG
+//						acDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ac端口
+//						eDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步pdh端口
+//						portStmDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步SDH端口
+//						portStmTimeslotDispatch.synchro(siteInst.getSite_Inst_Id());// 同步SDH时隙
+//					}
+//					if(modelSelected[2]==1){
+//						qosDispatch.synchro(siteInst.getSite_Inst_Id());	//同步qos
+//						tunnelDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步tunnel
+//						pwDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步pw
+//					}
+//					if(modelSelected[3]==1){
+//						elineDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步eline
+//						etreeDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步etree
+//						elanDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步elan
+//					}
+//					if(modelSelected[4]==1){
+//						wrappingDispatch.synchro(siteInst.getSite_Inst_Id());//环保护
+//						mspDispatch.synchro(siteInst.getSite_Inst_Id());//MSP保护
+//						dualDispatch.synchro(siteInst.getSite_Inst_Id());//双规保护
+//					}
+//					if(modelSelected[5]==1){
+////						clockSourceDispatch.synchro(siteInst.getSite_Inst_Id());//同步时钟源
+////						externalClockDispatch.synchro(siteInst.getSite_Inst_Id());//同步外时钟接口
+////						timePortConfigDispatch.synchro(siteInst.getSite_Inst_Id());//同步端口配置
+////						lineClockInterfaceDispatch.synchro(siteInst.getSite_Inst_Id());//同步线路（时钟）接口
+//					}
+//					if(modelSelected[6]==1){
+//						cesDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ces
+//					}
+//				}else{
+//					if(modelSelected[1]==1){
 						portDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步eth端口
 						portLagDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步LAG
-						acDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ac端口
 						eDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步pdh端口
-						portStmDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步SDH端口
-						portStmTimeslotDispatch.synchro(siteInst.getSite_Inst_Id());// 同步SDH时隙
-					}
-					if(modelSelected[2]==1){
-						qosDispatch.synchro(siteInst.getSite_Inst_Id());	//同步qos
+//					}
+//					if(modelSelected[2]==1){
 						tunnelDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步tunnel
 						pwDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步pw
-					}
-					if(modelSelected[3]==1){
+//					}
+//					if(modelSelected[3]==1){
 						elineDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步eline
 						etreeDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步etree
 						elanDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步elan
-					}
-					if(modelSelected[4]==1){
-						wrappingDispatch.synchro(siteInst.getSite_Inst_Id());//环保护
-						mspDispatch.synchro(siteInst.getSite_Inst_Id());//MSP保护
-						dualDispatch.synchro(siteInst.getSite_Inst_Id());//双规保护
-					}
-					if(modelSelected[5]==1){
-//						clockSourceDispatch.synchro(siteInst.getSite_Inst_Id());//同步时钟源
-//						externalClockDispatch.synchro(siteInst.getSite_Inst_Id());//同步外时钟接口
-//						timePortConfigDispatch.synchro(siteInst.getSite_Inst_Id());//同步端口配置
-//						lineClockInterfaceDispatch.synchro(siteInst.getSite_Inst_Id());//同步线路（时钟）接口
-					}
-					if(modelSelected[6]==1){
-						cesDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ces
-					}
-				}else{
-					if(modelSelected[1]==1){
-						portDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步eth端口
-						portLagDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步LAG
-						eDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步pdh端口
-					}
-					if(modelSelected[2]==1){
-						tunnelDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步tunnel
-						pwDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步pw
-					}
-					if(modelSelected[3]==1){
-						elineDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步eline
-						etreeDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步etree
-						elanDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步elan
-					}
-					if(modelSelected[5]==1){
+//					}
+//					if(modelSelected[5]==1){
 						clockFrequDispatch.synchro(siteInst.getSite_Inst_Id());//同步时钟源
-					}
-					if(modelSelected[6]==1){
+//					}
+//					if(modelSelected[6]==1){
 						cesDispatch.synchro(siteInst.getSite_Inst_Id()); // 同步ces
-					}
-				}
-				if(modelSelected[7]==1){
+//					}
+//				}
+//				if(modelSelected[7]==1){
 					alarmDispatch.synchroCurrentAlarm(siteInst.getSite_Inst_Id());// 同步告警
-				}
+//				}
 			}
 //			ConstantUtil.waitDialog.closeWait();
 		} catch (Exception e) {
