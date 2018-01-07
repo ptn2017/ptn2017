@@ -318,4 +318,54 @@
    <select id="allAlarmCount" resultType="java.lang.Integer" >
   	select count(*) from current_alarm 
   </select>
+  
+  <select id="selectDuanTunnelAlarm" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
+  	SELECT
+	t.tunnelName as name,w.WarningNote as warningNote,w.WarningName as warningName,s.CellId as sitename,h.happenedtime as time
+FROM
+	`warninglevel` W
+INNER JOIN current_alarm H ON w.WarningCode = h.alarmcode
+AND w.Manufacturer = 1
+AND (
+	w.parentid = 1
+	OR w.parentlevel is not null
+)
+INNER JOIN tunnel t on (t.aSiteId = h.siteid or  t.zSiteId = h.siteid) and t.tunnelStatus=1
+INNER JOIN site_inst s on s.site_inst_id = h.siteid
+ORDER BY t.tunnelName,h.happenedtime desc
+  </select>
+  
+	<select id="selectDuanPwAlarm" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
+  SELECT
+	t.pwName as name,w.WarningNote as warningNote,w.WarningName as warningName,s.CellId as sitename,h.happenedtime as time
+FROM
+	`warninglevel` W
+INNER JOIN current_alarm H ON w.WarningCode = h.alarmcode
+AND w.Manufacturer = 1
+AND (
+	w.parentid = 1
+	OR w.parentlevel is not null
+)
+INNER JOIN pwinfo t on (t.aSiteId = h.siteid or  t.zSiteId = h.siteid) and t.pwStatus=1
+INNER JOIN site_inst s on s.site_inst_id = h.siteid
+ORDER BY t.pwName,h.happenedtime desc
+  
+  </select>
+  
+	<select id="selectDuanEthAlarm" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
+  SELECT
+	t.`name` as name,w.WarningNote as warningNote,w.WarningName as warningName,s.CellId as sitename,h.happenedtime as time
+FROM
+	`warninglevel` W
+INNER JOIN current_alarm H ON w.WarningCode = h.alarmcode
+AND w.Manufacturer = 1
+AND (
+	w.parentid = 1
+	OR w.parentlevel is not null
+)
+INNER JOIN serviceinfo t on (t.aSiteId = h.siteid or  t.zSiteId = h.siteid or t.rootSite = h.siteid or t.branchSite=h.siteid) and t.activeStatus=1
+INNER JOIN site_inst s on s.site_inst_id = h.siteid
+ORDER BY t.name,h.happenedtime desc
+  
+  </select>
 </mapper>

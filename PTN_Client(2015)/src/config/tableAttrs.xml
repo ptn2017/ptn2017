@@ -1840,4 +1840,13 @@
 		<attribute id="operationResult" name="操作结果" visible="true"></attribute>
 		<attribute id="startTime" name="时间" visible="true"></attribute>
 	</table>
+		<table name="duanAlarm" layout="filter">
+		<attribute id="id" name="ID" visible="false"></attribute>
+		<attribute id="name" name="名称" visible="true"></attribute>
+	    <attribute id="sitename" name="网元名称" visible="true"></attribute>
+		<attribute id="warningNote" name="告警描述" visible="true"></attribute>
+		<attribute id="warningName" name="告警名称" visible="true"></attribute>
+		<attribute id="time" name="告警时间" visible="true"></attribute>
+	</table>
+	
 </xml-body>

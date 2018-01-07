@@ -76,6 +76,7 @@ import com.nms.ui.ptn.alarm.view.AlarmReversalPanel;
 import com.nms.ui.ptn.alarm.view.AlarmVoiceDialog;
 import com.nms.ui.ptn.alarm.view.CircleButton;
 import com.nms.ui.ptn.alarm.view.CurrentAlarmPanel;
+import com.nms.ui.ptn.alarm.view.DuanAlarmPanel;
 import com.nms.ui.ptn.alarm.view.HisAlarmPanel;
 import com.nms.ui.ptn.alarm.view.TopoAlamTable;
 import com.nms.ui.ptn.basicinfo.NetWorkInfoPanel;
@@ -961,7 +962,7 @@ public class Ptnf extends javax.swing.JFrame {
 		this.serviceReportItem = new JMenuItem();
 		this.cardReportItem = new JMenuItem();
 		this.portReportItem = new JMenuItem();
-		
+		duanAlarmItem = new JMenuItem();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
 		this.addWindowListener(new WindowAdapter() {
@@ -1757,6 +1758,24 @@ public class Ptnf extends javax.swing.JFrame {
 		});
 		jMenu16.add(this.systemMonitorBaseCount);
 		jMenuBar2.add(jMenu16);
+		
+		// 添加数据库运行状态记录  TAB_SYSTEM_MONITOR
+		this.duanAlarmItem.setText("端到端告警管理");
+		//				/*
+		//				 * 添加 权限验证
+		//				 */
+		roleRoot.setItemEnbale(this.duanAlarmItem, RootFactory.ALARMMODU);
+		this.duanAlarmItem.setMnemonic(KeyEvent.VK_R);
+		this.duanAlarmItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				duanAlarm();
+			}
+		});
+		jMenu16.add(this.duanAlarmItem);
+		jMenuBar2.add(jMenu16);
+				
+		
 		/**
 		 * 菜单： 性能管理
 		 */
@@ -3005,6 +3024,14 @@ public class Ptnf extends javax.swing.JFrame {
 		}
 	}
 	
+	private void duanAlarm() {
+		try {
+			this.mainTabPanel(ConstantUtil.jTabbedPane, "端到端告警",  new DuanAlarmPanel());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+	
 	private void currPerMenuItemActionPerformed() {
 		try {
 			this.mainTabPanel(ConstantUtil.jTabbedPane, ResourceUtil.srcStr(StringKeysTab.TAB_CURRPERFOR), new CurrentPerformancePanel());
@@ -3735,7 +3762,7 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenuItem cardReportItem;
 	private JMenuItem portReportItem;
 	private JMenuItem alarmMonitorItem;// 告警阈值设置
-	
+	private javax.swing.JMenuItem duanAlarmItem;//端到端告警管理
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;
 	}

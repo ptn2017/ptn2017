@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.ibatis.session.SqlSession;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
+import com.nms.db.bean.alarm.DuanAlarmInfo;
 import com.nms.db.bean.alarm.WarningLevel;
 import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
@@ -612,6 +613,16 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			throw e;
 		}
 		return currentAlarmInfoList;
+	}
+
+	public List<DuanAlarmInfo> selectDuanAlarm(Integer type) {
+		if(type ==1){
+			return this.mapper.selectDuanTunnelAlarm(type);
+		}else if(type ==2){
+			return this.mapper.selectDuanPwAlarm(type);
+		}else{
+			return this.mapper.selectDuanEthAlarm(type);
+		}
 	}
 
 }
