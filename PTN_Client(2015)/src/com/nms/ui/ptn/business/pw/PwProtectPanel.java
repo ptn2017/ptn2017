@@ -26,7 +26,7 @@ public class PwProtectPanel extends ContentView<PwProtectStatus>{
 	private PtnButton jButton;
 	private PwProtectPanel view;
 	public PwProtectPanel() {
-		super("pwProtectStatus",RootFactory.CORE_MANAGE);
+		super("pwProtect",RootFactory.CORE_MANAGE);
 		view = this;
 		init();
 	}
@@ -34,7 +34,7 @@ public class PwProtectPanel extends ContentView<PwProtectStatus>{
 	public void init() {
 		setLayout();
 		try {
-			getController().refresh();
+//			getController().refresh();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}

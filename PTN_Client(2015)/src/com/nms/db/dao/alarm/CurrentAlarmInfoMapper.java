@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
+import com.nms.db.bean.alarm.DuanAlarmInfo;
 import com.nms.db.bean.alarm.TCAAlarm;
 
 
@@ -67,4 +68,10 @@ public interface CurrentAlarmInfoMapper {
 	public List<TCAAlarm> queryTCAAlarm(TCAAlarm tcaAlarm);
 	
 	public Integer allAlarmCount();
+
+	public List<DuanAlarmInfo> selectDuanTunnelAlarm(@Param("type")Integer type);
+	
+	public List<DuanAlarmInfo> selectDuanPwAlarm(@Param("type")Integer type);
+	
+	public List<DuanAlarmInfo> selectDuanEthAlarm(@Param("type")Integer type);
 }

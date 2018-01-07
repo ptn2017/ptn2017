@@ -255,7 +255,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 				try {
 					pwList = getAllSelect();
 					if(pwList.size() == 2){
-						if(!pwList.get(0).getDirection().contains("@")){
+						if(pwList.get(0).getDirection() != null && !pwList.get(0).getDirection().contains("@")){
 							pwList.get(0).setDirection("主用");
 							pwList.get(1).setDirection("备用");
 							service = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
@@ -586,14 +586,14 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 
 	private void rotateButtonListener() throws NumberFormatException, Exception {
 
-		if (this.getAllSelect().size() != 1) {
-			DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_DATA_ONE));
-			return;
-		}
+//		if (this.getAllSelect().size() != 2) {
+//			DialogBoxUtil.errorDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_SELECT_DATA_ONE));
+//			return;
+//		}
 
-		PwInfo pw = this.getSelect();
+		List<PwInfo> pwList = this.getAllSelect();
 
-		new PwRoteDialog(true, pw);
+		new PwRoteDialog(true, pwList);
 	}
 	
 	@Override

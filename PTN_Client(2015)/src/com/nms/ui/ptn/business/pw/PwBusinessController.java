@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.nms.db.bean.equipment.shelf.SiteInst;
+import com.nms.db.bean.ptn.PwProtectStatus;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.oam.OamMepInfo;
 import com.nms.db.bean.ptn.path.ces.CesInfo;
@@ -259,7 +260,7 @@ public class PwBusinessController extends AbstractController {
 			this.initLspPanel();
 			this.initSchematizePanel();
 			this.initBusinessPanel();
-			this.initPwProtectPanel();
+			this.initPwProtectPanel(pwInfoServiceMB);
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}finally{
@@ -267,8 +268,25 @@ public class PwBusinessController extends AbstractController {
 		}
 	}
 	
-	private void initPwProtectPanel() {
-		
+	private void initPwProtectPanel(PwInfoService_MB service) throws Exception {
+		PwInfo mainPw = view.getSelect();
+		List<PwInfo> pwList = service.select();
+		PwInfo standPw = null;
+		for(PwInfo pw : pwList){
+			if(pw.getDirection() != null && pw.getDirection().contains("备用")){
+				standPw = pw;
+				break;
+			}
+		}
+		PwProtectStatus pwPro = new PwProtectStatus();
+		pwPro.setMainLspName(mainPw.getPwName());
+		pwPro.setStandLspName(standPw.getPwName());
+		String[] arr = mainPw.getDirection().split("@");
+		pwPro.setRorateStatus(Integer.parseInt(arr[0]));
+		pwPro.setDelaytime(Integer.parseInt(arr[1]));
+		pwPro.setWaittime(Integer.parseInt(arr[2]));
+		pwPro.setSiteId(mainPw.getASiteId());
+		pwPro.setPwId(mainPw.getPwId());
 	}
 
 	private void initBusinessPanel() {

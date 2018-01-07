@@ -451,8 +451,8 @@ public class CamporeBusinessDataDialog extends PtnDialog{
 							List<CccInfo> cccList = (List<CccInfo>) list;
 							cccNEAction(cccList, siteId);
 						}
-					}else{
-						result = ResourceUtil.srcStr(StringKeysTip.TIP_NEISNULL);
+//					}else{
+//						result = ResourceUtil.srcStr(StringKeysTip.TIP_NEISNULL);
 					}
 				}
 			}

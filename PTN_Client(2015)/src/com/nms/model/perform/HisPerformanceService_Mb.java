@@ -403,4 +403,15 @@ public class HisPerformanceService_Mb extends ObjectService_Mybatis {
 			return 0;
 		}
 	}
+	
+	public List<HisPerformanceInfo> selectAll() throws Exception {
+		List<HisPerformanceInfo> hisInfoList = null;
+		try {
+			hisInfoList = historyPerformanceMapper.selectAll();
+			hisInfoList = wrapHisPerformanceInfo(hisInfoList, null);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+		return hisInfoList;
+	}
 }

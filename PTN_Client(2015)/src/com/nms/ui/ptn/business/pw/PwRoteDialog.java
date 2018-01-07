@@ -64,9 +64,14 @@ public class PwRoteDialog extends PtnDialog{
 	 * @param tunnel
 	 *     tunnel 对象
 	 */
-	public PwRoteDialog(boolean flag,PwInfo pwInfo){
-		this.pw=pwInfo;
-		this.flag=flag;
+	public PwRoteDialog(boolean flag, List<PwInfo> pwList){
+		for(PwInfo pwInfo : pwList){
+			if(pwInfo.getDirection() != null && pwInfo.getDirection().contains("主用")){
+				this.pw = pwInfo;
+				break;
+			}
+		}
+		this.flag = flag;
 		init();
 	}
 	/*

@@ -110,7 +110,7 @@ WHERE
   THEN (SELECT p.portName FROM port_inst p WHERE s.aAcId=p.portid) WHEN (s.cestype=3 OR s.cestype=5) THEN (SELECT ps.timeslotnumber FROM port_stm_timeslot ps 
   WHERE s.aAcId=ps.id)END AS aportName, CASE WHEN (s.cestype=2 OR s.cestype=5) THEN (SELECT p.portName FROM port_inst p WHERE s.zAcId=p.portid) 
   WHEN (s.cestype=3 OR s.cestype=4) THEN (SELECT ps.timeslotnumber FROM port_stm_timeslot ps WHERE s.zAcId=ps.id) END AS zportName FROM serviceinfo s,site_inst a,
-  site_inst z WHERE s.asiteid=a.site_inst_id  AND s.zsiteid=z.site_inst_id AND s.isSingle= 0 AND s.serviceType=0  group by s.id ,s.serviceType)as list
+  site_inst z WHERE s.asiteid=a.site_inst_id  AND s.zsiteid=z.site_inst_id AND s.isSingle= 0 AND (s.serviceType=0 or s.serviceType = 1)  group by s.id ,s.serviceType)as list
  </select>
   
  <select id="queryBusinessOfEtreeList" resultMap="professMap" >

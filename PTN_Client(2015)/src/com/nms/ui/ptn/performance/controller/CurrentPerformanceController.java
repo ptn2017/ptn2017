@@ -97,10 +97,10 @@ public class CurrentPerformanceController extends AbstractController {
 			cureenPerformanceFilterList = new ArrayList<CurrentPerforInfo>();
 			if (filter != null) {
 				 queryPerforByFilter();
-				 if(cureenPerformanceFilterList == null || cureenPerformanceFilterList.size() == 0){
-					 DialogBoxUtil.errorDialog(this.view, "超时");
-					 return;
-				 }
+//				 if(cureenPerformanceFilterList == null || cureenPerformanceFilterList.size() == 0){
+//					 DialogBoxUtil.errorDialog(this.view, "超时");
+//					 return;
+//				 }
 			} else {
 				DialogBoxUtil.errorDialog(this.view, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_FILTER));
 				return;
@@ -134,10 +134,10 @@ public class CurrentPerformanceController extends AbstractController {
 				return;
 			} else {
 			    queryPerforByFilter();
-			    if(cureenPerformanceFilterList == null || cureenPerformanceFilterList.size() == 0){
-					 DialogBoxUtil.errorDialog(this.view, "超时");
-					 return;
-				 }
+//			    if(cureenPerformanceFilterList == null || cureenPerformanceFilterList.size() == 0){
+//					 DialogBoxUtil.errorDialog(this.view, "超时");
+//					 return;
+//				 }
 			}
 			this.view.clear();
 //			this.view.initData(removeRepeatedType(cureenPerformanceFilterList));

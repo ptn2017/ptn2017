@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 
 import com.nms.db.bean.equipment.shelf.SiteInst;
+import com.nms.db.bean.perform.HisPerformanceInfo;
 import com.nms.db.bean.system.OperationDataLog;
 import com.nms.db.bean.system.OperationLog;
 import com.nms.db.bean.system.code.Code;
@@ -48,6 +49,7 @@ import com.nms.db.enums.ETdmLoopLineType;
 import com.nms.db.enums.ETdmLoopType;
 import com.nms.db.enums.OamTypeEnum;
 import com.nms.db.enums.QosCosLevelEnum;
+import com.nms.model.perform.HisPerformanceService_Mb;
 import com.nms.model.system.OperationLogService_MB;
 import com.nms.model.system.code.CodeGroupService_MB;
 import com.nms.model.system.code.CodeService_MB;
@@ -1134,5 +1136,17 @@ public class UiUtil {
 //		} finally {
 //			UiUtil.closeService_MB(service);
 //		}
+		// 70w条历史性能
+		HisPerformanceService_Mb service = null;
+		try {
+			Mybatis_DBManager.init("127.0.0.1");
+			ConstantUtil.serviceFactory = new ServiceFactory();
+			service = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
+			List<HisPerformanceInfo> list = service.selectAll();
+			System.out.println(list.size());
+		} catch (Exception e) {
+		} finally {
+			UiUtil.closeService_MB(service);
+		}
 	}
 }

@@ -414,4 +414,8 @@
     	order by id desc limit 1
     </if>
   </select>
+  
+   <select id="selectAll" resultType="HisPerformanceInfo" >
+    SELECT * from history_performance
+   </select>
 </mapper>

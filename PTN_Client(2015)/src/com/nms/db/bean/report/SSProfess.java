@@ -4,13 +4,26 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import com.nms.db.bean.equipment.port.PortInst;
+import com.nms.db.bean.ptn.path.eth.ElanInfo;
+import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.eth.EtreeInfo;
 import com.nms.db.bean.ptn.path.pw.MsPwInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
+import com.nms.db.bean.ptn.qos.QosInfo;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EServiceType;
+import com.nms.model.equipment.port.PortService_MB;
+import com.nms.model.ptn.path.ces.CesInfoService_MB;
+import com.nms.model.ptn.path.eth.ElanInfoService_MB;
+import com.nms.model.ptn.path.eth.ElineInfoService_MB;
 import com.nms.model.ptn.path.eth.EtreeInfoService_MB;
 import com.nms.model.ptn.path.pw.MsPwInfoService_MB;
+import com.nms.model.ptn.path.pw.PwInfoService_MB;
+import com.nms.model.ptn.path.tunnel.TunnelService_MB;
+import com.nms.model.ptn.port.AcPortInfoService_MB;
 import com.nms.model.report.StaticsticsService_MB;
 import com.nms.model.util.Services;
 import com.nms.service.impl.util.WhImplUtil;
@@ -96,18 +109,23 @@ public class SSProfess extends ViewDataObj {
 				this.putClientProperty("aPortName",getPwAsiteName(this.name,this.id,this.aSiteName,this.zSiteName).getaPortName());
 				this.putClientProperty("zPortName",getPwAsiteName(this.name,this.id,this.aSiteName,this.zSiteName).getzPortName());
 				
+			}else if(this.getServiceType() == 1){
+				this.putClientProperty("zSiteId",this.getzSiteName());
+				this.putClientProperty("aSiteId",this.getaSiteName());
+				this.putClientProperty("zPortName",getAsiteName(this.getServiceType(),this.name).getzPortName());
+				this.putClientProperty("aPortName",getAsiteName(this.getServiceType(),this.name).getaPortName());
 			}else{
-			this.putClientProperty("zSiteId",this.getzSiteName());
-			this.putClientProperty("aSiteId",this.getaSiteName());
-			this.putClientProperty("zPortName",this.getzPortName());
-			this.putClientProperty("aPortName",this.getaPortName());
+				this.putClientProperty("zSiteId",this.getzSiteName());
+				this.putClientProperty("aSiteId",this.getaSiteName());
+				this.putClientProperty("zPortName",this.getzPortName());
+				this.putClientProperty("aPortName",this.getaPortName());
 			}
 			this.putClientProperty("alarmCount",this.getAlarmCount()==0?ResourceUtil.srcStr(StringKeysTab.TAB_UNEXIT_ALARM):ResourceUtil.srcStr(StringKeysTab.TAB_EXIT_ALARM));
 			this.putClientProperty("activeStatus",EActiveStatus.forms(this.getActiveStatus()).toString());
 			this.putClientProperty("activeTime",DateUtil.strDate(this.getActiveTime(),DateUtil.FULLTIME));
 			this.putClientProperty("createTime",DateUtil.strDate(this.getCreateTime(),DateUtil.FULLTIME));
 			this.putClientProperty("clientName",this.getClientName());					
-					
+			this.putClientProperty("bandwidth", this.getBandWidth());
         
 		
 		} catch (Exception e) {
@@ -115,6 +133,72 @@ public class SSProfess extends ViewDataObj {
 		}
 	
 	}
+	
+	private String getBandWidth() {
+		TunnelService_MB tunnelService = null;
+		PwInfoService_MB pwService = null;
+		ElineInfoService_MB elineService = null;
+		EtreeInfoService_MB etreeService = null;
+		ElanInfoService_MB elanService = null;
+		AcPortInfoService_MB acService = null;
+		try {
+			acService = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo);
+			if(this.getServiceType() == 0){// ces
+				return "2048";
+			}else if(this.getServiceType() == 1){// eline
+				elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
+				ElineInfo con = new ElineInfo();
+				con.setName(this.getName());
+				int acId = elineService.selectByCondition(con).get(0).getaAcId();
+				return acService.selectById(acId).getBufferList().get(0).getCir()+"";
+			}else if(this.getServiceType() == 2){// elan
+				elanService = (ElanInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.ElanInfo);
+				ElanInfo con = new ElanInfo();
+				con.setName(this.getName());
+				int acId = Integer.parseInt(elanService.select(con).get(0).getAmostAcId());
+				return acService.selectById(acId).getBufferList().get(0).getCir()+"";
+			}else if(this.getServiceType() == 3){// etree
+				etreeService = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);
+				EtreeInfo etree = etreeService.selectAll(3, this.getName()).get(0);
+				if(etree.getAmostAcId() != null && !etree.getAmostAcId().equals("")){
+					int acId = Integer.parseInt(etree.getAmostAcId());
+					return acService.selectById(acId).getBufferList().get(0).getCir()+"";
+				}else{
+					int acId = Integer.parseInt(etree.getZmostAcId());
+					return acService.selectById(acId).getBufferList().get(0).getCir()+"";
+				}
+			}else{
+				if(this.getRate().equals("隧道")){
+					tunnelService = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
+					Tunnel con = new Tunnel();
+					con.setTunnelName(this.getName());
+					List<QosInfo> qosList = tunnelService.select(con).get(0).getQosList();
+					if(qosList != null){
+						return qosList.get(0).getCir()+"";
+					}
+				}else if(this.getRate().equals("伪线")){
+					pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+					PwInfo con = new PwInfo();
+					con.setPwName(this.getName());
+					List<QosInfo> qosList = pwService.select(con).get(0).getQosList();
+					if(qosList != null){
+						return qosList.get(0).getCir()+"";
+					}
+				}
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(tunnelService);
+			UiUtil.closeService_MB(pwService);
+			UiUtil.closeService_MB(elineService);
+			UiUtil.closeService_MB(etreeService);
+			UiUtil.closeService_MB(elanService);
+			UiUtil.closeService_MB(acService);
+		}
+		return null;
+	}
+	
 	//得到多段PW的端口号
 	private SSProfess getPwAsiteName(String name,int id,String aSiteName,String zSiteName){
 		SSProfess ss=null;
@@ -162,6 +246,9 @@ public class SSProfess extends ViewDataObj {
 		SSProfess ss=null;
 		String zportName = "";
 		String aportName="";		
+		ElineInfoService_MB elineService = null;
+		AcPortInfoService_MB acService = null;
+		PortService_MB portService = null;
 		    try {
 			     etreeService = (EtreeInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.EtreeInfo);
 			     etreeInfoList=etreeService.selectAll(serviceType,name);
@@ -382,11 +469,28 @@ public class SSProfess extends ViewDataObj {
 			    	 
 			     }
 			   
-				    		  			    	
+			     if(serviceType == 1){			   	
+			    	 List<ElineInfo> elineList = null;
+			    	 elineService = (ElineInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Eline);
+			    	 acService = (AcPortInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.AcInfo);
+			    	 portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
+			    	 ElineInfo con = new ElineInfo();
+			    	 con.setName(name);
+			    	 elineList = elineService.selectByCondition(con);
+		    		 ss = new SSProfess();
+			    	 if(elineList!=null && elineList.size()!=0){				    					    			
+			    		 ss.setaPortName(portService.getPortname(acService.selectById(elineList.get(0).getaAcId()).getPortId()));
+			    		 ss.setzPortName(portService.getPortname(acService.selectById(elineList.get(0).getzAcId()).getPortId()));
+			    	 }
+			    	 
+			     }		  			    	
 		    } catch (Exception e) {
 			     ExceptionManage.dispose(e,this.getClass());
 		    } finally {
 			     UiUtil.closeService_MB(etreeService);
+			     UiUtil.closeService_MB(elineService);
+			     UiUtil.closeService_MB(acService);
+			     UiUtil.closeService_MB(portService);
 			     asiteIdList = null;
 				 zsiteIdList = null;
 				 aacInList = null;

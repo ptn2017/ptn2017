@@ -369,7 +369,7 @@ public class PortEthWHDialog extends PortEthDialog{
 			servicePortState = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_SERVICESTATE));
 			servicePortComboBox = new JComboBox();
 			macAddresslabel = new JLabel("MAC");
-			macAddressText = new JTextField("00-00-00");
+			macAddressText = new JTextField("00-85-DE-"+this.getMac(this.portInst.getNumber())+"-EF-"+this.getMac(this.portInst.getNumber()));
 			macAddressText.setEditable(false);
 			super.getComboBoxDataUtil().comboBoxData(this.laserCmboBox, "LASERENABLED");
 			super.getComboBoxDataUtil().comboBoxData(this.servicePortComboBox, "SERVICELOOPSTATE");
@@ -399,6 +399,14 @@ public class PortEthWHDialog extends PortEthDialog{
 		}finally{
 			UiUtil.closeService_MB(siteService);
 		}
+	}
+	
+	private String getMac(int num){
+		String val = Integer.toHexString(this.portInst.getNumber()).toUpperCase();
+		if(val.length() < 2){
+			val = "0"+val;
+		}
+		return val;
 	}
 	
 	/**

@@ -1,6 +1,10 @@
 package com.nms.db.bean.ptn;
 
+import com.nms.db.enums.ERotateType;
+import com.nms.model.ptn.SiteRoateService_MB;
+import com.nms.model.util.Services;
 import com.nms.ui.frame.ViewDataObj;
+import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.UiUtil;
 
@@ -26,7 +30,44 @@ public class PwProtectStatus extends ViewDataObj{
 	private int receiveAps;//接收APS
 	private int launchAps;//发送APS
 	private int backType;//返回类型
+	private int waittime;
+	private String isWorking;
+	private int siteId;
+	private int pwId;
 	
+	
+	public int getPwId() {
+		return pwId;
+	}
+
+	public void setPwId(int pwId) {
+		this.pwId = pwId;
+	}
+
+	public int getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(int siteId) {
+		this.siteId = siteId;
+	}
+
+	public String getIsWorking() {
+		return isWorking;
+	}
+
+	public void setIsWorking(String isWorking) {
+		this.isWorking = isWorking;
+	}
+
+	public int getWaittime() {
+		return waittime;
+	}
+
+	public void setWaittime(int waittime) {
+		this.waittime = waittime;
+	}
+
 	public String getDualName() {
 		return dualName;
 	}
@@ -163,25 +204,86 @@ public class PwProtectStatus extends ViewDataObj{
 		this.putClientProperty("receiveAps", Integer.toHexString(this.getReceiveAps()));
 		this.putClientProperty("launchAps", Integer.toHexString(this.getLaunchAps()));
 		try {
-			if(this.getProtectType() == 0){
-				this.putClientProperty("protectType", "无保护");	
-			}else if(this.getProtectType() == 1){
+//			if(this.getProtectType() == 0){
+//				this.putClientProperty("protectType", "无保护");	
+//			}else if(this.getProtectType() == 1){
 				this.putClientProperty("protectType", "PW1:1");
-			}else if(this.getProtectType() == 2){
-				this.putClientProperty("protectType", "PW1+1");
-			}else if(this.getProtectType() == 3){
-				this.putClientProperty("protectType", "PW冗余");
-			}else if(this.getProtectType() == 4){
-				this.putClientProperty("protectType", "PW1:1(无APS协议)");
-			}
-			this.putClientProperty("rorateStatus",(UiUtil.getCodeByValue("WRAPPINGSTATUS", this.getRorateStatus()+"")).getCodeName());
+//			}else if(this.getProtectType() == 2){
+//				this.putClientProperty("protectType", "PW1+1");
+//			}else if(this.getProtectType() == 3){
+//				this.putClientProperty("protectType", "PW冗余");
+//			}else if(this.getProtectType() == 4){
+//				this.putClientProperty("protectType", "PW1:1(无APS协议)");
+//			}
+			this.putClientProperty("rorateStatus",this.getStatus());
 			this.putClientProperty("backType", (UiUtil.getCodeByValue("BACKTYPE", this.getBackType()+"")).getCodeName());
-			
+			this.putClientProperty("waittime", this.getWaittime());
+			this.putClientProperty("isWorking", this.getWorking());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}
 	}
+
+	private String getStatus() {
+		String result =  this.setRainValue();
+		if(result != null){
+			return result.split("@")[0];
+		}else{
+			return "";
+		}
 	}
+	
+	private String getWorking(){
+		String result =  this.setRainValue();
+		if(result != null){
+			return result.split("@")[1];
+		}else{
+			return "";
+		}
+	}
+	
+	public String setRainValue(){
+		SiteRoateService_MB siteRoateServiceMB = null;
+		SiteRoate siteRoate=null;
+		SiteRoate roata=null;
+		int roate=0;
+		String state = null;
+		try{
+			siteRoateServiceMB = (SiteRoateService_MB) ConstantUtil.serviceFactory
+					.newService_MB(Services.SITEROATE);
+			siteRoate = new SiteRoate();
+			siteRoate.setSiteId(this.getSiteId());
+			siteRoate.setTypeId(this.getPwId());
+			siteRoate.setType("pw");
+			roata = siteRoateServiceMB.select(siteRoate);
+			/**
+			 * 通过 tunnel id，网元id,查找tunnel倒换对象
+			 *    确认 此tunnel倒换是否有倒换值
+			 *     有，则修改界面倒换命令的显示
+			 */
+			if(roata!=null){
+				if(roata!=null){
+					roate = roata.getRoate();
+					if (roate == ERotateType.FORCESWORK.getValue()) {
+						state = "恢复主用@"+"主用路径";
+					} else if (roate == ERotateType.FORCESPRO.getValue()) {
+						state = "强制到备用@"+"备用路径";
+					} else if (roate == ERotateType.MANUALWORK.getValue()) {
+						state = "锁定主用@"+"主用路径";
+					} else if (roate == ERotateType.MANUALPRO.getValue()) {
+						state = "人工倒换@"+"备用路径";
+					}
+				}
+			}
+				 
+		}catch(Exception e){
+			ExceptionManage.dispose(e,this.getClass());
+		}finally{
+			UiUtil.closeService_MB(siteRoateServiceMB);
+		}
+		return state;
+	}
+}
 
 	
 	
