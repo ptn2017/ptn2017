@@ -1494,6 +1494,7 @@
 		<attribute id="activeTime" name="激活时间" visible="false" />
 		<attribute id="createTime" name="创建时间" visible="true" />
 		<attribute id="clientName" name="客户名称" visible="true" />
+		<attribute id="bandwidth" name="带宽(kbps)" visible="true" />
 		<attribute id="cos" name="COS" visible="false" />
 		<attribute id="cir" name="CIR(kbps)" visible="false" />
 		<attribute id="cbs" name="CBS（字节）" visible="false" />
@@ -1839,5 +1840,15 @@
 	    <attribute id="operationObjName" name="操作名称" visible="true"></attribute>
 		<attribute id="operationResult" name="操作结果" visible="true"></attribute>
 		<attribute id="startTime" name="时间" visible="true"></attribute>
+	</table>
+	<table name="pwProtect">
+		<attribute id="id" name="ID" visible="false"></attribute>		
+		<attribute id="protectType" name="保护类型" visible="true"></attribute>
+		<attribute id="mainPwName" name="主用PW" visible="true"></attribute>
+		<attribute id="standPwName" name="备用PW" visible="true"></attribute>
+		<attribute id="rorateStatus" name="倒换状态" visible="true"></attribute>
+		<attribute id="delaytime" name="拖延时间(ms)" visible="true"></attribute>
+		<attribute id="waittime" name="等待恢复时间(min)" visible="true"></attribute>
+		<attribute id="isWorking" name="当前工作路径" visible="true"></attribute>
 	</table>
 </xml-body>
