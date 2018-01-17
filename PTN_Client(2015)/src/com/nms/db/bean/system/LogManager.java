@@ -130,7 +130,7 @@ public class LogManager extends ViewDataObj {
 			getClientProperties().put("timeLimit",this.getTimeLimit());
 			getClientProperties().put("volumeLimit",this.getVolumeLimit());
 			getClientProperties().put("fileWay",this.getFileWay());
-			getClientProperties().put("fileVWay",this.getFileWay());
+			getClientProperties().put("fileVWay",this.getFileVWay());
 			getClientProperties().put("logType",UnLoadFactory.trans(this.getLogType()));
 			if(this.getCellType()==0){
 				getClientProperties().put("cellType",true);

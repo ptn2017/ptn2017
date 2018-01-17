@@ -70,7 +70,6 @@ public class HisPerformanceFilterDialog extends PtnDialog {
 	private JLabel lblPerforType;
 	private TDataBox typeBox;
 	private TList tlType;
-	private JCheckBox cbType;
 	private JLabel lblCycle;
 	private JRadioButton rb15min;
 	private JRadioButton rb24hour;
@@ -88,6 +87,7 @@ public class HisPerformanceFilterDialog extends PtnDialog {
 	private String startTime;
 	private String readEndTime;
 	// 性能类别
+	private JCheckBox cbType;
 	private JScrollPane treePane;
 	private TList tlist;
 	private TDataBox treeBox;

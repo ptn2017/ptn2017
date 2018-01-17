@@ -27,7 +27,7 @@
       type, roate, siteRoate
       )
     values (#{id,jdbcType=INTEGER}, #{siteId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{type,jdbcType=VARCHAR}, #{roate,jdbcType=INTEGER}, #{siteroate,jdbcType=INTEGER}
+      #{type,jdbcType=VARCHAR}, #{roate,jdbcType=INTEGER}, #{siteRoate,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="SiteRoate" >

@@ -13,6 +13,8 @@ import com.nms.db.bean.alarm.TCAAlarm;
 public interface CurrentAlarmInfoMapper {
 	public List<CurrentAlarmInfo> queryByCondition(Map<String, Object> map);
 
+	public int queryCountByCondition(Map<String, Object> map);
+	
 	public int update(CurrentAlarmInfo curr);
 
 	/**
@@ -69,9 +71,9 @@ public interface CurrentAlarmInfoMapper {
 	
 	public Integer allAlarmCount();
 
-	public List<DuanAlarmInfo> selectDuanTunnelAlarm(@Param("type")Integer type);
+	public List<CurrentAlarmInfo> selectDuanTunnelAlarm(@Param("type")Integer type);
 	
-	public List<DuanAlarmInfo> selectDuanPwAlarm(@Param("type")Integer type);
+	public List<CurrentAlarmInfo> selectDuanPwAlarm(@Param("type")Integer type);
 	
-	public List<DuanAlarmInfo> selectDuanEthAlarm(@Param("type")Integer type);
+	public List<CurrentAlarmInfo> selectDuanEthAlarm(@Param("type")Integer type);
 }

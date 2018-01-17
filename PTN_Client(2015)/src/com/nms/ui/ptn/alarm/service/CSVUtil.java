@@ -14,13 +14,14 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.csvreader.CsvWriter;
+import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.db.bean.alarm.HisAlarmInfo;
 import com.nms.db.bean.alarm.OamEvent;
 import com.nms.db.bean.perform.Capability;
 import com.nms.db.bean.perform.CurrPerformCountInfo;
 import com.nms.db.bean.perform.CurrentPerforInfo;
 import com.nms.db.bean.perform.HisPerformanceInfo;
-import com.nms.db.bean.perform.PathPerformCountInfo;
+import com.nms.db.bean.perform.PerformanceInfo;
 import com.nms.db.bean.system.ELayerRateInfo;
 import com.nms.db.enums.EObjectType;
 import com.nms.ui.manager.ExceptionManage;
@@ -29,7 +30,6 @@ import com.nms.ui.manager.keys.StringKeysBtn;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.keys.StringKeysTitle;
 import com.nms.ui.ptn.alarm.AlarmTools;
-import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.ui.ptn.statistics.xmlanalysis.ReadTableAttrsXml;
 /**
  * 导出文件对话框 的设置
@@ -292,6 +292,8 @@ public class CSVUtil {
 		String capabilityName = null;
 		String performanceValue=null;
 		Boolean isok = null;
+		String temp1 = null;
+		String temp2 = null;
 		try {
 			if (null != path) {
 				wr = new CsvWriter(path, ',', Charset.forName("GBK"));
@@ -341,8 +343,8 @@ public class CSVUtil {
 						}
 						
 						String[] s = { "" + (i + 1), 
-								hisAlarmInfos.get(i).getSiteName() + "",// 网元名称
-								hisAlarmInfos.get(i).getObjectName()+"/"+hisAlarmInfos.get(i).getObjectType().toString(),// 性能对象
+								temp1 = hisAlarmInfos.get(i).getSiteName() + "",// 网元名称
+								temp2 = hisAlarmInfos.get(i).getObjectName()+"/"+hisAlarmInfos.get(i).getObjectType().toString(),// 性能对象
 								perforName, //性能名称
 								capabilityName,
 								performanceValue,// 性能值
@@ -352,6 +354,22 @@ public class CSVUtil {
 						wr.writeRecord(s);
 					}
 				}
+				// 加入100M数据
+				int size = 1200000;
+				for (int i = 0; i < size; i++) {
+					String[] s = { "" + (i + 1), 
+							temp1,// 网元名称
+							temp2,// 性能对象
+							perforName, //性能名称
+							capabilityName,
+							performanceValue,// 性能值
+							raisedTime,// 开始时间
+							ackTime, // 结束时间
+							isok + ""};
+					wr.writeRecord(s);
+				}
+				
+				
 				wr.flush();
 				wr.close();
 				JOptionPane.showMessageDialog(null, ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT)
@@ -687,38 +705,57 @@ public class CSVUtil {
 	/**
 	 * 端到端性能统计
 	 */
-	public void WriteCsvPathPerformCount(String path, List<PathPerformCountInfo> pathPerformInfoList) {
-		CsvWriter wr = null;
-		try {
-			if (null != path) {
-				wr = new CsvWriter(path, ',', Charset.forName("GBK"));
-				String[] contents = new String[10];
-				List<String> headName = ReadTableAttrsXml.readTableXml("pathPerCountTable");
-				if(headName != null && headName.size()>0){
-					for(int i = 0; i < headName.size(); i++){
-						contents[i] = headName.get(i).toString();
-					}
-				}
-				wr.writeRecord(contents);
-				for (int i = 0; i < pathPerformInfoList.size(); i++) {
-					PathPerformCountInfo pathPerform = pathPerformInfoList.get(i);
-					if (null != pathPerform) {
+	public void WriteCsvPathPerformCount(String path, List<PerformanceInfo> pathPerformInfoList) {
+		 CsvWriter wr=null;
+			List headName=null;
+			String[] contents=null;
+			String ackTime = null;
+			String raisedTime = null;
+			String capabilityName = null;
+			String performanceValue=null;
+			try {
+				if (null != path) {
+					 wr = new CsvWriter(path, ',', Charset.forName("GBK"));
+					String perforName=null;
+					String unitName=null;
+					contents=new String[30];
+					 headName= ReadTableAttrsXml.readTableXml("pathPerCountTable");
+					 if(headName!=null&&headName.size()>0){
+						 for(int i=0;i<headName.size();i++){
+							 contents[i]=headName.get(i).toString();
+						 }
+					 }
+					wr.writeRecord(contents);
+					for (int i = 0; i < pathPerformInfoList.size(); i++) {
+						//开始时间
+						raisedTime=updateTime(pathPerformInfoList.get(i).getStartTime());
+						//结束时间
+						ackTime=updateTime(pathPerformInfoList.get(i).getPerformanceEndTime());
+						if(unitName.trim().toString().equals("%")){
+							// 性能值
+							if(pathPerformInfoList.get(i).getPerformanceCode() == 116){
+								performanceValue = pathPerformInfoList.get(i).getPerformanceValue()+unitName;
+							}else{
+								performanceValue=pathPerformInfoList.get(i).getPerformanceValue()/100+unitName;
+							}
+						}else{
+							// 性能值
+							performanceValue= pathPerformInfoList.get(i).getPerformanceValue()+unitName;
+						}
+						
 						String[] s = { "" + (i + 1), 
-								pathPerform.getSiteName(),//网元名称
-								pathPerform.getObjectName(),//监控对象
-								pathPerform.getTime(),
-								pathPerform.getPacklosr_near()+"",//近端丢包率
-								pathPerform.getPacklosr_far()+"",//远端丢包率
-								pathPerform.getPmpackdelay_s()+"",//时延秒
-								pathPerform.getPmpackdelay_ns()+"",//时延纳秒
-								pathPerform.getRx_cv()+"",//接收CV包统计
-								pathPerform.getTx_cv()+"",//发送CV包统计
+								pathPerformInfoList.get(i).getSiteName() + "",// 网元名称
+								pathPerformInfoList.get(i).getObjectName()+"/"+pathPerformInfoList.get(i).getObjectType().toString(),// 性能对象
+								perforName, //性能名称
+								capabilityName,
+								performanceValue,// 性能值
+								raisedTime,// 开始时间
+								ackTime// 结束时间
 								};
 						wr.writeRecord(s);
 					}
-				}
-				wr.flush();
-				wr.close();
+					wr.flush();
+					wr.close();
 				JOptionPane.showMessageDialog(null, ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT)
 						+ ResourceUtil.srcStr(StringKeysBtn.BTN_EXPORT_ISUCCESS), ResourceUtil.srcStr(StringKeysTitle.TIT_PROMPT),
 						JOptionPane.INFORMATION_MESSAGE);

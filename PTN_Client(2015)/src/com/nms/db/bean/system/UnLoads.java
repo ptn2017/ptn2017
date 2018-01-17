@@ -16,4 +16,6 @@ public class UnLoads implements Serializable {
 	public static final int LOGIN = 5;//登录日志
 	public static final int SYSTEM= 6;//系统日志
 	public static final int SITEEVENT = 7;// 网元事件日志
+	public static final int PERFORMANCE15 = 8;
+	public static final int PERFORMANCE24 = 9;
 }

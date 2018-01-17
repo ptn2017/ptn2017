@@ -98,14 +98,14 @@ public class PerformanceTaskService_MB extends ObjectService_Mybatis {
 					}
 					if (task.getObjectType() != null && task.getObjectType() == EObjectType.SITEINST) {
 						task.setObjectName(EObjectType.SITEINST.toString() + "/" + task.getSiteInst().getCellId());
-					} else if (task.getObjectType() != null && task.getObjectType() == EObjectType.SLOTINST) {
-						slotInst = new SlotInst();
-						slotInst.setId(task.getObjectId());
-						slotList = slotServiceMB.select(slotInst);
-						if (slotList != null && slotList.size() > 0) {
-							slotInst = slotList.get(0);
-							task.setObjectName(EObjectType.SLOTINST.toString() + "/" + slotInst.getId());
-						}
+					} else if (task.getObjectType() != null && task.getObjectType() == EObjectType.CARDSLOT2TEMP) {
+						task.setObjectName("CARD" + "/" + task.getObjectId());
+					} else if (task.getObjectType() != null && task.getObjectType() == EObjectType.PORT) {
+						task.setObjectName(EObjectType.PORT.toString() + "/" + task.getObjectId());
+					} else if (task.getObjectType() != null && task.getObjectType() == EObjectType.TUNNEL) {
+						task.setObjectName(EObjectType.TUNNEL.toString() + "/" + task.getObjectId());
+					} else if (task.getObjectType() != null && task.getObjectType() == EObjectType.PW) {
+						task.setObjectName(EObjectType.PW.toString() + "/" + task.getObjectId());
 					}
 				}
 			} catch (Exception e) {
@@ -153,4 +153,17 @@ public class PerformanceTaskService_MB extends ObjectService_Mybatis {
 		}
 	}
 	
+	public int delete(List<Integer> idList) throws Exception {
+		if (idList == null) {
+			throw new Exception("taskId is null");
+		}
+		int resultcesId = 0;
+		try {
+			resultcesId = this.mapper.deleteByids(idList);
+			sqlSession.commit();
+		} catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}
+		return resultcesId;
+	}
 }

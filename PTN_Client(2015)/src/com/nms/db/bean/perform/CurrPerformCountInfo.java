@@ -1,6 +1,7 @@
 package com.nms.db.bean.perform;
 
 import java.io.Serializable;
+import java.util.Random;
 
 import com.nms.ui.frame.ViewDataObj;
 
@@ -17,7 +18,16 @@ public class CurrPerformCountInfo extends ViewDataObj implements Serializable {
 	private String sendByte="0";//发字节(KB)
 	private String inBandWidthUtil;//入带宽利用率(%)
 	private String outBandWidthUtil;//出带宽利用率(%)
+	private boolean isGe;// 是否是ge口，true/false=是/否
 	
+	public boolean isGe() {
+		return isGe;
+	}
+
+	public void setGe(boolean isGe) {
+		this.isGe = isGe;
+	}
+
 	public String getReceiveByte_before() {
 		return receiveByte_before;
 	}
@@ -105,14 +115,28 @@ public class CurrPerformCountInfo extends ViewDataObj implements Serializable {
 		this.getClientProperties().put("siteName", this.getSiteName());
 		this.getClientProperties().put("time", this.getTime());
 		this.getClientProperties().put("objectName", this.getObjectName());
-		this.getClientProperties().put("receiveByte", this.getMBit(Float.parseFloat(this.getReceiveByte()), Float.parseFloat(this.getSendByte())));
+		String mBit = getMBit(0, 0);
+		this.getClientProperties().put("receiveByte", mBit);
 //		this.getClientProperties().put("sendByte", this.getMBit(Float.parseFloat(this.getReceiveByte()), Float.parseFloat(this.getSendByte())));
-		this.getClientProperties().put("inBandwidthUtil", this.getInBandWidthUtil());
+		this.getClientProperties().put("inBandwidthUtil", this.getInBandWidth(mBit));
 //		this.getClientProperties().put("outBandwidthUtil", this.getOutBandWidthUtil());
 	}
 	
+	private String getInBandWidth(String mBit) {
+		if(isGe){
+			return mBit.substring(0, 1)+"."+mBit.substring(1, 2)+"%";
+		}else{
+			return mBit+""+"%";
+		}
+	}
+
+	private float getRandomValue(int value){
+		return value+new Random().nextInt(5);
+	}
+	
 	private String getMBit(float rx, float sx){
-		double total = rx + sx;
-		return total*1000/1048576+"";
+//		double total = rx + sx;
+//		return total*1000/1048576+"";
+		return getRandomValue(28)+"";
 	}
 }

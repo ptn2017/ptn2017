@@ -21,6 +21,7 @@ import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.keys.StringKeysLbl;
+import com.nms.ui.ptn.alarm.AlarmTools;
 import com.nms.ui.ptn.performance.model.PerformanceRAMInfo;
 import com.nms.ui.ptn.systemManage.ReadUnloadXML;
 
@@ -31,7 +32,7 @@ public class PerformanceRamTimerTask extends TimerTask{
 		dispathPerformRam();
 	}
 	
-	private void dispathPerformRam(){
+	public void dispathPerformRam(){
 	  PerformanceRamService_MB performanceRamServiceMB = null;
 	  PerformanceRAMInfo performanceRAMInfo = null;
       String filePath = getFilePath();
@@ -42,19 +43,20 @@ public class PerformanceRamTimerTask extends TimerTask{
 			performanceRamServiceMB = (PerformanceRamService_MB)ConstantUtil.serviceFactory.newService_MB(Services.PERFORMANCERAM);
 			performanceRAMInfo = performanceRamServiceMB.select(ConstantUtil.user.getUser_Name());
 			time = fileNameTime(file);
-			if(performanceRAMInfo.getTimeValue() != null && !performanceRAMInfo.getTimeValue().equals("")){
-				//是否超过设置的天数
-				if(time >0){
-					if(System.currentTimeMillis() - time > Long.parseLong(performanceRAMInfo.getTimeValue())*60*60*1000 ){
-						alarmPerformance(1002,ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCETIME),"PERFORMANCETIME",207);
-					}
-				}
-			}
-			if(performanceRAMInfo.getRamValue() !=null && !performanceRAMInfo.getRamValue().equals("")){
-				//是否超过设置的内存大小
-				if(Double.parseDouble(performanceRAMInfo.getRamValue())< getDirSize(file) )
-				alarmPerformance(1001,ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCERAM),"PERFORMANCERAMERROR",206);
-			}
+//			if(performanceRAMInfo.getTimeValue() != null && !performanceRAMInfo.getTimeValue().equals("")){
+//				//是否超过设置的天数
+//				if(time >0){
+//					if(System.currentTimeMillis() - time > Long.parseLong(performanceRAMInfo.getTimeValue())*24*60*60*1000 ){
+//						alarmPerformance(1002,ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCETIME),"PERFORMANCETIME",207);
+//					}
+//				}
+//			}
+//			if(performanceRAMInfo.getRamValue() !=null && !performanceRAMInfo.getRamValue().equals("")){
+//				//是否超过设置的内存大小
+//				if(Double.parseDouble(performanceRAMInfo.getRamValue())< getDirSize(file) ){
+//			 		alarmPerformance(1001,ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCERAM),"PERFORMANCERAMERROR",206);
+//				}
+//			}
 			// 查看操作日志等是否超出容量限制
 			logManagerService = (LogManagerService_MB) ConstantUtil.serviceFactory.newService_MB(Services.LOGMANAGER);
 			List<LogManager> logList = logManagerService.selectAll();
@@ -63,13 +65,19 @@ public class PerformanceRamTimerTask extends TimerTask{
 					File f = new File(log.getFileVWay());
 					if(Double.valueOf(log.getVolumeLimit()) < getDirSize(f)){
 						if(log.getLogType() == 3){// 操作日志
-							alarmPerformance(1069, ResourceUtil.srcStr(StringKeysLbl.LBL_OPERATION_LOG_RAM), "OPERATION_VOLUMNE_CIRCALE", 221);
+//							alarmPerformance(1069, ResourceUtil.srcStr(StringKeysLbl.LBL_OPERATION_LOG_RAM), "OPERATION_VOLUMNE_CIRCALE", 221);
 						}else if(log.getLogType() == 5){// 登录日志
-							alarmPerformance(1070, ResourceUtil.srcStr(StringKeysLbl.LBL_LOGIN_LOG_RAM), "LOGIN_VOLUMNE_CIRCALE", 222);
+//							alarmPerformance(1070, ResourceUtil.srcStr(StringKeysLbl.LBL_LOGIN_LOG_RAM), "LOGIN_VOLUMNE_CIRCALE", 222);
 						}else if(log.getLogType() == 6){// 系统日志
-							alarmPerformance(1071, ResourceUtil.srcStr(StringKeysLbl.LBL_SYSTEM_LOG_RAM), "SYSTEMLOG_VOLUMNE_CIRCALE", 228);
+//							alarmPerformance(1071, ResourceUtil.srcStr(StringKeysLbl.LBL_SYSTEM_LOG_RAM), "SYSTEMLOG_VOLUMNE_CIRCALE", 228);
 						}else if(log.getLogType() == 7){// 网元事件日志
-							alarmPerformance(1072, ResourceUtil.srcStr(StringKeysLbl.LBL_SITE_EVENT_LOG_RAM), "SITE_EVENT_VOLUMNE_CIRCALE", 229);
+//							alarmPerformance(1072, ResourceUtil.srcStr(StringKeysLbl.LBL_SITE_EVENT_LOG_RAM), "SITE_EVENT_VOLUMNE_CIRCALE", 229);
+						}else if(log.getLogType() == 8){
+							//是否超过设置的内存大小
+						 	alarmPerformance(1001, "15min"+ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCERAM),"PERFORMANCERAMERROR",206);
+						}else if(log.getLogType() == 9){
+							//是否超过设置的内存大小
+						 	alarmPerformance(1003, "24hour"+ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCERAM),"PERFORMANCERAMERROR",206);
 						}
 					}
 				}
@@ -82,6 +90,20 @@ public class PerformanceRamTimerTask extends TimerTask{
 		}
 		
 	}
+	
+	public void dispathPerformRam(LogManager log){
+			try {
+				if(log.getLogType() == 8){
+					//是否超过设置的内存大小
+				 	alarmPerformance(1001, "15min"+ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCERAM),"PERFORMANCERAMERROR",206);
+				}else if(log.getLogType() == 9){
+					//是否超过设置的内存大小
+				 	alarmPerformance(1003, "24hour"+ResourceUtil.srcStr(StringKeysLbl.LBL_PERFORMANCERAM),"PERFORMANCERAMERROR",206);
+				}
+			} catch (Exception e) {
+				ExceptionManage.dispose(e, this.getClass());
+			}
+		}
 	
 	/**
 	 * 获取性能存储文件目录地址
@@ -211,6 +233,7 @@ public class PerformanceRamTimerTask extends TimerTask{
 			if(existList == null || existList.size() == 0){
 				// 只产生一次，如果有，就不在放入数据库
 				alarmServiceMB.saveOrUpdate(losAlarm);
+				new AlarmTools().alarmNorth(losAlarm);
 			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());

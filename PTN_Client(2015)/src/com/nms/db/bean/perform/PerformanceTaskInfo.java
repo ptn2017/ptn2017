@@ -49,7 +49,16 @@ public class PerformanceTaskInfo extends ViewDataObj implements java.io.Serializ
 	private String beforeThreadName;//修改之前的线程名称
 	private ERunStates beforeRunstates;//修改之前的运行状态
 	private int isReported;// 0/1 = 不上报/上报
+	private Object object;
 	
+	public Object getObject() {
+		return object;
+	}
+
+	public void setObject(Object object) {
+		this.object = object;
+	}
+
 	public int getIsReported() {
 		return isReported;
 	}

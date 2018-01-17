@@ -1,26 +1,18 @@
 
 package com.nms.ui.ptn.alarm.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-import com.nms.db.bean.alarm.DuanAlarmInfo;
-import com.nms.db.bean.system.SystemLog;
-import com.nms.db.enums.EOperationLogType;
+import com.nms.db.bean.perform.CurrentPerforInfo;
 import com.nms.model.alarm.CurAlarmService_MB;
 import com.nms.model.system.OperationLogService_MB;
 import com.nms.model.util.Services;
-import com.nms.service.impl.util.ResultString;
 import com.nms.ui.frame.AbstractController;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.UiUtil;
 import com.nms.ui.ptn.alarm.model.DuanAlarmFilterDialog;
 import com.nms.ui.ptn.alarm.view.DuanAlarmPanel;
-import com.nms.ui.ptn.safety.controller.OperationLogPanelController;
-import com.nms.ui.ptn.safety.controller.SystemLogController;
-import com.nms.ui.ptn.safety.dialog.SystemLogFilterDialog;
 
 /**
  * 当前告警事件处理类
@@ -33,8 +25,8 @@ public class DuanAlarmController extends AbstractController{
 	private Integer type = 1;
 	private int total;
 	private int now = 1;
-	List<DuanAlarmInfo> infos=null;
-	private List<DuanAlarmInfo> needs;
+	List<CurrentPerforInfo> infos=null;
+	private List<CurrentPerforInfo> needs;
 	
 	public DuanAlarmController(DuanAlarmPanel view) {
 		this.view = view;
@@ -47,7 +39,7 @@ public class DuanAlarmController extends AbstractController{
 		CurAlarmService_MB Service = null;
 		try {
 			Service = (CurAlarmService_MB) ConstantUtil.serviceFactory.newService_MB(Services.CurrentAlarm);
-			infos = Service.selectDuanAlarm(type);
+//			infos = Service.selectDuanAlarm(type);
 			if(infos.size() ==0){
 				now = 0;
 				view.getNextPageBtn().setEnabled(false);
@@ -125,7 +117,7 @@ public class DuanAlarmController extends AbstractController{
 	
 	private void flipRefresh() {
 		view.getCurrPageLabel().setText(now + "");
-		List<DuanAlarmInfo> needs = null;
+		List<CurrentPerforInfo> needs = null;
 		if (now * ConstantUtil.flipNumber > infos.size()) {
 			needs = infos.subList((now - 1) * ConstantUtil.flipNumber, infos.size());
 		} else {

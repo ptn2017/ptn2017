@@ -279,14 +279,17 @@ public class PwBusinessController extends AbstractController {
 			}
 		}
 		PwProtectStatus pwPro = new PwProtectStatus();
-		pwPro.setMainLspName(mainPw.getPwName());
-		pwPro.setStandLspName(standPw.getPwName());
+		pwPro.setMainPwName(mainPw.getPwName());
+		pwPro.setStandPwName(standPw.getPwName());
 		String[] arr = mainPw.getDirection().split("@");
-		pwPro.setRorateStatus(Integer.parseInt(arr[0]));
 		pwPro.setDelaytime(Integer.parseInt(arr[1]));
 		pwPro.setWaittime(Integer.parseInt(arr[2]));
 		pwPro.setSiteId(mainPw.getASiteId());
 		pwPro.setPwId(mainPw.getPwId());
+		this.view.getPwProtectPanel().clear();
+		List<PwProtectStatus> pwProList = new ArrayList<PwProtectStatus>();
+		pwProList.add(pwPro);
+		this.view.getPwProtectPanel().initData(pwProList);
 	}
 
 	private void initBusinessPanel() {

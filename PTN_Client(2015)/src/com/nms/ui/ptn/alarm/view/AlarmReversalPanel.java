@@ -71,9 +71,7 @@ public class AlarmReversalPanel extends PtnDialog{
 
 	//��ʼ��
 	private void init() {
-		
 		try{
-			
 			this.setTitle(ResourceUtil.srcStr(StringKeysMenu.TAB_ALARM_REVERSAL));
 			this.initComponents();
 			this.setLayout();
@@ -100,6 +98,18 @@ public class AlarmReversalPanel extends PtnDialog{
 				ControlKeyValue controlKeyValue = (ControlKeyValue) ((JComboBox)e.getSource()).getSelectedItem();
 				int alarmMode = ((SiteInst)controlKeyValue.getObject()).getAlarmReversalModel();
 				alarmModelComboBox.setSelectedIndex(alarmMode);
+				SiteInst siteInfo = (SiteInst) controlKeyValue.getObject();
+				if(siteInfo.getIsDelayAlarmTrap() == 1 ){
+					alarmDelay.setSelected(true);
+					delayText.setEditable(true);
+					if(siteInfo.getDelayTime().contains("-")){
+						delayText.setText(Long.parseLong(siteInfo.getDelayTime().split("-")[1])/1000+"");
+					}
+				}else{
+					alarmDelay.setSelected(false);
+					delayText.setEditable(false);
+					delayText.setText("0");
+				}
 			}
 		});
 		confirmButton.addActionListener(new ActionListener() {
@@ -209,7 +219,6 @@ public class AlarmReversalPanel extends PtnDialog{
 	}
 
 	private void initComponents() {
-		
 	    neJlJLabel = new JLabel(ResourceUtil.srcStr(StringKeysObj.NET_BASE));
 		neComboBox = new JComboBox();
 		this.comboBoxData(neComboBox);
@@ -229,7 +238,7 @@ public class AlarmReversalPanel extends PtnDialog{
 		delayText.setEditable(false);
 		
 		if((ControlKeyValue) neComboBox.getItemAt(0) != null){
-			SiteInst siteInfo = ((SiteInst)((ControlKeyValue) neComboBox.getItemAt(0)).getObject());
+			SiteInst siteInfo = ((SiteInst)((ControlKeyValue) neComboBox.getSelectedItem()).getObject());
 			if(siteInfo.getIsAlarmReversal()==1){
 			  alarmModel.setSelected(true);
 			  alarmModelComboBox.setSelectedIndex(siteInfo.getAlarmReversalModel());
@@ -237,7 +246,7 @@ public class AlarmReversalPanel extends PtnDialog{
 			}else{
 			  alarmModel.setSelected(false);
 			}
-			if(siteInfo.getIsDelayAlarmTrap() ==1 ){
+			if(siteInfo.getIsDelayAlarmTrap() == 1 ){
 				alarmDelay.setSelected(true);
 				delayText.setEditable(true);
 				if(siteInfo.getDelayTime().contains("-")){
@@ -259,10 +268,13 @@ public class AlarmReversalPanel extends PtnDialog{
 			siteList = siteService.select();
 			defaultComboBoxModel = (DefaultComboBoxModel) jComboBox.getModel();
 			for (SiteInst siteInfo : siteList) {
-				defaultComboBoxModel.addElement(new ControlKeyValue(siteInfo.getSite_Inst_Id() + "", siteInfo.getCellId(), siteInfo));
+				ControlKeyValue ck = new ControlKeyValue(siteInfo.getSite_Inst_Id() + "", siteInfo.getCellId(), siteInfo);
+				defaultComboBoxModel.addElement(ck);
+				if(ConstantUtil.alarmReversalSite > 0 && ConstantUtil.alarmReversalSite == siteInfo.getSite_Inst_Id()){
+					defaultComboBoxModel.setSelectedItem(ck);
+				}
 			}
 			jComboBox.setModel(defaultComboBoxModel);
-
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, AlarmReversalPanel.class);
 		} finally {
@@ -276,14 +288,11 @@ public class AlarmReversalPanel extends PtnDialog{
  * �ύ�û��������
  */
 	private void confirm() {
-		
 		SiteService_MB siteService = null;
 		PortService_MB portService = null;
 		List<PortInst> portList = null;
 		int alarmReverAgoState = 0;
-		
 		try {
-			
 		portList = new ArrayList<PortInst>();
         siteService = (SiteService_MB)ConstantUtil.serviceFactory.newService_MB(Services.SITE);
         portService = (PortService_MB)ConstantUtil.serviceFactory.newService_MB(Services.PORT);
@@ -317,6 +326,7 @@ public class AlarmReversalPanel extends PtnDialog{
         }else{
         	siteInfo.setIsDelayAlarmTrap(0);
         }
+        ConstantUtil.alarmReversalSite = siteInfo.getSite_Inst_Id();
         siteService.updateSite(siteInfo);
         DialogBoxUtil.succeedDialog(null, ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));
         UiUtil.insertOperationLog(EOperationLogType.ALARMREVERSAL.getValue(),ResourceUtil.srcStr(StringKeysTip.TIP_CONFIG_SUCCESS));

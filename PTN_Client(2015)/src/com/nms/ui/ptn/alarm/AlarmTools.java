@@ -9,10 +9,12 @@ import twaver.AlarmSeverity;
 import twaver.table.TTableColumn;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
+import com.nms.db.bean.alarm.HisAlarmInfo;
 import com.nms.db.bean.alarm.WarningLevel;
 import com.nms.db.enums.EObjectType;
 import com.nms.model.alarm.AlarmVoiceService_MB;
 import com.nms.model.alarm.CurAlarmService_MB;
+import com.nms.model.alarm.HisAlarmService_MB;
 import com.nms.model.util.Services;
 import com.nms.ui.frame.RowIDRenderer;
 import com.nms.ui.manager.ConstantUtil;
@@ -122,40 +124,26 @@ public class AlarmTools {
 	
 	public TTableColumn[] createColumns() {
 		TTableColumn objColumn = createColumn("obj", ResourceUtil.srcStr(StringKeysObj.ORDER_NUM), 0, false);
-		TTableColumn indexColumn = createColumn("index", ResourceUtil.srcStr(StringKeysObj.ORDER_NUM), 40, true);
+		TTableColumn indexColumn = createColumn("index", ResourceUtil.srcStr(StringKeysObj.ORDER_NUM), 10, true);
 		indexColumn.setRenderer(new RowIDRenderer());
 
 		return new TTableColumn[] { objColumn, indexColumn,
 		        // 告警级别
-				createColumn("alarmSeverity", ResourceUtil.srcStr(StringKeysObj.ALARM_LEVEL), 100, true),
+				createColumn("alarmSeverity", ResourceUtil.srcStr(StringKeysObj.ALARM_LEVEL), 50, true),
 				// 网元编号
-				createColumn("siteName", ResourceUtil.srcStr(StringKeysObj.STRING_SITE_NAME), 80, true), 
-				createColumn("alarmSource", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_SOURCE), 80, true), 
+				createColumn("siteName", ResourceUtil.srcStr(StringKeysObj.STRING_SITE_NAME), 40, true), 
+				createColumn("alarmSource", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_SOURCE), 40, true), 
 				// 告警名称
-				createColumn("warningNotes", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_DETAIL), 120, true),
+				createColumn("warningNotes", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_DETAIL), 60, true),
 				// 告警描述
-				createColumn("alarmDesc", ResourceUtil.srcStr(StringKeysTab.TAB_ALARM), 120, true), 
+				createColumn("alarmDesc", ResourceUtil.srcStr(StringKeysTab.TAB_ALARM), 60, true), 
 				// 告警类型
-				createColumn("warningTypes", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_TYPE), 80, true),
-				// 告警定位
-				createColumn("alarmAnalyze", "告警定位", 80, true),
-				// createColumn(Alarm.PROPERTY_ALARMTYPE, 60, true),
-				createColumn("ackUser", ResourceUtil.srcStr(StringKeysObj.STRING_CONFIRM_USER), 80, true),
+				createColumn("warningTypes", ResourceUtil.srcStr(StringKeysObj.STRING_ALARM_TYPE), 40, true),
 				// 发生时间
-				createColumn("raisedTime", ResourceUtil.srcStr(StringKeysObj.HAPPENED_TIME), 120, true),
-				// 确认时间
-				createColumn("ackTime", ResourceUtil.srcStr(StringKeysObj.CONFIRM_TIME), 120, true),
-				//是否清除
-				createColumn("isCleared", ResourceUtil.srcStr(StringKeysObj.IS_CLEARED), 120, true),
-				// 清除时间
-				createColumn("clearedTime", ResourceUtil.srcStr(StringKeysObj.CLEAR_TIME), 120, true),
-				//备注
-				createColumn("remarks", ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_REMARK), 120, true),
-				// 告警状态
-				createColumn("alarmState", ResourceUtil.srcStr(StringKeysLbl.LBL_ALARM_STATE), 80, true),
+				createColumn("raisedTime", ResourceUtil.srcStr(StringKeysObj.HAPPENED_TIME), 60, true),
 			};
 	}
-
+	
 	private TTableColumn createColumn(String name, String display, int width, boolean visible) {
 		return new TTableColumn(name, display, width).setVisible(visible);
 	}
@@ -280,9 +268,37 @@ public class AlarmTools {
 				currentAlarmInfo.setId(currentAlarmList.get(0).getId());
 			}
 			curAlarmService.saveOrUpdate(currentAlarmInfo);
+			alarmNorth(currentAlarmInfo);
 		} finally{
 			UiUtil.closeService_MB(curAlarmService);
 			currentAlarmList = null;
+		}
+	}
+	
+	public void alarmNorth(CurrentAlarmInfo alarm){
+		HisAlarmService_MB hisAlarmService = null;
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			hisAlarmService = (HisAlarmService_MB) ConstantUtil.serviceFactory.newService_MB(Services.HisAlarm);
+			long currTime = System.currentTimeMillis();
+			HisAlarmInfo northAlarm = new HisAlarmInfo();
+			northAlarm.setRaisedTime(alarm.getRaisedTime());
+			northAlarm.setClearedTime(alarm.getRaisedTime());
+			northAlarm.setConfirmtime(sdf.format(currTime));
+			northAlarm.setSiteId(alarm.getSiteId());
+			northAlarm.setSlotId(alarm.getSlotId());
+			northAlarm.setSlotNumber(alarm.getSlotNumber());
+			northAlarm.setAlarmCode(alarm.getAlarmCode());
+			northAlarm.setAlarmLevel(alarm.getWarningLevel().getWarninglevel());// 确定告警等级
+			northAlarm.setWarningLevel(alarm.getWarningLevel());
+			northAlarm.setAlarmTime(sdf.format(currTime));
+			northAlarm.setIsClear(0);
+			northAlarm.setHappenedtime(sdf.format(currTime));
+			hisAlarmService.saveNorth(northAlarm);//北向告警流水
+		}catch (Exception e) {
+			ExceptionManage.dispose(e,this.getClass());
+		}finally{
+			UiUtil.closeService_MB(hisAlarmService);
 		}
 	}
 }

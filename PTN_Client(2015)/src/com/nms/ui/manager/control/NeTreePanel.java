@@ -298,7 +298,7 @@ public class NeTreePanel extends JPanel {
 	 * 加载数据
 	 * 
 	 * @param level
-	 *            加载等级。 1=域级别 2=网元级别 3=板卡级别 4=端口级别
+	 *            加载等级。 1=域级别 2=网元级别 3=板卡级别 4=端口级别5=tunnel/6=pw
 	 * @throws Exception
 	 */
 	public void initData() throws Exception {
@@ -577,7 +577,7 @@ public class NeTreePanel extends JPanel {
 	 * 设置树等等级
 	 * 
 	 * @param level
-	 *            加载等级 1=域级别 2=网元级别 3=板卡级别 4=端口级别
+	 *            加载等级 1=域级别 2=网元级别 3=板卡级别 4=端口级别5=tunnel6=pw
 	 */
 	public void setLevel(int level) {
 		try {
@@ -728,6 +728,7 @@ public class NeTreePanel extends JPanel {
 	public List<Element> getElement(){
 		return this.tDataBox.getSelectionModel().getAllSelectedElement();
 	}
+	
 	/**
 	 * 修改时，刷新网元树（包括已经选中的）
 	 * @return

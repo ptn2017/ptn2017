@@ -27,4 +27,6 @@ public interface PerformanceTaskInfoMapper {
 											   @Param("objectType")Integer objectType, @Param("siteId")Integer siteId);
 
 	int query_name(@Param("afterName")String afterName, @Param("beforeName")String beforeName);
+
+	int deleteByids(@Param("idList")List<Integer> idList);
 }

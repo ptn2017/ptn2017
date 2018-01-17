@@ -265,7 +265,7 @@ public class PwProtectStatus extends ViewDataObj{
 				if(roata!=null){
 					roate = roata.getRoate();
 					if (roate == ERotateType.FORCESWORK.getValue()) {
-						state = "恢复主用@"+"主用路径";
+						state = "主用@"+"主用路径";
 					} else if (roate == ERotateType.FORCESPRO.getValue()) {
 						state = "强制到备用@"+"备用路径";
 					} else if (roate == ERotateType.MANUALWORK.getValue()) {

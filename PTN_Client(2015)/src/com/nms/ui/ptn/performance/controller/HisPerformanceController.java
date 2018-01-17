@@ -307,7 +307,7 @@ public class HisPerformanceController extends AbstractController {
 				} 
 			} else if (all.isSelected()) {
 				service = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
-				infos = service.select();
+				infos = service.selectAll();
 			} else if (timebutton.isSelected()) {
 				statTime = time.getText();
 				// 验证时间是否合乎规则

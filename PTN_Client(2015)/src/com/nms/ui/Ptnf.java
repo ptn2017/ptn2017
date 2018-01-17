@@ -76,8 +76,8 @@ import com.nms.ui.ptn.alarm.view.AlarmReversalPanel;
 import com.nms.ui.ptn.alarm.view.AlarmVoiceDialog;
 import com.nms.ui.ptn.alarm.view.CircleButton;
 import com.nms.ui.ptn.alarm.view.CurrentAlarmPanel;
-import com.nms.ui.ptn.alarm.view.DuanAlarmPanel;
 import com.nms.ui.ptn.alarm.view.HisAlarmPanel;
+import com.nms.ui.ptn.alarm.view.PTPAlarmPanel;
 import com.nms.ui.ptn.alarm.view.TopoAlamTable;
 import com.nms.ui.ptn.basicinfo.NetWorkInfoPanel;
 import com.nms.ui.ptn.basicinfo.SegmentPanel;
@@ -109,6 +109,7 @@ import com.nms.ui.ptn.performance.view.CurrentPerformancePanel;
 import com.nms.ui.ptn.performance.view.HisPerformancePanel;
 import com.nms.ui.ptn.performance.view.PathPerformCountPanel;
 import com.nms.ui.ptn.performance.view.PerformanceDescPanel;
+import com.nms.ui.ptn.performance.view.PerformanceSavePanel;
 import com.nms.ui.ptn.performance.view.PerformanceStoragePanel;
 import com.nms.ui.ptn.performance.view.PerformanceTaskPanel;
 import com.nms.ui.ptn.report.alarm.HisAlarmReportPanel;
@@ -284,7 +285,7 @@ public class Ptnf extends javax.swing.JFrame {
 			new Thread(this.alarmColorThread).start(); 
 				
 			//用户是否设置了性能文件的监控
-			createMonitorPerformanceRam();
+//			createMonitorPerformanceRam();
 			// 定时刷新拓扑告警
 			new Thread(new RefreshTopoAlarmThread(this)).start();
 			
@@ -963,6 +964,7 @@ public class Ptnf extends javax.swing.JFrame {
 		this.cardReportItem = new JMenuItem();
 		this.portReportItem = new JMenuItem();
 		duanAlarmItem = new JMenuItem();
+		this.performanceSaveItem = new JMenuItem();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setBackground(new java.awt.Color(191, 213, 235));
 		this.addWindowListener(new WindowAdapter() {
@@ -1891,6 +1893,19 @@ public class Ptnf extends javax.swing.JFrame {
 				pathPerforActionPerformed();
 			}
 		});
+		
+		performanceSaveItem.setText("性能数据存储管理");
+		/*
+		 * 添加 权限验证
+		 */
+		roleRoot.setItemEnbale(this.performanceSaveItem, RootFactory.PROFORMANCEMODU);		
+		performanceSaveItem.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				performanceSaveActionPerformed(evt);
+			}
+		});	
+		
 		jMenu17.add(jMenuItem2);
 		jMenu17.add(performanceMenuItem);
 		jMenu17.add(currPerMenuItem);
@@ -1899,6 +1914,7 @@ public class Ptnf extends javax.swing.JFrame {
 		jMenu17.add(currPerformCountMenuItem);
 		jMenu17.add(jMenuItemPerfor);
 		jMenu17.add(jMenuItemPathPerfor);
+		jMenu17.add(performanceSaveItem);
 		jMenuBar2.add(jMenu17);
 		/*
 		 * 菜单： 维护管理
@@ -2562,6 +2578,14 @@ public class Ptnf extends javax.swing.JFrame {
 		
 	}
 	
+	protected void performanceSaveActionPerformed(ActionEvent evt) {
+		try {
+			this.mainTabPanel(ConstantUtil.jTabbedPane, "性能数据存储管理", new PerformanceSavePanel());
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+	}
+
 	protected void reportActionPerformed(int flag) {
 		try {
 			if(flag == 1){
@@ -3026,7 +3050,7 @@ public class Ptnf extends javax.swing.JFrame {
 	
 	private void duanAlarm() {
 		try {
-			this.mainTabPanel(ConstantUtil.jTabbedPane, "端到端告警",  new DuanAlarmPanel());
+			this.mainTabPanel(ConstantUtil.jTabbedPane, "端到端告警",  new PTPAlarmPanel());
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
 		}
@@ -3763,6 +3787,7 @@ public class Ptnf extends javax.swing.JFrame {
 	private JMenuItem portReportItem;
 	private JMenuItem alarmMonitorItem;// 告警阈值设置
 	private javax.swing.JMenuItem duanAlarmItem;//端到端告警管理
+	private JMenuItem performanceSaveItem;// 性能数据存储管理
 	public Map<Integer, Map<String, CurrentAlarmInfo>> getCurrentAlarmMap() {
 		return currentAlarmMap;
 	}

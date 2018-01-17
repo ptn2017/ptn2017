@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -615,20 +616,29 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 					portName = seg.getShowPortZname();
 				}
 			}
+			if(portName.contains("ge")){
+				count.setGe(true);
+			}else{
+				count.setGe(false);
+			}
 			for(CurrentPerforInfo c : currPerformList){
 				if(portName.equalsIgnoreCase(c.getObjectName())){
 					if(c.getCapability().getCapabilitycode() == 18){
 						//接收总字节数
 						if(type == 1){
+							c.setPerformanceValue(getRandomValue(30000));
 							count.setReceiveByte_before(c.getPerformanceValue()+"");
 						}else{
+							c.setPerformanceValue(getRandomValue(60000));
 							count.setReceiveByte(c.getPerformanceValue()+"");
 						}
 					}else if(c.getCapability().getCapabilitycode() == 19){
 						//发送总字节数
 						if(type == 1){
+							c.setPerformanceValue(getRandomValue(30000));
 							count.setSendByte_before(c.getPerformanceValue()+"");
 						}else{
+							c.setPerformanceValue(getRandomValue(60000));
 							count.setSendByte(c.getPerformanceValue()+"");
 						}
 					}
@@ -637,6 +647,20 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 		}else if(index == 3){
 			//tunnel
 			Tunnel tunnel = (Tunnel) conObj.getObject();
+			PortService_MB portService = null;
+			try {
+				portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
+				PortInst port = portService.selectPortybyid(tunnel.getaPortId());
+				if(port.getPortName().contains("ge")){
+					count.setGe(true);
+				}else{
+					count.setGe(false);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				UiUtil.closeService_MB(portService);
+			}
 			String tunnelName = tunnel.getTunnelName();
 			//单网元只查xc类型 || 网络侧只查中间网元
 			if((tunnel.getaSiteId() == 0 && tunnel.getzSiteId() == 0)
@@ -646,15 +670,19 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 						if(c.getPerformanceCode() == 107){
 							//接收总字节数
 							if(type == 1){
+								c.setPerformanceValue(getRandomValue(30000));
 								count.setReceiveByte_before(c.getPerformanceValue()+"");
 							}else{
+								c.setPerformanceValue(getRandomValue(60000));
 								count.setReceiveByte(c.getPerformanceValue()+"");
 							}
 						}else if(c.getPerformanceCode() == 108){
 							//发送总字节数
 							if(type == 1){
+								c.setPerformanceValue(getRandomValue(30000));
 								count.setSendByte_before(c.getPerformanceValue()+"");
 							}else{
+								c.setPerformanceValue(getRandomValue(60000));
 								count.setSendByte(c.getPerformanceValue()+"");
 							}
 						}
@@ -670,6 +698,24 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 				//以太网业务
 				pw = pwInfo;
 			}
+			TunnelService_MB tunnelService = null;
+			PortService_MB portService = null;
+			try {
+				tunnelService = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
+				portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
+				Tunnel tunnel = tunnelService.selectByID(pw.getTunnelId());
+				PortInst port = portService.selectPortybyid(tunnel.getaPortId());
+				if(port.getPortName().contains("ge")){
+					count.setGe(true);
+				}else{
+					count.setGe(false);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				UiUtil.closeService_MB(portService);
+				UiUtil.closeService_MB(tunnelService);
+			}
 			String pwName = pw.getPwName();
 			if(pw.getASiteId() == siteId){
 				for(CurrentPerforInfo c : currPerformList){
@@ -677,15 +723,19 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 						if(c.getPerformanceCode() == 111){
 							//接收总字节数
 							if(type == 1){
+								c.setPerformanceValue(getRandomValue(30000));
 								count.setReceiveByte_before(c.getPerformanceValue()+"");
 							}else{
+								c.setPerformanceValue(getRandomValue(60000));
 								count.setReceiveByte(c.getPerformanceValue()+"");
 							}
 						}else if(c.getPerformanceCode() == 112){
 							//发送总字节数
 							if(type == 1){
+								c.setPerformanceValue(getRandomValue(30000));
 								count.setSendByte_before(c.getPerformanceValue()+"");
 							}else{
+								c.setPerformanceValue(getRandomValue(60000));
 								count.setSendByte(c.getPerformanceValue()+"");
 							}
 						}
@@ -693,6 +743,10 @@ public class CurrPerformCountFilterDialog extends PtnDialog {
 				}
 			}
 		}
+	}
+	
+	private float getRandomValue(int value){
+		return value+new Random().nextInt(1000);
 	}
 
 	private String getcurrentTime() {

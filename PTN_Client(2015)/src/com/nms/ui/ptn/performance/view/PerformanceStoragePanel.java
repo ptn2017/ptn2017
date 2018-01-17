@@ -199,7 +199,7 @@ public class PerformanceStoragePanel extends PtnDialog{
 	private void startThrad(){
 		
 		//开启自动的默认备份数据 不影响其他的启动线程任务 2个小时查询一次
-		long cycleTime = 2*60*60*1000;
+		long cycleTime = 30*24*60*60*1000;
 		AutoDatabaseBackThradUtil autoDatabaseBackThradUtil = new AutoDatabaseBackThradUtil();
 		try {
 			autoDatabaseBackThradUtil.createThread(cycleTime);

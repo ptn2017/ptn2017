@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
-import com.nms.db.bean.perform.PathPerformCountInfo;
+import com.nms.db.bean.perform.PerformanceInfo;
 import com.nms.ui.frame.ContentView;
 import com.nms.ui.ptn.performance.controller.PathPerformCountController;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
@@ -17,7 +17,7 @@ import com.nms.ui.ptn.safety.roleManage.RootFactory;
  * 端到端性能统计面板
  * guoqc
  */
-public class PathPerformCountPanel extends ContentView<PathPerformCountInfo> {
+public class PathPerformCountPanel extends ContentView<PerformanceInfo> {
 	private static final long serialVersionUID = -7047330173179201099L;
 	
 	public PathPerformCountPanel() {

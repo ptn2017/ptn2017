@@ -450,4 +450,18 @@ public class HisAlarmService_MB extends ObjectService_Mybatis {
 		}
 		return result;
 	}
+	
+	public int saveNorth(HisAlarmInfo hisInfo) throws Exception {
+		if (hisInfo == null) {
+			throw new Exception("taskInfo is null");
+		}
+		int resultcesId = 0;
+		try {
+			resultcesId = this.mapper.saveNorth(hisInfo);
+			this.sqlSession.commit();
+		} catch (Exception e) {
+			throw e;
+		}
+		return resultcesId;
+	}
 }

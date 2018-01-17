@@ -213,7 +213,7 @@ public class PerformanceTaskController extends AbstractController {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				if (dialog.validateParams()) {
-					PerformanceTaskController.this.update(dialog);
+					PerformanceTaskController.this.create(dialog);
 				}
 			}
 			@Override
@@ -282,19 +282,18 @@ public class PerformanceTaskController extends AbstractController {
 	public void refresh() {
 		List<PerformanceTaskInfo> taskList = null;
 		ListingFilter listFilter=null;
-		DispatchUtil performanceDispatch = null;
+		PerformanceTaskService_MB service = null;
 		try {
-			performanceDispatch = new DispatchUtil(RmiKeys.RMI_PERFORMANCE);
 			listFilter = new ListingFilter();
-			taskList = (List<PerformanceTaskInfo>) listFilter.filterList(performanceDispatch.getAllPerformanceTask(this.filter));
+			service = (PerformanceTaskService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PerformanceTask);
+			taskList = (List<PerformanceTaskInfo>) listFilter.filterList(service.select());
 			view.clear();
 			view.initData(taskList);
 			view.updateUI();
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		} finally {
-			performanceDispatch = null;
-			taskList = null;
+			UiUtil.closeService_MB(service);
 		}
 	}
 

@@ -3,7 +3,6 @@ package com.nms.ui.topology.util;
 import java.awt.Color;
 import java.util.List;
 
-import twaver.BlinkingRule;
 import twaver.Card;
 import twaver.Element;
 import twaver.Group;
@@ -19,6 +18,8 @@ import com.nms.db.bean.equipment.shelf.EquipInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.equipment.slot.SlotInst;
 import com.nms.db.bean.perform.Capability;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.NetWork;
 import com.nms.model.system.FieldService_MB;
@@ -185,6 +186,27 @@ public class CreateElementUtil {
 		port.setParent(parentElement);
 		return port;
 	}
+	
+	public Node createTunnel(Tunnel tunnel, Element parentElement) {
+		Node tunnelNode = new Node();
+		tunnelNode.setName(tunnel.getTunnelName());
+//		tunnelNode.setImage(portInst.getImagePath());
+//		tunnelNode.setLocation(portInst.getPortx(), portInst.getPorty());
+		tunnelNode.setUserObject(tunnel);
+		tunnelNode.setParent(parentElement);
+		return tunnelNode;
+	}
+	
+	public Node createPw(PwInfo pw, Element parentElement) {
+		Node pwNode = new Node();
+		pwNode.setName(pw.getPwName());
+//		tunnelNode.setImage(portInst.getImagePath());
+//		tunnelNode.setLocation(portInst.getPortx(), portInst.getPorty());
+		pwNode.setUserObject(pw);
+		pwNode.setParent(parentElement);
+		return pwNode;
+	}
+	
 	/**
 	 * 创建网元为跟几点
 	 * 

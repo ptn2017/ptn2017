@@ -319,7 +319,24 @@
   	select count(*) from current_alarm 
   </select>
   
-  <select id="selectDuanTunnelAlarm" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
+  <select id="selectDuanTunnelAlarm" resultMap="CurrentAlarm">
+  	  	SELECT
+	*
+FROM
+	current_alarm H
+INNER JOIN `warninglevel` W ON w.WarningCode = h.alarmcode and h.alarmcode in (16,17,11,7,104,110,112)
+AND w.Manufacturer = 1
+AND (
+	w.parentid = 1
+	OR w.parentlevel is not null
+)
+INNER JOIN tunnel t on (t.aSiteId = h.siteid or  t.zSiteId = h.siteid) and t.tunnelStatus=1
+INNER JOIN site_inst s on s.site_inst_id = h.siteid
+GROUP BY h.id
+ORDER BY t.tunnelName,h.happenedtime desc;
+  </select>
+  
+  <select id="selectDuanTunnelAlarm1" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
   	SELECT
 	t.tunnelName as name,w.WarningNote as warningNote,w.WarningName as warningName,s.CellId as sitename,h.happenedtime as time
 FROM
@@ -335,7 +352,19 @@ INNER JOIN site_inst s on s.site_inst_id = h.siteid
 ORDER BY t.tunnelName,h.happenedtime desc
   </select>
   
-	<select id="selectDuanPwAlarm" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
+  <select id="selectDuanPwAlarm" resultMap="CurrentAlarm">
+ SELECT *
+FROM
+	current_alarm H
+INNER JOIN `warninglevel` W ON w.WarningCode = H.alarmcode and H.alarmcode in (16,17,11,6,105,111,113)
+AND w.Manufacturer = 1
+INNER JOIN pwinfo t on (t.aSiteId = h.siteid or  t.zSiteId = h.siteid) and t.pwStatus=1
+INNER JOIN site_inst s on s.site_inst_id = h.siteid
+GROUP BY h.id
+ORDER BY t.pwName,h.happenedtime desc
+  
+  </select>
+	<select id="selectDuanPwAlarm1" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
   SELECT
 	t.pwName as name,w.WarningNote as warningNote,w.WarningName as warningName,s.CellId as sitename,h.happenedtime as time
 FROM
@@ -352,7 +381,21 @@ ORDER BY t.pwName,h.happenedtime desc
   
   </select>
   
-	<select id="selectDuanEthAlarm" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
+ <select id="selectDuanEthAlarm" resultMap="CurrentAlarm">
+  SELECT
+	*
+FROM
+	current_alarm H
+INNER JOIN `warninglevel` W ON w.WarningCode = h.alarmcode AND H.alarmcode IN (16,17,11,12,14,121,190)
+AND w.Manufacturer = 1
+INNER JOIN serviceinfo t on (t.aSiteId = h.siteid or  t.zSiteId = h.siteid or t.rootSite = h.siteid or t.branchSite=h.siteid) and t.activeStatus=1
+INNER JOIN site_inst s on s.site_inst_id = h.siteid
+GROUP BY h.id
+ORDER BY t.name,h.happenedtime desc
+  
+  </select>
+  
+<select id="selectDuanEthAlarm1" resultType="com.nms.db.bean.alarm.DuanAlarmInfo">
   SELECT
 	t.`name` as name,w.WarningNote as warningNote,w.WarningName as warningName,s.CellId as sitename,h.happenedtime as time
 FROM
@@ -367,5 +410,19 @@ INNER JOIN serviceinfo t on (t.aSiteId = h.siteid or  t.zSiteId = h.siteid or t.
 INNER JOIN site_inst s on s.site_inst_id = h.siteid
 ORDER BY t.name,h.happenedtime desc
   
+  </select>
+  
+  <select id="queryCountByCondition" resultType="java.lang.Integer" >
+  SELECT count(id) from current_alarm c where 1=1
+  <if test="alarm.id>0"> and c.id=#{alarm.id}</if>
+  <if test="alarm.siteId!=0"> and c.siteid=#{alarm.siteId}</if>
+  <if test="alarm.slotId!=0"> and c.slotId=#{alarm.slotId}</if>
+  <if test="alarm.objectId!=0"> and c.objectid=#{alarm.objectId}</if>
+  <if test="type!=0 "> and c.objecttype=#{type}</if>
+  <if test="alarm.alarmCode!=0"> and c.alarmcode=#{alarm.alarmCode}</if>
+  <if test="alarm.alarmLevel!=0"> and c.alarmlevel=#{alarm.alarmLevel}</if> 
+  <if test="alarm.warningLevel_temp !=0"> and c.alarmlevel_temp=#{alarm.warningLevel_temp}</if>
+  <if test="alarm.alarmTime!=null and alarm.alarmTime!='' "> and c.happenedtime=#{alarm.alarmTime}</if> 
+  <if test="alarm.objectName!=null and alarm.objectName!='' "> and c.objectname=#{alarm.objectName}</if>
   </select>
 </mapper>

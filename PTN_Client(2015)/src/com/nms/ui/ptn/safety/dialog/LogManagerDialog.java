@@ -180,7 +180,7 @@ public class LogManagerDialog extends PtnDialog {
 		fileFiled.setEditable(false);//只读
 		fileButton=new javax.swing.JButton(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_CHECKCATA));
 		fileVType = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_FILE_ROUTE));
-		fileVFiled=new javax.swing.JTextField(unload.getFileWay());
+		fileVFiled=new javax.swing.JTextField(unload.getFileVWay());
 		fileVFiled.setEditable(false);//只读
 		fileVButton=new javax.swing.JButton(ResourceUtil.srcStr(StringKeysLbl.LBL_RMI_CHECKCATA));
 		lblMessage=new JLabel();		
@@ -521,6 +521,10 @@ public class LogManagerDialog extends PtnDialog {
 			   readUnloadXML.updateUnloadXML(unload);
 			   
 			   File fileMider = new File(unload.getFileWay());
+			   if(!fileMider.exists()){
+					 fileMider.mkdirs();
+				 }
+			   fileMider = new File(unload.getFileVWay());
 			   if(!fileMider.exists()){
 					 fileMider.mkdirs();
 				 }

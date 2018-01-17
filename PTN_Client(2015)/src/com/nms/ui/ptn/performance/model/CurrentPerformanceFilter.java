@@ -47,9 +47,30 @@ public class CurrentPerformanceFilter implements java.io.Serializable{
 	
 	private String objectName;////添加历史性能过滤条件 ： 端口名称标识  
 	
+	private List<Integer> performanceCodeList = new ArrayList<Integer>();
 	
-
-
+	//是否过滤零值
+	private int fiterZero;
+	private int isCardOrSite = 1;
+	public int getIsCardOrSite() {
+		return isCardOrSite;
+	}
+	public void setIsCardOrSite(int isCardOrSite) {
+		this.isCardOrSite = isCardOrSite;
+	}
+	
+	public int getFiterZero() {
+		return fiterZero;
+	}
+	public void setFiterZero(int fiterZero) {
+		this.fiterZero = fiterZero;
+	}
+	public List<Integer> getPerformanceCodeList() {
+		return performanceCodeList;
+	}
+	public void setPerformanceCodeList(List<Integer> performanceCodeList) {
+		this.performanceCodeList = performanceCodeList;
+	}
 	
 	public String getObjectName() {
 		return objectName;

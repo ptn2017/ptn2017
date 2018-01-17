@@ -1,9 +1,8 @@
 package com.nms.db.bean.alarm;
 
-import com.nms.ui.frame.ViewDataObj;
-import com.nms.ui.ptn.alarm.AlarmTools;
+import com.nms.ui.ptn.alarm.model.AlarmInfo;
 
-public class DuanAlarmInfo extends ViewDataObj{
+public class DuanAlarmInfo extends AlarmInfo{
 
 	/**
 	 * 
@@ -51,15 +50,5 @@ public class DuanAlarmInfo extends ViewDataObj{
 	}
 	public void setWarningName(String warningName) {
 		this.warningName = warningName;
-	}
-	
-	@Override
-	public void putObjectProperty() {
-		this.putClientProperty("obj", this);
-		this.putClientProperty("name", this.getName());
-		this.putClientProperty("sitename", this.getSiteName());
-		this.putClientProperty("warningNote", this.getWarningNote());
-		this.putClientProperty("warningName", this.getWarningName());	
-		this.putClientProperty("time", this.getTime());
 	}
 }

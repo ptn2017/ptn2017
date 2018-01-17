@@ -16,6 +16,8 @@ import com.nms.db.bean.equipment.card.CardInst;
 import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.perform.Capability;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.ptn.port.PortLagInfo;
 import com.nms.db.bean.system.Field;
 import com.nms.db.bean.system.NetWork;
@@ -25,6 +27,8 @@ import com.nms.model.equipment.card.CardService_MB;
 import com.nms.model.equipment.port.PortService_MB;
 import com.nms.model.equipment.shlef.SiteService_MB;
 import com.nms.model.perform.CapabilityService_MB;
+import com.nms.model.ptn.path.pw.PwInfoService_MB;
+import com.nms.model.ptn.path.tunnel.TunnelService_MB;
 import com.nms.model.ptn.port.PortLagService_MB;
 import com.nms.model.system.FieldService_MB;
 import com.nms.model.system.NetService_MB;
@@ -402,12 +406,30 @@ public class CreateAllTopo {
 					if(isNNI==1&&(port_Inst.getPortType().equals("NNI"))){//只显示NNI 端口
 						port = this.createElementUtil.createPort(port_Inst, ethNode);
 						this.tDataBox.addElement(port);	
+						// 如果级别大于4 说明是tunnel,需要加载tunnel
+						if (this.level > 4) {
+							//创建tunnel
+							try {
+								this.createTunnel(port, false, typeList, isNNI, false);
+							} catch (Exception e) {
+								ExceptionManage.dispose(e,this.getClass());
+							}
+						}
 					}else if(isNNI==2&&port_Inst.getPortType().equals("UNI")){//只显示UNI 端口
 						port = this.createElementUtil.createPort(port_Inst, ethNode);
 						this.tDataBox.addElement(port);	
 					}else if(isNNI==0&&(port_Inst.getPortType().equals("UNI")||port_Inst.getPortType().equals("NNI")||port_Inst.getPortType().equals("NONE"))){
 						port = this.createElementUtil.createPort(port_Inst, ethNode);// 显示ETH 下所有端口
 						this.tDataBox.addElement(port);	
+						// 如果级别大于4 说明是tunnel,需要加载tunnel
+						if (this.level > 4 && "NNI".equals(port_Inst.getPortType())) {
+							//创建tunnel
+							try {
+								this.createTunnel(port, false, typeList, isNNI, false);
+							} catch (Exception e) {
+								ExceptionManage.dispose(e,this.getClass());
+							}
+						}
 					}
 					else if(pdhNode!=null&&port_Inst.getPortType().equals("e1")){
 						port = this.createElementUtil.createPort(port_Inst,pdhNode);
@@ -427,18 +449,47 @@ public class CreateAllTopo {
 		} finally {
 			port = null;
 			UiUtil.closeService_MB(portService);
-			portInstList = null;
-			cardInst = null;
-			element = null;
-			siteInst = null;
-			portInst = null;
-			siteInst = null;
-			ethNode = null;
-			sdhNode = null;
-			pdhNode = null;
-			lagNode = null;			
 		}
 	}
+	
+	private void createTunnel(Port port, boolean b, List<String> typeList, int isNNI, boolean isCapability) {
+		TunnelService_MB tunnelService = null;
+		try {
+			tunnelService = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
+			PortInst portInst = (PortInst) port.getUserObject();
+			List<Tunnel> tunnelList = tunnelService.selectByPortIdAndSiteId(portInst.getSiteId(), portInst.getPortId());
+			for(Tunnel tunnel : tunnelList){
+				Node tunnelNode = this.createElementUtil.createTunnel(tunnel, port);
+				this.tDataBox.addElement(tunnelNode);	
+				if(this.level > 5){
+					//加载pw
+					createPw(tunnelNode, b, typeList, isNNI, isCapability);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			UiUtil.closeService_MB(tunnelService);
+		}
+	}
+	
+	private void createPw(Node tunnelNode, boolean b, List<String> typeList, int isNNI, boolean isCapability) {
+		PwInfoService_MB pwService = null;
+		try {
+			pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+			Tunnel tunnel = (Tunnel) tunnelNode.getUserObject();
+			List<PwInfo> pwList = pwService.selectByTunnelId(tunnel.getTunnelId());
+			for(PwInfo pw : pwList){
+				Node pwNode = this.createElementUtil.createPw(pw, tunnelNode);
+				this.tDataBox.addElement(pwNode);	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			UiUtil.closeService_MB(pwService);
+		}
+	}
+
 	/**
 	 * 添加lag
 	 * @param parent

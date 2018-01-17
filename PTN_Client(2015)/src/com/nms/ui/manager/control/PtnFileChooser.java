@@ -82,7 +82,6 @@ public class PtnFileChooser extends JFileChooser {
 			if (null != this.getSelectedFile()) {
 				textField.setText(this.getSelectedFile().toString());
 			}
-
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		} finally {

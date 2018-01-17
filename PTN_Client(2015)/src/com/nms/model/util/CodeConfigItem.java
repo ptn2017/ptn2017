@@ -24,6 +24,25 @@ public class CodeConfigItem
 	private String serviceTaskName;//服务器任务名称
 	private int batchSoftwareNumber;//批量升级网元数量
 	private int noCheck;//强制取消验证
+	private String backUpIp;// 备用服务器ip
+	private String mainIp;// 主用服务器ip
+	
+	public String getMainIp() {
+		return mainIp;
+	}
+
+	public void setMainIp(String mainIp) {
+		this.mainIp = mainIp;
+	}
+
+	public String getBackUpIp() {
+		return backUpIp;
+	}
+
+	public void setBackUpIp(String backUpIp) {
+		this.backUpIp = backUpIp;
+	}
+
 	public static CodeConfigItem getInstance()
 	{
 		if(configitem == null)
@@ -74,6 +93,8 @@ public class CodeConfigItem
 		this.setBatchSoftwareNumber(Integer.parseInt(localProperties.getProperty("batchSoftwareNumber").toString()));
 		String noCheck = localProperties.getProperty("noCheck").toString();
 		this.setNoCheck((Integer.parseInt(noCheck)));
+		this.setBackUpIp(localProperties.getProperty("backUpIp").toString());
+		this.setMainIp(localProperties.getProperty("mainIp").toString());
 	}
 	
 	/**

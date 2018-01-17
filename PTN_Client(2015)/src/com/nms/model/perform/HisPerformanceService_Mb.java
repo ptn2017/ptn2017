@@ -23,6 +23,7 @@ import com.nms.model.util.Services;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DateUtil;
 import com.nms.ui.manager.ExceptionManage;
+import com.nms.ui.ptn.performance.model.CurrentPerformanceFilter;
 import com.nms.ui.ptn.performance.model.HisPerformanceFilter;
 
 public class HisPerformanceService_Mb extends ObjectService_Mybatis {
@@ -234,8 +235,31 @@ public class HisPerformanceService_Mb extends ObjectService_Mybatis {
 		map.put("monitor", filter.getMonitorCycle().getValue());
 		return this.historyPerformanceMapper.selectCount(map);
 	}
-
+	
 	public List<HisPerformanceInfo> selectByPage(int direction, int id, HisPerformanceFilter filter, List<Integer> siteIdList, int pageCount) {
+		List<HisPerformanceInfo> hisInfoList = new ArrayList<HisPerformanceInfo>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			map.put("direction", direction);
+			map.put("id", id);
+			map.put("filter", filter);
+			map.put("siteIdList", siteIdList);
+			map.put("pageCount", pageCount);
+			if(filter != null && filter.getObjectType() != null && filter.getObjectType() == EObjectType.SLOT){
+				map.put("slotIdList", filter.getSlotInsts());
+			}else{
+				map.put("slotIdList", null);
+			}
+			map.put("monitor", filter.getMonitorCycle().getValue());
+			hisInfoList = this.historyPerformanceMapper.selectByPage(map);
+			this.wrapHisPerformanceInfo(hisInfoList);
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		}
+		return hisInfoList;
+	}
+	
+	public List<HisPerformanceInfo> selectByCount(int direction, int id, CurrentPerformanceFilter filter, List<Integer> siteIdList, int pageCount) {
 		List<HisPerformanceInfo> hisInfoList = new ArrayList<HisPerformanceInfo>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {

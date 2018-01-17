@@ -24,6 +24,7 @@ import javax.swing.SwingUtilities;
 import twaver.table.TTable;
 import twaver.table.TTablePopupMenuFactory;
 
+import com.nms.db.bean.ptn.SiteRoate;
 import com.nms.db.bean.ptn.oam.OamInfo;
 import com.nms.db.bean.ptn.path.pw.MsPwInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
@@ -31,6 +32,7 @@ import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EServiceType;
+import com.nms.model.ptn.SiteRoateService_MB;
 import com.nms.model.ptn.path.pw.MsPwInfoService_MB;
 import com.nms.model.ptn.path.pw.PwInfoService_MB;
 import com.nms.model.util.Services;
@@ -252,6 +254,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 			public void actionPerformed(ActionEvent event) {
 				List<PwInfo> pwList = null;
 				PwInfoService_MB service = null;
+				SiteRoateService_MB siteRoateService_MB = null;
 				try {
 					pwList = getAllSelect();
 					if(pwList.size() == 2){
@@ -261,6 +264,19 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 							service = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
 							service.update(pwList.get(0));
 							service.update(pwList.get(1));
+							siteRoateService_MB = (SiteRoateService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITEROATE);
+							SiteRoate siteRoate = new SiteRoate();
+							siteRoate.setType("pw");
+							siteRoate.setRoate(-1);
+							siteRoate.setTypeId(pwList.get(0).getPwId());
+							if (pwList.get(0).getASiteId() > 0) {
+								siteRoate.setSiteId(pwList.get(0).getASiteId());
+								siteRoateService_MB.insert(siteRoate);
+							}
+							if (pwList.get(0).getZSiteId() > 0) {
+								siteRoate.setSiteId(pwList.get(0).getZSiteId());
+								siteRoateService_MB.insert(siteRoate);
+							}
 						}
 //						DialogBoxUtil.succeedDialog(PwBusinessPanel.this, ResultString.CONFIG_SUCCESS);
 						new PwProtectDialog(pwList.get(0), controller);
@@ -270,6 +286,7 @@ public class PwBusinessPanel extends ContentView<PwInfo> {
 					ExceptionManage.dispose(e,this.getClass());
 				} finally {
 					UiUtil.closeService_MB(service);
+					UiUtil.closeService_MB(siteRoateService_MB);
 					pwList = null;
 				}
 			}

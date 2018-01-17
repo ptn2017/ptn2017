@@ -13,12 +13,17 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import com.nms.db.bean.alarm.DuanAlarmInfo;
+import twaver.table.TAlarmTable;
+import twaver.table.TTable;
+import twaver.table.TTablePopupMenuFactory;
+
+import com.nms.db.bean.perform.CurrentPerforInfo;
 import com.nms.ui.frame.ContentView;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DialogBoxUtil;
@@ -26,23 +31,15 @@ import com.nms.ui.manager.ExceptionManage;
 import com.nms.ui.manager.ResourceUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.keys.StringKeysBtn;
-import com.nms.ui.manager.keys.StringKeysPanel;
-import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.alarm.controller.DuanAlarmController;
 import com.nms.ui.ptn.safety.roleManage.RootFactory;
 
-import twaver.table.TAlarmTable;
-import twaver.table.TTable;
-import twaver.table.TTablePopupMenuFactory;
-
 
 /**
- * 当前OAM 事件
- * 
  * @author
  * 
  */
-public class DuanAlarmPanel extends ContentView<DuanAlarmInfo> {
+public class DuanAlarmPanel extends ContentView<CurrentPerforInfo> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,12 +47,13 @@ public class DuanAlarmPanel extends ContentView<DuanAlarmInfo> {
 	private JSplitPane splitPane; // 上下分割控件
 	private DuanAlarmPanel Panel = null; // OamEvent信息panel
 	private TAlarmTable alarmTable;
-
+	private JPanel userInfoPanel;
+	private JSplitPane analysisAlarmSplitPane;// 告警分析
 	/**
 	 * 创建一个新实例
 	 */
 	public DuanAlarmPanel() {	
-		super("duanAlarm",RootFactory.CORE_MANAGE);
+		super("duanAlarm",RootFactory.ALARM_MANAGE);
 		try {
 			this.initComponent();
 			this.setLayout();
@@ -69,16 +67,15 @@ public class DuanAlarmPanel extends ContentView<DuanAlarmInfo> {
 	
 
 	private void addlistenter() {
-		// TODO Auto-generated method stub
 		mipositioning.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				List<DuanAlarmInfo> list = getAllSelect();
+				List<CurrentPerforInfo> list = getAllSelect();
 				String result = "无结果";
 				StringBuffer stringBuffer = new StringBuffer();
-				for (DuanAlarmInfo duanAlarmInfo : list) {
-					stringBuffer.append(duanAlarmInfo.getWarningName()+",");
+				for (CurrentPerforInfo duanAlarmInfo : list) {
+//					stringBuffer.append(duanAlarmInfo.getWarningName()+",");
 				}
 				String str = stringBuffer.toString();
 				
@@ -133,7 +130,7 @@ public class DuanAlarmPanel extends ContentView<DuanAlarmInfo> {
 	 * 初始化控件
 	 */
 	private void initComponent() {
-		super.getContentPanel().setBorder(BorderFactory.createTitledBorder(ResourceUtil.srcStr(StringKeysPanel.PANEL_OAM_EVENT)));
+		super.getContentPanel().setBorder(BorderFactory.createTitledBorder("端到端告警管理"));
 //		this.tabbedPane = new JTabbedPane();
 		this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		this.splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -141,9 +138,9 @@ public class DuanAlarmPanel extends ContentView<DuanAlarmInfo> {
 		int high = Double.valueOf(Toolkit.getDefaultToolkit().getScreenSize().getHeight()).intValue() / 2;
 		this.splitPane.setDividerLocation(high);
 		this.splitPane.setTopComponent(super.getContentPanel());
-	//	this.splitPane.setBottomComponent(tabbedPane);
+		this.splitPane.setBottomComponent(tabbedPane);
 
-	//	this.Panel = new SiteOamEventPanel();
+//		this.Panel = new SiteOamEventPanel();
 //		this.tabbedPane.add(ResourceUtil.srcStr(StringKeysTab.TAB_BASIC_INFO), this.Panel);
 	}
 

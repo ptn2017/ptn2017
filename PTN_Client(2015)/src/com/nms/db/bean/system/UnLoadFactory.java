@@ -35,6 +35,10 @@ public class UnLoadFactory  implements Serializable {
 			return ResourceUtil.srcStr(StringKeysLbl.LBL_LOG_SYSTEM);//系统日志			
 		case UnLoads.SITEEVENT:
 			return ResourceUtil.srcStr(StringKeysTab.TAB_SITE_EVENT);// 网元事件日志
+		case UnLoads.PERFORMANCE15:
+			return "历史性能(15min)";
+		case UnLoads.PERFORMANCE24:
+			return "历史性能(24hour)";
 		}
 		return null;
 	}

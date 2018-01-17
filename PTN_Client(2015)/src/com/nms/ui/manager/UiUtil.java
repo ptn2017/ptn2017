@@ -23,12 +23,10 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 
 import com.nms.db.bean.equipment.shelf.SiteInst;
-import com.nms.db.bean.perform.HisPerformanceInfo;
 import com.nms.db.bean.system.OperationDataLog;
 import com.nms.db.bean.system.OperationLog;
 import com.nms.db.bean.system.code.Code;
 import com.nms.db.bean.system.code.CodeGroup;
-import com.nms.db.bean.system.user.UserInst;
 import com.nms.db.enums.EActiveStatus;
 import com.nms.db.enums.EActiveStatusUnLoad;
 import com.nms.db.enums.EActiveStatusUnLoadType;
@@ -49,18 +47,14 @@ import com.nms.db.enums.ETdmLoopLineType;
 import com.nms.db.enums.ETdmLoopType;
 import com.nms.db.enums.OamTypeEnum;
 import com.nms.db.enums.QosCosLevelEnum;
-import com.nms.model.perform.HisPerformanceService_Mb;
 import com.nms.model.system.OperationLogService_MB;
 import com.nms.model.system.code.CodeGroupService_MB;
 import com.nms.model.system.code.CodeService_MB;
-import com.nms.model.system.user.UserInstServiece_Mb;
 import com.nms.model.util.CodeConfigItem;
 import com.nms.model.util.ObjectService_Mybatis;
-import com.nms.model.util.ServiceFactory;
 import com.nms.model.util.Services;
 import com.nms.service.impl.util.ResultString;
 import com.nms.ui.frame.ViewDataObj;
-import com.nms.util.Mybatis_DBManager;
 
 public class UiUtil {
 
@@ -1137,16 +1131,16 @@ public class UiUtil {
 //			UiUtil.closeService_MB(service);
 //		}
 		// 70w条历史性能
-		HisPerformanceService_Mb service = null;
-		try {
-			Mybatis_DBManager.init("127.0.0.1");
-			ConstantUtil.serviceFactory = new ServiceFactory();
-			service = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
-			List<HisPerformanceInfo> list = service.selectAll();
-			System.out.println(list.size());
-		} catch (Exception e) {
-		} finally {
-			UiUtil.closeService_MB(service);
-		}
+//		HisPerformanceService_Mb service = null;
+//		try {
+//			Mybatis_DBManager.init("127.0.0.1");
+//			ConstantUtil.serviceFactory = new ServiceFactory();
+//			service = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
+//			List<HisPerformanceInfo> list = service.selectAll();
+//			System.out.println(list.size());
+//		} catch (Exception e) {
+//		} finally {
+//			UiUtil.closeService_MB(service);
+//		}
 	}
 }

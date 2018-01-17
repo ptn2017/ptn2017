@@ -29,21 +29,26 @@ import javax.swing.ScrollPaneConstants;
 import twaver.Card;
 import twaver.Element;
 import twaver.Node;
+import twaver.Port;
 import twaver.TDataBox;
 import twaver.list.TList;
 import twaver.tree.TTree;
 
 import com.nms.db.bean.equipment.card.CardInst;
+import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.bean.equipment.slot.SlotInst;
 import com.nms.db.bean.perform.Capability;
 import com.nms.db.bean.perform.PerformanceTaskInfo;
+import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.bean.system.Field;
 import com.nms.db.enums.EMonitorCycle;
 import com.nms.db.enums.EObjectType;
 import com.nms.db.enums.ERunStates;
 import com.nms.db.enums.EServiceType;
 import com.nms.model.perform.CapabilityService_MB;
+import com.nms.model.perform.PerformanceTaskService_MB;
 import com.nms.model.util.Services;
 import com.nms.ui.manager.ConstantUtil;
 import com.nms.ui.manager.DateUtil;
@@ -116,34 +121,72 @@ public class CreatePerforTaskDialog extends PtnDialog {
 	public void init() {
 		initComponents();
 		setLayout();
-		initData();
 		addListener();
+		initData();
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void initData() {
-		initType();
+//		initType();
 		boolean isCheck = true;//修改长期性能任务时，界面的性能类型是否选中,默认性能类型全部选中： 即 全选  --选中
 		if (view.getSelect() != null) {
 			 info = view.getSelect();	
-			 cbObjectType.setEnabled(false);
+			 if(info.getObjectType().getValue()==EObjectType.SITEINST.getValue()){
+				 cbObjectType.setSelectedIndex(0);
+				 neTreePanel.setLevel(2);
+			 }else if(info.getObjectType().getValue()==EObjectType.CARDSLOT2TEMP.getValue()){
+				 cbObjectType.setSelectedIndex(1);
+				 neTreePanel.setFlag(true);
+				 neTreePanel.setLevel(3);
+			 }else if(info.getObjectType().getValue()==EObjectType.PORT.getValue()){
+				 cbObjectType.setSelectedIndex(2);
+				 neTreePanel.setFlag(true);
+				 neTreePanel.setLevel(4);
+			 }else if(info.getObjectType().getValue()==EObjectType.TUNNEL.getValue()){
+				 cbObjectType.setSelectedIndex(3);
+				 neTreePanel.setFlag(false);
+				 neTreePanel.setLevel(5);
+			 }else if(info.getObjectType().getValue()==EObjectType.PW.getValue()){
+				 cbObjectType.setSelectedIndex(4);
+				 neTreePanel.setFlag(false);
+				 neTreePanel.setLevel(6);
+			 }
 			 List<Element> nodesType = this.neTreePanel.getAllElement();
-			 neTreePanel.setEnabled(false);
-			 neTreePanel.getTree().setTTreeSelectionMode(TTree.DEFAULT_SELECTION);
+//			 neTreePanel.getTree().setTTreeSelectionMode(TTree.DEFAULT_SELECTION);
 			 for (Element node : nodesType) {
-				  if(info.getObjectType().getValue()==1){
+				  if(info.getObjectType().getValue()==EObjectType.SITEINST.getValue()){
 					cbObjectType.setSelectedIndex(0);
 					if(node instanceof Node && node.getUserObject() instanceof SiteInst&& info.getObjectId()==((SiteInst)node.getUserObject()).getSite_Inst_Id()){
 						node.setSelected(true);
+						select(node);
 					}
-					}else {
-						cbObjectType.setSelectedIndex(1);
-						if(node instanceof Card && node.getUserObject() instanceof SlotInst && info.getObjectId()==((SlotInst)node.getUserObject()).getId()){
-							node.setSelected(true);
-						}	
+				}else if(info.getObjectType().getValue()==EObjectType.CARDSLOT2TEMP.getValue()){
+					cbObjectType.setSelectedIndex(1);
+					if(node instanceof Card && node.getUserObject() instanceof CardInst && info.getObjectId()==((CardInst)node.getUserObject()).getId()){
+						node.setSelected(true);
+						select(node);
+					}	
+				}else if(info.getObjectType().getValue()==EObjectType.PORT.getValue()){
+					cbObjectType.setSelectedIndex(2);
+					if(node instanceof Port && node.getUserObject() instanceof PortInst && info.getObjectId()==((PortInst)node.getUserObject()).getPortId()){
+						node.setSelected(true);
+						select(node);
+					}	
+				}else if(info.getObjectType().getValue()==EObjectType.TUNNEL.getValue()){
+					cbObjectType.setSelectedIndex(3);
+					if(node instanceof Node && node.getUserObject() instanceof Tunnel && info.getObjectId()==((Tunnel)node.getUserObject()).getTunnelId()){
+						node.setSelected(true);
+						select(node);
+					}
+				}else if(info.getObjectType().getValue()==EObjectType.PW.getValue()){
+					cbObjectType.setSelectedIndex(4);
+					if(node instanceof Node && node.getUserObject() instanceof PwInfo && info.getObjectId()==((PwInfo)node.getUserObject()).getPwId()){
+						node.setSelected(true);
+						select(node);
 					}
 				}
+			}
 		    
 			tfName.setText(info.getTaskName());
 			List<Node> nodes = typeBox.getAllElements();
@@ -181,7 +224,7 @@ public class CreatePerforTaskDialog extends PtnDialog {
 					rbStop.setSelected(true);
 				}
 			}
-			CreatePerforTaskDialog.this.neTreePanel.setEnabled(true);
+//			CreatePerforTaskDialog.this.neTreePanel.setEnabled(true);
 			lblTitle.setText(ResourceUtil.srcStr(StringKeysLbl.LBL_UPDATE_LONG_PERFORMANCE_TASK));
 		
 			if(info.getCreateTime()!= null && !info.getCreateTime().equals("")){
@@ -207,6 +250,16 @@ public class CreatePerforTaskDialog extends PtnDialog {
 			rbRun.setSelected(true);
 		}
 	}
+	
+	private void select(Element node){
+		node.setSelected(true);
+		if(node.getParent() != null){
+			select(node.getParent());
+		}else{
+			return;
+		}
+	}
+	
 	/**
 	 * 事件处理
 	 */
@@ -306,8 +359,16 @@ public class CreatePerforTaskDialog extends PtnDialog {
 				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
 					if (itemEvent.getItem().equals(ResourceUtil.srcStr(StringKeysObj.NET_BASE))) {
 						neTreePanel.setLevel(2);
-					} else {
+					} else if (itemEvent.getItem().equals(ResourceUtil.srcStr(StringKeysObj.BOARD))){
 						neTreePanel.setLevel(3);
+					} else if(itemEvent.getItem().equals(ResourceUtil.srcStr(StringKeysObj.PORT))){
+						neTreePanel.setLevel(4);
+					} else if(itemEvent.getItem().equals("Tunnel")){
+						neTreePanel.setFlag(false);
+						neTreePanel.setLevel(5);
+					}else if(itemEvent.getItem().equals("Pw")){
+						neTreePanel.setFlag(false);
+						neTreePanel.setLevel(6);
 					}
 				}
 			}
@@ -372,30 +433,59 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		List<Element> elements = this.neTreePanel.getElement();
 		//修改 不能修改网元
 		if(view.getSelect() != null){
-			 info = view.getSelect();	
-			 getPerformanceTask(info);
-			 taskList.add(info);
-		}else{
-			for (Element element : elements) {
-				PerformanceTaskInfo task = new PerformanceTaskInfo();
-				if(element instanceof Node && (element.getUserObject() instanceof SiteInst || element.getUserObject() instanceof SlotInst )){
-					if (element instanceof Node && element.getUserObject() instanceof SiteInst) {
-						// 根据网元查找
-						SiteInst siteInst = ((SiteInst) element.getUserObject());
-						task.setSiteInst(siteInst);
-						task.setObjectId(siteInst.getSite_Inst_Id());
-						task.setObjectType(EObjectType.SITEINST);
-					} else if (element instanceof Card && element.getUserObject() instanceof SlotInst) {
-						// 网元+板卡
-						SlotInst slot = (SlotInst) element.getUserObject();
-						task.setSiteInst((SiteInst) element.getParent().getUserObject());
-						task.setObjectId(slot.getId());
-						task.setSlotCard(slot.getSlotType());
-						task.setObjectType(EObjectType.SLOTINST);
-					}
-					getPerformanceTask(task);
-					taskList.add(task);
-				}
+			info = view.getSelect();	
+		    PerformanceTaskService_MB service = null;
+		    try {
+				service = (PerformanceTaskService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PerformanceTask);
+				List<Integer> idList = new ArrayList<Integer>();
+				idList.add(info.getId());
+				service.delete(idList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				UiUtil.closeService_MB(service);
+			}
+		}
+		int type = this.cbObjectType.getSelectedIndex();
+		for (Element element : elements) {
+			PerformanceTaskInfo task = new PerformanceTaskInfo();
+//				if(element instanceof Node && (element.getUserObject() instanceof SiteInst || element.getUserObject() instanceof SlotInst )){
+			if (type == 0 && element instanceof Node && element.getUserObject() instanceof SiteInst) {
+				// 根据网元查找
+				SiteInst siteInst = ((SiteInst) element.getUserObject());
+				task.setSiteInst(siteInst);
+				task.setObjectId(siteInst.getSite_Inst_Id());
+				task.setObjectType(EObjectType.SITEINST);
+				task.setObject(siteInst);
+			} else if (type == 1 && element instanceof Card && element.getUserObject() instanceof CardInst) {
+				// 网元+板卡
+				CardInst card = (CardInst) element.getUserObject();
+				task.setSiteInst((SiteInst) element.getParent().getUserObject());
+				task.setObjectId(card.getId());
+				task.setObjectType(EObjectType.CARDSLOT2TEMP);
+				task.setObject(card);
+			}else if(type == 2 && element instanceof Port && element.getUserObject() instanceof PortInst){
+				PortInst portInst = (PortInst) element.getUserObject();
+				task.setSiteInst((SiteInst) element.getParent().getParent().getParent().getUserObject());
+				task.setObjectId(portInst.getPortId());
+				task.setObjectType(EObjectType.PORT);
+				task.setObject(portInst);
+			}else if(type == 3 && element instanceof Node && element.getUserObject() instanceof Tunnel){
+				Tunnel tunnel = (Tunnel) element.getUserObject();
+				task.setSiteInst((SiteInst) element.getParent().getParent().getParent().getParent().getUserObject());
+				task.setObjectId(tunnel.getTunnelId());
+				task.setObjectType(EObjectType.TUNNEL);
+				task.setObject(tunnel);
+			}else if(type == 4 && element instanceof Node && element.getUserObject() instanceof PwInfo){
+				PwInfo pw = (PwInfo) element.getUserObject();
+				task.setSiteInst((SiteInst) element.getParent().getParent().getParent().getParent().getParent().getUserObject());
+				task.setObjectId(pw.getPwId());
+				task.setObjectType(EObjectType.PW);
+				task.setObject(pw);
+			}
+			if(task.getObject() != null){
+				getPerformanceTask(task);
+				taskList.add(task);
 			}
 		}
 		return taskList;
@@ -539,10 +629,10 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		boolean  flag = false;
 		try {
 			//判断是否选择监控网元
-			if (!this.neTreePanel.verifySelect()) {
-				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_MONITORING_OBJ));
-				return false;
-			}
+//			if (!this.neTreePanel.verifySelect()) {
+//				DialogBoxUtil.succeedDialog(this, ResourceUtil.srcStr(StringKeysTip.TIP_CHOOSE_MONITORING_OBJ));
+//				return false;
+//			}
 			//任务名称
 			if (tfName.getText() == null || "".equals(tfName.getText())) {
 				JOptionPane.showMessageDialog(CreatePerforTaskDialog.this, ResourceUtil.srcStr(StringKeysTip.TIP_INPUT_TASK_NAME));
@@ -643,7 +733,7 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		if(view.getSelect() != null){
 			this.setTitle(ResourceUtil.srcStr(StringKeysLbl.LBL_UPDATE_LONG_PERFORMANCE_TASK));
 		}else{
-		this.setTitle(ResourceUtil.srcStr(StringKeysLbl.LBL_CREAT_LONG_PERFORMANCE_TASK));
+			this.setTitle(ResourceUtil.srcStr(StringKeysLbl.LBL_CREAT_LONG_PERFORMANCE_TASK));
 		}
 		lblTitle = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_CREAT_LONG_PERFORMANCE_TASK));
 		/**
@@ -651,7 +741,10 @@ public class CreatePerforTaskDialog extends PtnDialog {
 		 */
 		cbObjectType = new JComboBox();
 		cbObjectType.addItem(ResourceUtil.srcStr(StringKeysObj.NET_BASE));
-//		cbObjectType.addItem(ResourceUtil.srcStr(StringKeysObj.BOARD));
+		cbObjectType.addItem(ResourceUtil.srcStr(StringKeysObj.BOARD));     //板卡
+		cbObjectType.addItem(ResourceUtil.srcStr(StringKeysObj.PORT));      //端口
+		cbObjectType.addItem("Tunnel");
+		cbObjectType.addItem("Pw");
 		//对象类型
 		lblObejctType=new JLabel(ResourceUtil.srcStr(StringKeysObj.OBJ_TYPE));
 		lblTaskObj = new JLabel(ResourceUtil.srcStr(StringKeysObj.MONITORING_OBJ));

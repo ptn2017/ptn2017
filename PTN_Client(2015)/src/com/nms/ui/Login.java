@@ -29,6 +29,7 @@ import com.nms.db.bean.system.user.UserInst;
 import com.nms.model.system.loginlog.LoginLogServiece_Mb;
 import com.nms.model.system.loginlog.UserLockServiece_MB;
 import com.nms.model.system.user.UserInstServiece_Mb;
+import com.nms.model.util.CodeConfigItem;
 import com.nms.model.util.ServiceFactory;
 import com.nms.model.util.Services;
 import com.nms.rmi.ui.util.RmiKeys;
@@ -58,6 +59,7 @@ public class Login extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = -749848028657588415L;
 	private int count = 0;//用来统计无效帐号的次数 三到五次登录就将产生告警
+	private String backUpIp = null;
 
 	/** Creates new form Login */
 	public Login() {
@@ -79,9 +81,11 @@ public class Login extends javax.swing.JFrame {
 		} catch (Exception e) {
 			ExceptionManage.dispose(e,this.getClass());
 		}
-		
-		
-		
+	}
+
+	public Login(String ip) {
+		this.backUpIp = ip;
+		new Login();
 	}
 
 	private void addActionListener() {
@@ -293,7 +297,8 @@ public class Login extends javax.swing.JFrame {
 			if (!this.verificationRmi()) {
 				return;
 			}
-			Mybatis_DBManager.init(ConstantUtil.serviceIp);
+//			Mybatis_DBManager.init(ConstantUtil.serviceIp);
+			Mybatis_DBManager.init(CodeConfigItem.getInstance().getMainIp());
 			
 
 			// 初始化服务层
@@ -680,7 +685,11 @@ public class Login extends javax.swing.JFrame {
 	private void readLoginInfo(){
 		LoginUtil loginUtil=new LoginUtil();
 		LoginConfig loginConfig = loginUtil.readLoginConfig();
-		this.txtServiceIp.setText(loginConfig.getServiceIp());
+		if(backUpIp != null){
+			this.txtServiceIp.setText(backUpIp);
+		}else{
+			this.txtServiceIp.setText(loginConfig.getServiceIp());
+		}
 		this.txtUsername.setText(loginConfig.getUsername());
 	}
 	

@@ -311,4 +311,11 @@
      </if>
   </select>
   
+  <delete id="deleteByids">
+  	delete from performance_task  WHERE id in
+  	<foreach item="item" index="index" collection="idList" 
+			open=" (" separator=" , " close=")">
+			#{item}
+	</foreach>
+  </delete>
 </mapper>

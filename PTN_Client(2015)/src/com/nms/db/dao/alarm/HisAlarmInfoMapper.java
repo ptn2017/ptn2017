@@ -41,4 +41,6 @@ public interface HisAlarmInfoMapper {
 	public int deleteByIds(@Param("idList")List<Integer> idList);
 
 	public int selectAlarmCount(Map<String, Object> map);
+	
+	public int saveNorth(HisAlarmInfo hisInfo);
 }

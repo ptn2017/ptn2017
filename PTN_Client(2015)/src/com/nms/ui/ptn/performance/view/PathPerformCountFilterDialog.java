@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,21 +21,38 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 
-import com.nms.db.bean.equipment.shelf.SiteInst;
+import twaver.DataBoxSelectionEvent;
+import twaver.DataBoxSelectionListener;
+import twaver.Element;
+import twaver.Node;
+import twaver.TDataBox;
+import twaver.VisibleFilter;
+import twaver.list.TList;
+
+import com.nms.db.bean.equipment.port.PortInst;
+import com.nms.db.bean.perform.Capability;
 import com.nms.db.bean.perform.CurrentPerforInfo;
+import com.nms.db.bean.perform.HisPerformanceInfo;
 import com.nms.db.bean.perform.PathPerformCountInfo;
+import com.nms.db.bean.perform.PerformanceInfo;
 import com.nms.db.bean.ptn.path.ces.CesInfo;
 import com.nms.db.bean.ptn.path.eth.ElanInfo;
 import com.nms.db.bean.ptn.path.eth.ElineInfo;
 import com.nms.db.bean.ptn.path.eth.EtreeInfo;
 import com.nms.db.bean.ptn.path.pw.PwInfo;
+import com.nms.db.bean.ptn.path.tunnel.Lsp;
 import com.nms.db.bean.ptn.path.tunnel.Tunnel;
 import com.nms.db.enums.EMonitorCycle;
 import com.nms.db.enums.EObjectType;
 import com.nms.db.enums.EOperationLogType;
 import com.nms.db.enums.EServiceType;
-import com.nms.model.equipment.shlef.SiteService_MB;
+import com.nms.model.equipment.port.PortService_MB;
+import com.nms.model.perform.CapabilityService_MB;
+import com.nms.model.perform.HisPerformanceService_Mb;
 import com.nms.model.ptn.path.ces.CesInfoService_MB;
 import com.nms.model.ptn.path.eth.ElanInfoService_MB;
 import com.nms.model.ptn.path.eth.ElineInfoService_MB;
@@ -53,6 +72,7 @@ import com.nms.ui.manager.UiUtil;
 import com.nms.ui.manager.control.PtnButton;
 import com.nms.ui.manager.control.PtnDialog;
 import com.nms.ui.manager.keys.StringKeysBtn;
+import com.nms.ui.manager.keys.StringKeysLbl;
 import com.nms.ui.manager.keys.StringKeysObj;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.ptn.performance.model.CurrentPerformanceFilter;
@@ -65,13 +85,17 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 	private JLabel  lblMonitorObj;//监控对象
 	private JComboBox cmbMonitorObj;
 	private JLabel lblCycle;
-	private JCheckBox rb15min;
-	private JComboBox selectTimeType; 
-	private JCheckBox rb24hour;
-	private JComboBox selectTimeTypeOther; 
+//	private JCheckBox rb15min;
+//	private JComboBox selectTimeType; 
+//	private JCheckBox rb24hour;
+//	private JComboBox selectTimeTypeOther; 
+	private JRadioButton rb15min;
+	private JRadioButton rb24hour;
+//	private JRadioButton rb50m;
+//	private JRadioButton rb10min;
 	private ButtonGroup group;
 	private JPanel rb15jpanl;
-	private JPanel rb24jpanl;
+//	private JPanel rb24jpanl;
     private JPanel buttonPanel;
     private PtnButton confirm;//确定
 	private JButton cancel;
@@ -80,6 +104,49 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 	private CurrentPerformanceFilter filter;
 	private JLabel trapLabel;
 	private JRadioButton rbTrap;
+	private JCheckBox cbType;
+	// 性能类型
+	private JScrollPane typePane;
+	private JLabel lblPerforType;
+	private TDataBox typeBox;
+	private TList tlType;
+	// 性能类别
+	private JScrollPane treePane;
+	private TList tlist;
+	private TDataBox treeBox;
+	private JLabel lblDesc;
+	private JCheckBox cbPerType;
+	private JLabel curOrHisLbl;
+	private JComboBox curOrHisCmb;
+
+	private Map<String, List<Capability>> portMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> tmsMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> tmpMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> ethMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> llidMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> mplsMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> pdhMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> phyMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> ponMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> pwtdmMap = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> stm1Map = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> tvc12Map = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> Map1731 = new HashMap<String, List<Capability>>();
+	private Map<String, List<Capability>> allMap = new HashMap<String, List<Capability>>();
+	private List<Capability> portList = new ArrayList<Capability>();
+	private List<Capability> tmsList = new ArrayList<Capability>();
+	private List<Capability> tmpList = new ArrayList<Capability>();
+	private List<Capability> ethList = new ArrayList<Capability>();
+	private List<Capability> llidList = new ArrayList<Capability>();
+	private List<Capability> mplsList = new ArrayList<Capability>();
+	private List<Capability> pdhList = new ArrayList<Capability>();
+	private List<Capability> phyList = new ArrayList<Capability>();
+	private List<Capability> ponList = new ArrayList<Capability>();
+	private List<Capability> pwtdList = new ArrayList<Capability>();
+	private List<Capability> stm1List = new ArrayList<Capability>();
+	private List<Capability> vc12List = new ArrayList<Capability>();
+	private List<Capability> list1731 = new ArrayList<Capability>();
+	
 	
 	public PathPerformCountFilterDialog(PathPerformCountPanel view) {
 		this.setModal(true);
@@ -88,7 +155,7 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		this.setLayout();
 		this.initData();
 		this.addListener();
-		UiUtil.showWindow(this, 420, 300);
+		UiUtil.showWindow(this, 550, 600);
 	}
 	
 	private void initComponents() {
@@ -99,30 +166,56 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		this.cmbMonitorObj = new JComboBox();
 		this.lblCycle = new JLabel(ResourceUtil.srcStr(StringKeysObj.MONITORING_PERIOD));
 		this.group = new ButtonGroup();
-		rb15min=new JCheckBox();
-		rb15min.setSelected(true);
-		selectTimeType=new JComboBox(); 
-		selectTimeType.addItem(ResourceUtil.srcStr(StringKeysObj.NOWFifteMINUTES));
-		String now=ResourceUtil.srcStr(StringKeysObj.NOWTIMEMINUTES);
-		String nowfifte=ResourceUtil.srcStr(StringKeysObj.TIMEMINUTES);
-		for(int i=1;i<17;i++){
-			selectTimeType.addItem(now+i+nowfifte);
-		}
-		
-		rb24hour=new JCheckBox();
-		selectTimeTypeOther=new JComboBox(); 
-		selectTimeTypeOther.addItem(ResourceUtil.srcStr(StringKeysObj.NOWHOURS));
-		selectTimeTypeOther.addItem(ResourceUtil.srcStr(StringKeysObj.ONETWOHOURS));
-		selectTimeTypeOther.setEnabled(false);
-		
+//		rb15min=new JCheckBox();
+//		rb15min.setSelected(true);
+//		selectTimeType=new JComboBox(); 
+//		selectTimeType.addItem(ResourceUtil.srcStr(StringKeysObj.NOWFifteMINUTES));
+//		String now=ResourceUtil.srcStr(StringKeysObj.NOWTIMEMINUTES);
+//		String nowfifte=ResourceUtil.srcStr(StringKeysObj.TIMEMINUTES);
+//		for(int i=1;i<17;i++){
+//			selectTimeType.addItem(now+i+nowfifte);
+//		}
+//		
+//		rb24hour=new JCheckBox();
+//		selectTimeTypeOther=new JComboBox(); 
+//		selectTimeTypeOther.addItem(ResourceUtil.srcStr(StringKeysObj.NOWHOURS));
+//		selectTimeTypeOther.addItem(ResourceUtil.srcStr(StringKeysObj.ONETWOHOURS));
+//		selectTimeTypeOther.setEnabled(false);
+		group = new ButtonGroup();
+		rb15min = new JRadioButton("15" + ResourceUtil.srcStr(StringKeysObj.MINUTES));
+		rb24hour = new JRadioButton("24" + ResourceUtil.srcStr(StringKeysObj.HOURS));
+//		rb50m = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_50_M));
+//		rb10min = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_10_MINUTES));
 		group.add(rb15min);
 		group.add(rb24hour);
+//		group.add(rb50m);
+//		group.add(rb10min);
 		rb15jpanl=new JPanel();
 		rb15jpanl.add(rb15min);
-		rb15jpanl.add(selectTimeType);
-		rb24jpanl=new JPanel();
-		rb24jpanl.add(rb24hour);
-		rb24jpanl.add(selectTimeTypeOther);
+		rb15jpanl.add(rb24hour);
+//		rb24jpanl=new JPanel();
+//		rb24jpanl.add(rb24hour);
+//		rb24jpanl.add(selectTimeTypeOther);
+		lblPerforType = new JLabel(ResourceUtil.srcStr(StringKeysLbl.LBL_PROPERTY_TYPE));
+		typeBox = new TDataBox();
+		tlType = new TList(typeBox);
+		tlType.setTListSelectionMode(TList.CHECK_SELECTION);
+		tlType.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		typePane = new JScrollPane();
+		typePane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		typePane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		typePane.setViewportView(tlType);
+		cbType = new JCheckBox(ResourceUtil.srcStr(StringKeysBtn.BTN_ALLSELECT));
+		lblDesc = new JLabel(ResourceUtil.srcStr(StringKeysObj.CAPABILITYDESC));
+		treeBox = new TDataBox();
+		treePane = new JScrollPane();
+		tlist = new TList(treeBox);
+		tlist.setTListSelectionMode(TList.CHECK_SELECTION);
+		tlist.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		treePane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		treePane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		treePane.setViewportView(tlist);
+		cbPerType = new JCheckBox(ResourceUtil.srcStr(StringKeysBtn.BTN_ALLSELECT));
 		this.clear = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_FILTER_CLEAR));
 		this.confirm = new PtnButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CONFIRM),false);
 		this.cancel = new JButton(ResourceUtil.srcStr(StringKeysBtn.BTN_CANEL));
@@ -131,15 +224,19 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		this.buttonPanel.add(cancel);
 		trapLabel = new JLabel("是否自动上报");
 		rbTrap = new JRadioButton(ResourceUtil.srcStr(StringKeysObj.OBJ_YES));
+		this.curOrHisLbl = new JLabel("查询类型");
+		this.curOrHisCmb = new JComboBox();
+		this.curOrHisCmb.addItem("当前性能");
+		this.curOrHisCmb.addItem("历史性能");
 	}
 	
 	private void setLayout() {
 		this.setCompentLayoutButton(buttonPanel,confirm,cancel);
 		GridBagLayout layout = new GridBagLayout();
-		layout.columnWidths = new int[] { 40, 40, 40, 40, 80 };
+		layout.columnWidths = new int[] { 40, 40, 40, 40,40, 80 };
 		layout.columnWeights = new double[] { 0, 0, 0, 0, 0.3 };
-		layout.rowHeights = new int[] { 20, 20, 20, 20, 20, 20, 20, 20, 20, 20};
-		layout.rowWeights = new double[] { 0, 0, 0, 0.3, 0.2,0, 0, 0, 0.2,0,0,0,0};
+		layout.rowHeights = new int[] { 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20};
+		layout.rowWeights = new double[] { 0, 0, 0, 0.3, 0, 0.3, 0, 0, 0, 0, 0};
 		this.setLayout(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -175,8 +272,57 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		layout.addLayoutComponent(cmbMonitorObj, c);
 		this.add(cmbMonitorObj);
 		
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 3;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(lblPerforType, c);
+		this.add(lblPerforType);
+
+		c.gridx = 1;
+		c.gridheight = 1;
+		c.gridwidth = 4;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(typePane, c);
+		this.add(typePane);
+
+		
+		c.gridx = 1;
+		c.gridy = 4;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(cbType, c);
+		this.add(cbType);
+
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(lblDesc, c);
+		this.add(lblDesc);
+
+		c.gridx = 1;
+		c.gridheight = 1;
+		c.gridwidth = 4;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(treePane, c);
+		this.add(treePane);
+
+		c.gridx = 1;
+		c.gridy = 6;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(cbPerType, c);
+		this.add(cbPerType);
+		
+		c.gridx = 0;
+		c.gridy = 7;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.BOTH;
@@ -191,16 +337,16 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		layout.addLayoutComponent(rb15jpanl, c);
 		this.add(rb15jpanl);
 		
-		c.gridx = 3;
-		c.gridheight = 1;
-		c.gridwidth = 2;
-		c.insets = new Insets(5, 5, 5, 10);
-		layout.addLayoutComponent(rb24jpanl, c);
-		this.add(rb24jpanl);
+//		c.gridx = 3;
+//		c.gridheight = 1;
+//		c.gridwidth = 2;
+//		c.insets = new Insets(5, 5, 5, 10);
+//		layout.addLayoutComponent(rb24jpanl, c);
+//		this.add(rb24jpanl);
 		
 		
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 8;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.BOTH;
@@ -215,9 +361,24 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		layout.addLayoutComponent(rbTrap, c);
 		this.add(rbTrap);
 		
+		c.gridx = 0;
+		c.gridy = 9;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(curOrHisLbl, c);
+		this.add(curOrHisLbl);
+		
+		c.gridx = 1;
+		c.gridheight = 1;
+		c.gridwidth = 2;
+		c.insets = new Insets(5, 5, 5, 10);
+		layout.addLayoutComponent(curOrHisCmb, c);
+		this.add(curOrHisCmb);
 		
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 11;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.NONE;
@@ -275,6 +436,117 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 			}
 		});
 		
+		// 性能类别全选复选框
+				cbPerType.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent evt) {
+						if (cbPerType.isSelected()) {
+							treeBox.selectAll();
+						} else {
+							treeBox.getSelectionModel().clearSelection();
+//							cbType.setSelected(false);
+						}
+					}
+				});
+
+				typeBox.getSelectionModel().addDataBoxSelectionListener(new DataBoxSelectionListener() {
+					@Override
+					public void selectionChanged(DataBoxSelectionEvent e) {
+						// TODO Auto-generated method stub
+						Iterator it = e.getBoxSelectionModel().selection();
+						treeBox.clear();
+						boolean fals = it.hasNext();
+						// 增加性能类别
+						if (fals) {
+							while (it.hasNext()) {
+								Node node = (Node) it.next();
+								if (node.getDisplayName().equalsIgnoreCase("PORT")) {
+									List<Capability> perforList = portMap.get("PORT");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("TMP/TMC")) {
+									List<Capability> perforList = tmpMap.get("TMP/TMC");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("TMS")) {
+									List<Capability> perforList = tmsMap.get("TMS");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("ETH")) {
+									List<Capability> perforList = ethMap.get("ETH");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("LLID")) {
+									List<Capability> perforList = llidMap.get("LLID");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("MPLS")) {
+									List<Capability> perforList = mplsMap.get("MPLS");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("PDH")) {
+									List<Capability> perforList = pdhMap.get("PDH");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("PHY")) {
+									List<Capability> perforList = phyMap.get("PHY");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("PON")) {
+									List<Capability> perforList = ponMap.get("PON");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("PWTDM")) {
+									List<Capability> perforList = pwtdmMap.get("PWTDM");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("STM1")) {
+									List<Capability> perforList = stm1Map.get("STM1");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("VC12")) {
+									List<Capability> perforList = tvc12Map.get("VC12");
+									initTreeData(perforList);
+								} else if (node.getDisplayName().equalsIgnoreCase("1731")) {
+									List<Capability> perforList = Map1731.get("1731");
+									initTreeData(perforList);
+								}
+							}
+						} else {
+							// 增加性能类别
+							List<Capability> perforList = allMap.get("ALL");
+							if (perforList != null) {
+								for (Capability type : perforList) {
+									if (type.getCapabilitytype() != null && !"".equals(type.getCapabilitytype())) {
+										Node nodeType = new Node();
+										if(ResourceUtil.language.equals("zh_CN")){
+											nodeType.setName(type.getCapabilitydesc());
+											nodeType.setDisplayName(type.getCapabilitydesc());
+										}else{
+											nodeType.setName(type.getCapabilitydesc_en());
+											nodeType.setDisplayName(type.getCapabilitydesc_en());
+										}
+										nodeType.setUserObject(type);
+										treeBox.addElement(nodeType);
+									}
+								}
+							}
+						}
+					}
+				});
+
+				// 性能类型全选复选框
+				cbType.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent evt) {
+						if (cbType.isSelected()) {
+							typeBox.selectAll();
+							cbPerType.setSelected(false);
+						} else {
+							typeBox.getSelectionModel().clearSelection();
+							cbPerType.setSelected(false);
+						}
+					}
+				});
+
+				// 设置性能类型是否可见
+				tlType.addVisibleFilter(new VisibleFilter() {
+					public boolean isVisible(Element element) {
+						return true;
+					}
+				});
+		
 		//保存按钮
 		confirm.addActionListener(new ActionListener() {
 			
@@ -303,37 +575,164 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 			}
 		});
 		
-		rb24hour.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				if(!rb24hour.isSelected()){
-					selectTimeTypeOther.setEnabled(false);
-				}else{
-					selectTimeTypeOther.setEnabled(true);
-					selectTimeType.setEditable(false);
-					selectTimeType.setEnabled(false);
-				}
-			}
-		});
+//		rb24hour.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				
+//				if(!rb24hour.isSelected()){
+//					selectTimeTypeOther.setEnabled(false);
+//				}else{
+//					selectTimeTypeOther.setEnabled(true);
+//					selectTimeType.setEditable(false);
+//					selectTimeType.setEnabled(false);
+//				}
+//			}
+//		});
 		
-		rb15min.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				if(!rb15min.isSelected()){
-					selectTimeType.setEnabled(false);
-				}else{
-					selectTimeType.setEnabled(true);
-					selectTimeTypeOther.setEditable(false);
-					selectTimeTypeOther.setEnabled(false);
-				}
-			}
-		});
+//		rb15min.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				
+//				if(!rb15min.isSelected()){
+//					selectTimeType.setEnabled(false);
+//				}else{
+//					selectTimeType.setEnabled(true);
+//					selectTimeTypeOther.setEditable(false);
+//					selectTimeTypeOther.setEnabled(false);
+//				}
+//			}
+//		});
 	}
 
+	private void initTreeData(List<Capability> perforList) {
+		for (Capability type : perforList) {
+			if (type.getCapabilitytype() != null && !"".equals(type.getCapabilitytype())) {
+				Node nodeType = new Node();
+				if(ResourceUtil.language.equals("zh_CN")){
+					nodeType.setName(type.getCapabilitydesc());
+					nodeType.setDisplayName(type.getCapabilitydesc());
+				}else{
+					nodeType.setName(type.getCapabilitydesc_en());
+					nodeType.setDisplayName(type.getCapabilitydesc_en());
+				}
+				nodeType.setUserObject(type);
+				treeBox.addElement(nodeType);
+			}
+		}
+	}
+
+	private List<Capability> removeRepeatedType(List<Capability> perforTypeList, int label) {
+		List<Capability> NorepeatedCapability = perforTypeList;
+		// 增加性能类型
+		if (label == 1) {
+			for (int i = 0; i < NorepeatedCapability.size() - 1; i++) {
+				for (int j = NorepeatedCapability.size() - 1; j > i; j--) {
+					if (NorepeatedCapability.get(j).getCapabilitytype().equals(NorepeatedCapability.get(i).getCapabilitytype())) {
+						NorepeatedCapability.remove(j);
+					}
+				}
+			}
+		} else {
+			// 增加性能类别
+			for (int i = 0; i < NorepeatedCapability.size() - 1; i++) {
+				for (int j = NorepeatedCapability.size() - 1; j > i; j--) {
+					if (NorepeatedCapability.get(j).getCapabilitydesc().equals(NorepeatedCapability.get(i).getCapabilitydesc())) {
+						NorepeatedCapability.remove(j);
+					}
+				}
+			}
+		}
+		return NorepeatedCapability;
+	}
+	
+	/*
+	 * 初始化性能类型
+	 */
+	private void initType() {
+		CapabilityService_MB service = null;
+		List<Capability> perforTypeList = null;
+		List<Capability> perforList = null;
+		try {
+			service = (CapabilityService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Capability);
+			perforList = new ArrayList<Capability>();
+			perforTypeList = service.select();
+			perforList.addAll(perforTypeList);
+			perforTypeList = removeRepeatedType(perforTypeList, 1);
+			perforList = removeRepeatedType(perforList, 2);
+			// 增加性能类别
+			for (Capability type : perforList) {
+				if (type.getCapabilitytype() != null && !"".equals(type.getCapabilitytype())) {
+					Node nodeType = new Node();
+					if(ResourceUtil.language.equals("zh_CN")){
+						nodeType.setName(type.getCapabilitydesc());
+						nodeType.setDisplayName(type.getCapabilitydesc());
+					}else{
+						nodeType.setName(type.getCapabilitydesc_en());
+						nodeType.setDisplayName(type.getCapabilitydesc_en());
+					}
+					nodeType.setUserObject(type);
+					treeBox.addElement(nodeType);
+					if (type.getCapabilitytype().equalsIgnoreCase("PORT")) {
+						portList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("TMP/TMC")) {
+						tmpList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("TMS")) {
+						tmsList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("ETH")) {
+						ethList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("LLID")) {
+						llidList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("MPLS")) {
+						mplsList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("PDH")) {
+						pdhList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("PHY")) {
+						phyList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("PON")) {
+						ponList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("PWTDM")) {
+						pwtdList.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("STM1")) {
+						stm1List.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("VC12")) {
+						vc12List.add(type);
+					} else if (type.getCapabilitytype().equalsIgnoreCase("1731")) {
+						list1731.add(type);
+					}
+				}
+			}
+			allMap.put("ALL", perforList);
+			portMap.put("PORT", portList);
+			tmsMap.put("TMS", tmsList);
+			tmpMap.put("TMP/TMC", tmpList);
+			ethMap.put("ETH", ethList);
+			llidMap.put("LLID", llidList);
+			mplsMap.put("MPLS", mplsList);
+			pdhMap.put("PDH", pdhList);
+			phyMap.put("PHY", phyList);
+			ponMap.put("PON", ponList);
+			pwtdmMap.put("PWTDM", pwtdList);
+			stm1Map.put("STM1", stm1List);
+			tvc12Map.put("VC12", vc12List);
+			Map1731.put("1731", list1731);
+			// 增加性能类型
+			for (Capability type : perforTypeList) {
+				if (type.getCapabilitytype() != null && !"".equals(type.getCapabilitytype())) {
+					Node node = new Node();
+					node.setName(type.getCapabilitytype());
+					node.setDisplayName(type.getCapabilitytype());
+					node.setUserObject(type);
+					typeBox.addElement(node);
+				}
+			}
+		} catch (Exception e) {
+			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(service);
+		}
+	}
 
 	/**
 	 * 初始化监控对象类型
@@ -345,6 +744,7 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		this.cmbPerformType.addItem(new ControlKeyValue("2", "PW"));
 		this.cmbPerformType.addItem(new ControlKeyValue("3", "以太网业务"));
 		this.cmbPerformType.addItem(new ControlKeyValue("4", "TDM业务"));
+		initType();
 	}
 	
 	/**
@@ -477,13 +877,16 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 	private void clear(){
 		this.cmbPerformType.setSelectedIndex(0);
 		this.cmbMonitorObj.removeAllItems();
+		typeBox.getSelectionModel().clearSelection();
+		cbType.setSelected(false);
 		group.clearSelection();
-		if(selectTimeTypeOther.isEnabled()){
-			selectTimeTypeOther.setEnabled(false);
-		}
-		if(selectTimeType.isEnabled()){
-			selectTimeType.setEnabled(false);
-		}
+		this.curOrHisCmb.setSelectedIndex(0);
+//		if(selectTimeTypeOther.isEnabled()){
+//			selectTimeTypeOther.setEnabled(false);
+//		}
+//		if(selectTimeType.isEnabled()){
+//			selectTimeType.setEnabled(false);
+//		}
 	}
 
 	private void btnSaveAction(){
@@ -492,7 +895,7 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 			boolean flag = this.checkIsFull();
 			if(flag){
 				this.filter = this.getFilter();
-				List<PathPerformCountInfo> performList = new ArrayList<PathPerformCountInfo>();
+				List<PerformanceInfo> performList = new ArrayList<PerformanceInfo>();
 				if (filter != null) {
 					performList = this.getCurrPerformCount();
 				} else {
@@ -517,10 +920,10 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 	
 
 	@SuppressWarnings("unchecked")
-	public List<PathPerformCountInfo> getCurrPerformCount() {
-		List<PathPerformCountInfo> countList = new ArrayList<PathPerformCountInfo>();
-		List<CurrentPerforInfo> currPerformList = new ArrayList<CurrentPerforInfo>();
-		List<CurrentPerforInfo> infoList = this.queryPerforByFilter(this.filter);
+	public List<PerformanceInfo> getCurrPerformCount() {
+		List<PerformanceInfo> countList = new ArrayList<PerformanceInfo>();
+		List currPerformList = new ArrayList();
+		List infoList = this.queryPerforByFilter(this.filter);
 		this.setFilterCurrentPerformance(infoList, currPerformList, this.filter);
 //		infoList = this.queryPerforByFilter(this.filter);
 		ControlKeyValue conType = (ControlKeyValue) this.cmbPerformType.getSelectedItem();
@@ -530,16 +933,23 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 			//2是pw, 3是以太网业务, 4是tdm业务
 			PwInfoService_MB pwService = null;
 			String serviceType = conObj.getId();
+			TunnelService_MB tunnelService = null;
+			PortService_MB portService = null;
 			try {
+				portService = (PortService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PORT);
 				pwService = (PwInfoService_MB) ConstantUtil.serviceFactory.newService_MB(Services.PwInfo);
+				tunnelService = (TunnelService_MB) ConstantUtil.serviceFactory.newService_MB(Services.Tunnel);
 				if(serviceType.equals(EServiceType.ELINE.toString())){
 					ElineInfo eline = (ElineInfo) conObj.getObject();
 					try {
 						PwInfo pw = new PwInfo();
 						pw.setPwId(eline.getPwId());
 						pw = pwService.selectBypwid_notjoin(pw);
-						this.getPerformData(currPerformList, countList, index, pw, pw.getASiteId(), eline.getName());
-						this.getPerformData(currPerformList, countList, index, pw, pw.getZSiteId(),  eline.getName());
+						Tunnel tunnel = tunnelService.selectByID(pw.getTunnelId());
+						PortInst port = portService.selectPortybyid(tunnel.getaPortId());
+						this.getPerformData(currPerformList, countList, index, port, pw.getASiteId(), eline.getName());
+						port = portService.selectPortybyid(tunnel.getaPortId());
+						this.getPerformData(currPerformList, countList, index, port, pw.getZSiteId(),  eline.getName());
 					} catch (Exception e) {
 						ExceptionManage.dispose(e, this.getClass());
 					}
@@ -550,8 +960,11 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 							PwInfo pw = new PwInfo();
 							pw.setPwId(etree.getPwId());
 							pw = pwService.selectBypwid_notjoin(pw);
-							this.getPerformData(currPerformList, countList, index, pw, pw.getASiteId(), etree.getName());
-							this.getPerformData(currPerformList, countList, index, pw, pw.getZSiteId(), etree.getName());
+							Tunnel tunnel = tunnelService.selectByID(pw.getTunnelId());
+							PortInst port = portService.selectPortybyid(tunnel.getaPortId());
+							this.getPerformData(currPerformList, countList, index, port, pw.getASiteId(), etree.getName());
+							port = portService.selectPortybyid(tunnel.getaPortId());
+							this.getPerformData(currPerformList, countList, index, port, pw.getZSiteId(),  etree.getName());
 						} catch (Exception e) {
 							ExceptionManage.dispose(e, this.getClass());
 						}
@@ -563,8 +976,11 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 							PwInfo pw = new PwInfo();
 							pw.setPwId(elan.getPwId());
 							pw = pwService.selectBypwid_notjoin(pw);
-							this.getPerformData(currPerformList, countList, index, pw, pw.getASiteId(), elan.getName());
-							this.getPerformData(currPerformList, countList, index, pw, pw.getZSiteId(), elan.getName());
+							Tunnel tunnel = tunnelService.selectByID(pw.getTunnelId());
+							PortInst port = portService.selectPortybyid(tunnel.getaPortId());
+							this.getPerformData(currPerformList, countList, index, port, pw.getASiteId(), elan.getName());
+							port = portService.selectPortybyid(tunnel.getaPortId());
+							this.getPerformData(currPerformList, countList, index, port, pw.getZSiteId(),  elan.getName());
 						} catch (Exception e) {
 							ExceptionManage.dispose(e, this.getClass());
 						}
@@ -575,8 +991,11 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 						PwInfo pw = new PwInfo();
 						pw.setPwId(ces.getPwId());
 						pw = pwService.selectBypwid_notjoin(pw);
-						this.getPerformData(currPerformList, countList, index, pw, pw.getASiteId(), ces.getName());
-						this.getPerformData(currPerformList, countList, index, pw, pw.getZSiteId(), ces.getName());
+						Tunnel tunnel = tunnelService.selectByID(pw.getTunnelId());
+						PortInst port = portService.selectPortybyid(tunnel.getaPortId());
+						this.getPerformData(currPerformList, countList, index, port, pw.getASiteId(), ces.getName());
+						port = portService.selectPortybyid(tunnel.getaPortId());
+						this.getPerformData(currPerformList, countList, index, port, pw.getZSiteId(),  ces.getName());
 					} catch (Exception e) {
 						ExceptionManage.dispose(e, this.getClass());
 					}
@@ -589,6 +1008,8 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 				ExceptionManage.dispose(e1,this.getClass());
 			} finally {
 				UiUtil.closeService_MB(pwService);
+				UiUtil.closeService_MB(portService);
+				UiUtil.closeService_MB(tunnelService);
 			}
 		}else{
 			//tunnel
@@ -599,46 +1020,115 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		return countList;
 	}
 	
-	private void getPerformData(List<CurrentPerforInfo> currPerformList,List<PathPerformCountInfo> countList, int index, Object obj, int siteId, String name) {
-		PathPerformCountInfo count = new PathPerformCountInfo();
-		String objName = "";
-		count.setTime(this.getcurrentTime());
-		SiteService_MB siteService = null;
-		SiteInst site = null;
-		try {
-			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
-			site = siteService.select(siteId);
-			if(site != null){
-				count.setSiteName(site.getCellId());
-			}
-		} catch (Exception e) {
-			ExceptionManage.dispose(e, this.getClass());
-		} finally {
-			UiUtil.closeService_MB(siteService);
-		}
-		if(index == 1){
-			objName = ((Tunnel)obj).getTunnelName();
-		}else{
-			objName = ((PwInfo)obj).getPwName();
-		}
-		for(CurrentPerforInfo c : currPerformList){
-			if(c.getSiteId() == siteId){
-				//tunnel
-				if(index == 1){
-					if(c.getObjectName().contains(objName)){
-						this.getValue(c, count, 57, 58, 59, 60, 49, 50);
+	private void getPerformData(List currPerformList,List<PerformanceInfo> countList, int index, Object obj, int siteId, String name) {
+		if(currPerformList != null && currPerformList.size() > 0){
+			List<Integer> portCodeList = new ArrayList<Integer>();
+			portCodeList.add(16);portCodeList.add(17);portCodeList.add(18);portCodeList.add(19);
+			portCodeList.add(23);portCodeList.add(24);portCodeList.add(25);portCodeList.add(26);
+			portCodeList.add(27);portCodeList.add(28);portCodeList.add(29);portCodeList.add(30);
+			portCodeList.add(31);portCodeList.add(32);portCodeList.add(33);portCodeList.add(34);
+			portCodeList.add(35);
+			int objId = 0;
+			if(obj instanceof Tunnel){
+				if(((Tunnel) obj).getLspParticularList() != null){
+					for(Lsp lsp : ((Tunnel) obj).getLspParticularList()){
+						if(lsp.getASiteId() == siteId){
+							objId = lsp.getAtunnelbusinessid();
+						}else if(lsp.getZSiteId() == siteId){
+							objId = lsp.getZtunnelbusinessid();
+						}
 					}
-				}else{
-					if(c.getObjectName().contains(objName)){
-						this.getValue(c, count, 65, 66, 69, 70, 55, 56);
+				}
+			}else if(obj instanceof PwInfo){
+				if(((PwInfo) obj).getASiteId() == siteId){
+					objId = ((PwInfo) obj).getApwServiceId();
+				}else if(((PwInfo) obj).getZSiteId() == siteId){
+					objId = ((PwInfo) obj).getZpwServiceId();
+				}
+			}else if(obj instanceof PortInst){
+				objId = ((PortInst) obj).getNumber();
+			}
+			for(Object cp : currPerformList){
+				if(((PerformanceInfo) cp).getObjectId() == objId && ((PerformanceInfo) cp).getSiteId() == siteId){
+					if(index == 1){
+						if(cp instanceof CurrentPerforInfo){
+							if(((CurrentPerforInfo) cp).getCapability().getCapabilityname().contains("TMP")){
+								countList.add((PerformanceInfo)cp);
+							}
+						}else if(cp instanceof HisPerformanceInfo){
+							if(((HisPerformanceInfo) cp).getCapability().getCapabilityname().contains("TMP")){
+								countList.add((PerformanceInfo)cp);
+							}
+						}
+					}else if(index == 2){
+						if(cp instanceof CurrentPerforInfo){
+							if(((CurrentPerforInfo) cp).getCapability().getCapabilityname().contains("TMC")){
+								countList.add((PerformanceInfo)cp);
+							}
+						}else if(cp instanceof HisPerformanceInfo){
+							if(((HisPerformanceInfo) cp).getCapability().getCapabilityname().contains("TMC")){
+								countList.add((PerformanceInfo)cp);
+							}
+						}
+					}else{
+						int code = 0;
+						if(cp instanceof CurrentPerforInfo){
+							code = ((CurrentPerforInfo) cp).getCapability().getCapabilitycode();
+							if(portCodeList.contains(code)){
+								countList.add((PerformanceInfo)cp);
+							}
+						}else if(cp instanceof HisPerformanceInfo){
+							code = ((HisPerformanceInfo) cp).getCapability().getCapabilitycode();
+							if(portCodeList.contains(code)){
+								countList.add((PerformanceInfo)cp);
+							}
+						}
 					}
 				}
 			}
+			for(PerformanceInfo p : countList){
+				p.setObjectName(name);
+			}
 		}
-		count.setObjectName(name);
-		if(site != null && site.getLoginstatus() != 0){
-			countList.add(count);		
-		}
+//		PerformanceInfo count = new PerformanceInfo();
+//		String objName = "";
+//		count.setTime(this.getcurrentTime());
+//		SiteService_MB siteService = null;
+//		SiteInst site = null;
+//		try {
+//			siteService = (SiteService_MB) ConstantUtil.serviceFactory.newService_MB(Services.SITE);
+//			site = siteService.select(siteId);
+//			if(site != null){
+//				count.setSiteName(site.getCellId());
+//			}
+//		} catch (Exception e) {
+//			ExceptionManage.dispose(e, this.getClass());
+//		} finally {
+//			UiUtil.closeService_MB(siteService);
+//		}
+//		if(index == 1){
+//			objName = ((Tunnel)obj).getTunnelName();
+//		}else{
+//			objName = ((PwInfo)obj).getPwName();
+//		}
+//		for(CurrentPerforInfo c : currPerformList){
+//			if(c.getSiteId() == siteId){
+//				//tunnel
+//				if(index == 1){
+//					if(c.getObjectName().contains(objName)){
+//						this.getValue(c, count, 57, 58, 59, 60, 49, 50);
+//					}
+//				}else{
+//					if(c.getObjectName().contains(objName)){
+//						this.getValue(c, count, 65, 66, 69, 70, 55, 56);
+//					}
+//				}
+//			}
+//		}
+//		count.setObjectName(name);
+//		if(site != null && site.getLoginstatus() != 0){
+//			countList.add(count);		
+//		}
 	}
 
 	private void getValue(CurrentPerforInfo c, PathPerformCountInfo count, int code1, int code2, int code3,
@@ -696,73 +1186,127 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 		//根据网元查询
 		filter.setSiteInsts(this.getSiteIdList());
 		filter.setObjectType(EObjectType.SITEINST);
+		
 		// 添加性能类型条件
-		ControlKeyValue conType = (ControlKeyValue) this.cmbPerformType.getSelectedItem();
-		int index = Integer.parseInt(conType.getId());
-		List<Integer> capIdList = new ArrayList<Integer>();//性能类型
-		List<String> descList = new ArrayList<String>();//性能类别
-		StringBuilder strTypeBuilder = new StringBuilder();
-		if(index == 2 || index == 3 || index == 4){
-			//pw || 以太网业务 || tdm业务
-			capIdList.add(65);
-			capIdList.add(66);
-			capIdList.add(69);
-			capIdList.add(70);
-			capIdList.add(55);
-			capIdList.add(56);
-			descList.add("TMC层LM近端丢包率");
-			descList.add("TMC层LM远端丢包率");
-			descList.add("TMC时延秒");
-			descList.add("TMC时延纳秒");
-			descList.add("PW接收CV包统计");
-			descList.add("PW发送CV包统计");
-		}else if(index == 1){
-			//tunnel
-			capIdList.add(57);
-			capIdList.add(58);
-			capIdList.add(59);
-			capIdList.add(60);
-			capIdList.add(49);
-			capIdList.add(50);
-			descList.add("TMP层LM近端丢包率");
-			descList.add("TMP层LM远端丢包率");
-			descList.add("TMP层时延秒");
-			descList.add("TMP层时延纳秒");
-			descList.add("通路接收CV包统计");
-			descList.add("通路发送CV包统计");
+		Iterator it = typeBox.getSelectionModel().selection();
+		if (it.hasNext()) {
+			StringBuilder strTypeBuilder = new StringBuilder();
+			while (it.hasNext()) {
+				Node node = (Node) it.next();
+				if (node.getUserObject() instanceof Capability) {
+					Capability capability = (Capability) node.getUserObject();
+					filter.getCapabilityIdList().add(Integer.valueOf(capability.getId()));
+					strTypeBuilder.append(capability.getCapabilitytype()).append(",");
+					filter.getPerformanceCodeList().add(capability.getCapabilitycode());
+				}
+			}
+			String str = strTypeBuilder.toString();
+			str = str.substring(0, str.length() - 1);
+			filter.setTypeStr(str);
 		}
-		strTypeBuilder.append("TMP/TMC");//性能类型
-		filter.getCapabilityIdList().addAll(capIdList);//主键id
-		filter.setTypeStr(strTypeBuilder.toString());
-		//添加性能类别条件
-		filter.getCapabilityNameList().addAll(descList);
+
+		// 添加性能类别条件
+		it = treeBox.getSelectionModel().selection();
+		if (it.hasNext()) {
+			StringBuilder strTypeBuilder = new StringBuilder();
+			while (it.hasNext()) {
+				Node node = (Node) it.next();
+				if (node.getUserObject() instanceof Capability) {
+					Capability capability = (Capability) node.getUserObject();
+					filter.getCapabilityNameList().add(capability.getCapabilitydesc());
+					strTypeBuilder.append(capability.getCapabilitydesc()).append(",");
+					filter.getPerformanceCodeList().add(capability.getCapabilitycode());
+				}
+			}
+			String str = strTypeBuilder.toString();
+			str = str.substring(0, str.length() - 1);
+		}
+		// 添加性能类型条件
+//		ControlKeyValue conType = (ControlKeyValue) this.cmbPerformType.getSelectedItem();
+//		int index = Integer.parseInt(conType.getId());
+//		List<Integer> capIdList = new ArrayList<Integer>();//性能类型
+//		List<String> descList = new ArrayList<String>();//性能类别
+//		StringBuilder strTypeBuilder = new StringBuilder();
+//		if(index == 2 || index == 3 || index == 4){
+//			//pw || 以太网业务 || tdm业务
+//			capIdList.add(65);
+//			capIdList.add(66);
+//			capIdList.add(69);
+//			capIdList.add(70);
+//			capIdList.add(55);
+//			capIdList.add(56);
+//			descList.add("TMC层LM近端丢包率");
+//			descList.add("TMC层LM远端丢包率");
+//			descList.add("TMC时延秒");
+//			descList.add("TMC时延纳秒");
+//			descList.add("PW接收CV包统计");
+//			descList.add("PW发送CV包统计");
+//		}else if(index == 1){
+//			//tunnel
+//			capIdList.add(57);
+//			capIdList.add(58);
+//			capIdList.add(59);
+//			capIdList.add(60);
+//			capIdList.add(49);
+//			capIdList.add(50);
+//			descList.add("TMP层LM近端丢包率");
+//			descList.add("TMP层LM远端丢包率");
+//			descList.add("TMP层时延秒");
+//			descList.add("TMP层时延纳秒");
+//			descList.add("通路接收CV包统计");
+//			descList.add("通路发送CV包统计");
+//		}
+//		strTypeBuilder.append("TMP/TMC");//性能类型
+//		filter.getCapabilityIdList().addAll(capIdList);//主键id
+//		filter.setTypeStr(strTypeBuilder.toString());
+//		//添加性能类别条件
+//		filter.getCapabilityNameList().addAll(descList);
 		//监控周期
+//		if (rb24hour.isSelected()) {
+//			filter.setMonitorCycle(EMonitorCycle.HOUR24);
+//			if(selectTimeTypeOther.getSelectedIndex()==0){
+//				filter.setPerformanceCount(255);
+//				filter.setPerformanceBeginCount(0);
+//				filter.setPerformanceType(32);
+//				filter.setPerformanceMonitorTime(porseTime(100));
+//			}else if(selectTimeTypeOther.getSelectedIndex()==1){
+//				filter.setPerformanceCount(255);
+//				filter.setPerformanceBeginCount(1);
+//				filter.setPerformanceType(33);
+//				filter.setPerformanceMonitorTime(porseTime(101));
+//			}
+//		} else if (rb15min.isSelected()) {
+//			filter.setMonitorCycle(EMonitorCycle.MIN15);
+//			filter.setPerformanceType(0);
+//			if(selectTimeType.getSelectedIndex()==0){
+//				filter.setPerformanceCount(0);
+//				filter.setPerformanceBeginCount(0);
+//				filter.setPerformanceMonitorTime(porseTime(0));
+//			}else {
+//				filter.setPerformanceCount(1);
+//				filter.setPerformanceBeginCount(selectTimeType.getSelectedIndex());
+//				filter.setPerformanceBeginDataTime(testTime(selectTimeType.getSelectedIndex()));
+//				filter.setPerformanceMonitorTime(porseTime(selectTimeType.getSelectedIndex()));
+//			}
+//		} else {
+//			filter.setMonitorCycle(null);
+//		}
 		if (rb24hour.isSelected()) {
 			filter.setMonitorCycle(EMonitorCycle.HOUR24);
-			if(selectTimeTypeOther.getSelectedIndex()==0){
-				filter.setPerformanceCount(255);
-				filter.setPerformanceBeginCount(0);
-				filter.setPerformanceType(32);
-				filter.setPerformanceMonitorTime(porseTime(100));
-			}else if(selectTimeTypeOther.getSelectedIndex()==1){
-				filter.setPerformanceCount(255);
-				filter.setPerformanceBeginCount(1);
-				filter.setPerformanceType(33);
-				filter.setPerformanceMonitorTime(porseTime(101));
-			}
+			filter.setPerformanceCount(255);
+			filter.setPerformanceBeginCount(0);
+			filter.setPerformanceType(32);
+			filter.setPerformanceMonitorTime(porseTime(100));
 		} else if (rb15min.isSelected()) {
 			filter.setMonitorCycle(EMonitorCycle.MIN15);
 			filter.setPerformanceType(0);
-			if(selectTimeType.getSelectedIndex()==0){
-				filter.setPerformanceCount(0);
-				filter.setPerformanceBeginCount(0);
-				filter.setPerformanceMonitorTime(porseTime(0));
-			}else {
-				filter.setPerformanceCount(1);
-				filter.setPerformanceBeginCount(selectTimeType.getSelectedIndex());
-				filter.setPerformanceBeginDataTime(testTime(selectTimeType.getSelectedIndex()));
-				filter.setPerformanceMonitorTime(porseTime(selectTimeType.getSelectedIndex()));
-			}
+			filter.setPerformanceCount(0);
+			filter.setPerformanceBeginCount(0);
+			filter.setPerformanceMonitorTime(porseTime(0));
+//		} else if(rb50m.isSelected()){
+//			filter.setMonitorCycle(EMonitorCycle.M50);
+//		} else if(rb10min.isSelected()){
+//			filter.setMonitorCycle(EMonitorCycle.MIN10);
 		} else {
 			filter.setMonitorCycle(null);
 		}
@@ -878,36 +1422,73 @@ public class PathPerformCountFilterDialog extends PtnDialog {
 	/**
 	 * 根据性能条件查询性能值
 	 */
-	private List<CurrentPerforInfo> queryPerforByFilter(CurrentPerformanceFilter filter) {
-		List<CurrentPerforInfo> queryPerforList = new ArrayList<CurrentPerforInfo>();
+	private List queryPerforByFilter(CurrentPerformanceFilter filter) {
+		List queryPerforList = null;
+		HisPerformanceService_Mb hisService = null;
 		try {
-			DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_PERFORMANCE);
-			queryPerforList = dispatch.executeQueryCurrPerforByFilter(filter);
+			if(this.curOrHisCmb.getSelectedIndex() == 0){
+				// 查询当前性能
+				DispatchUtil dispatch = new DispatchUtil(RmiKeys.RMI_PERFORMANCE);
+				queryPerforList = dispatch.executeQueryCurrPerforByFilter(filter);
+			}else{
+				// 查询历史性能
+				hisService = (HisPerformanceService_Mb) ConstantUtil.serviceFactory.newService_MB(Services.HisPerformance);
+				queryPerforList = hisService.selectByCount(1, 0, this.filter, this.filter.getSiteInsts(), 3000);
+			}
 		} catch (Exception e) {
 			ExceptionManage.dispose(e, this.getClass());
+		} finally {
+			UiUtil.closeService_MB(hisService);
 		}
 		return queryPerforList;
 	}
 
-	private void setFilterCurrentPerformance(List<CurrentPerforInfo> infos, List<CurrentPerforInfo> currPerformFilterList, CurrentPerformanceFilter filter) {
+	private void setFilterCurrentPerformance(List infos, List currPerformFilterList, CurrentPerformanceFilter filter) {
 		String[] filrertypes = filter.getTypeStr().trim().split(",");
 
-		for (CurrentPerforInfo currentPerformanceInfo : infos) {
-			if (currentPerformanceInfo.getCapability() != null) {
-				for (int i = 0; i < filrertypes.length; i++) {
-					if (filrertypes[i].equals(currentPerformanceInfo.getCapability().getCapabilitytype())) {
-						for (String strType : filter.getCapabilityNameList()) {
-							if (filter.getFilterZero() > 0) {
-								if (currentPerformanceInfo.getCapability().getCapabilitydesc().equalsIgnoreCase(strType)
-										&& currentPerformanceInfo.getPerformanceValue() != 0
-										&& currentPerformanceInfo.getObjectName() != null) {
-									currPerformFilterList.add(currentPerformanceInfo);
+		for (Object c : infos) {
+			CurrentPerforInfo currentPerformanceInfo = null;
+			if(c instanceof CurrentPerforInfo){
+				currentPerformanceInfo = (CurrentPerforInfo)c;
+				if (currentPerformanceInfo.getCapability() != null) {
+					for (int i = 0; i < filrertypes.length; i++) {
+						if (filrertypes[i].equals(currentPerformanceInfo.getCapability().getCapabilitytype())) {
+							for (String strType : filter.getCapabilityNameList()) {
+								if (filter.getFilterZero() > 0) {
+									if (currentPerformanceInfo.getCapability().getCapabilitydesc().equalsIgnoreCase(strType)
+											&& currentPerformanceInfo.getPerformanceValue() != 0
+											&& currentPerformanceInfo.getObjectName() != null) {
+										currPerformFilterList.add(currentPerformanceInfo);
+									}
+								} else {
+									if (currentPerformanceInfo.getCapability().getCapabilitydesc().equalsIgnoreCase(strType)
+											&& currentPerformanceInfo.getObjectName() != null
+											) {
+										currPerformFilterList.add(currentPerformanceInfo);
+									}
 								}
-							} else {
-								if (currentPerformanceInfo.getCapability().getCapabilitydesc().equalsIgnoreCase(strType)
-										&& currentPerformanceInfo.getObjectName() != null
-										) {
-									currPerformFilterList.add(currentPerformanceInfo);
+							}
+						}
+					}
+				}
+			}else if(c instanceof HisPerformanceInfo){
+				HisPerformanceInfo hpInfo = (HisPerformanceInfo)c;
+				if (hpInfo.getCapability() != null) {
+					for (int i = 0; i < filrertypes.length; i++) {
+						if (filrertypes[i].equals(hpInfo.getCapability().getCapabilitytype())) {
+							for (String strType : filter.getCapabilityNameList()) {
+								if (filter.getFilterZero() > 0) {
+									if (hpInfo.getCapability().getCapabilitydesc().equalsIgnoreCase(strType)
+											&& hpInfo.getPerformanceValue() != 0
+											&& hpInfo.getObjectName() != null) {
+										currPerformFilterList.add(hpInfo);
+									}
+								} else {
+									if (hpInfo.getCapability().getCapabilitydesc().equalsIgnoreCase(strType)
+											&& hpInfo.getObjectName() != null
+											) {
+										currPerformFilterList.add(hpInfo);
+									}
 								}
 							}
 						}

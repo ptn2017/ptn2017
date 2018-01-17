@@ -87,4 +87,6 @@ public class ConstantUtil {
 	public static int flipNumber = 100;//分页默认值
 	public static int autoCorrection = 0;// 0/1/2 = 人工校正/(自动校正)以网管数据为准/(自动校正)以设备数据为准
 	public static int cpuTemp = 40;
+	public static int alarmReversalSite = 0;
+	public static int alarmReversalTime = 0;
 }

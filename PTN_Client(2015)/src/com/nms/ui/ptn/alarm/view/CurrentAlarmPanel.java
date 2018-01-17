@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,12 +29,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import twaver.PopupMenuGenerator;
 import twaver.TDataBox;
-import twaver.TView;
 import twaver.table.TAlarmTable;
 import twaver.table.TTablePopupMenuFactory;
 
+import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.db.bean.alarm.HisAlarmInfo;
 import com.nms.db.bean.system.OperationLog;
 import com.nms.db.enums.EOperationLogType;
@@ -61,7 +59,6 @@ import com.nms.ui.manager.keys.StringKeysTab;
 import com.nms.ui.manager.keys.StringKeysTip;
 import com.nms.ui.manager.util.TopologyUtil;
 import com.nms.ui.ptn.alarm.AlarmTools;
-import com.nms.db.bean.alarm.CurrentAlarmInfo;
 import com.nms.ui.ptn.alarm.controller.CurrentAlarmController;
 import com.nms.ui.ptn.alarm.service.AlarmAnalyse;
 import com.nms.ui.ptn.alarm.service.CSVUtil;
@@ -206,10 +203,9 @@ public class CurrentAlarmPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (alarmTable.getAllSelectedAlarms().size() == 1) {
+				if (alarmTable.getAllSelectedAlarms().size() > 0) {
 					try {
-						CurrentAlarmInfo currentAlarmInfo = (CurrentAlarmInfo) alarmTable.getAllSelectedAlarms().get(0);
-						UiUtil.showWindow(new AnalyzeAlamTable(currentAlarmInfo), 950, 520);
+						UiUtil.showWindow(new AnalyzeAlamTable(alarmTable.getAllSelectedAlarms()), 950, 520);
 					} catch(Exception e1){
 						e1.printStackTrace();
 					}

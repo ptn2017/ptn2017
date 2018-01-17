@@ -11,9 +11,7 @@ import java.util.Set;
 import org.apache.ibatis.session.SqlSession;
 
 import com.nms.db.bean.alarm.CurrentAlarmInfo;
-import com.nms.db.bean.alarm.DuanAlarmInfo;
 import com.nms.db.bean.alarm.WarningLevel;
-import com.nms.db.bean.equipment.port.PortInst;
 import com.nms.db.bean.equipment.shelf.SiteInst;
 import com.nms.db.dao.alarm.CurrentAlarmInfoMapper;
 import com.nms.model.equipment.port.PortService_MB;
@@ -428,13 +426,14 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("alarm", currentAlarmInfo);
 			map.put("type", 0);
-			currentAlarmInfoList.addAll(this.mapper.queryByCondition(map));
-			this.filterByAck(currentAlarmInfoList);
-			this.filterByAlarmReversal(currentAlarmInfoList);
+			return this.mapper.queryCountByCondition(map);
+//			currentAlarmInfoList.addAll(this.mapper.queryByCondition(map));
+//			this.filterByAck(currentAlarmInfoList);
+//			this.filterByAlarmReversal(currentAlarmInfoList);
 			// 查询后过滤没有权限的网元
-			listingFilter = new ListingFilter();
-			objectList = (List<Object>) listingFilter.filterList(currentAlarmInfoList);
-			count = objectList.size();
+//			listingFilter = new ListingFilter();
+//			objectList = (List<Object>) listingFilter.filterList(currentAlarmInfoList);
+//			count = objectList.size();
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -443,7 +442,6 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 			listingFilter = null;
 			objectList = null;
 		}
-		return count;
 	}
 	
 	/**
@@ -615,14 +613,22 @@ public class CurAlarmService_MB extends ObjectService_Mybatis {
 		return currentAlarmInfoList;
 	}
 
-	public List<DuanAlarmInfo> selectDuanAlarm(Integer type) {
+	public List<CurrentAlarmInfo> selectDuanAlarm(Integer type) {
+		List<CurrentAlarmInfo> list = null;
 		if(type ==1){
-			return this.mapper.selectDuanTunnelAlarm(type);
+			list = this.mapper.selectDuanTunnelAlarm(type);
 		}else if(type ==2){
-			return this.mapper.selectDuanPwAlarm(type);
+			list = this.mapper.selectDuanPwAlarm(type);
 		}else{
-			return this.mapper.selectDuanEthAlarm(type);
+			list = this.mapper.selectDuanEthAlarm(type);
 		}
+		try {
+			this.wrapCurAlarmInfo(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.db2Bean(list);
+		return list;
 	}
 
 }

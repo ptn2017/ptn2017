@@ -22,7 +22,7 @@ public class AutoDatabaseVolumeBackThread implements Runnable{
  public AutoDatabaseVolumeBackThread(long startTime,LogManager unload){
 	 this.volumn=unload.getVolumeLimit();
 	 this.label = unload.getLogType();
-	 this.fileAddress = unload.getFileWay();
+	 this.fileAddress = unload.getFileVWay();
 	 
  }
  
